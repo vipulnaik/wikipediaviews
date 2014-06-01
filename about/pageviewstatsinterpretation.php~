@@ -1,0 +1,15 @@
+<!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head><meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<title>About Wikipedia views</title></head>
+
+<body>
+<?php
+   include(__DIR__."/../head.inc");
+?>
+
+<p>This page includes technical notes on how to interpret the pageview statistics.</p>
+
+<p>Statistics are obtained
+from <a href="http://stats.grok.se">stats.grok.se</a>. For maximal
+speed and efficiency, we store the results of past queries in a local
+database, and we first check with our internal database before
+querying the stats.grok.se server. But 

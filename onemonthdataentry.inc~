@@ -1,0 +1,59 @@
+<?php
+include("inputdisplay/pleaselistpages.inc")
+?>
+
+<form method="post" name="pagecountinfo" action="displayviewsforonemonth.php">
+<textarea name="pagelistasstring" rows="10" cols="100" placeholder="Enter page names here. Each page name should be on a separate line. Remember, enter page names, not URLs. You may also leave this blank and use an alternative method below for specifying lists of pages."><?php
+if ($formdata == true) {print $pagelistasstring;} ?></textarea>
+<table><col width=600/><col width=500/>
+<?php
+
+include("inputdisplay/monthdropdown.inc");
+include("inputdisplay/languagedropdown.inc");
+print '<tr><td><input type="submit" value="Submit"></td></tr>';
+print '</table>';
+
+print '<a id="displayText" href="javascript:toggle();">Show alternative methods of specifying the list of pages</a><br><br>';
+
+print '<div id="toggleText" style="display: none">';
+print '<table><col width=600/><col width=500/>';
+include("inputdisplay/tagdropdown.inc");
+include("inputdisplay/categorynameentry.inc");
+print '</table></div>';
+
+print '<a id="displayText2" href="javascript:toggle2();">Show technical settings (for advanced users only)</a><br>';
+
+print '<div id="toggleText2" style="display: none">';
+print '<table><col width=600/><col width=500/>';
+include("inputdisplay/externalquerylimit.inc");
+include("inputdisplay/onemonthformatdropdown.inc");
+include("inputdisplay/numericdisplayformat.inc");
+include("inputdisplay/purgeperiod.inc");
+print '</table></div>';
+?>
+</form>
+
+<a id="displayText3" href="javascript:toggle3();">Show more help</a><br><br>
+
+<div id="toggleText3" style="display: none">
+<p><strong>More on page names</strong>: The <em>page name</em> is the
+name that appears at the top of the Wikipedia page. For instance,
+<tt>Albert Einstein</tt> is the page name for the English Wikipedia page with
+URL <a href="http://en.wikipedia.org/wiki/Albert_Einstein">http://en.wikipedia.org/wiki/Albert_Einstein</a>.</p>
+
+<p><strong>Sample usage</strong>: Suppose you want to compare the web
+traffic that the English Wikipedia pages
+on <a href="http://en.wikipedia.org/wiki/Timeline_of_Facebook">Timeline
+of
+Facebook</a>, <a href="http://en.wikipedia.org/wiki/Timeline_of_Twitter">Timeline
+of Twitter</a>,
+and <a href="http://en.wikipedia.org/wiki/Timeline_of_Google_Search">Timeline
+of Google Search</a> received in March 2014. Then, you will enter the
+following in the text area:</p>
+
+<tt>Timeline of Facebook<br>Timeline of Twitter<br>Timeline of Google Search</tt>
+
+<p>You will then select the month "201403 (March 2014)" from the
+dropdown in front of "Enter the month for which you want to view
+statistics" and then you will click the "Submit" button.</p>
+</div>

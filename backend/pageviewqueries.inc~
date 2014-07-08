@@ -1,0 +1,591 @@
+<?php
+
+function wantedviewcountsquery($pagelist,$monthlist,$language,$viewcountarray)
+{
+	$numberofwantedviewcounts = 0;
+	$insert_query = "insert into wantedviewcountsbymonth(pagename,monthfull,language,status) values ";
+	foreach ($pagelist as $page)
+	{
+		foreach ($monthlist as $month)
+		{
+			if ($viewcountarray[$page][$month] == 'unavailable')
+			{
+				if ($numberofwantedviewcounts > 0)
+				{
+					$insert_query .= ", ";
+				}
+				$numberofwantedviewcounts++;
+				$insert_query .= "('".$page."','".$month."','".$language."','wanted')";
+			}
+		}
+	}
+	$insert_query .= ";";
+	if ($numberofwantedviewcounts > 0)
+	{
+       	global $mysqli;
+       	if ($mysqli->connect_errno) {
+       	echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+	}
+	$result = $mysqli->query($insert_query);
+	}
+}
+
+
+function queriedpagelog($page,$language,$archivalstatus)
+{
+       global $mysqli;
+       if ($mysqli->connect_errno) {
+       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+       }
+	$select_query = "select row_id from queriedpages where pagename='".$page."' and language='".$language."' limit 1;";
+	$result = $mysqli->query($select_query);
+	$page = str_replace("'","%27",$page);
+	if ($result->num_rows == 0)
+	{
+		$insert_query = "insert into queriedpages(pagename,language,archivalstatus) values ('".$page."','".$language."','".$archivalstatus."');";
+		$result = $mysqli->query($insert_query);
+	}
+	return $result;
+}
+function getpageviewsonline($page, $month, $language)
+{
+	$url = getpageviewsurl($page,$month,$language);
+	$html = file_get_contents($url);
+	preg_match('/(?<=\bhas been viewed)\s+\K[^\s]+/',$html,$numberofpageviews);
+	return $numberofpageviews[0];
+}
+
+function getpageviewsfromdb($page,$month,$language,$online)
+{
+       global $mysqli;
+       global $externalquerycount;
+       global $externalquerylimit;
+       global $exceededquerylimitmessage;
+       global $thismonth;
+       global $mostrecentmonth;
+       global $purgeperiod;
+       global $recentmonthslowdownfactor;
+       $page = str_replace("'","%27",$page);
+       if ($mysqli->connect_errno) {
+       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;}
+	$select_query = "select viewcount,querytime from viewcountsbymonth where pagename='".$page."' and monthfull='".$month."' and language='".$language."' limit 1;";
+	$result = $mysqli->query($select_query);
+	if ($result->num_rows == 0 and $online == true and $externalquerycount < $externalquerylimit)
+	{
+	    $viewcount = getpageviewsonline($page,$month,$language);
+	    $insert_query="insert into viewcountsbymonth(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
+	    $success = $mysqli->query($insert_query);
+	    $delete_query = "delete from wantedviewcountsbymonth where pagename='".$page."' and monthfull='".$month."' and language='".$language."';";
+	    $success = $mysqli->query($delete_query);
+	    if ($month == $thismonth or $month == $mostrecentmonth)
+	    {
+	       $externalquerycount = $externalquerycount + $recentmonthslowdownfactor;
+	    }
+	    else
+	    {
+	       $externalquerycount++;
+	    }
+	    return $viewcount;
+	}
+	if ($result->num_rows == 0) {return $exceededquerylimitmessage;}
+	$row = $result->fetch_assoc();
+	if ($month == $thismonth)
+	{
+	 	$currentdate = new DateTime("now");
+		$dayspassed = intval(date_diff($row['querytime'],$currentdate));
+	 	if ($dayspassed > $purgeperiod)
+	 	{
+			    $delete_query = "delete from viewcountsbymonth where pagename='".$page."' and monthfull='".$month."' and language='".$language."';";
+			    $success = $mysqli->query($delete_query);
+	 		    $viewcount = getpageviewsonline($page,$month,$language);
+	     		    $insert_query="insert into viewcountsbymonth(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
+	     		    $success = $mysqli->query($insert_query);
+	     		    $delete_query = "delete from wantedviewcountsbymonth where pagename='".$page."' and monthfull='".$month."' and language='".$language."';";
+	     		    $success = $mysqli->query($delete_query);
+	     		    $externalquerycount++;
+	     		    return $viewcount;
+	 	}
+	}
+	$delete_query = "delete from wantedviewcountsbymonth where pagename='".$page."' and monthfull='".$month."' and language='".$language."';";
+	$success = $mysqli->query($delete_query);
+	return $row['viewcount'];
+}
+function getpageviews($page,$month,$language)
+{
+	global $thismonth;
+        global $mysqli;
+        if ($mysqli->connect_errno) {
+        echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+        }
+	$log_query = "insert into viewquerylog(pagename,monthfull,language) values ('".$page."','".$month."','".$language."');";
+	$result = $mysqli->query($log_query);
+	queriedpagelog($page,$language,'partial');
+	return getpageviewsfromdb($page,$month,$language,true);
+}
+
+function getannualpageviewsfromdb($page,$year,$language,$online)
+{
+	global $mysqli;
+	global $exceededquerylimitmessage;
+        if ($mysqli->connect_errno) {
+        echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+        }
+	$select_query = "select viewcount from viewcountsbyyear where pagename='".$page."' and year='".$year."' and language='".$language."' limit 1;";
+	$result = $mysqli->query($select_query);
+	if ($result->num_rows == 1)
+	{
+	   $row = $result->fetch_assoc();
+	   return $row['viewcount'];
+	}
+	$select_query = "select monthfull from months where status!='present' and status!='future' and year='".$year."';";
+	$result = $mysqli->query($select_query);
+	$totalviews = 0;
+	for($i=0;$i < $result->num_rows;$i++)
+	{
+	  $row = $result->fetch_assoc();
+	  $monthfull = $row['monthfull'];
+	  $increment = getpageviewsfromdb($page,$monthfull,$language,$online);
+	  if ($increment == $exceededquerylimitmessage) {return $exceededquerylimitmessage;}
+	  $totalviews += intval($increment);
+        }
+	$select_query = "select status from years where year='".$year."';";
+	$result = $mysqli->query($select_query);
+	$row = $result->fetch_assoc();
+	if ($row['status'] != 'future')
+	{
+	$insert_query = "insert into viewcountsbyyear(pagename,year,language,viewcount) values('".$page."','".$year."','".$language."',".$totalviews.");";
+	$success = $mysqli->query($insert_query);
+	}
+	return $totalviews;
+}
+
+function getannualpageviews($page,$year,$language)
+{
+        global $mysqli;
+        if ($mysqli->connect_errno) {
+        echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+        }
+	$log_query = "insert into viewquerylogbyyear(pagename,year,language) values ('".$page."','".$year."','".$language."');";
+	$result = $mysqli->query($log_query);
+	queriedpagelog($page,$language,'partial');
+	return getannualpageviewsfromdb($page,$year,$language,true);
+}
+
+function getpageviewsthismonth($page,$language)
+{
+	global $thismonth;
+	return getpageviews($page,$thismonth,$language);
+}
+
+function getpagelistbytag($tag,$language)
+{
+       global $mysqli;
+       if ($mysqli->connect_errno) {
+       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+}
+       $tagselect_query = "select pagetags.pagename from pagetags join queriedpages where pagetags.pagename = queriedpages.pagename and pagetags.language = queriedpages.language and pagetags.language='".$language."' and pagetags.tag='".$tag."' and queriedpages.archivalstatus='complete' order by pagetags.pagename asc;";
+       #print $tagselect_query;
+       $result = $mysqli->query($tagselect_query);
+       $pagelist = array();
+       for ($i = 0; $i < $result->num_rows;$i++)
+       {
+          $row = $result->fetch_assoc();
+	  $pagename = $row['pagename'];
+	  array_push($pagelist,$pagename);
+       }
+       return $pagelist;
+}
+
+function getpagelistbytaglist($taglist,$language,$connective='or')
+{
+       global $mysqli;
+       if ($mysqli->connect_errno) {
+       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+       }
+       $tagselect_query = "select distinct pagetags.pagename from pagetags join queriedpages where pagetags.pagename = queriedpages.pagename and pagetags.language = queriedpages.language and pagetags.language='".$language."' and queriedpages.archivalstatus='complete'";
+       if ($connective=='or')
+       {
+		$taglistasquotedcsvstring = convertlisttoquotedcsvstring($taglist);
+		$tagselect_query .= "and pagetags.tag in (".$taglistasquotedcsvstring.")";
+       }
+       $taglist .= "order by pagetags.pagename asc;";
+       $result = $mysqli->query($tagselect_query);
+       $pagelist = array();
+       for ($i = 0; $i < $result->num_rows;$i++)
+       {
+          $row = $result->fetch_assoc();
+	  $pagename = $row['pagename'];
+	  array_push($pagelist,$pagename);
+       }
+       return $pagelist;
+}
+
+function getpagelistbywikipediacategory($category,$language)
+{
+	$category = str_replace(" ","_",$category);
+	$apiquery_url = 'http://'.$language.'.wikipedia.org/w/api.php?action=query&list=categorymembers&cmlimit=500&cmtitle=Category:'.$category;
+	#print '<a href="'.$apiquery_url.'">'.$apiquery_url.'</a>';
+	$apiquery_html = file_get_contents($apiquery_url);
+	#print $apiquery_html;
+	$apiquery_txt = html_entity_decode($apiquery_html);
+	#preg_match_all('/(?<=\bns=&quot;0&quot; title=&quot;)\K[^&]+/',$apiquery_html,$pagelist);
+	preg_match_all('/(?<=\bns="0" title=")\K[^"]+/',$apiquery_txt,$pagelist);
+	#print_r($pagelist[0]);
+	return $pagelist[0];
+}
+
+function getpagelistbycreatinguser($user,$language)
+{
+	$category = str_replace(" ","_",$category);
+	$apiquery_url = 'http://'.$language.'.wikipedia.org/w/api.php?action=query&list=usercontribs&ucshow=new&uclimit=500&ucuser='.$user;
+	#print '<a href="'.$apiquery_url.'">'.$apiquery_url.'</a>';
+	$apiquery_html = file_get_contents($apiquery_url);
+	#print $apiquery_html;
+	$apiquery_txt = html_entity_decode($apiquery_html);
+	#preg_match_all('/(?<=\bns=&quot;0&quot; title=&quot;)\K[^&]+/',$apiquery_html,$pagelist);
+	preg_match_all('/(?<=\bns="0" title=")\K[^"]+/',$apiquery_txt,$pagelist);
+	#print_r($pagelist[0]);
+	return $pagelist[0];
+}
+
+function getpagelistbylinkingpage($linkingpage,$language)
+{
+	$linkingpage_underscored = str_replace(" ","_",$linkingpage);
+	$apiquery_url = 'http://'.$language.'.wikipedia.org/w/api.php?action=query&prop=links&pllimit=500&titles='.$linkingpage_underscored;
+	#print '<a href="'.$apiquery_url.'">'.$apiquery_url.'</a>';
+	$apiquery_html = file_get_contents($apiquery_url);
+	#print $apiquery_html;
+	$apiquery_txt = html_entity_decode($apiquery_html);
+	$apiquery_txt = str_replace("&#039;","'",$apiquery_txt);
+	#preg_match_all('/(?<=\bns=&quot;0&quot; title=&quot;)\K[^&]+/',$apiquery_html,$pagelist);
+	preg_match_all('/(?<=\bns="0" title=")\K[^"]+/',$apiquery_txt,$pagelist);
+	#print_r($pagelist[0]);
+	return $pagelist[0];	
+}
+
+function viewcountarraybymonth_modular($pagelist,$monthlist,$language,$online,$datanormalization='none')
+{
+	foreach($pagelist as $page)
+	{
+		foreach($monthlist as $month)
+		{
+			$viewcountarray[$page][$month] = getpageviews($page,$month,$language);
+	        }
+        }
+	return $viewcountarray;
+}
+
+function viewcountarraybymonth($pagelist,$monthlist,$language,$online,$datanormalization='none')
+{
+	global $mysqli;
+	global $externalquerycount;
+	global $externalquerylimit;
+	global $exceededquerylimitmessage;
+	global $purgeperiod;
+	global $thismonth;
+	global $unavailablecount;
+        if ($mysqli->connect_errno) {
+        echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+        }
+	if (sizeof($pagelist) == 0 or sizeof($monthlist) == 0) return false;
+	foreach($pagelist as $page)
+	{
+		foreach($monthlist as $month)
+		{
+			$viewcountarray[$page][$month] = 'unavailable';
+	        }
+        }
+	$pagelistasquotedcsvstring = convertlisttoquotedcsvstring($pagelist);
+	$monthlistasquotedcsvstring = convertlisttoquotedcsvstring($monthlist);	
+	$select_query = "select pagename,monthfull,viewcount,querytime from viewcountsbymonth where pagename in (".$pagelistasquotedcsvstring.") and monthfull in (".$monthlistasquotedcsvstring.") and language='".$language."';";
+	$result = $mysqli->query($select_query);
+	for ($i = 0;$i < $result->num_rows;$i++)
+	{
+		$row = $result->fetch_assoc();
+		if ($row['monthfull'] != $thismonth)
+		{
+			$viewcountarray[$row['pagename']][$row['monthfull']] = $row['viewcount'];
+		}
+		if ($row['monthfull'] == $thismonth)
+		{
+			#$viewcountarray[$row['pagename']][$row['monthfull']] = $row['viewcount'];
+			$currentdate = new DateTime("now");
+			$dayspassed = intval(date_diff($row['querytime'],$currentdate));
+			if ($dayspassed > $purgeperiod)
+			{
+				#print "Existing database value is outdated ,fetching a new one";
+			 	$viewcountarray[$row['pagename']][$row['monthfull']] = 'unavailable';
+			}
+			else
+			{
+				#print "Existing database value is within the purge period";
+				$viewcountarray[$row['pagename']][$row['monthfull']] = $row['viewcount'];
+			}
+		}		
+	}
+	wantedviewcountsquery($pagelist,$monthlist,$language,$viewcountarray);	
+	foreach(array_reverse($pagelist) as $page)
+	{
+		queriedpagelog($page,$language,'partial');
+	}
+	foreach($pagelist as $page)
+	{
+		foreach($monthlist as $month)
+		{
+			
+			if ($viewcountarray[$page][$month] == 'unavailable' and $online == true)
+			{
+				$viewcountarray[$page][$month] = getpageviewsfromdb($page,$month,$language,true);
+			}
+	        }
+        }
+	if ($externalquerycount < $externalquerylimit)
+	{
+		#print "Successfully completed without timing out :)<br>";
+		return $viewcountarray;
+	}
+	foreach($pagelist as $page)
+	{
+		foreach($monthlist as $month)
+		{
+			if ($viewcountarray[$page][$month] == $exceededquerylimitmessage)
+			{
+				$viewcountarray[$page][$month] = getpageviewsfromdb($page,$month,$language,true);
+			}
+	        }
+        }
+
+	foreach($pagelist as $page)
+	{
+		foreach($monthlist as $month)
+		{
+			if ($viewcountarray[$page][$month] == $exceededquerylimitmessage)
+			{
+				$unavailablecount = $unavailablecount + 1;
+			}
+	        }
+        }
+
+	return $viewcountarray;
+}
+
+function viewcountarraybyyear_modular($pagelist,$yearlist,$language,$online,$datanormalization='none')
+{
+	foreach($pagelist as $page)
+	{
+		foreach($yearlist as $year)
+		{
+			$viewcountarray[$page][$year] = getannualpageviews($page,$year,$language);
+	        }
+        }
+	return $viewcountarray;
+}
+
+function viewcountarraybyyear($pagelist,$yearlist,$language,$online,$datanormalization='none')
+{
+	global $mysqli;
+	global $externalquerycount;
+	global $externalquerylimit;
+        if ($mysqli->connect_errno) {
+        echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+        }
+	if (sizeof($pagelist) == 0 or sizeof($yearlist) == 0) return false;
+	foreach($pagelist as $page)
+	{
+		foreach($yearlist as $year)
+		{
+			$viewcountarray[$page][$year] = 'unavailable';
+	        }
+        }
+	$pagelistasquotedcsvstring = convertlisttoquotedcsvstring($pagelist);
+	$yearlistasquotedcsvstring = convertlisttoquotedcsvstring($yearlist);	
+	$select_query = "select pagename,year,viewcount from viewcountsbyyear where pagename in (".$pagelistasquotedcsvstring.") and year in (".$yearlistasquotedcsvstring.") and language='".$language."';";
+	$result = $mysqli->query($select_query);
+	for ($i = 0;$i < $result->num_rows;$i++)
+	{
+		$row = $result->fetch_assoc();
+		$viewcountarray[$row['pagename']][$row['year']] = $row['viewcount'];
+	}
+	foreach(array_reverse($pagelist) as $page)
+	{
+		queriedpagelog($page,$language,'partial');
+	}
+	foreach($pagelist as $page)
+	{
+		foreach($yearlist as $year)
+		{
+			if ($viewcountarray[$page][$year] == 'unavailable' and $online = true)
+			{
+				$viewcountarray[$page][$year] = getannualpageviewsfromdb($page,$year,$language,true);
+			}
+	        }
+        }
+	if ($externalquerycount < $externalquerylimit)
+	{
+		#print "Successfully completed without timing out :)<br>";
+		return $viewcountarray;
+	}
+	foreach($pagelist as $page)
+	{
+		foreach($yearlist as $year)
+		{
+			if ($viewcountarray[$page][$year] == $exceededquerylimitmessage)
+			{
+				$viewcountarray[$page][$year] = getannualpageviewsfromdb($page,$year,$language,true);
+			}
+	        }
+        }
+	return $viewcountarray;	
+}
+
+function fillinwantedviewcounts($querylimit)
+{
+       global $mysqli;
+       global $externalquerycount;
+       global $externalquerylimit;
+       global $exceededquerylimitmessage;
+       if ($mysqli->connect_errno) {
+       	  echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+       }
+       $select_query = "select * from wantedviewcountsbymonth where status='wanted' limit ".$querylimit.";";
+       #print $select_query;
+       $result = $mysqli->query($select_query);
+       if ($result ->num_rows == 0) return true;
+       $working_query = "update wantedviewcountsbymonth set status='working' where row_id in (";
+       $deletion_query = "delete from wantedviewcountsbymonth where row_id in (0";
+       for($i=0;$i < $result->num_rows;$i++)
+       {
+	  if ($i > 0) $working_query .= ",";
+	  $row = $result->fetch_assoc();
+	  $working_query .= $row['row_id'];
+	  $page[$i] = $row['pagename'];
+	  $month[$i] = $row['monthfull'];
+	  $language[$i] = $row['language'];
+	  $row_id[$i] = $row['row_id'];
+       }
+       $working_query .= ");";
+       print $working_query;
+       $update_result = $mysqli->query($working_query);
+       for($i=0;$i < $result->num_rows;$i++)
+       {
+	  $count = getpageviewsfromdb($page[$i],$month[$i],$language[$i],$online);
+	  print "external query count is ".$externalquerycount." and ";
+	  print "external query limit is ".$externalquerylimit;
+	  print "page view count is ".$count;
+	  if ($count != $exceededquerylimitmessage)
+	  {
+	  $deletion_query .= ",".$row_id[$i];
+	  }
+       }
+       $deletion_query .= ");";
+       print $deletion_query;
+       $deletion_result = $mysqli->query($deletion_query);
+       return false;
+}	
+
+function presentandpastmonths_sql()
+{
+        global $mysqli;
+        if ($mysqli->connect_errno) {
+        echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+	}
+	$select_query = "select monthfull,month,year,status from months where status!='future'";
+	return $mysqli->query($select_query);
+}	
+
+function pastmonths_sql()
+{
+        global $mysqli;
+        if ($mysqli->connect_errno) {
+        echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+	}
+	$select_query = "select monthfull,month,year,status from months where status!='future' and status!='present'";
+	return $mysqli->query($select_query);
+}	
+
+function presentandpastyears_sql()
+{
+        global $mysqli;
+        if ($mysqli->connect_errno) {
+        echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+	}
+	$select_query = "select year,status from years where status!='future'";
+	return $mysqli->query($select_query);
+}	
+
+function presentandpastyears_yearlist()
+{
+       $sql_result = presentandpastyears_sql();
+       $yearlist = array();
+       for ($i = 0;$i < $sql_result->num_rows;$i++)
+       {
+         $row = $sql_result->fetch_assoc();
+	 array_push($yearlist,$row['year']);
+       }
+       return $yearlist;
+}
+
+function presentandpastmonths_monthlist()
+{
+       $sql_result = presentandpastmonths_sql();
+       $monthlist = array();
+       for ($i = 0;$i < $sql_result->num_rows;$i++)
+       {
+         $row = $sql_result->fetch_assoc();
+	 array_push($monthlist,$row['monthfull']);
+       }
+       return $monthlist;
+}
+
+function pastmonths_monthlist()
+{
+       $sql_result = pastmonths_sql();
+       $monthlist = array();
+       for ($i = 0;$i < $sql_result->num_rows;$i++)
+       {
+         $row = $sql_result->fetch_assoc();
+	 array_push($monthlist,$row['monthfull']);
+       }
+       return $monthlist;
+}
+
+function pastmonthsinyear($year)
+{
+        global $mysqli;
+        if ($mysqli->connect_errno) {
+        echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+	}
+	$select_query = "select monthfull,month,year,status from months where status!='future' and status!='present' and year='".$year."';";
+	$sql_result = $mysqli->query($select_query);
+	$monthlist = array();
+       	for ($i = 0;$i < $sql_result->num_rows;$i++)
+       	{
+	 $row = $sql_result->fetch_assoc();
+	 array_push($monthlist,$row['monthfull']);
+       	}
+	return $monthlist;
+}	
+
+function monthswithoutyears()
+{
+	return array('January','February','March','April','May','June','July','August','September','October','November','December');
+}
+
+function monthacrossallyears($month)
+{
+        global $mysqli;
+        if ($mysqli->connect_errno) {
+        echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+	}
+	$select_query = "select monthfull,month from months where status!='future' and status!='present' and month='".$month."';";
+	$sql_result = $mysqli->query($select_query);
+	$monthlist = array();
+       	for ($i = 0;$i < $sql_result->num_rows;$i++)
+       	{
+	 $row = $sql_result->fetch_assoc();
+	 array_push($monthlist,$row['monthfull']);
+       	}
+	return $monthlist;
+}
+
+?>

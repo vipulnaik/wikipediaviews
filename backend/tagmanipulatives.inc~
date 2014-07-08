@@ -1,0 +1,28 @@
+<?php
+
+function checktagpresence($tag,$createnew)
+{
+       global $mysqli;
+       if ($mysqli->connect_errno) {
+       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+}
+       $select_query = "select tag from pagetags where tag='".$tag."' limit 1;";
+       $result = $mysqli->query($select_query);
+       return ($result->num_rows > 0);
+}
+
+function addpagetotag($page,$language,$tag)
+{
+       global $mysqli;
+       if ($mysqli->connect_errno) {
+       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+}
+       $select_query = "select tag from pagetags where pagename='".$page."' and language='".$language."' and tag='".$tag."' limit 1;";
+       $result = $mysqli->query($select_query);
+       if ($result->num_rows==0)
+       {
+	 $insert_query = "insert into pagetags(pagename,language,tag) values ('".$page."','".$language."','".$tag."');";
+	 $insert_result = $mysqli->query($insert_query);
+       }
+}
+?>

@@ -1,0 +1,61 @@
+<body>
+
+<?php
+   include("inputdisplay/pleaselistpages.inc");
+?>
+
+<form method="post" name="pagecountinfo" action="displayviewsformultipleyears.php">
+<textarea name="pagelistasstring" rows="5" cols="100" placeholder="Enter page names here. Each page name should be on a separate line. Remember, enter page names, not URLs. You may also leave this blank and use an alternative method below for specifying lists of pages."><?php if ($formdata == true) {print $pagelistasstring;} ?></textarea>
+<br>
+
+<table><col width=600/><col width=500/>
+<?php
+include("inputdisplay/languagedropdown.inc");
+print '<tr><td><input type="submit" value="Submit"></td></tr>';
+print '</table>';
+
+print '<a id="displayText" href="javascript:toggle();">Show alternative methods of specifying the list of pages</a><br><br>';
+
+print '<div id="toggleText" style="display: none">';
+print '<table><col width=600/><col width=500/>';
+include("inputdisplay/tagdropdown.inc");
+include("inputdisplay/categorynameentry.inc");
+print '</table></div>';
+
+print '<a id="displayText2" href="javascript:toggle2();">Show technical settings (for advanced users only)</a><br><br>';
+
+print '<div id="toggleText2" style="display: none">';
+print '<table><col width=600/><col width=500/>';
+include("inputdisplay/externalquerylimit.inc");
+include("inputdisplay/multipleyearsformatdropdown.inc");
+include("inputdisplay/numericdisplayformat.inc");
+include("inputdisplay/purgeperiod.inc");
+print '</table></div>';
+
+?>
+<?php
+   include("inputdisplay/yearcheckboxlist.inc");
+?>
+</form>
+
+<a id="displayText3" href="javascript:toggle3();">Show more help</a><br><br>
+
+<div id="toggleText3" style="display: none">
+<p><strong>More on page names</strong>: The <em>page name</em> is the
+name that appears at the top of the Wikipedia page. For instance,
+<tt>Albert Einstein</tt> is the page name for the English Wikipedia page with
+URL <a href="http://en.wikipedia.org/wiki/Albert_Einstein">http://en.wikipedia.org/wiki/Albert_Einstein</a>.</p>
+
+<p><strong>Sample usage</strong>: Suppose you want to compare the web
+traffic that the English Wikipedia pages
+on <a href="http://en.wikipedia.org/wiki/India">India</a>, <a href="http://en.wikipedia.org/wiki/China">China</a>,
+and <a href="http://en.wikipedia.org/wiki/United_States">United States</a> received in the years 2011, 2012, and 2013. Then, you will enter the
+following in the text area:</p>
+
+<tt>India<br>China<br>United States</tt>
+
+<p>You will then select the three years 2013, 2012, and 2011 by
+checking the boxes next to them.</p>
+</div>
+</body>
+</html>

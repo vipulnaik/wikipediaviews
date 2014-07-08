@@ -1,0 +1,9 @@
+DELETE DupRows.*
+FROM viewcountsbymonth AS DupRows
+   INNER JOIN (
+      SELECT MIN(row_id) AS row_id,pagename,language,monthfull
+      FROM viewcountsbymonth
+      GROUP BY pagename,language,monthfull
+      HAVING COUNT(*) > 1
+   ) AS SaveRows ON SaveRows.pagename = DupRows.pagename AND SaveRows.language = DupRows.language AND SaveRows.monthfull = DupRows.monthfull
+      AND SaveRows.minId <> DupRows.ID;

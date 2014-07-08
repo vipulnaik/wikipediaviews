@@ -1,0 +1,4 @@
+<tr><td>Alternatively, enter the name of a Wikipedia user (such as <a href="http://en.wikipedia.org/wiki/User:Vipul">Vipul</a> to get all main space pages created by that user</td><td>
+<?php
+	print '<input type="text" name="user" placeholder="User name, without User: in front" value="'.$user.'" size="70"></input>';
+?>

@@ -1,0 +1,8 @@
+<!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head><meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<title>Vipul Naik's Home Page -- University of Chicago</title></head>
+
+<body><p>List the pages for which you want statistics displayed, one for each line.</p>
+
+<form method="post" name="pagecountinfo" action="displayviews.php">
+<textarea name="pagelist"></textarea>
+</form>

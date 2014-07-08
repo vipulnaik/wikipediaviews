@@ -1,0 +1,55 @@
+<!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head><meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<title>About Wikipedia views</title></head>
+
+<body>
+
+<p><strong>Wikipedia Views</strong> is a minimalistic website intended
+for people who're looking for information on how frequently particular
+Wikipedia pages or collections of pages get viewed.</p>
+
+<h3>Behind the curtain</h3>
+
+<strong>Wikipedia Views</strong> has been developed
+by <a href="http://vipulnaik.com">Vipul Naik</a> using PHP and
+MySQL. Special thanks go
+to <a href="http://www.stackoverflow.com">Stack Overflow</a> for help
+with overcoming some of the coding hurdles that needed to be cleared
+to get to functioning code. We rely on statistics
+from <a href="http://stats.grok.se">stats.grok.se</a>.</p>
+
+<p>The development began in </p>
+<h3>Pageview data fetching and caching</h3>
+
+<ul>
+
+<li><p><strong>How we retrieve and cache data</strong>: Here's how it
+works. When you send your list of (page, month, language) combinations
+for which you want statistics fetched, we check, for each combination,
+if we already have cached data for it in our internal MySQL
+database. If we do, we serve the cached data. Otherwise, we fetch the
+data by making a HTML page request
+to <a href="http://stats.grok.se">stats.grok.se</a> and parsing the
+HTML output to extract the number of pageviews, and then cache
+it.</p></li>
+
+<li><p><strong>Current month exception</strong>: The following
+exception to caching is worth noting: we do not cache, or look for
+cached values, for the number of pageviews in the <em>current</em>
+month, because these values are changing daily.</p></li>
+
+<li><p><strong>Timeout restrictions</strong>: For any individual page
+load, our timeout restrictions limit us to about 50 page requests to
+stats.grok.se (fetching the pageviews for a given page, month, and
+language requires 1 page request). However, it is possible to display
+more than 50 pieces of data if some of them have already been
+cached.</p></li>
+
+</ul>
+
+<h4>User interface features</h4>
+
+<ul>
+
+<li><strong>Home</strong>:
+</body>
+</html>

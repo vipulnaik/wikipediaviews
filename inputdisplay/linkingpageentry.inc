@@ -1,0 +1,4 @@
+<tr><td>Alternatively, enter the name of a Wikipedia page (such as <a href="http://en.wikipedia.org/wiki/Potential_predictability">Potential predictability</a>) to get all main namespace pages linked from that page</td><td>
+<?php
+	print '<input type="text" name="linkingpage" placeholder="Linking page" value="'.$linkingpage.'" size="70"></input>';
+?>

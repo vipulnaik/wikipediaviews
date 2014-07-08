@@ -1,0 +1,126 @@
+<!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head><meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<title>Wikipedia Views: results</title>
+<?php
+   include("toggler.inc");
+?></head>
+
+<?php
+	include_once("backend/corecode.inc");
+        $pagelistasstring='';
+        $originalyearlist=array($thisyear);
+        $allyears='allyears';
+        $language='en';
+        $displayformat = 'htmltableautomatic';
+        $numericdisplayformat = 'kmb';
+        $formdata = true;
+        $userspecifiedquerylimit = $externalquerylimit;
+	if (!empty($_REQUEST['pagelistasstring']))
+        {$pagelistasstring = $_REQUEST['pagelistasstring'];}
+	if (!empty($_REQUEST['allyears']) or !empty($_REQUEST['yearlist']))
+	{$originalyearlist = $_REQUEST['yearlist'];}
+        if (!empty($_REQUEST['allyears']) or !empty($_REQUEST['yearlist']))
+        {$allyears = $_REQUEST['allyears'];}
+        if (!empty($_REQUEST['language']))
+        {$language = $_REQUEST['language'];}
+        if (!empty($_REQUEST['displayformat']))
+	{$displayformat = $_REQUEST['displayformat'];}
+        if (!empty($_REQUEST['tag']))
+        {$tag = $_REQUEST['tag'];}
+        if (!empty($_REQUEST['category']))
+        {$category = $_REQUEST['category'];}
+        if (!empty($_REQUEST['numericdisplayformat']))
+        {$numericdisplayformat = $_REQUEST['numericdisplayformat'];}
+        if (!empty($_REQUEST['userspecifiedquerylimit']))
+        {$userspecifiedquerylimit = $_REQUEST['userspecifiedquerylimit'];}
+        if (!empty($_REQUEST['purgeperiod']))
+        {$purgeperiod = intval($_REQUEST['purgeperiod']);}
+        if ($userspecifiedquerylimit != '') {$externalquerylimit = intval($userspecifiedquerylimit);}
+        $explanatoryheader="explanatoryheader";
+        $includetotal = "includetotal";
+        if ($allyears == "allyears")
+        {
+          $yearlist = presentandpastyears_yearlist();
+        }
+        else
+        {
+          $yearlist = $originalyearlist;
+        }
+       if (sizeof($yearlist) == 0)
+        {
+              include("head.inc");
+              print "You didn't select any years. Please do so below.";
+              include("multipleyearsdataentry.inc");
+              exit;
+        }
+
+        if (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))==0 and $tag=='' and $category=='')
+        {
+          include("head.inc");
+	  print "You didn't list any pages or select any tag or enter any category.<br>";
+          include("multipleyearsdataentry.inc");
+  	  exit;
+	}
+        if (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))>0 and ($tag!='' or $category!=''))
+        {
+          include("head.inc");
+	  print "You listed page(s) <em>and</em> selected a tag or category. You can do only one at a time. Please modify the form below appropriately.<br>";
+          include("multipleyearsdataentry.inc");
+  	  exit;
+	}
+        if ($tag != '' and $category != '')
+        {
+          include("head.inc");
+	  print "You selected a tag <em>and</em> a category. You can do only one at a time. Please modify the form below appropriately.<br>";
+          include("multipleyearsdataentry.inc");
+  	  exit;
+	}
+        if (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))>0)
+        {
+        $pagelistasarray = convertpagelisttoarray($pagelistasstring);
+        }
+        if ($tag!='')
+        {
+        $pagelistasarray = getpagelistbytag($tag,$language);
+        if (sizeof($pagelistasarray) == 0)
+          {
+           include("head.inc");
+           print "Although the tag is valid, there are no pages for the tag-language <em>combination</em>.<br>";
+           include("multipleyearsdataentry.inc");
+           exit;
+          }
+        }
+        if ($category!='')
+        {
+        $pagelistasarray = getpagelistbywikipediacategory($category,$language);
+        if (sizeof($pagelistasarray) == 0)
+          {
+           include("head.inc");
+           print "There are no pages for the category-language <em>combination</em>.<br>";
+           include("multipleyearsdataentry.inc");
+           exit;
+          }
+        }
+
+        if ($displayformat=='htmltableautomatic') {
+            include("head.inc");
+            if (count($pagelistasarray) >= count($yearlist)) {
+               printpageviewsforyearlistashtmltable($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+            }
+            else {
+               printpageviewsforyearlistashtmltabletransposed($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+            }
+            include("multipleyearsdataentry.inc");
+        }
+	if ($displayformat=='csv') { printpageviewsforyearlistascsv($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);}
+	elseif ($displayformat=='htmltable') { 
+           include("head.inc");  
+           printpageviewsforyearlistashtmltable($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+           include("multipleyearsdataentry.inc");
+        }
+        elseif ($displayformat=='csvtransposed') {printpageviewsforyearlistascsvtransposed($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);}
+        elseif ($displayformat=='htmltabletransposed') {
+           include("head.inc");
+           printpageviewsforyearlistashtmltabletransposed($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+           include("multipleyearsdataentry.inc");
+        }
+?>

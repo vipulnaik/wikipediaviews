@@ -19,6 +19,7 @@
         $tag = '';
         $category = '';
 	$user = '';
+	$linkingpage = '';
         if (!empty($_REQUEST['tag']))
         {$tag = $_REQUEST['tag'];}
         if (!empty($_REQUEST['category']))

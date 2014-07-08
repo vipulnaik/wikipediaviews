@@ -1,5 +1,0 @@
-<?php
-	include("corecode.inc");
-	$pagescreatedsublist = array_slice($pagescreatedcompletlist,50,99);
-	printpageviews($pagescreatedsublist);
-?>

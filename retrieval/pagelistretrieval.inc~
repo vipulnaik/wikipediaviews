@@ -25,11 +25,14 @@
         {$category = $_REQUEST['category'];}
         if (!empty($_REQUEST['user']))
         {$user = $_REQUEST['user'];}
+        if (!empty($_REQUEST['linkingpage']))
+        {$linkingpage = $_REQUEST['linkingpage'];}
+
 
         ##Figuring out if the page list has been specified in multiple
         ##ways, or not at all, and displaying the appropriate error message.
 
-        if (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))==0 and $tag==='' and $category==='' and $user==='')
+        if (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))==0 and $tag==='' and $category==='' and $user==='' and $linkingpage==='')
         {
           include(__DIR__."/../head.inc");
 	  print "You didn't list any pages (either directly, or via one of the alternative methods).<br>";
@@ -43,7 +46,7 @@
           include(__DIR__."/../multiplemonthsdataentry.inc");
   	  exit;
 	}
-        if (($tag != '' and ($category != '' or $user != '')) or ($category != '' and $user != ''))
+        if (($tag != '' and ($category != '' or $user != '' or $linkingpage != '')) or ($category != '' and ($user != '' or $linkingpage != '')) or ($user != '' and $linkingpage != ''))
         {
           include(__DIR__."/../head.inc");
 	  print "You selected multiple alternate methods. Please modify the form below appropriately.<br>";
@@ -90,6 +93,19 @@
           {
            include(__DIR__."/../head.inc");
            print "There are no pages for the user-language <em>combination</em>.<br>";
+           include(__DIR__."/../multiplemonthsdataentry.inc");
+           exit;
+          }
+	sort($pagelistasarray);
+        }
+
+        if ($linkingpage!='')
+        {
+        $pagelistasarray = getpagelistbylinkingpage($linkingpage,$language);
+        if (sizeof($pagelistasarray) == 0)
+          {
+           include(__DIR__."/../head.inc");
+           print "There are no pages for the linking page-language <em>combination</em>.<br>";
            include(__DIR__."/../multiplemonthsdataentry.inc");
            exit;
           }

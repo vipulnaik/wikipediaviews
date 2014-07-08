@@ -1,5 +1,5 @@
 <?php
-if (($formdata == false or ($tag==='' and $category==='' and $user==='' and $linkingpage==='')) and $tags_recommended == false)
+if ((($formdata == false) or ($tag==='' and $category==='' and $user==='' and $linkingpage==='')) and $tags_recommended == false)
 {
 print '<a id="displayText" href="javascript:toggle();">Show alternative methods for specifying the list of pages</a><br>';
 
@@ -13,7 +13,7 @@ include(__DIR__."/creatinguserentry.inc");
 include(__DIR__."/linkingpageentry.inc");
 print '</table>';
 
-if (($formdata == false or ($tag==='' and $category==='' and $user==='' and $linkingpage==='')) and $tags_recommended == false)
+if ((($formdata == false) or ($tag==='' and $category==='' and $user==='' and $linkingpage==='')) and $tags_recommended == false)
 {
 print '</div><br>';
 }

@@ -1,9 +1,9 @@
-Check boxes next to the years that you want to select.<br>
+<strong>Check boxes next to the years that you want to select.</strong><br>
 <?php
         include_once(__DIR__."/../backend/corecode.inc");
 	$result = presentandpastyears_sql();
 	print '<input type="checkbox" name="allyears" value="allyears"';
-	if ($formdata == true and $allyears =="allyears")
+	if ($formdata == false or ($formdata == true and $allyears =="allyears"))
 	{
 	  print ' checked="checked"';
 	}

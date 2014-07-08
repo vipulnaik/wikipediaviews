@@ -36,17 +36,19 @@ to <a href="http://stats.grok.se">stats.grok.se</a> and parsing the
 HTML output to extract the number of pageviews, and then cache
 it.</p></li>
 
-<li><p><strong>Current month exception</strong>: The following
-exception to caching is worth noting: we do not cache, or look for
-cached values, for the number of pageviews in the <em>current</em>
-month, because these values are changing daily.</p></li>
+<li><p><strong>Current month</strong>: Values for the current month
+may be cached from earlier queries, but cached values may not be
+accurate. In your form, you can specify the number of days after which
+you'd like to force a pruge of cached values for the current month
+data.</p>
 
 <li><p><strong>Timeout restrictions</strong>: For any individual page
-load, our timeout restrictions limit us to about 50 page requests to
+load, our timeout restrictions limit us to about 40 page requests to
 stats.grok.se (fetching the pageviews for a given page, month, and
 language requires 1 page request). However, it is possible to display
-more than 50 pieces of data if some of them have already been
-cached.</p></li>
+more than 40 pieces of data if some of them have already been
+cached. You can specify your own bound on the number of external
+queries in your form.</p></li>
 
 </ul>
 

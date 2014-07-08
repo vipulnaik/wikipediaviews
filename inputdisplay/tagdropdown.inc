@@ -1,4 +1,4 @@
-<tr><td>Select the tag that you want to work with:</td><td><select name="tag">
+<tr><td>Select the tag that you want to work with (the page-tag relationships are defined locally on this site and do not correspond to any relationships on Wikipedia):</td><td><select name="tag">
 <?php
   include_once(__DIR__."/../backend/corecode.inc");
   global $mysqli;

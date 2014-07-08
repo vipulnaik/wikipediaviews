@@ -1,69 +1,57 @@
 <?php
 
-function numericdisplay($number,$numericdisplayformat)
+function totalsandpercentages($pagelist,$monthoryearlist,$viewcountarray)
 {
-	if ($numericdisplayformat=='fullprecision')
+	$grand_total = 0;
+	foreach ($pagelist as $page)#Computes page totals and grand total
 	{
-		return $number;
+		$page_total[$page] = 0;
+		foreach ($monthoryearlist as $monthoryear)
+		{
+			$page_total[$page] += intval($viewcountarray[$page][$monthoryear]);
+
+		}
+		$grand_total += $page_total[$page];
 	}
-	if ($numericdisplayformat=='kmb')
+	foreach ($monthoryearlist as $monthoryear)#Computes page totals and grand total
 	{
-		return numericdisplaykmb($number);
+		$monthoryear_total[$monthoryear] = 0;
+		foreach ($pagelist as $page)
+		{
+			$monthoryear_total[$monthoryear] += intval($viewcountarray[$page][$monthoryear]);
+		}
+	$monthoryear_percentage[$monthoryear] = round(100.0 * floatval($monthoryear_total[$monthoryear])/floatval($grand_total),1);
 	}
-	if ($numericdisplayformat=='log')
+	foreach ($pagelist as $page)
 	{
-		return numericdisplaylog($number);
-	}
-	return $number;
-}
-function numericdisplaykmb($number)
-{
-	$number_int = intval($number);
-	if ($number_int < 1000)
-	{
-		return $number;
-	}
-	if ($number_int >= 1000 and $number_int < 9950)
-	{
-		$number_k = round((floatval ($number_int))/1000,1);
-		return (strval($number_k)."K");
-	}
-	if ($number_int >= 10000 and $number_int < 999500)
-	{
-		$number_k = round((floatval ($number_int))/1000,0);
-		return (strval($number_k)."K");
-	}
-	if ($number_int >= 999500 and $number_int < 9950000)
-	{
-		$number_m = round((floatval ($number_int))/1000000,1);
-		return (strval($number_m)."M");
-	}
-	if ($number_int >= 9950000 and $number_int < 999500000)
-	{
-		$number_m = round((floatval ($number_int))/1000000,0);
-		return (strval($number_m)."M");
-	}
-	if ($number_int >= 999500000 and $number_int < 9950000000)
-	{
-		$number_b = round((floatval ($number_int))/1000000000,1);
-		return (strval($number_b)."B");
-	}
-	if ($number_int >= 9950000000)
-	{
-		$number_b = round((floatval ($number_int))/1000000000,0);
-		return (strval($number_b)."B");
-	}
-	return $number;
+		$page_percentage[$page] = round(100 * floatval($page_total[$page])/floatval($grand_total),1);
+	}	
+	return array($grand_total,$page_total,$monthoryear_total,$page_percentage,$monthoryear_percentage);
 }
 
-function numericdisplaylog($number)
+function printmonthviewcount($page,$month,$language,$viewcount,$numericdisplayformat)
 {
-	if ($number == 0) return "-infinity";
-	return round(log($number,10),1);
+	return '<td align="right"><a href="'.getpageviewsurl($page,$month,$language).'" title="'.monthviewtooltip($viewcount).'">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
 }
+
+function printyearviewcount($page,$year,$language,$viewcount,$numericdisplayformat)
+{
+	return '<td align="right"><a href="'.getannualpageviewsurl($page,$year,$language).'" title="'.yearviewtooltip($viewcount).'">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
+}
+
 function printpageviewsformonthlistashtmltable($pagelist,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$datanormalization='none')
 {
+##Collect all the numbers that need to be printed first
 $viewcountarray = viewcountarraybymonth($pagelist,$monthlist,$language,true,$datanormalization);
+$totalsandpercentages_array = totalsandpercentages($pagelist,$monthlist,$viewcountarray);
+$grand_total = $totalsandpercentages_array[0];
+$page_total = $totalsandpercentages_array[1];
+$month_total = $totalsandpercentages_array[2];
+$page_percentage = $totalsandpercentages_array[3];
+$month_percentage = $totalsandpercentages_array[4];
+
+##Table header row
+
 print '<html><script type="text/javascript" src="/tablesorter/jquery-latest.js"></script> 
 <script type="text/javascript" src="/tablesorter/jquery.tablesorter.js"></script>';
 print '<table class="tablesorter" border="1">';
@@ -72,200 +60,276 @@ foreach($monthlist as $month)
 {
 	$headerstring .= "<th>Pageviews in month ".$month."</th>";
 }
-if ($includetotal=='includetotal' and sizeof($monthlist) > 1) {$headerstring .="<th>Total</th>";}
-$headerstring.="</tr></thead><tbody>";
+if ($includetotal=='includetotal' and count($monthlist) > 1) {$headerstring .="<th>Total</th>";}
+if (count($pagelist) > 1) {$headerstring.="<th>Percentage</th>";}
+$headerstring .= "</tr></thead><tbody>";
 print $headerstring;
+
+##Data rows
 foreach($pagelist as $page) #Prints one row of the table
 {
-	$page_total[$page] = 0;
-	$page_rowstring = '<tr><td><a href="'.getpageurl($page,$language).'">'.$page.'</a></td>';
+	$page_rowstring = '<tr><td><a href="'.getpageurl($page,$language).'" title = "'.$page.' (read page on Wikipedia)">'.$page.'</a></td>';
 	foreach($monthlist as $month) #Computes one cell entry
 	{
 		$viewcount = $viewcountarray[$page][$month];
-		if ($includetotal=='includetotal') {$page_total[$page] += intval($viewcount);}
-		$page_rowstring .= '<td align="right"><a href="'.getpageviewsurl($page,$month,$language).'">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
-
+		$page_rowstring .= printmonthviewcount($page,$month,$language,$viewcount,$numericdisplayformat);
 	}
-	if ($includetotal=='includetotal' and sizeof($monthlist) > 1) {$page_rowstring .='<td align="right"><strong>'.numericdisplay($page_total[$page],$numericdisplayformat).'</strong></td>';}
+	if ($includetotal=='includetotal' and count($monthlist) > 1) {$page_rowstring .='<td align="right"><strong><element title="'.$page_total[$page].'">'.numericdisplay($page_total[$page],$numericdisplayformat).'</element></strong></td>';}
+	if (count($pagelist) > 1) {$page_rowstring .= '<td align="right"><strong>'.$page_percentage[$page].'</strong></td>';}
 	$page_rowstring .="</tr>";
 	print $page_rowstring;
 }
-if ($includetotal=='includetotal' and sizeof($pagelist) > 1)
+if ($includetotal=='includetotal' and count($pagelist) > 1)
 {
-$grand_total = 0;
 $totals_rowstring="<tr><td><strong>Total</strong></td>";
 foreach($monthlist as $month) #Prints bottom row with totals
 {
-	$month_total[$month] = 0;
-	foreach($pagelist as $page)
-	{
-		$month_total[$month] += intval($viewcountarray[$page][$month]);
- 	}
-	$totals_rowstring .= '<td align="right"><strong>'.numericdisplay($month_total[$month],$numericdisplayformat).'</strong></td>';
-	$grand_total += $month_total[$month];
+	$totals_rowstring .= '<td align="right"><strong><element title="'.$month_total[$month].'">'.numericdisplay($month_total[$month],$numericdisplayformat).'</element></strong></td>';
 }
-if (sizeof($monthlist) > 1)
+if (count($monthlist) > 1)
 { 
-  $totals_rowstring .= '<td align="right"><strong>'.numericdisplay($grand_total,$numericdisplayformat).'</strong></td>';
+  $totals_rowstring .= '<td align="right"><strong><element title="'.$grand_total.'">'.numericdisplay($grand_total,$numericdisplayformat).'</element></strong></td>';
 }
-$totals_rowstring .= '</tr>';
+$totals_rowstring .= '<td align="right"><strong>100</strong></td></tr>';
 print $totals_rowstring;
+}
+if (count($monthlist) > 1)
+{
+$percentages_rowstring = "<tr><td><strong>Percentage</strong></td>";
+foreach($monthlist as $month)
+{
+	$percentages_rowstring .= '<td align="right"><strong>'.$month_percentage[$month].'</strong></td>';
+}
+if ($includetotal == 'includetotal')
+{
+	$percentages_rowstring .= '<td align="right"><strong>100</strong></td>';
+}
+if (count($pagelist) > 1)
+{
+	$percentages_rowstring .= '<td align="right">--</td>';
+}
+$percentages_rowstring .= '</tr>';
+print $percentages_rowstring;
 }
 print "</tbody></table>";
 }
 
 function printpageviewsformonthlistashtmltabletransposed($pagelist,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$datanormalization='none')
 {
-$viewcountarray = viewcountarraybymonth($pagelist,$monthlist,$language,true);
+##Collect all the numbers that need to be printed first
+$viewcountarray = viewcountarraybymonth($pagelist,$monthlist,$language,true,$datanormalization);
+$totalsandpercentages_array = totalsandpercentages($pagelist,$monthlist,$viewcountarray);
+$grand_total = $totalsandpercentages_array[0];
+$page_total = $totalsandpercentages_array[1];
+$month_total = $totalsandpercentages_array[2];
+$page_percentage = $totalsandpercentages_array[3];
+$month_percentage = $totalsandpercentages_array[4];
+
+##Header row
 print '<table border="1">';
 $headerstring = "<tr><th>Month</th>";
 foreach($pagelist as $page)
 {
-	$headerstring .= "<th>Views of page <a href=\"". getpageurl($page,$language). "\">" . $page."</a></th>";
+	$headerstring .= '<th>Views of page <a href="'. getpageurl($page,$language). '" title="'.$page.' (read page on Wikipedia)">' . $page.'</a></th>';
 }
-if ($includetotal=='includetotal' and sizeof($pagelist) > 1) {$headerstring .="<th>Total</th>";}
-$headerstring.="</tr>";
+if ($includetotal=='includetotal' and count($pagelist) > 1) {$headerstring .="<th>Total</th>";}
+if (count($monthlist) > 1) {$headerstring.='<td><strong>Percentage</strong></td>';}
+$headerstring .= '</tr>';
 print $headerstring;
+
+##Data rows
 foreach($monthlist as $month) #Prints one row of the table
 {
-	$month_total[$month] = 0;
 	$month_rowstring = '<tr><td>'.$month.'</td>';
 	foreach($pagelist as $page) #Computes one cell entry
 	{
 		$viewcount = $viewcountarray[$page][$month];
-		if ($includetotal=='includetotal') {$month_total[$month] += intval($viewcount);}
-		$month_rowstring .= '<td align="right"><a href="'.getpageviewsurl($page,$month,$language).'">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
-
+		$month_rowstring .= printmonthviewcount($page,$month,$language,$viewcount,$numericdisplayformat);
 	}
-	if ($includetotal=='includetotal' and sizeof($pagelist) > 1) {$month_rowstring .='<td align="right"><strong>'.numericdisplay($month_total[$month],$numericdisplayformat).'</strong></td>';}
-	$month_rowstring .="</tr>";
+	if ($includetotal=='includetotal' and count($pagelist) > 1) {$month_rowstring .='<td align="right"><strong><element title="'.$month_total[$month].'">'.numericdisplay($month_total[$month],$numericdisplayformat).'</element></strong></td>';}
+	if (count($monthlist) > 1) {$month_rowstring .='<td align="right"><strong>'.$month_percentage[$month].'</strong></td></tr>';}
 	print $month_rowstring;
 }
-if ($includetotal=='includetotal' and sizeof($monthlist) > 1)
+if ($includetotal=='includetotal' and count($monthlist) > 1)
 {
-$grand_total = 0;
 $totals_rowstring="<tr><td><strong>Total</strong></td>";
 foreach($pagelist as $page) #Prints bottom row with totals
 {
-	$page_total[$page] = 0;
-	foreach($monthlist as $month)
-	{
-		$page_total[$page] += intval($viewcountarray[$page][$month]);
- 	}
-	$totals_rowstring .= '<td align="right"><strong>'.numericdisplay($page_total[$page],$numericdisplayformat).'</strong></td>';
-	$grand_total += $page_total[$page];
+	$totals_rowstring .= '<td align="right"><strong><element title="'.$page_total[$page].'">'.numericdisplay($page_total[$page],$numericdisplayformat).'</element></strong></td>';
 }
-if (sizeof($pagelist) > 1)
+if (count($pagelist) > 1)
 { 
-  $totals_rowstring .= '<td align="right"><strong>'.numericdisplay($grand_total,$numericdisplayformat).'</strong></td>';
+  $totals_rowstring .= '<td align="right"><strong><element title="'.$grand_total.'">'.numericdisplay($grand_total,$numericdisplayformat).'</element></strong></td>';
 }
-$totals_rowstring .= '</tr>';
+$totals_rowstring .= '<td align="right"><strong>100</strong></td></tr>';
 print $totals_rowstring;
+}
+if (count($pagelist) > 1)
+{
+$percentages_rowstring = "<tr><td><strong>Percentage</strong></td>";
+foreach($pagelist as $page)
+{
+	$percentages_rowstring .= '<td align="right"><strong>'.$page_percentage[$page].'</strong></td>';
+}
+if ($includetotal == 'includetotal')
+{
+	$percentages_rowstring .= '<td align="right"><strong>100</strong></td>';
+}
+if (count($monthlist) > 1)
+{
+	$percentages_rowstring .= '<td align="right">--</td></tr>';
+}
+print $percentages_rowstring;
 }
 print "</table>";
 }
 
 function printpageviewsforyearlistashtmltable($pagelist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$datanormalization='none')
 {
-$viewcountarray = viewcountarraybyyear($pagelist,$yearlist,$language,true);
+##Collect all the numbers that need to be printed first
+$viewcountarray = viewcountarraybyyear($pagelist,$yearlist,$language,true,$datanormalization);
+$totalsandpercentages_array = totalsandpercentages($pagelist,$yearlist,$viewcountarray);
+$grand_total = $totalsandpercentages_array[0];
+$page_total = $totalsandpercentages_array[1];
+$year_total = $totalsandpercentages_array[2];
+$page_percentage = $totalsandpercentages_array[3];
+$year_percentage = $totalsandpercentages_array[4];
+
+##Header row
 print '<strong>Remember that views for the current year only include views for <em>completed</em> months, and views for the year of 2007 only include views in the month of December of that year.</strong><br>';
-print '<table border="1">';
-$headerstring = "<tr><th>Page name</th>";
+print '<html><script type="text/javascript" src="/tablesorter/jquery-latest.js"></script> 
+<script type="text/javascript" src="/tablesorter/jquery.tablesorter.js"></script>';
+print '<table class="tablesorter" border="1">';
+$headerstring = "<thead><tr><th>Page name</th>";
 foreach($yearlist as $year)
 {
 	$headerstring .= "<th>Pageviews in year ".$year."</th>";
 }
-if ($includetotal=='includetotal' and sizeof($yearlist) > 1) {$headerstring .="<th>Total</th>";}
-$headerstring.="</tr>";
+if ($includetotal=='includetotal' and count($yearlist) > 1) {$headerstring .="<th>Total</th>";}
+if (count($pagelist) > 1) {$headerstring.="<th>Percentage</th>";}
+$headerstring .= "</tr></thead><tbody>";
 print $headerstring;
+
+##Data rows
 foreach($pagelist as $page) #Prints one row of the table
 {
-	$page_total[$page] = 0;
 	$page_rowstring = '<tr><td><a href="'.getpageurl($page,$language).'">'.$page.'</a></td>';
 	foreach($yearlist as $year) #Computes one cell entry
 	{
 		$viewcount = $viewcountarray[$page][$year];
-		if ($includetotal=='includetotal') {$page_total[$page] += intval($viewcount);}
-		$page_rowstring .= '<td align="right">'.numericdisplay($viewcount,$numericdisplayformat).'</td>';
+		$page_rowstring .= printyearviewcount($page,$year,$language,$viewcount,$numericdisplayformat);
 	}
-	if ($includetotal=='includetotal' and sizeof($yearlist) > 1) {$page_rowstring .='<td align="right"><strong>'.numericdisplay($page_total[$page],$numericdisplayformat).'</strong></td>';}
+	if ($includetotal=='includetotal' and count($yearlist) > 1) {$page_rowstring .='<td align="right"><strong><element title="'.$page_total[$page].'">'.numericdisplay($page_total[$page],$numericdisplayformat).'</element></strong></td>';}
+	if (count($pagelist) > 1) {$page_rowstring .= '<td align="right"><strong>'.$page_percentage[$page].'</strong></td>';}
 	$page_rowstring .="</tr>";
 	print $page_rowstring;
 }
-if ($includetotal=='includetotal' and sizeof($pagelist) > 1)
+if ($includetotal=='includetotal' and count($pagelist) > 1)
 {
-$grand_total = 0;
 $totals_rowstring="<tr><td><strong>Total</strong></td>";
 foreach($yearlist as $year) #Prints bottom row with totals
 {
-	$year_total[$year] = 0;
-	foreach($pagelist as $page)
-	{
-		$year_total[$year] += intval($viewcountarray[$page][$year]);
- 	}
-	$totals_rowstring .= '<td align="right"><strong>'.numericdisplay($year_total[$year],$numericdisplayformat).'</strong></td>';
-	$grand_total += $year_total[$year];
+	$totals_rowstring .= '<td align="right"><strong><element title="'.$year_total[$year].'">'.numericdisplay($year_total[$year],$numericdisplayformat).'</element></strong></td>';
 }
-if (sizeof($yearlist) > 1)
+if (count($yearlist) > 1)
 { 
-  $totals_rowstring .= '<td align="right"><strong>'.numericdisplay($grand_total,$numericdisplayformat).'</strong></td>';
+  $totals_rowstring .= '<td align="right"><strong><element title="'.$grand_total.'">'.numericdisplay($grand_total,$numericdisplayformat).'</element></strong></td>';
 }
-$totals_rowstring .= '</tr>';
+$totals_rowstring .= '<td align="right"><strong>100</strong></td></tr>';
 print $totals_rowstring;
 }
-print "</table>";
+if (count($yearlist) > 1)
+{
+$percentages_rowstring = "<tr><td><strong>Percentage</strong></td>";
+foreach($yearlist as $year)
+{
+	$percentages_rowstring .= '<td align="right"><strong>'.$year_percentage[$year].'</strong></td>';
+}
+if ($includetotal == 'includetotal')
+{
+	$percentages_rowstring .= '<td align="right"><strong>100</strong></td>';
+}
+if (count($pagelist) > 1)
+{
+	$percentages_rowstring .= '<td align="right">--</td>';
+}
+$percentages_rowstring .= '</tr>';
+print $percentages_rowstring;
+}
+print "</tbody></table>";
 }
 
 function printpageviewsforyearlistashtmltabletransposed($pagelist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$datanormalization='none')
 {
-$viewcountarray = viewcountarraybyyear($pagelist,$yearlist,$language,true);
+##Collect all the numbers that need to be printed first
+$viewcountarray = viewcountarraybyyear($pagelist,$yearlist,$language,true,$datanormalization);
+$totalsandpercentages_array = totalsandpercentages($pagelist,$yearlist,$viewcountarray);
+$grand_total = $totalsandpercentages_array[0];
+$page_total = $totalsandpercentages_array[1];
+$year_total = $totalsandpercentages_array[2];
+$page_percentage = $totalsandpercentages_array[3];
+$year_percentage = $totalsandpercentages_array[4];
+
+##Table header row
+print '<strong>Remember that views for the current year only include views for <em>completed</em> months, and views for the year of 2007 only include views in the month of December of that year.</strong><br>';
 print '<table border="1">';
 $headerstring = "<tr><th>Year</th>";
 foreach($pagelist as $page)
 {
 	$headerstring .= "<th>Views of page <a href=\"". getpageurl($page,$language). "\">" . $page."</a></th>";
 }
-if ($includetotal=='includetotal' and sizeof($pagelist) > 1) {$headerstring .="<th>Total</th>";}
-$headerstring.="</tr>";
+if ($includetotal=='includetotal' and count($pagelist) > 1) {$headerstring .="<th>Total</th>";}
+if (count($yearlist) > 1) {$headerstring.='<td><strong>Percentage</strong></td>';}
+$headerstring .= '</tr>';
 print $headerstring;
+
+##Data rows
 foreach($yearlist as $year) #Prints one row of the table
 {
-	$year_total[$year] = 0;
 	$year_rowstring = '<tr><td>'.$year.'</td>';
 	foreach($pagelist as $page) #Computes one cell entry
 	{
 		$viewcount = $viewcountarray[$page][$year];
-		if ($includetotal=='includetotal') {$year_total[$year] += intval($viewcount);}
-		$year_rowstring .= '<td align="right">'.numericdisplay($viewcount,$numericdisplayformat).'</td>';
-
+		$year_rowstring .= printyearviewcount($page,$year,$language,$viewcount,$numericdisplayformat);
 	}
-	if ($includetotal=='includetotal' and sizeof($pagelist) > 1) {$year_rowstring .='<td align="right"><strong>'.numericdisplay($year_total[$year],$numericdisplayformat).'</strong></td>';}
-	$year_rowstring .="</tr>";
+	if ($includetotal=='includetotal' and count($pagelist) > 1) {$year_rowstring .='<td align="right"><strong><element title="'.$year_total[$year].'">'.numericdisplay($year_total[$year],$numericdisplayformat).'</element></strong></td>';}
+	if (count($yearlist) > 1) {$year_rowstring .='<td align="right"><strong>'.$year_percentage[$year].'</strong></td></tr>';}
 	print $year_rowstring;
 }
-if ($includetotal=='includetotal' and sizeof($yearlist) > 1)
+if ($includetotal=='includetotal' and count($yearlist) > 1)
 {
-$grand_total = 0;
 $totals_rowstring="<tr><td><strong>Total</strong></td>";
 foreach($pagelist as $page) #Prints bottom row with totals
 {
-	$page_total[$page] = 0;
-	foreach($yearlist as $year)
-	{
-		$page_total[$page] += intval($viewcountarray[$page][$year]);
- 	}
-	$totals_rowstring .= '<td align="right"><strong>'.numericdisplay($page_total[$page],$numericdisplayformat).'</strong></td>';
-	$grand_total += $page_total[$page];
+	$totals_rowstring .= '<td align="right"><strong><element title="'.$page_total[$page].'">'.numericdisplay($page_total[$page],$numericdisplayformat).'</element></strong></td>';
 }
-if (sizeof($pagelist) > 1)
+if (count($pagelist) > 1)
 { 
-  $totals_rowstring .= '<td align="right"><strong>'.numericdisplay($grand_total,$numericdisplayformat).'</strong></td>';
+  $totals_rowstring .= '<td align="right"><strong><element title="'.$grand_total.'">'.numericdisplay($grand_total,$numericdisplayformat).'</element></strong></td>';
 }
-$totals_rowstring .= '</tr>';
+$totals_rowstring .= '<td align="right"><strong>100</strong></td></tr>';
 print $totals_rowstring;
+}
+if (count($pagelist) > 1)
+{
+$percentages_rowstring = "<tr><td><strong>Percentage</strong></td>";
+foreach($pagelist as $page)
+{
+	$percentages_rowstring .= '<td align="right"><strong>'.$page_percentage[$page].'</strong></td>';
+}
+if ($includetotal == 'includetotal')
+{
+	$percentages_rowstring .= '<td align="right"><strong>100</strong></td>';
+}
+if (count($yearlist) > 1)
+{
+	$percentages_rowstring .= '<td align="right">--</td></tr>';
+}
+print $percentages_rowstring;
 }
 print "</table>";
 }
+
 
 function printpageviewsascsv($pagelist,$month,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$datanormalization='none')
 {

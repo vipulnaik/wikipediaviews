@@ -1,4 +1,4 @@
-Check boxes next to the months that you want to select.<br>
+<strong>Check boxes next to the months that you want to select.</strong><br>
 <?php
         include_once(__DIR__."/../backend/corecode.inc");
 	$result = presentandpastmonths_sql();
@@ -16,7 +16,7 @@ Check boxes next to the months that you want to select.<br>
             print ">".$row['monthfull']." (".$row['month']." ".$row['year'].")";
             if ($row['status']=='present')
             {
-               print " -- current month <strong>(not cached because values are updated daily)</strong>";
+               print " -- current month <strong>(may display outdated cached value)</strong>";
             }
             elseif ($row['status']=='mostrecent')
             {

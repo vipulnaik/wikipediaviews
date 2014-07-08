@@ -10,7 +10,7 @@
 	print ">".$row['monthfull']." (".$row['month']." ".$row['year'].")";
 	if ($row['status']=='present')
 	{
-	  print " -- current month <strong>(not cached because values are updated daily)</strong>";
+	  print " -- current month <strong>(may display outdated cached value)</strong>";
         }
 	elseif ($row['status']=='mostrecent')
 	{

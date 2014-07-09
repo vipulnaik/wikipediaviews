@@ -1,0 +1,12 @@
+<?php
+
+##These are variables that set parameters for the query execution process, but they 
+##are non-negotiable, i.e., users can neither see nor change them.
+
+global $recentmonthslowdownfactor;
+$recentmonthslowdownfactor = 2;
+
+global $exceededquerylimitmessage;
+$exceededquerylimitmessage = 'exceeded query limit and timed out';
+
+?>

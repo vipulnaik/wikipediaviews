@@ -1,5 +1,5 @@
 <?php
-include("globalvariables.inc");
+include("globalvariables/globalvariables.inc");
 include("monthandyearlists.inc");
 include("stringfunctions.inc");
 include("apibasedpagelistgeneration.inc");

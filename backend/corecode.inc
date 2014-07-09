@@ -1,6 +1,8 @@
 <?php
 include("globalvariables.inc");
+include("monthandyearlists.inc");
 include("stringfunctions.inc");
+include("apibasedpagelistgeneration.inc");
 include("pageviewqueries.inc");
 include("displayfunctions.inc");
 include("tagmanipulatives.inc");

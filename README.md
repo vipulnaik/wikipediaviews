@@ -3,6 +3,15 @@ wikipediaviews
 
 Underlying code of http://wikipediaviews.subwiki.org with sensitive parts redacted
 
+GitHub URL: https://github.com/vipulnaik/wikipediaviews
+
+WARNING: If you just get the code from GitHub and try running it, it
+will fail. You also need to set up the database and add a file called
+passwordfile.inc to your backend subdirectory with the credentials for
+accessing the database. Instructions for database setup (or a file
+that would create the necessary database tables) have not yet been
+included, and are in the to-do list.
+
 ==File structure==
 
 All publicly accessible files are in the home directory.

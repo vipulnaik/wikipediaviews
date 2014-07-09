@@ -26,4 +26,48 @@ function addpagetotag($page,$language,$tag)
 	 queriedpagelog($page,$language,'empty');
        }
 }
+
+function getpagelistbytag($tag,$language)
+{
+       global $mysqli;
+       if ($mysqli->connect_errno) {
+       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+}
+       $tagselect_query = "select pagetags.pagename from pagetags join queriedpages where pagetags.pagename = queriedpages.pagename and pagetags.language = queriedpages.language and pagetags.language='".$language."' and pagetags.tag='".$tag."' and queriedpages.archivalstatus='complete' order by pagetags.pagename asc;";
+       #print $tagselect_query;
+       $result = $mysqli->query($tagselect_query);
+       $pagelist = array();
+       for ($i = 0; $i < $result->num_rows;$i++)
+       {
+          $row = $result->fetch_assoc();
+	  $pagename = $row['pagename'];
+	  array_push($pagelist,$pagename);
+       }
+       return $pagelist;
+}
+
+function getpagelistbytaglist($taglist,$language,$connective='or')
+{
+       global $mysqli;
+       if ($mysqli->connect_errno) {
+       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+       }
+       $tagselect_query = "select distinct pagetags.pagename from pagetags join queriedpages where pagetags.pagename = queriedpages.pagename and pagetags.language = queriedpages.language and pagetags.language='".$language."' and queriedpages.archivalstatus='complete'";
+       if ($connective=='or')
+       {
+		$taglistasquotedcsvstring = convertlisttoquotedcsvstring($taglist);
+		$tagselect_query .= "and pagetags.tag in (".$taglistasquotedcsvstring.")";
+       }
+       $taglist .= "order by pagetags.pagename asc;";
+       $result = $mysqli->query($tagselect_query);
+       $pagelist = array();
+       for ($i = 0; $i < $result->num_rows;$i++)
+       {
+          $row = $result->fetch_assoc();
+	  $pagename = $row['pagename'];
+	  array_push($pagelist,$pagename);
+       }
+       return $pagelist;
+}
+
 ?>

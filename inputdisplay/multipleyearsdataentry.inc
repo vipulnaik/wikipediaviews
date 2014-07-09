@@ -12,18 +12,18 @@
    
 $pagetypeadvice = "multipleyears";
 print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pagetypeadvice.'.php">';
-include("inputdisplay/pagelistentry.inc");
+include("pagelistentry.inc");
 
 print '<table><col width=600/><col width=500/>';
-include("inputdisplay/languagedropdown.inc");
+include("languagedropdown.inc");
 print '<tr><td><input type="submit" value="Submit"></td></tr>';
 print '</table>';
 
-include("inputdisplay/alternatepagespecificationmethods.inc");
+include("alternatepagespecificationmethods.inc");
 
-include("inputdisplay/advancedoptions.inc");
+include("advancedoptions.inc");
 
-include("inputdisplay/yearcheckboxlist.inc");
+include("yearcheckboxlist.inc");
 print '</form>';
 ?>
 

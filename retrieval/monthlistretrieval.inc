@@ -26,7 +26,7 @@
         {
               include("head.inc");
               print "You provided multiple alternate methods for selecting the set of months. Please choose only one.";
-              include("multiplemonthsdataentry.inc");
+              include(__DIR__."/../inputdisplay/multiplemonthsdataentry.inc");
               exit;
         }
 
@@ -42,7 +42,7 @@
         {
               include("head.inc");
               print "You didn't select any months. Please do so below.";
-              include("multiplemonthsdataentry.inc");
+              include(__DIR__."/../inputdisplay/multiplemonthsdataentry.inc");
               exit;
         }
 ?>

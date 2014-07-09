@@ -35,23 +35,23 @@
 
         if (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))==0 and $tag==='' and $category==='' and $user==='' and $linkingpage==='')
         {
-          include(__DIR__."/../head.inc");
+          include(__DIR__."/../style/head.inc");
 	  print "You didn't list any pages (either directly, or via one of the alternative methods).<br>";
-          include(__DIR__."/../multiplemonthsdataentry.inc");
+          include(__DIR__."/../inputdisplay/".$pagetypeadvice."dataentry.inc");
   	  exit;
 	}
         if (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))>0 and ($tag!='' or $category!='' or $user != ''))
         {
-          include(__DIR__."/../head.inc");
+          include(__DIR__."/../style/head.inc");
 	  print "You listed page(s) directly <em>and</em> selected an alternative method to list pages. You can only use one of the two methods at a time.";
-          include(__DIR__."/../multiplemonthsdataentry.inc");
+          include(__DIR__."/../inputdisplay/".$pagetypeadvice."dataentry.inc");
   	  exit;
 	}
         if (($tag != '' and ($category != '' or $user != '' or $linkingpage != '')) or ($category != '' and ($user != '' or $linkingpage != '')) or ($user != '' and $linkingpage != ''))
         {
-          include(__DIR__."/../head.inc");
+          include(__DIR__."/../style/head.inc");
 	  print "You selected multiple alternate methods. Please modify the form below appropriately.<br>";
-          include(__DIR__."/../multiplemonthsdataentry.inc");
+          include(__DIR__."/../inputdisplay/".$pagetypeadvice."dataentry.inc");
   	  exit;
 	}
 
@@ -68,9 +68,9 @@
         $pagelistasarray = getpagelistbytag($tag,$language);
         if (sizeof($pagelistasarray) == 0)
           {
-           include(__DIR__."/../head.inc");
+           include(__DIR__."/../style/head.inc");
            print "Although the tag is valid, there are no pages for the tag-language <em>combination</em>.<br>";
-           include(__DIR__."/../multiplemonthsdataentry.inc");
+           include(__DIR__."/../inputdisplay/".$pagetypeadvice."dataentry.inc");
            exit;
           }
         }
@@ -79,9 +79,9 @@
         $pagelistasarray = getpagelistbywikipediacategory($category,$language);
         if (sizeof($pagelistasarray) == 0)
           {
-           include(__DIR__."/../head.inc");
+           include(__DIR__."/../style/head.inc");
            print "There are no pages for the category-language <em>combination</em>.<br>";
-           include(__DIR__."/../multiplemonthsdataentry.inc");
+           include(__DIR__."/../inputdisplay/".$pagetypeadvice."dataentry.inc");
            exit;
           }
 	sort($pagelistasarray);
@@ -92,9 +92,9 @@
         $pagelistasarray = getpagelistbycreatinguser($user,$language);
         if (sizeof($pagelistasarray) == 0)
           {
-           include(__DIR__."/../head.inc");
+           include(__DIR__."/../style/head.inc");
            print "There are no pages for the user-language <em>combination</em>.<br>";
-           include(__DIR__."/../multiplemonthsdataentry.inc");
+           include(__DIR__."/../inputdisplay/".$pagetypeadvice."dataentry.inc");
            exit;
           }
 	sort($pagelistasarray);
@@ -105,9 +105,9 @@
         $pagelistasarray = getpagelistbylinkingpage($linkingpage,$language);
         if (sizeof($pagelistasarray) == 0)
           {
-           include(__DIR__."/../head.inc");
+           include(__DIR__."/../style/head.inc");
            print "There are no pages for the linking page-language <em>combination</em>.<br>";
-           include(__DIR__."/../multiplemonthsdataentry.inc");
+           include(__DIR__."/../inputdisplay/".$pagetypeadvice."dataentry.inc");
            exit;
           }
 	sort($pagelistasarray);

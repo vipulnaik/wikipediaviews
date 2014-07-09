@@ -1,13 +1,13 @@
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head><meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
 <title>Wikipedia Views: results</title>
 <?php
-   include("toggler.inc");
+   include("style/toggler.inc");
 ?></head>
 
 <?php
 	include_once("backend/corecode.inc");
         $formdata = true;
-        $pagetypeadvice = "multiplemonths";
+        $pagetypeadvice = "multipleyears";
         include("retrieval/pagelistretrieval.inc");
         include("retrieval/advancedoptionretrieval.inc");
 
@@ -27,33 +27,33 @@
         }
        if (sizeof($yearlist) == 0)
         {
-              include("head.inc");
+              include("style/head.inc");
               print "You didn't select any years. Please do so below.";
-              include("multipleyearsdataentry.inc");
+              include("inputdisplay/multipleyearsdataentry.inc");
               exit;
         }
 
 
         if ($displayformat=='htmltableautomatic') {
-            include("head.inc");
+            include("style/head.inc");
             if (count($pagelistasarray) >= count($yearlist)) {
                printpageviewsforyearlistashtmltable($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
             }
             else {
                printpageviewsforyearlistashtmltabletransposed($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
             }
-            include("multipleyearsdataentry.inc");
+            include("inputdisplay/multipleyearsdataentry.inc");
         }
 	if ($displayformat=='csv') { printpageviewsforyearlistascsv($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);}
 	elseif ($displayformat=='htmltable') { 
-           include("head.inc");  
+           include("style/head.inc");  
            printpageviewsforyearlistashtmltable($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
-           include("multipleyearsdataentry.inc");
+           include("inputdisplay/multipleyearsdataentry.inc");
         }
         elseif ($displayformat=='csvtransposed') {printpageviewsforyearlistascsvtransposed($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);}
         elseif ($displayformat=='htmltabletransposed') {
-           include("head.inc");
+           include("style/head.inc");
            printpageviewsforyearlistashtmltabletransposed($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
-           include("multipleyearsdataentry.inc");
+           include("inputdisplay/multipleyearsdataentry.inc");
         }
 ?>

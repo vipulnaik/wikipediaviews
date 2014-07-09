@@ -20,7 +20,7 @@ page</a>)</p>';}
 	print '<p><strong>Continue editing the list of pages.</strong> (more help below, and
 more background at the <a href="/about">about page</a>)</p>';
         }
-	print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pagetypeadvice.'.php">';
+
 	print '<textarea name="pagelistasstring" rows="5" cols="100" placeholder="Enter page names here. Each page name should be on a separate line. Remember, enter page names, not URLs. You may also leave this blank and use an alternative method below for specifying lists of pages.">';
 	if ($formdata == true) {print $pagelistasstring;} 
 	print '</textarea>';

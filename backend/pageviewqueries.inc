@@ -237,8 +237,8 @@ function getpagelistbywikipediacategory($category,$language)
 
 function getpagelistbycreatinguser($user,$language)
 {
-	$category = str_replace(" ","_",$category);
-	$apiquery_url = 'http://'.$language.'.wikipedia.org/w/api.php?action=query&list=usercontribs&ucshow=new&uclimit=500&ucuser='.$user;
+	$user_underscored = str_replace(" ","_",$user);
+	$apiquery_url = 'http://'.$language.'.wikipedia.org/w/api.php?action=query&list=usercontribs&ucshow=new&uclimit=500&ucuser='.$user_underscored;
 	#print '<a href="'.$apiquery_url.'">'.$apiquery_url.'</a>';
 	$apiquery_html = file_get_contents($apiquery_url);
 	#print $apiquery_html;

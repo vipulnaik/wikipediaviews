@@ -1,5 +1,5 @@
 <?php
-if (($formdata == false or ($monthacrossyears==='' and $year==='')) and $alternatemonthspecs_recommended==false)
+if (($formdata == false or ($monthacrossyears==='' and $year==='') or $carryoverfromonemonth==true) and $alternatemonthspecs_recommended==false)
 {
 print '<a id="displayText4" href="javascript:toggle4();">Show alternative methods for specifying the list of months</a><br>';
 
@@ -11,7 +11,7 @@ include(__DIR__."/monthdropdown-allyears.inc");
 include(__DIR__."/yeardropdown-allmonths.inc");
 print '</table>';
 
-if (($formdata == false or ($monthacrossyears==='' and $year==='')) and $alternatemonthspecs_recommended==false)
+if (($formdata == false or ($monthacrossyears==='' and $year==='') or $carryoverfromonemonth==true) and $alternatemonthspecs_recommended==false)
 {
 print '</div><br>';
 }

@@ -6,7 +6,10 @@
 	for($i=0;$i<12;$i++)
 	{
 	print '<option value="'.$monthswithoutyears[$i].'"';
-	if ($formdata==true and ($monthacrossyears == $monthswithoutyears[$i])) {print ' selected="selected"';}
+	if ($formdata==true)
+	{
+		if ($monthacrossyears == $monthswithoutyears[$i]) {print ' selected="selected"';}
+	}
 	print '>month '.$monthswithoutyears[$i].' across all years';
 	print "</option>";
 	}

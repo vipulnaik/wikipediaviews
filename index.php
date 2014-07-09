@@ -1,13 +1,13 @@
 <?php
 print '<!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head><meta http-equiv="Content-Type" content="text/html;charset=utf-8" >';
 print '<title>Wikipedia Views</title>';
-include("toggler.inc"); ##included in all public-facing files
+include("style/toggler.inc"); ##included in all public-facing files
 print '</head>';
 include_once("backend/corecode.inc");
+include("style/head.inc"); ##included in all public-facing files
 print '<body>';
-include("head.inc"); ##included in all public-facing files
 $formdata = false;
-include("onemonthdataentry.inc");
+include("inputdisplay/onemonthdataentry.inc");
 print '</body>';
 print '</html>';
 ?>

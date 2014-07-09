@@ -15,15 +15,15 @@ There are three home directory files that offer starting points:
 
 * multipleyears.php (Multiple years)
 
-Each file includes these two files:
+Each file includes these two files from the style subdirectory:
 
 * head.inc controls the header and any site-wide messages
 
 * toggler.inc includes (currently clumsy) JavaScript that allows for
   show/hide features in the HTML display.
 
-In addition, each file includes a corresponding data entry file that
-has the actual data entry part. The dependencies are shown below:
+In addition, each file includes a corresponding data entry file from
+the inputdisplay subdirectory:
 
 * index.php includes onemonthdataentry.inc
 
@@ -49,7 +49,8 @@ we get sent to a display page. There are three display pages:
   multipleyearsdataentry.inc. In addition to the display, it includes
   multipleyearsdataentry.inc to facilitate continued data entry.
 
-All these PHP files also include head.inc and toggler.inc.
+All these PHP files also include head.inc and toggler.inc from the
+style subdirectory.
 
 ==A closer look at the data entry files and the inputdisplay subdirectory==
 

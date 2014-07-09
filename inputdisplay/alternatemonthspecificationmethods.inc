@@ -1,4 +1,12 @@
 <?php
+
+## This file has the HTML for ways of providing lists of months without
+## having to check boxes.
+
+## Included in: multiplemonthsdataentry.inc
+
+## Associated retrieval file: retrieval/monthlistretrieval.inc
+
 if (($formdata == false or ($monthacrossyears==='' and $year==='') or $carryoverfromonemonth==true) and $alternatemonthspecs_recommended==false)
 {
 print '<a id="displayText4" href="javascript:toggle4();">Show alternative methods for specifying the list of months</a><br>';

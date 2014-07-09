@@ -13,7 +13,6 @@ li
 display:inline;
 }
 </style>
-<script src="sorttable.js"></script>
 </head>
 <body>
 <ul>

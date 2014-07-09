@@ -9,6 +9,8 @@
 
 ## Associated retrieval file: retrieval/pagelistretrieval.inc
 
+## For the decision to control and collapse, see backend/advice.inc
+
 if ((($formdata == false) or ($tag==='' and $category==='' and $user==='' and $linkingpage==='')) and $tags_recommended == false)
 {
 	print '<a id="displayText" href="javascript:toggle();">Show alternative methods for specifying the list of pages</a><br>';

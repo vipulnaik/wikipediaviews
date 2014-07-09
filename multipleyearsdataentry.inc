@@ -1,6 +1,17 @@
 <?php
+
+##inc file for data entry for multiple months.
+
+##Included from: multipleyears.php, displayviewsformultipleyears.php
+
+##Sends form to: displayviewsformultipleyears.php
+
+##Includes: pagelistentry.inc, languagedropdown.inc, 
+##alternatepagespecificationmethods.inc, advancedoptions.inc, 
+## yearcheckboxlist.inc
    
 $pagetypeadvice = "multipleyears";
+print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pagetypeadvice.'.php">';
 include("inputdisplay/pagelistentry.inc");
 
 print '<table><col width=600/><col width=500/>';

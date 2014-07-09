@@ -1,6 +1,19 @@
 <?php
 
+##inc file for data entry for one month.
+
+##Included from: index.php (home page), displayviewsforonemonth.php
+##(in case of erroneous input)
+
+##Sends form to: displayviewsforonemonth.php
+
+##Includes: pagelistentry.inc, monthdropdown.inc,
+##languagedropdown.inc, alternatepagespecificationmethods.inc,
+##advancedoptions.inc
+
 $pagetypeadvice = "onemonth";
+print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pagetypeadvice.'.php">';
+
 include("inputdisplay/pagelistentry.inc");
 
 print '<table><col width=600/><col width=500/>';

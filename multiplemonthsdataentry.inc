@@ -1,11 +1,22 @@
 <?php
 
+##inc file for data entry for multiple months.
+
+##Included from: multiplemonths.php, displayviewsforonemonth.php, displayviewsformultiplemonths.php
+
+##Sends form to: displayviewsformultiplemonths.php
+
+##Includes: pagelistentry.inc, languagedropdown.inc, 
+##alternatepagespecificationmethods.inc, alternatemonthspecificationmethods.inc,
+##advancedoptions.inc, monthcheckboxlist.inc
+
 if ($formdata == true)
 {
 	pagemonthadvice($pagelistasarray,$monthlist,($tag !== ''));
 }
    
 $pagetypeadvice = "multiplemonths";
+print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pagetypeadvice.'.php">';
 include("inputdisplay/pagelistentry.inc");
 
 print '<table><col width=600/><col width=500/>';

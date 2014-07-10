@@ -9,7 +9,9 @@ $externalquerycount = 0;
 global $unavailablecount;
 $unavailablecount = 0;
 
-$recentmonthslowdownfactor = 2;
-$exceededquerylimitmessage = 'exceeded query limit and timed out';
-$tags_recommended=false;
+global $pagespecificationerror;
+$pagespecificationerror = false;
+
+global $monthspecificationerror;
+$monthspecificationerror = false;
 ?>

@@ -10,7 +10,7 @@
 ##alternatepagespecificationmethods.inc, alternatemonthspecificationmethods.inc,
 ##advancedoptions.inc, monthcheckboxlist.inc
 
-if ($formdata == true)
+if ($formdata == true and ($pagespecificationerror == false and $monthspecificationerror == false))
 {
 	pagemonthadvice($pagelistasarray,$monthlist,($tag !== ''));
 }

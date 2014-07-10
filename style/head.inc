@@ -23,6 +23,7 @@ display:inline;
 </ul>
 <br>
 <?php
+   include_once(__DIR__."/../backend/corecode.inc");
    if ($transitionstatus=='tobegin')
    {
       print "A new month has just begun, but we haven't transitioned to the new month. So the 'current month' and 'most recent completed month' are one month behind expectations. We'll wait for a while for stats.grok.se to archive its own results before we switch the months. Please check back in a few days for the month to be updated.<br><br>";

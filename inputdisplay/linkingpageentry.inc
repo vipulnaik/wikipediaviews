@@ -11,5 +11,10 @@
 ## Important note: the selection here makes a query to the Wikipedia API, see backend/apibasedpagelistgeneration.inc
 
 print '<tr><td>Alternatively, enter the name of a Wikipedia page (such as <a href="http://en.wikipedia.org/wiki/Potential_predictability">Potential predictability</a>) to get all main namespace pages linked from that page</td>';
-print '<td><input type="text" name="linkingpage" placeholder="Linking page" value="'.$linkingpage.'" size="70"></input></td></tr>';
+print '<td><input type="text" name="linkingpage" placeholder="Linking page"';
+if ($formdata == true)
+{
+  print ' value="'.$linkingpage.'"';
+}
+print ' size="70"></input></td></tr>';
 ?>

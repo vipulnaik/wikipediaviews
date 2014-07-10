@@ -6,7 +6,13 @@ for($i=0;$i<$result->num_rows;$i++)
 {
   $row = $result->fetch_assoc();
   print '<option value="'.$row['year'].'"';
-  if ($formdata==true and ($year==$row['year'])) {print ' selected="selected"';}
+  if ($formdata==true and $carryoverfromonemonth == false)
+  {
+    if ($year==$row['year'])
+    {
+      print ' selected="selected"';
+    }
+  }
   print '>all months in year '.$row['year'];
   if ($row['status']=='present')
   {

@@ -18,14 +18,22 @@ $result = $mysqli->query($select_query);
 $row = $result->fetch_assoc();
 $mostrecentmonth = $row['monthfull'];
 
-## Current year variable (note that the current month needs to be
-## updated through the database once a month)
+## Current year variable (note that the current year needs to be
+## updated through the database once a year)
 
 global $thisyear;
 $select_query = "select year from years where status='present' limit 1";
 $result = $mysqli->query($select_query);
 $row = $result->fetch_assoc();
 $thisyear = $row['year'];
+
+## Most recent year variable (needs to be updated through the database once a year)
+
+global $mostrecentyear;
+$select_query = "select year from years where status='mostrecent' limit 1";
+$result = $mysqli->query($select_query);
+$row = $result->fetch_assoc();
+$mostrecentyear = $row['year'];
 
 ## Transition status: This variable has three states: 'tobegin'
 ## (indicating that a new month has begun per the calendar but the

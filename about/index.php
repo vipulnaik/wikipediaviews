@@ -3,7 +3,7 @@
 
 <body>
 <?php
-   include(__DIR__."/../head.inc");
+   include(__DIR__."/../style/head.inc");
 ?>
 <p><strong>Wikipedia Views</strong> is a minimalistic website intended
 for people who're looking for information on how frequently particular

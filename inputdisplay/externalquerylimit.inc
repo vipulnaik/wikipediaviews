@@ -9,5 +9,14 @@
 ##Associated retrieval file: retrieval/advancedoptionretrieval.inc
 
 print '<tr><td>Enter an upper bound on the weighted number of external queries (1 external query ~ 1 second) (<strong>note: if 0, enter the word zero, else enter the numeric value</strong>)</td>';
-print '<td><input type="text" name="userspecifiedquerylimit" value = '.$userspecifiedquerylimit.' size="5"></input></td></tr>';
+print '<td><input type="text" name="userspecifiedquerylimit" value = "';
+if ($formdata == true)
+{
+  print $userspecifiedquerylimit;
+}
+else
+{
+  print $weightedexternalquerylimit;
+}
+print '" size="5"></input></td></tr>';
 ?>

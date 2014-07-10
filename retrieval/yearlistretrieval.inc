@@ -1,5 +1,12 @@
 <?php
 
+## Retrieval file for the year list specification
+
+## Corresponding data entry files (in inputdisplay directory):
+## yearcheckboxlist.inc
+
+## Only included in displayviewsformultipleyears.php
+
 $originalyearlist=array($mostrecentyear);
 if (!empty($_REQUEST['yearlist']))
 {

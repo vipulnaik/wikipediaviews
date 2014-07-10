@@ -1,5 +1,13 @@
 <?php
 
+## Retrieval file for the month list specification
+
+## Corresponding data entry files (in inputdisplay directory):
+## alternatemonthspecificationoptions.inc, monthcheckboxlist.inc,
+## monthdropdown.inc
+
+## Only included in displayviewsformultiplemonths.php
+
 $monthacrossyears = '';
 if (!empty($_REQUEST['monthacrossyears']))
 {

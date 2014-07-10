@@ -13,19 +13,39 @@ function totalsandpercentages($pagelist,$monthoryearlist,$viewcountarray)
 		}
 		$grand_total += $page_total[$page];
 	}
-	foreach ($monthoryearlist as $monthoryear)#Computes page totals and grand total
+	foreach ($monthoryearlist as $monthoryear)#Computes month or year totals
 	{
 		$monthoryear_total[$monthoryear] = 0;
 		foreach ($pagelist as $page)
 		{
 			$monthoryear_total[$monthoryear] += intval($viewcountarray[$page][$monthoryear]);
 		}
-	$monthoryear_percentage[$monthoryear] = round(100.0 * floatval($monthoryear_total[$monthoryear])/floatval($grand_total),1);
 	}
-	foreach ($pagelist as $page)
+
+	foreach ($pagelist as $page)#Computes page percentages
 	{
-		$page_percentage[$page] = round(100 * floatval($page_total[$page])/floatval($grand_total),1);
-	}	
+		if ($grand_total == 0)
+		{
+			$page_percentage[$page] = 'undefined';
+		}
+		else
+		{
+			$page_percentage[$page] = round(100 * floatval($page_total[$page])/floatval($grand_total),1);
+		}
+	}
+	
+	foreach ($monthoryearlist as $monthoryear)#Computes month or year percentages
+	{
+		if ($grand_total == 0)
+		{
+			$monthoryear_percentage[$monthoryear] = 'undefined';
+		}
+		else
+		{
+			$monthoryear_percentage[$monthoryear] = round(100.0 * floatval($monthoryear_total[$monthoryear])/floatval($grand_total),1);
+		}
+	}
+
 	return array($grand_total,$page_total,$monthoryear_total,$page_percentage,$monthoryear_percentage);
 }
 

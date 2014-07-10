@@ -1,5 +1,15 @@
 <?php
-include_once(__DIR__."/../backend/corecode.inc");
+
+## Retrieval file for page list specification, including direct
+## specification (in the text entry area) and indirect specification
+## through one of the alternate methods.
+
+## Corresponding data entry files (in inputdisplay directory):
+## pagelistentry.inc, alternatepagespecificationoptions.inc
+
+## Included in all the display views files:
+## displayviewsforonemonth.php, displayviewsformultiplemonths.php,
+## displayviewsformultipleyears.php
 
 ##Retrieval of language
 $language='en';

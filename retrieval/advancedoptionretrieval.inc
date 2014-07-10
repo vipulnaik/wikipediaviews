@@ -1,30 +1,53 @@
 <?php
-	##Set defaults
-	if ($pagetypeadvice == 'multiplemonths' or $pagetypeadvice == 'multipleyears')
-	{
-		$displayformat = 'htmltableautomatic';
-	}
-	if ($pagetypeadvice == 'onemonth')
-	{
-		$displayformat = 'htmltable';
-	}
-        $numericdisplayformat = 'kmb';
-        $userspecifiedquerylimit = $weightedexternalquerylimit;
-        $explanatoryheader="explanatoryheader"; ##Not currently user-updatable
-        $includetotal = "includetotal"; ##Not currently user-updatable
 
-	##Retrieve user requests and update defaults if necessary
+## Retrieval file for advanced options
 
-        if (!empty($_REQUEST['displayformat']))
-	{$displayformat = $_REQUEST['displayformat'];}
+## Corresponding data entry file (in inputdisplay directory):
+## advancedoptions.inc
 
-        if (!empty($_REQUEST['numericdisplayformat']))
-        {$numericdisplayformat = $_REQUEST['numericdisplayformat'];}
+## Included in all the display views files:
+## displayviewsforonemonth.php, displayviewsformultiplemonths.php,
+## displayviewsformultipleyears.php
 
-        if (!empty($_REQUEST['userspecifiedquerylimit']))
-        {$userspecifiedquerylimit = $_REQUEST['userspecifiedquerylimit'];}
-        if ($userspecifiedquerylimit !== '') {$weightedexternalquerylimit = intval($userspecifiedquerylimit);}
+##Display format
+if ($pagetypeadvice == 'multiplemonths' or $pagetypeadvice == 'multipleyears')
+{
+  $displayformat = 'htmltableautomatic';
+}
 
-        if (!empty($_REQUEST['purgeperiod']))
-        {$purgeperiod = intval($_REQUEST['purgeperiod']);}
+if ($pagetypeadvice == 'onemonth')
+{
+  $displayformat = 'htmltable';
+}
+
+if (!empty($_REQUEST['displayformat']))
+{
+  $displayformat = $_REQUEST['displayformat'];
+}
+
+##Numeric display format
+$numericdisplayformat = 'kmb';
+if (!empty($_REQUEST['numericdisplayformat']))
+{
+  $numericdisplayformat = $_REQUEST['numericdisplayformat'];
+}
+
+##Query limit
+$userspecifiedquerylimit = $weightedexternalquerylimit;
+if (!empty($_REQUEST['userspecifiedquerylimit']))
+{
+  $userspecifiedquerylimit = $_REQUEST['userspecifiedquerylimit'];
+  $weightedexternalquerylimit = intval($userspecifiedquerylimit);
+}
+
+$explanatoryheader="explanatoryheader"; ##Not currently user-updatable
+$includetotal = "includetotal"; ##Not currently user-updatable
+
+##Purge period
+$userspecifiedpurgeperiod = $purgeperiod;
+if (!empty($_REQUEST['purgeperiod']))
+{
+  $userspecifiedpurgeperiod = intval($_REQUEST['purgeperiod']);
+  $purgeperiod = intval($userspecifiedpurgeperiod);
+}
 ?>

@@ -58,8 +58,9 @@ function getpageviewsonline($page, $month, $language)
 function getpageviewsfromdb($page,$month,$language,$online)
 {
        global $mysqli;
+       global $weightedexternalquerycount;
+       global $weightedexternalquerylimit;
        global $externalquerycount;
-       global $externalquerylimit;
        global $exceededquerylimitmessage;
        global $thismonth;
        global $mostrecentmonth;
@@ -70,7 +71,7 @@ function getpageviewsfromdb($page,$month,$language,$online)
        echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;}
 	$select_query = "select viewcount,querytime from viewcountsbymonth where pagename='".$page."' and monthfull='".$month."' and language='".$language."' limit 1;";
 	$result = $mysqli->query($select_query);
-	if ($result->num_rows == 0 and $online == true and $externalquerycount < $externalquerylimit)
+	if ($result->num_rows == 0 and $online == true and $weightedexternalquerycount < $weightedexternalquerylimit)
 	{
 	    $viewcount = getpageviewsonline($page,$month,$language);
 	    $insert_query="insert into viewcountsbymonth(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
@@ -79,12 +80,13 @@ function getpageviewsfromdb($page,$month,$language,$online)
 	    $success = $mysqli->query($delete_query);
 	    if ($month == $thismonth or $month == $mostrecentmonth)
 	    {
-	       $externalquerycount = $externalquerycount + $recentmonthslowdownfactor;
+	       $weightedexternalquerycount = $weightedexternalquerycount + $recentmonthslowdownfactor;
 	    }
 	    else
 	    {
-	       $externalquerycount++;
+	       $weightedexternalquerycount++;
 	    }
+	    $externalquerycount++;
 	    return $viewcount;
 	}
 	if ($result->num_rows == 0) {return $exceededquerylimitmessage;}
@@ -102,7 +104,7 @@ function getpageviewsfromdb($page,$month,$language,$online)
 	     		    $success = $mysqli->query($insert_query);
 	     		    $delete_query = "delete from wantedviewcountsbymonth where pagename='".$page."' and monthfull='".$month."' and language='".$language."';";
 	     		    $success = $mysqli->query($delete_query);
-	     		    $externalquerycount++;
+	     		    $weightedexternalquerycount++;
 	     		    return $viewcount;
 	 	}
 	}
@@ -194,8 +196,8 @@ function viewcountarraybymonth_modular($pagelist,$monthlist,$language,$online,$d
 function viewcountarraybymonth($pagelist,$monthlist,$language,$online,$datanormalization='none')
 {
 	global $mysqli;
-	global $externalquerycount;
-	global $externalquerylimit;
+	global $weightedexternalquerycount;
+	global $weightedexternalquerylimit;
 	global $exceededquerylimitmessage;
 	global $purgeperiod;
 	global $thismonth;
@@ -255,7 +257,7 @@ function viewcountarraybymonth($pagelist,$monthlist,$language,$online,$datanorma
 			}
 	        }
         }
-	if ($externalquerycount < $externalquerylimit)
+	if ($weightedexternalquerycount < $weightedexternalquerylimit)
 	{
 		#print "Successfully completed without timing out :)<br>";
 		return $viewcountarray;
@@ -300,8 +302,8 @@ function viewcountarraybyyear_modular($pagelist,$yearlist,$language,$online,$dat
 function viewcountarraybyyear($pagelist,$yearlist,$language,$online,$datanormalization='none')
 {
 	global $mysqli;
-	global $externalquerycount;
-	global $externalquerylimit;
+	global $weightedexternalquerycount;
+	global $weightedexternalquerylimit;
         if ($mysqli->connect_errno) {
         echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
         }
@@ -336,7 +338,7 @@ function viewcountarraybyyear($pagelist,$yearlist,$language,$online,$datanormali
 			}
 	        }
         }
-	if ($externalquerycount < $externalquerylimit)
+	if ($weightedexternalquerycount < $weightedexternalquerylimit)
 	{
 		#print "Successfully completed without timing out :)<br>";
 		return $viewcountarray;
@@ -357,8 +359,8 @@ function viewcountarraybyyear($pagelist,$yearlist,$language,$online,$datanormali
 function fillinwantedviewcounts($querylimit)
 {
        global $mysqli;
-       global $externalquerycount;
-       global $externalquerylimit;
+       global $weightedexternalquerycount;
+       global $weightedexternalquerylimit;
        global $exceededquerylimitmessage;
        if ($mysqli->connect_errno) {
        	  echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
@@ -385,8 +387,8 @@ function fillinwantedviewcounts($querylimit)
        for($i=0;$i < $result->num_rows;$i++)
        {
 	  $count = getpageviewsfromdb($page[$i],$month[$i],$language[$i],$online);
-	  print "external query count is ".$externalquerycount." and ";
-	  print "external query limit is ".$externalquerylimit;
+	  print "weighted external query count is ".$weightedexternalquerycount." and ";
+	  print "weighted external query limit is ".$weightedexternalquerylimit;
 	  print "page view count is ".$count;
 	  if ($count != $exceededquerylimitmessage)
 	  {

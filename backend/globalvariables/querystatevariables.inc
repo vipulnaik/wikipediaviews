@@ -6,6 +6,9 @@ $carryoverfromonemonth=false;
 global $externalquerycount;
 $externalquerycount = 0;
 
+global $weightedexternalquerycount;
+$weightedexternalquerycount = 0;
+
 global $unavailablecount;
 $unavailablecount = 0;
 

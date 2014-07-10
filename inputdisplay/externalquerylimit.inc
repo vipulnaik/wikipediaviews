@@ -8,6 +8,6 @@
 
 ##Associated retrieval file: retrieval/advancedoptionretrieval.inc
 
-print '<tr><td>Enter an upper bound on the number of external queries (1 external query ~ 1 second)</td>';
-print '<td><input type="text" name="userspecifiedquerylimit" value = '.$externalquerylimit.' size="5"></input></td></tr>';
+print '<tr><td>Enter an upper bound on the weighted number of external queries (1 external query ~ 1 second)</td>';
+print '<td><input type="text" name="userspecifiedquerylimit" value = '.$weightedexternalquerylimit.' size="5"></input></td></tr>';
 ?>

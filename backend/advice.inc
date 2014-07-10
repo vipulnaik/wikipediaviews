@@ -3,7 +3,9 @@
 function pagemonthadvice($pagelist,$monthlist,$camefromtag=false)
 {
 	global $unavailablecount;
-	global $externalquerylimit;
+	global $weightedexternalquerylimit;
+	global $weightedexternalquerycount;
+	global $externalquerycount;
 	global $mysqli;
 	global $tags_recommended;
 	global $alternatemonthspecs_recommended;
@@ -24,14 +26,16 @@ function pagemonthadvice($pagelist,$monthlist,$camefromtag=false)
 	}
 	if (0 < $unavailablecount)
 	{
-		print "We made ".$externalquerylimit." queries to stats.grok.se, used ".(count($pagelist) * count($monthlist) - $externalquerylimit - $unavailablecount)." from within the database, and were unable to compute ".$unavailablecount." of the entries<br>";
-		if ($unavailablecount <= $externalquerylimit)
+		print "We made ".$externalquerycount." queries to stats.grok.se, treated as ".$weightedexternalquerycount." weighted queries<br>";
+		print "We used ".(count($pagelist) * count($monthlist) - $externalquerycount - $unavailablecount)." entries from within the database<br>";
+		print "We were unable to compute ".$unavailablecount." of the entries<br>";
+		if ($unavailablecount <= $weightedexternalquerylimit)
 		{
 			print "<strong>TIP</strong>: If you run the query again, the remaining entries can be computed.<br>";
 		}
 		elseif ($unavailablecount < $hardquerylimit - 1) 
 		{
-			print "<strong>TIP</strong>: Increase the upper bound on the number of external queries to ".($unavailablecount + 1)." (or higher) from the current value of ".$externalquerylimit." in the technical settings and run again to complete.<br>";
+			print "<strong>TIP</strong>: Increase the upper bound on the number of external queries to ".($unavailablecount + 1)." (or higher) from the current value of ".$weightedexternalquerylimit." in the technical settings and run again to complete.<br>";
 		}
 		else
 		{

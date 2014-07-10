@@ -9,7 +9,7 @@
 		$displayformat = 'htmltable';
 	}
         $numericdisplayformat = 'kmb';
-        $userspecifiedquerylimit = $externalquerylimit;
+        $userspecifiedquerylimit = $weightedexternalquerylimit;
         $explanatoryheader="explanatoryheader"; ##Not currently user-updatable
         $includetotal = "includetotal"; ##Not currently user-updatable
 
@@ -23,7 +23,7 @@
 
         if (!empty($_REQUEST['userspecifiedquerylimit']))
         {$userspecifiedquerylimit = $_REQUEST['userspecifiedquerylimit'];}
-        if ($userspecifiedquerylimit !== '') {$externalquerylimit = intval($userspecifiedquerylimit);}
+        if ($userspecifiedquerylimit !== '') {$weightedexternalquerylimit = intval($userspecifiedquerylimit);}
 
         if (!empty($_REQUEST['purgeperiod']))
         {$purgeperiod = intval($_REQUEST['purgeperiod']);}

@@ -18,6 +18,7 @@ print '<table><col width=600/><col width=500/>';
 include(__DIR__."/externalquerylimit.inc");
 include(__DIR__."/".$pagetypeadvice."formatdropdown.inc");
 include(__DIR__."/purgeperiod.inc");
+include(__DIR__."/normalization.inc");
 include(__DIR__."/numericdisplayformat.inc");
 print '</table></div><br>';
 ?>

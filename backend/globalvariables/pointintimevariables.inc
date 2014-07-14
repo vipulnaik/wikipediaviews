@@ -35,6 +35,17 @@ $result = $mysqli->query($select_query);
 $row = $result->fetch_assoc();
 $mostrecentyear = $row['year'];
 
+## List of number of days for all months
+
+global $numberofdays_allmonths;
+$select_query = "select monthfull, numberofdays from months where status!='future';";
+$result = $mysqli->query($select_query);
+for ($i = 0;$i < $result -> num_rows; $i++)
+{
+  $row = $result->fetch_assoc();
+  $numberofdays_allmonths[$row['monthfull']] = $row['numberofdays']; 
+}	
+
 ## Transition status: This variable has three states: 'tobegin'
 ## (indicating that a new month has begun per the calendar but the
 ## month has not been updated in the database), 'begun' indicating

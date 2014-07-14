@@ -19,11 +19,11 @@ elseif ($displayformat=='htmltableautomatic')
   include("style/head.inc");
   if (count($pagelistasarray) >= count($monthlist)) 
   {
-    printpageviewsformonthlistashtmltable($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+    printpageviewsformonthlistashtmltable($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
   }
   else 
   {
-    printpageviewsformonthlistashtmltabletransposed($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+    printpageviewsformonthlistashtmltabletransposed($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
   }
   include("inputdisplay/multiplemonthsdataentry.inc");
 }
@@ -35,7 +35,7 @@ elseif ($displayformat=='csv')
 elseif ($displayformat=='htmltable') 
 { 
   include("style/head.inc"); 
-  printpageviewsformonthlistashtmltable($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+  printpageviewsformonthlistashtmltable($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
   include("inputdisplay/multiplemonthsdataentry.inc");
 }
 elseif ($displayformat=='csvtransposed') 
@@ -45,7 +45,7 @@ elseif ($displayformat=='csvtransposed')
 elseif ($displayformat=='htmltabletransposed') 
 {
   include("style/head.inc");
-  printpageviewsformonthlistashtmltabletransposed($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+  printpageviewsformonthlistashtmltabletransposed($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
   include("inputdisplay/multiplemonthsdataentry.inc");
 }
 ?>

@@ -25,13 +25,6 @@ if (!empty($_REQUEST['displayformat']))
   $displayformat = $_REQUEST['displayformat'];
 }
 
-##Numeric display format
-$numericdisplayformat = 'kmb';
-if (!empty($_REQUEST['numericdisplayformat']))
-{
-  $numericdisplayformat = $_REQUEST['numericdisplayformat'];
-}
-
 ##Query limit
 $userspecifiedquerylimit = $weightedexternalquerylimit;
 if (!empty($_REQUEST['userspecifiedquerylimit']))
@@ -45,9 +38,24 @@ $includetotal = "includetotal"; ##Not currently user-updatable
 
 ##Purge period
 $userspecifiedpurgeperiod = $purgeperiod;
-if (!empty($_REQUEST['purgeperiod']))
+if (!empty($_REQUEST['userspecifiedpurgeperiod']))
 {
-  $userspecifiedpurgeperiod = intval($_REQUEST['purgeperiod']);
+  $userspecifiedpurgeperiod = $_REQUEST['userspecifiedpurgeperiod'];
   $purgeperiod = intval($userspecifiedpurgeperiod);
 }
+
+##Normalization
+$normalization = 'none';
+if (!empty($_REQUEST['normalization']))
+{
+  $normalization = $_REQUEST['normalization'];
+}
+
+##Numeric display format
+$numericdisplayformat = 'kmb';
+if (!empty($_REQUEST['numericdisplayformat']))
+{
+  $numericdisplayformat = $_REQUEST['numericdisplayformat'];
+}
+
 ?>

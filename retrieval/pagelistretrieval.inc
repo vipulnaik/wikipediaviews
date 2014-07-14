@@ -56,11 +56,17 @@ if (!empty($_REQUEST['linkingpage']))
   $linkingpage = $_REQUEST['linkingpage'];
 }
 
+$archivalstatus = '';
+if (!empty($_REQUEST['archivalstatus']))
+{
+  $archivalstatus = $_REQUEST['archivalstatus'];
+}
+
 
 ##Figuring out if the page list has been specified in multiple
 ##ways, or not at all, and displaying the appropriate error message.
 
-if (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))==0 and $tag==='' and $category==='' and $user==='' and $linkingpage==='')
+if (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))==0 and $tag==='' and $category==='' and $user==='' and $linkingpage==='' and $archivalstatus==='')
 {
   include(__DIR__."/../style/head.inc");
   print "You didn't list any pages (either directly, or via one of the alternative methods).<br>";
@@ -73,7 +79,7 @@ elseif (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))>0 and ($tag!='' or $cate
   $pagespecificationerror = true;
 }
 
-elseif (($tag != '' and ($category != '' or $user != '' or $linkingpage != '')) or ($category != '' and ($user != '' or $linkingpage != '')) or ($user != '' and $linkingpage != ''))
+elseif (($tag != '' and ($category != '' or $user != '' or $linkingpage != '' or $archivalstatus != '')) or ($category != '' and ($user != '' or $linkingpage != '' or $archivalstatus != '')) or ($user != '' and ($linkingpage != '' or $archivalstatus != '')) or ($linkingpage != '' and $archivalstatus != ''))
 {
   include(__DIR__."/../style/head.inc");
   print "You selected multiple alternate methods. Please modify the form below appropriately.<br>";
@@ -133,5 +139,16 @@ if ($pagespecificationerror == false)
     }
     sort($pagelistasarray);
   }
+  elseif ($archivalstatus!='')
+  {
+   $pagelistasarray = getpagelistbyarchivalstatus($archivalstatus,$language);
+    if (sizeof($pagelistasarray) == 0)
+    {
+      include(__DIR__."/../style/head.inc");
+      print "There are no pages for the archival status-language <em>combination</em>.<br>";
+      $pagespecificationerror = true;
+    }
+    sort($pagelistasarray);
+  } 
 }
 ?>

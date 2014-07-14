@@ -1,6 +1,6 @@
 <?php
 
-function checktagpresence($tag,$createnew)
+function checktagpresence($tag)
 {
        global $mysqli;
        if ($mysqli->connect_errno) {

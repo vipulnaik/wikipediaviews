@@ -24,37 +24,10 @@ include_once("pointintimevariables.inc");
 
 include_once("advicevariables.inc");
 
-##Advanced option variables (modifiable by user through data entry form)
+include_once("advancedoptionvariables.inc");
 
-##Default limit for number of external queries
-global $externalquerylimit;
-$externalquerylimit = 30;
+include_once("nonnegotiables.inc");
 
-## Hard (non-negotiable) upper bound on number of external queries
-global $hardquerylimit;
-$hardquerylimit = 100;
-
-## Number of days after which we should fetch new data for pageview counts for the current month
-global $purgeperiod;
-$purgeperiod = 7;
-
-global $externalquerycount;
-
-global $unavailablecount;
-global $exceededquerylimitmessage;
-
-
-
-global $recentmonthslowdownfactor;
-global $carryoverfromonemonth;
-$externalquerycount = 0;
-
-$unavailablecount = 0;
-
-$recentmonthslowdownfactor = 2;
-$exceededquerylimitmessage = 'exceeded query limit and timed out';
-$tags_recommended=false;
-
-$carryoverfromonemonth=false;
+include_once("querystatevariables.inc");
 
 ?>

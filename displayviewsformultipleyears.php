@@ -13,40 +13,45 @@ include("retrieval/advancedoptionretrieval.inc");
 
 ##Clumsy hack below, needs refactoring
 if ($pagespecificationerror == true or $yearspecificationerror == true)
-{
-   include("inputdisplay/multipleyearsdataentry.inc");
-}
+  {
+    include("inputdisplay/multipleyearsdataentry.inc");
+  }
+
 elseif ($displayformat=='htmltableautomatic') 
-{
-  include("style/head.inc");
-  if (count($pagelistasarray) >= count($yearlist)) 
   {
-    printpageviewsforyearlistashtmltable($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+    include("style/head.inc");
+    if (count($pagelistasarray) >= count($yearlist)) 
+      {
+	printpageviewsforyearlistashtmltable($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+      }
+    else 
+      {
+	printpageviewsforyearlistashtmltabletransposed($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+      }
+    include("inputdisplay/multipleyearsdataentry.inc");
   }
-  else 
-  {
-    printpageviewsforyearlistashtmltabletransposed($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
-  }
-  include("inputdisplay/multipleyearsdataentry.inc");
-}
+
 elseif ($displayformat=='csv') 
-{ 
-  printpageviewsforyearlistascsv($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
-}
+  { 
+    printpageviewsforyearlistascsv($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+  }
+
 elseif ($displayformat=='htmltable') 
-{ 
-  include("style/head.inc");  
-  printpageviewsforyearlistashtmltable($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
-  include("inputdisplay/multipleyearsdataentry.inc");
-}
+  { 
+    include("style/head.inc");  
+    printpageviewsforyearlistashtmltable($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+    include("inputdisplay/multipleyearsdataentry.inc");
+  }
+
 elseif ($displayformat=='csvtransposed') 
-{
-  printpageviewsforyearlistascsvtransposed($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
-}
+  {
+    printpageviewsforyearlistascsvtransposed($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+  }
+
 elseif ($displayformat=='htmltabletransposed') 
-{
-  include("style/head.inc");
-  printpageviewsforyearlistashtmltabletransposed($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
-  include("inputdisplay/multipleyearsdataentry.inc");
-}
+  {
+    include("style/head.inc");
+    printpageviewsforyearlistashtmltabletransposed($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+    include("inputdisplay/multipleyearsdataentry.inc");
+  }
 ?>

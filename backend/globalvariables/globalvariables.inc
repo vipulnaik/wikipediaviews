@@ -11,9 +11,10 @@ global $mysqli;
 include_once("passwordfile.inc"); ##This fetches the database,
 				  ##username, and password for the MySQL connection, storing it
 				  ##in the variable $mysqli
-if ($mysqli->connect_errno) {
-       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-}
+if ($mysqli->connect_errno) 
+  {
+    echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+  }
 
 ## Current point in time variables (not subject to user modification,
 ## but require periodic manual modification, either in the database or

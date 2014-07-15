@@ -10,62 +10,62 @@
 
 $monthacrossyears = '';
 if (!empty($_REQUEST['monthacrossyears']))
-{
-  $monthacrossyears = $_REQUEST['monthacrossyears'];
-}
+  {
+    $monthacrossyears = $_REQUEST['monthacrossyears'];
+  }
 
 $year = '';
 if (!empty($_REQUEST['year']))
-{
-  $year = $_REQUEST['year'];
-}
+  {
+    $year = $_REQUEST['year'];
+  }
 
 $allmonths = '';
 if (!empty($_REQUEST['allmonths']))
-{
-  $allmonths = $_REQUEST['allmonths'];
-}
+  {
+    $allmonths = $_REQUEST['allmonths'];
+  }
 
 $originalmonthlist = array($mostrecentmonth);
 if (!empty($_REQUEST['monthlist']))
-{
-  $originalmonthlist = $_REQUEST['monthlist'];
-}
+  {
+    $originalmonthlist = $_REQUEST['monthlist'];
+  }
 
 if ($allmonths == "allmonths" and in_array($thismonth,$originalmonthlist))
-{
-  $monthlist = presentandpastmonths_monthlist();
-}
+  {
+    $monthlist = presentandpastmonths_monthlist();
+  }
 elseif ($allmonths == "allmonths")
-{
-  $monthlist = pastmonths_monthlist();
-}
+  {
+    $monthlist = pastmonths_monthlist();
+  }
 else
-{
-  $monthlist = $originalmonthlist;
-}
+  {
+    $monthlist = $originalmonthlist;
+  }
 
 if ($year != "" and $monthacrossyears != "")
-{
-  include(__DIR__."/../style/head.inc");
-  print "You provided multiple alternate methods for selecting the set of months. Please choose only one.";
-  $monthspecificationerror = true;
-}
+  {
+    include(__DIR__."/../style/head.inc");
+    print "You provided multiple alternate methods for selecting the set of months. Please choose only one.";
+    $monthspecificationerror = true;
+  }
 
 elseif ($year != "")
-{
-  $monthlist = pastmonthsinyear($year);
-}
+  {
+    $monthlist = pastmonthsinyear($year);
+  }
 
 elseif ($monthacrossyears != "")
-{
-  $monthlist = monthacrossallyears($monthacrossyears);
-}
+  {
+    $monthlist = monthacrossallyears($monthacrossyears);
+  }
 
 if (count($monthlist) == 0)
-{
-  include(__DIR__."/../style/head.inc");
-  print "You didn't select any months. Please do so below.";
-  $monthspecificationerror = true;
-}
+  {
+    include(__DIR__."/../style/head.inc");
+    print "You didn't select any months. Please do so below.";
+    $monthspecificationerror = true;
+  }
 ?>

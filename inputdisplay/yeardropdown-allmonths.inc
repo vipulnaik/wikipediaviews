@@ -3,26 +3,28 @@ print '<tr><td>Enter the year for which you want to view statistics for all mont
 $result = presentandpastyears_sql();
 print '<option value="" selected="selected">-- (none selected) --</option>';
 for($i=0;$i<$result->num_rows;$i++)
-{
-  $row = $result->fetch_assoc();
-  print '<option value="'.$row['year'].'"';
-  if ($formdata==true and $carryoverfromonemonth == false)
   {
-    if ($year==$row['year'])
+    $row = $result->fetch_assoc();
+    print '<option value="'.$row['year'].'"';
+    if ($formdata==true and $carryoverfromonemonth == false)
+      {
+	if ($year==$row['year'])
     {
       print ' selected="selected"';
     }
-  }
-  print '>all months in year '.$row['year'];
-  if ($row['status']=='present')
-  {
-    print " -- current year <strong>(completed months only)</strong>";
-  }
-  elseif ($row['status']=='mostrecent')
-  {
+      }
+    print '>all months in year '.$row['year'];
+    if ($row['status']=='present')
+      {
+	print " -- current year <strong>(completed months only)</strong>";
+      }
+    elseif ($row['status']=='mostrecent')
+      {
     print " -- most recent completed year";
+      }
+    print "</option>";
   }
-  print "</option>";
-}
+
 print '</select></td></tr>';
+
 ?>

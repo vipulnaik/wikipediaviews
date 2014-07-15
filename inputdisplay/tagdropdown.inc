@@ -18,13 +18,18 @@ $select_query = "select distinct tag from pagetags order by tag;";
 $result = $mysqli->query($select_query);
 $numrows = $result->num_rows;
 print '<option value="" selected="selected">-- (none selected) --</option>';
+
 for ($i=0;$i < $numrows; $i++)
-{
-  $row = $result->fetch_assoc();
-  $tag_current = $row['tag'];
-  print '<option value="'.$tag_current.'"';
-  if ($formdata == true and $tag == $tag_current) {print ' selected="selected"';}
-  print '>'.$tag_current.'</option>';
-}
+  {
+    $row = $result->fetch_assoc();
+    $tag_current = $row['tag'];
+    print '<option value="'.$tag_current.'"';
+    if ($formdata == true and $tag == $tag_current) 
+      {
+	print ' selected="selected"';
+      }
+    print '>'.$tag_current.'</option>';
+  }
+
 print '</select></td></tr>';
 ?>

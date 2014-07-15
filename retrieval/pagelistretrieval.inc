@@ -93,7 +93,10 @@ if ($pagespecificationerror == false)
 {
   if (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))>0)
   {
-    $pagelistasstring_mod = str_replace("_"," ",$pagelistasstring);
+    $pagelistasstring_mod = str_replace("http://","",$pagelistasstring);
+    $pagelistasstring_mod = str_replace("https://","",$pagelistasstring_mod);
+    $pagelistasstring_mod = str_replace("en.wikipedia.org/wiki/","",$pagelistasstring_mod);
+    $pagelistasstring_mod = str_replace("_"," ",$pagelistasstring_mod);
     $pagelistasarray = convertpagelisttoarray($pagelistasstring_mod);
   }
   elseif ($tag!='')

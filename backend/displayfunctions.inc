@@ -59,7 +59,7 @@ function printyearviewcount($page,$year,$language,$viewcount,$numericdisplayform
 	return '<td align="right"><a href="'.getannualpageviewsurl($page,$year,$language).'" title="'.yearviewtooltip($viewcount).'">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
 }
 
-function printpageviewsformonthlistashtmltable($pagelist,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='none')
+function printpageviewsformonthlistashtmltable($pagelist,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='')
 {
 ##Collect all the numbers that need to be printed first
 $viewcountarray = viewcountarraybymonth($pagelist,$monthlist,$language,true,$normalization);
@@ -132,7 +132,7 @@ print $percentages_rowstring;
 print "</tbody></table>";
 }
 
-function printpageviewsformonthlistashtmltabletransposed($pagelist,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='none')
+function printpageviewsformonthlistashtmltabletransposed($pagelist,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='')
 {
 ##Collect all the numbers that need to be printed first
 $viewcountarray = viewcountarraybymonth($pagelist,$monthlist,$language,true,$normalization);
@@ -202,7 +202,7 @@ print $percentages_rowstring;
 print "</table>";
 }
 
-function printpageviewsforyearlistashtmltable($pagelist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='none')
+function printpageviewsforyearlistashtmltable($pagelist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='')
 {
 ##Collect all the numbers that need to be printed first
 $viewcountarray = viewcountarraybyyear($pagelist,$yearlist,$language,true,$normalization);
@@ -276,7 +276,7 @@ print $percentages_rowstring;
 print "</tbody></table>";
 }
 
-function printpageviewsforyearlistashtmltabletransposed($pagelist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='none')
+function printpageviewsforyearlistashtmltabletransposed($pagelist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='')
 {
 ##Collect all the numbers that need to be printed first
 $viewcountarray = viewcountarraybyyear($pagelist,$yearlist,$language,true,$normalization);
@@ -348,7 +348,7 @@ print "</table>";
 }
 
 
-function printpageviewsascsv($pagelist,$month,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='none')
+function printpageviewsascsv($pagelist,$month,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='')
 {
 if ($explanatoryheader != 'noheader') {print "Page name,Pageviews in month ".$month."<br>";}
 $total=0;
@@ -363,7 +363,7 @@ if ($includetotal=='includetotal') {print "Total,".$total;}
 }
 
 
-function printpageviewsascountsonlycsv($pagelist,$month,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='none')
+function printpageviewsascountsonlycsv($pagelist,$month,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='')
 {
 if ($explanatoryheader != 'noheader') {print "Pageviews in month ".$month.":<br>";}
 $total=0;
@@ -377,7 +377,7 @@ foreach($pagelist as $page)
 if ($includetotal=='includetotal') {print "<tr><th>Total</th><th>".$total."</th></tr>";}
 }
 
-function printpageviewsascountsonlyseparatelines($pagelist,$month,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='none')
+function printpageviewsascountsonlyseparatelines($pagelist,$month,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='')
 {
 if ($explanatoryheader != 'noheader') {print "Pageviews in month ".$month.":<br>";}
 $total=0;
@@ -391,7 +391,7 @@ foreach($pagelist as $page)
 if ($includetotal=='includetotal') {print "<tr><th>Total</th><th>".$total."</th></tr>";}
 }
 
-function printpageviewsformonthlistascsv($pagelist,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='none')
+function printpageviewsformonthlistascsv($pagelist,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='')
 {
 $headerstring = "Page name";
 foreach($monthlist as $month)
@@ -417,7 +417,7 @@ foreach($pagelist as $page)
 }
 }
 
-function printpageviewsformonthlistascsvtransposed($pagelist,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='none')
+function printpageviewsformonthlistascsvtransposed($pagelist,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='')
 {
 $headerstring = "Month";
 foreach($pagelist as $page)
@@ -443,7 +443,7 @@ foreach($monthlist as $month)
 }
 }
 
-function printpageviewsforyearlistascsv($pagelist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='none')
+function printpageviewsforyearlistascsv($pagelist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='')
 {
 $headerstring = "Page name";
 foreach($yearlist as $year)
@@ -469,7 +469,7 @@ foreach($pagelist as $page)
 }
 }
 
-function printpageviewsforyearlistascsvtransposed($pagelist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='none')
+function printpageviewsforyearlistascsvtransposed($pagelist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='')
 {
 $headerstring = "Year";
 foreach($pagelist as $page)

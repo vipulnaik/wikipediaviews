@@ -117,7 +117,7 @@ function getpageviewsfromdb($page,$month,$language,$online)
 	$success = $mysqli->query($delete_query);
 	return $row['viewcount'];
 }
-function getpageviews($page,$month,$language,$normalization='none')
+function getpageviews($page,$month,$language,$normalization='')
 {
 	global $thismonth;
         global $mysqli;
@@ -129,7 +129,7 @@ function getpageviews($page,$month,$language,$normalization='none')
 	$result = $mysqli->query($log_query);
 	queriedpagelog($page,$language,'partial');
 	$viewcount = getpageviewsfromdb($page,$month,$language,true);
-	if ($normalization == 'none')
+	if ($normalization == '')
 	{
 	  return $viewcount;
 	}
@@ -195,7 +195,7 @@ function getpageviewsthismonth($page,$language)
 }
 
 
-function viewcountarraybymonth_modular($pagelist,$monthlist,$language,$online,$normalization='none')
+function viewcountarraybymonth_modular($pagelist,$monthlist,$language,$online,$normalization='')
 {
 	foreach($pagelist as $page)
 	{
@@ -207,7 +207,7 @@ function viewcountarraybymonth_modular($pagelist,$monthlist,$language,$online,$n
 	return $viewcountarray;
 }
 
-function viewcountarraybymonth_raw($pagelist,$monthlist,$language,$online,$normalization='none')
+function viewcountarraybymonth_raw($pagelist,$monthlist,$language,$online=true,$normalization='')
 {
 	global $mysqli;
 	global $weightedexternalquerycount;
@@ -307,12 +307,12 @@ function viewcountarraybymonth_raw($pagelist,$monthlist,$language,$online,$norma
 	return $viewcountarray;
 }
 
-function viewcountarraybymonth($pagelist,$monthlist,$language,$online,$normalization='none')
+function viewcountarraybymonth($pagelist,$monthlist,$language,$online,$normalization='')
 {
   global $exceededquerylimitmessage;
   global $numberofdays_allmonths;
   $viewcountarray = viewcountarraybymonth_raw($pagelist,$monthlist,$language,$online,$normalization);
-  if ($normalization == 'none')
+  if ($normalization == '')
   {
     return $viewcountarray;
   }
@@ -332,7 +332,7 @@ function viewcountarraybymonth($pagelist,$monthlist,$language,$online,$normaliza
   return $viewcountarray;
 }
 
-function viewcountarraybyyear_modular($pagelist,$yearlist,$language,$online,$normalization='none')
+function viewcountarraybyyear_modular($pagelist,$yearlist,$language,$online,$normalization='')
 {
 	foreach($pagelist as $page)
 	{
@@ -344,7 +344,7 @@ function viewcountarraybyyear_modular($pagelist,$yearlist,$language,$online,$nor
 	return $viewcountarray;
 }
 
-function viewcountarraybyyear($pagelist,$yearlist,$language,$online,$normalization='none')
+function viewcountarraybyyear($pagelist,$yearlist,$language,$online,$normalization='')
 {
 	global $mysqli;
 	global $weightedexternalquerycount;

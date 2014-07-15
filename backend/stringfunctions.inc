@@ -23,7 +23,7 @@ function getpageviewsurl($page,$month,$language)
 
 function getannualpageviewsurl($page,$year,$language)
 {
-	return "http://wikipediaviews.subwiki.org/displayviewsformultiplemonths.php?year=".$year."&page=".$page;
+	return "http://wikipediaviews.org/displayviewsformultiplemonths.php?year=".$year."&page=".$page;
 }
 
 function getpageurl($page,$language)

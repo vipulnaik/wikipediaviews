@@ -1,7 +1,7 @@
 wikipediaviews
 ==============
 
-Underlying code of http://wikipediaviews.subwiki.org with sensitive parts redacted
+Underlying code of http://wikipediaviews.org with sensitive parts redacted
 
 GitHub URL: https://github.com/vipulnaik/wikipediaviews
 

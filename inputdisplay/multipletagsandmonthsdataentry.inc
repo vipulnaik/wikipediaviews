@@ -16,17 +16,17 @@ if ($formdata == true)
   }
 else
   {
-    print '<strong>Multiple tags and months: still experimental!</strong><br>';
+    print '<strong>Multiple tags and months: this feature has been added recently, and may run into more problems than other features on the site.</strong><br>';
   }
 print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pagetypeadvice.'.php">';
 
 include("tagdropdownselectmultiple.inc");
 print '<br>';
 include("languagedropdown.inc");
-print '<br><br>';
+print '<br><br><input type="submit" value="Submit"><br><br>';
 include("alternatemonthspecificationmethods.inc");
 include("advancedoptions.inc");
-print '<br><input type="submit" value="Submit"><br>';
+
 
 include("monthcheckboxlist.inc");
 print '</form>';

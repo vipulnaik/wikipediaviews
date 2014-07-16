@@ -19,8 +19,11 @@ with overcoming some of the coding hurdles that needed to be cleared
 to get to functioning code. We rely on statistics
 from <a href="http://stats.grok.se">stats.grok.se</a>.</p>
 
-<p>The development was concentrated between April 30, 2014 and May 31,
+<p>The development was concentrated between April 30, 2014 and July 31,
 2014.</p>
+
+<p>Code is available
+at <a href="http://github.com/vipulnaik/wikipediaviews">Github</a>.</p>
 
 <h3>Pageview data fetching and caching</h3>
 

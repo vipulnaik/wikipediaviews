@@ -4,8 +4,8 @@ include("monthandyearlists.inc");
 include("stringfunctions.inc");
 include("apibasedpagelistgeneration.inc");
 include("pageviewqueries.inc");
-include("displayfunctions.inc");
 include("tagmanipulatives.inc");
+include("displayfunctions.inc");
 include("archivalstatus.inc");
 include("advice.inc");
 ?>

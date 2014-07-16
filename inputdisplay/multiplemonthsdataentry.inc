@@ -11,9 +11,9 @@
 ##advancedoptions.inc, monthcheckboxlist.inc
 
 if ($formdata == true and ($pagespecificationerror == false and $monthspecificationerror == false))
-{
-	pagemonthadvice($pagelistasarray,$monthlist,($tag !== ''));
-}
+  {
+    pagemonthadvice($pagelistasarray,$monthlist,($tag !== ''));
+  }
    
 $pagetypeadvice = "multiplemonths";
 print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pagetypeadvice.'.php">';

@@ -22,11 +22,11 @@ elseif ($displayformat=='htmltableautomatic')
     include("style/head.inc");
     if (count($pagelistasarray) >= count($yearlist)) 
       {
-	printpageviewsforyearlistashtmltable($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+	printpageviewsformonthoryearlistashtmltable($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'page','year');
       }
     else 
       {
-	printpageviewsforyearlistashtmltabletransposed($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+	printpageviewsformonthoryearlistashtmltabletransposed($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'page','year');
       }
     include("inputdisplay/multipleyearsdataentry.inc");
   }
@@ -39,7 +39,7 @@ elseif ($displayformat=='csv')
 elseif ($displayformat=='htmltable') 
   { 
     include("style/head.inc");  
-    printpageviewsforyearlistashtmltable($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+    printpageviewsformonthoryearlistashtmltable($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'page','year');
     include("inputdisplay/multipleyearsdataentry.inc");
   }
 
@@ -51,7 +51,7 @@ elseif ($displayformat=='csvtransposed')
 elseif ($displayformat=='htmltabletransposed') 
   {
     include("style/head.inc");
-    printpageviewsforyearlistashtmltabletransposed($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+    printpageviewsformonthoryearlistashtmltabletransposed($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'page','year');
     include("inputdisplay/multipleyearsdataentry.inc");
   }
 ?>

@@ -6,17 +6,11 @@ include("style/toggler.inc");
 print '</head>';
 include_once("backend/corecode.inc");
 $formdata = true;
-$pagetypeadvice = "multiplemonths";
-include("retrieval/pagelistretrieval.inc");
+$pagetypeadvice = "multipletagsandmonths";
 include("retrieval/monthlistretrieval.inc");
 include("retrieval/advancedoptionretrieval.inc");
 
-if ($pagespecificationerror == true or $monthspecificationerror == true)
-  {
-    include("inputdisplay/".$pagetypeadvice."dataentry.inc");
-  }
-
-elseif ($displayformat=='htmltableautomatic') 
+if ($displayformat=='htmltableautomatic') 
   {
     include("style/head.inc");
     if (count($pagelistasarray) >= count($monthlist)) 

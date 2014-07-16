@@ -29,7 +29,7 @@ elseif ($displayformat=='htmltable')
 
   {         
     include("style/head.inc"); 
-    printpageviewsformonthlistashtmltable($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
+    printpageviewsformonthoryearlistashtmltable($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
     $originalmonthlist = $monthlist;
     $displayformat='htmltableautomatic';
     $carryoverfromonemonth=true;

@@ -61,6 +61,45 @@ function gettagtotal($tag,$monthlist,$language='en',$online=true,$normalization=
   $totalsandpercentages_array = totalsandpercentages($pagelist,$monthlist,$viewcountarray);
   return $totalsandpercentages_array[2];
 }
+
+function viewcountarraybytagandmonth_raw($taglist,$monthlist,$language,$online=true,$normalization='')
+{
+  foreach ($taglist as $tag)
+    {
+      $tagtotal = gettagtotal($tag,$monthlist,$language,$online,$normalization);
+      foreach ($monthlist as $month)
+	{
+	  $viewcountarray[$tag][$month] = $tagtotal[$month];
+	}
+    }
+  return $viewcountarray;
+}
+
+function viewcountarraybytagandmonth($taglist,$monthlist,$language='en',$online=true,$normalization='')
+{
+  global $exceededquerylimitmessage;
+  global $numberofdays_allmonths;
+  $viewcountarray = viewcountarraybytagandmonth_raw($taglist,$monthlist,$language,$online,$normalization);
+  if ($normalization == '')
+    {
+      return $viewcountarray;
+    }
+  elseif ($normalization == 'dailyaverage')
+    {
+      foreach ($taglist as $tag)
+	{
+	  foreach ($monthlist as $month)
+	    {
+	      if ($viewcountarray[$tag][$month] != $exceededquerylimitmesage)
+		{
+		  $viewcountarray[$tag][$month] = round($viewcountarray[$tag][$month]/intval($numberofdays_allmonths[$month]),1);
+		}
+	    }
+	}
+    }
+  return $viewcountarray;
+}
+
 function getpagelistbytaglist($taglist,$language,$connective='or')
 {
   global $mysqli;

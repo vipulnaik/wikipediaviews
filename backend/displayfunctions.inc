@@ -59,6 +59,11 @@ function printyearviewcount($page,$year,$language,$viewcount,$numericdisplayform
   return '<td align="right"><a href="'.getannualpageviewsurl($page,$year,$language).'" title="'.yearviewtooltip($viewcount).'">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
 }
 
+function printtagviewcount($tag,$month,$language,$viewcount,$numericdisplayformat)
+{
+  return '<td align="right"><a href="'.gettagviewsurl($tag,$month,$language).'" title="'.$viewcount.' (click for data on individual pages)">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
+}
+
 function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month')
 {
   #Collect all the numbers that need to be printed first
@@ -113,7 +118,7 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
 	}
       elseif ($pageortagadvice=='tag')
 	{
-	  $pageortag_rowstring = '<tr><td>'.$pageortag.'</td>';
+	  $pageortag_rowstring = '<td><a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageortag.'&language='.$language.'&allmonths=allmonths">'.$pageortag.'</a></td>';
 	}		       
       foreach($monthoryearlist as $monthoryear) #Computes one cell entry
 	{
@@ -126,9 +131,9 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
 	    {
 	      $pageortag_rowstring .= printyearviewcount($pageortag,$monthoryear,$language,$viewcount,$numericdisplayformat);
 	    }
-	  elseif ($pageortagadvice=='tag')
+	  elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month')
 	    {
-	      $pageortag_rowstring .= '<td align="right">'.numericdisplay($viewcount,$numericdisplayformat).'</td>';
+	      $pageortag_rowstring .= printtagviewcount($pageortag,$monthoryear,$language,$viewcount,$numericdisplayformat);
 	    }
 	}
       if ($includetotal=='includetotal' and count($monthoryearlist) > 1) 
@@ -211,7 +216,7 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
 	}
       elseif ($pageortagadvice=='tag')
 	{
-	  $headerstring .= '<th>Views of pages in tag '.$pageortag.'</th>';
+	  $headerstring .= '<th>Views of pages with tag <a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageortag.'&language='.$language.'&allmonths=allmonths">'.$pageortag.'</a></th>';
 	}
     }
   if ($includetotal=='includetotal' and count($pageortaglist) > 1) 
@@ -242,7 +247,7 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
 	    }
 	  elseif ($pageortagadvice=='tag')
 	    {
-	      $monthoryear_rowstring .= '<td align="right">'.numericdisplay($viewcount,$numericdisplayformat).'</td>';
+	      $monthoryear_rowstring .= printtagviewcount($pageortag,$monthoryear,$language,$viewcount,$numericdisplayformat);
 	    }
 	}
       if ($includetotal=='includetotal' and count($pageortaglist) > 1) 

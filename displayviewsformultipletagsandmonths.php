@@ -7,44 +7,40 @@ print '</head>';
 include_once("backend/corecode.inc");
 $formdata = true;
 $pagetypeadvice = "multipletagsandmonths";
+include("retrieval/taglistretrieval.inc");
 include("retrieval/monthlistretrieval.inc");
 include("retrieval/advancedoptionretrieval.inc");
+
+if ($pagespecificationerror == true or $monthspecificationerror == true)
+  {
+    include("inputdisplay/".$pagetypeadvice."dataentry.inc");
+  }
 
 if ($displayformat=='htmltableautomatic') 
   {
     include("style/head.inc");
-    if (count($pagelistasarray) >= count($monthlist)) 
+    if (count($taglist) >= count($monthlist)) 
       {
-	printpageviewsformonthoryearlistashtmltable($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
+	printpageviewsformonthoryearlistashtmltable($taglist,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
       }
     else 
       {
-	printpageviewsformonthoryearlistashtmltabletransposed($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
+	printpageviewsformonthoryearlistashtmltabletransposed($taglist,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
       }
-    include("inputdisplay/multiplemonthsdataentry.inc");
-  }
-
-elseif ($displayformat=='csv') 
-  { 
-    printpageviewsformonthlistascsv($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+    include("inputdisplay/multipletagsandmonthsdataentry.inc");
   }
 
 elseif ($displayformat=='htmltable') 
   { 
     include("style/head.inc"); 
-    printpageviewsformonthoryearlistashtmltable($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
-    include("inputdisplay/multiplemonthsdataentry.inc");
-  }
-
-elseif ($displayformat=='csvtransposed') 
-  {
-    printpageviewsformonthlistascsvtransposed($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+    printpageviewsformonthoryearlistashtmltable($taglist,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
+    include("inputdisplay/multipletagsandmonthsdataentry.inc");
   }
 
 elseif ($displayformat=='htmltabletransposed') 
   {
     include("style/head.inc");
-    printpageviewsformonthoryearlistashtmltabletransposed($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
-    include("inputdisplay/multiplemonthsdataentry.inc");
+    printpageviewsformonthoryearlistashtmltabletransposed($taglist,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
+    include("inputdisplay/multipletagsandmonthsdataentry.inc");
   }
 ?>

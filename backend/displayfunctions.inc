@@ -128,7 +128,7 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
 	    }
 	  elseif ($pageortagadvice=='tag')
 	    {
-	      $pageortag_rowstring .= '<td>'.$viewcount.'</td>';
+	      $pageortag_rowstring .= '<td align="right">'.numericdisplay($viewcount,$numericdisplayformat).'</td>';
 	    }
 	}
       if ($includetotal=='includetotal' and count($monthoryearlist) > 1) 
@@ -242,7 +242,7 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
 	    }
 	  elseif ($pageortagadvice=='tag')
 	    {
-	      $monthoryear_rowstring .= '<td>'.$viewcount.'</td>';
+	      $monthoryear_rowstring .= '<td align="right">'.numericdisplay($viewcount,$numericdisplayformat).'</td>';
 	    }
 	}
       if ($includetotal=='includetotal' and count($pageortaglist) > 1) 

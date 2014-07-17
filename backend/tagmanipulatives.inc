@@ -62,6 +62,19 @@ function gettagtotal($tag,$monthlist,$language='en',$online=true,$normalization=
   return $totalsandpercentages_array[2];
 }
 
+function gettagtotalbyyear($tag,$yearlist,$language='en',$online=true,$normalization='')
+{
+  global $mysqli;
+  if ($mysqli->connect_errno) 
+    {
+      echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+    }
+  $pagelist = getpagelistbytag($tag,$language);
+  $viewcountarray = viewcountarraybyyear($pagelist,$yearlist,$language,$online,$normalization);
+  $totalsandpercentages_array = totalsandpercentages($pagelist,$yearlist,$viewcountarray);
+  return $totalsandpercentages_array[2];
+}
+
 function viewcountarraybytagandmonth_raw($taglist,$monthlist,$language,$online=true,$normalization='')
 {
   foreach ($taglist as $tag)
@@ -95,6 +108,19 @@ function viewcountarraybytagandmonth($taglist,$monthlist,$language='en',$online=
 		  $viewcountarray[$tag][$month] = round($viewcountarray[$tag][$month]/intval($numberofdays_allmonths[$month]),1);
 		}
 	    }
+	}
+    }
+  return $viewcountarray;
+}
+
+function viewcountarraybytagandyear($taglist,$yearlist,$language,$online=true,$normalization='')
+{
+  foreach ($taglist as $tag)
+    {
+      $tagtotal = gettagtotalbyyear($tag,$yearlist,$language,$online,$normalization);
+      foreach ($yearlist as $year)
+	{
+	  $viewcountarray[$tag][$year] = $tagtotal[$year];
 	}
     }
   return $viewcountarray;

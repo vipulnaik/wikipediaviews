@@ -1,14 +1,13 @@
 <?php
 
-##inc file for data entry for multiple tags and months.
+##inc file for data entry for multiple months.
 
 ##Included from: multipletagsandmonths.php, displayviewsformultipletagsandmonths.php
 
 ##Sends form to: displayviewsformultipetagsandmonths.php
 
-## Includes: tagdropdownselectmultiple.inc, languagedropdown.inc,
-## alternatemonthspecificationmethods.inc, advancedoptions.inc
-## monthcheckboxlist.inc
+##Includes: tagdropdownselectmultiple.inc, languagedropdown.inc,
+##alternatemonthspecificationmethods.inc, advancedoptions.inc
 
 $pagetypeadvice = "multipletagsandmonths";
 if ($formdata == true)

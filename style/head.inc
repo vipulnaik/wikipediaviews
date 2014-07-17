@@ -20,6 +20,7 @@ display:inline;
 <li><a href="/multiplemonths.php">Multiple months</a></li>
 <li><a href="/multipleyears.php">Multiple years</a></li>
 <li><a href="/multipletagsandmonths.php">Multiple tags and months</a></li>
+<li><a href="/multipletagsandyears.php">Multiple tags and years</a></li>
 <li><a href="/about">About</a></li>
 </ul>
 <br>

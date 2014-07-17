@@ -32,6 +32,11 @@ function gettagviewsurl($tag,$month,$language)
   return "http://wikipediaviews.org/displayviewsformultiplemonths.php?month=".$month."&tag=".$tag."&language=".$language;
 }
 
+function getannualtagviewsurl($tag,$year,$language)
+{
+  return "http://wikipediaviews.org/displayviewsformultipleyears.php?year=".$year."&tag=".$tag."&language=".$language;
+}
+
 function getpageurl($page,$language)
 {
   $page = str_replace(" ","_",$page);

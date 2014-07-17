@@ -64,6 +64,11 @@ function printtagviewcount($tag,$month,$language,$viewcount,$numericdisplayforma
   return '<td align="right"><a href="'.gettagviewsurl($tag,$month,$language).'" title="'.$viewcount.' (click for data on individual pages)">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
 }
 
+function printtagviewcountbyyear($tag,$year,$language,$viewcount,$numericdisplayformat)
+{
+  return '<td align="right"><a href="'.getannualtagviewsurl($tag,$year,$language).'" title="'.$viewcount.' (click for data on individual pages)">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
+}
+
 function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month')
 {
   #Collect all the numbers that need to be printed first
@@ -116,10 +121,14 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
 	{
 	  $pageortag_rowstring = '<tr><td><a href="'.getpageurl($pageortag,$language).'" title = "'.$pageortag.' (read page on Wikipedia)">'.$pageortag.'</a></td>';
 	}
-      elseif ($pageortagadvice=='tag')
+      elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month')
 	{
 	  $pageortag_rowstring = '<td><a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageortag.'&language='.$language.'&allmonths=allmonths">'.$pageortag.'</a></td>';
 	}		       
+      elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year')
+	{
+	  $pageortag_rowstring = '<td><a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageortag.'&language='.$language.'&allyears=allyears">'.$pageortag.'</a></td>';
+	}
       foreach($monthoryearlist as $monthoryear) #Computes one cell entry
 	{
 	  $viewcount = $viewcountarray[$pageortag][$monthoryear];
@@ -135,6 +144,11 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
 	    {
 	      $pageortag_rowstring .= printtagviewcount($pageortag,$monthoryear,$language,$viewcount,$numericdisplayformat);
 	    }
+	  elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year')
+	    {
+	      $pageortag_rowstring .= printtagviewcountbyyear($pageortag,$monthoryear,$language,$viewcount,$numericdisplayformat);
+	    }
+
 	}
       if ($includetotal=='includetotal' and count($monthoryearlist) > 1) 
 	{
@@ -245,10 +259,15 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
 	    {
 	      $monthoryear_rowstring .= printyearviewcount($pageortag,$monthoryear,$language,$viewcount,$numericdisplayformat);
 	    }
-	  elseif ($pageortagadvice=='tag')
+	  elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month')
 	    {
 	      $monthoryear_rowstring .= printtagviewcount($pageortag,$monthoryear,$language,$viewcount,$numericdisplayformat);
 	    }
+	  elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year')
+	    {
+	      $monthoryear_rowstring .= printtagviewcountbyyear($pageortag,$monthoryear,$language,$viewcount,$numericdisplayformat);
+	    }
+
 	}
       if ($includetotal=='includetotal' and count($pageortaglist) > 1) 
 	{

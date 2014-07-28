@@ -230,7 +230,7 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
 	}
       elseif ($pageortagadvice=='tag')
 	{
-	  $headerstring .= '<th>Views of pages with tag <a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageortag.'&language='.$language.'&allmonths=allmonths">'.$pageortag.'</a></th>';
+	  $headerstring .= '<th>Views of pages with tag <a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageortag.'&language='.$language.'&allyears=allyears">'.$pageortag.'</a></th>';
 	}
     }
   if ($includetotal=='includetotal' and count($pageortaglist) > 1) 

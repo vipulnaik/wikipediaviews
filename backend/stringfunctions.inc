@@ -29,7 +29,7 @@ function getannualpageviewsurl($page,$year,$language)
 
 function gettagviewsurl($tag,$month,$language)
 {
-  return "http://wikipediaviews.org/displayviewsformultiplemonths.php?month=".$month."&tag=".$tag."&language=".$language;
+  return "http://wikipediaviews.org/displayviewsforonemonth.php?month=".$month."&tag=".$tag."&language=".$language;
 }
 
 function getannualtagviewsurl($tag,$year,$language)

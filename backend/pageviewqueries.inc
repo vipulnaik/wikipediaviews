@@ -55,7 +55,14 @@ function getpageviewsonline($page, $month, $language)
   $url = getpageviewsurl($page,$month,$language);
   $html = file_get_contents($url);
   preg_match('/(?<=\bhas been viewed)\s+\K[^\s]+/',$html,$numberofpageviews);
-  return $numberofpageviews[0];
+  if (count($numberofpageviews) > 0)
+    {  
+      if (strlen($numberofpageviews[0]) > 0)
+	{
+	  return $numberofpageviews[0];
+	}
+    }
+  return getpageviewsonline($page, $month, $language);
 }
 
 function getpageviewsfromdb($page,$month,$language,$online)

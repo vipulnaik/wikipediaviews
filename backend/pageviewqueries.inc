@@ -52,6 +52,25 @@ function queriedpagelog($page,$language,$archivalstatus)
 
 function getpageviewsonline($page, $month, $language)
 {
+  global $weightedexternalquerycount;
+  global $externalquerycount;
+  global $weightedexternalquerylimit;
+  global $thismonth;
+  global $mostrecentmonth;
+  global $recentmonthslowdownfactor;
+  global $exceededquerylimitmessage;
+  if ($weightedexternalquerycount >= $weightedexternalquerylimit)
+    { 
+      return $exceededquerylimitmessage;
+    }
+  if ($month == $thismonth or $month == $mostrecentmonth)
+    {
+      $weightedexternalquerycount = $weightedexternalquerycount + $recentmonthslowdownfactor;
+    }
+  else
+    {
+      $weightedexternalquerycount++;
+    }
   $url = getpageviewsurl($page,$month,$language);
   $html = file_get_contents($url);
   preg_match('/(?<=\bhas been viewed)\s+\K[^\s]+/',$html,$numberofpageviews);
@@ -59,6 +78,7 @@ function getpageviewsonline($page, $month, $language)
     {  
       if (strlen($numberofpageviews[0]) > 0)
 	{
+	  $externalquerycount++;
 	  return $numberofpageviews[0];
 	}
     }
@@ -90,15 +110,6 @@ function getpageviewsfromdb($page,$month,$language,$online)
       $success = $mysqli->query($insert_query);
       $delete_query = "delete from wantedviewcountsbymonth where pagename='".$page."' and monthfull='".$month."' and language='".$language."';";
       $success = $mysqli->query($delete_query);
-      if ($month == $thismonth or $month == $mostrecentmonth)
-	{
-	  $weightedexternalquerycount = $weightedexternalquerycount + $recentmonthslowdownfactor;
-	}
-      else
-	{
-	      $weightedexternalquerycount++;
-	}
-      $externalquerycount++;
       return $viewcount;
     }
   if ($result->num_rows == 0) 
@@ -124,7 +135,6 @@ function getpageviewsfromdb($page,$month,$language,$online)
 	  $success = $mysqli->query($insert_query);
 	  $delete_query = "delete from wantedviewcountsbymonth where pagename='".$page."' and monthfull='".$month."' and language='".$language."';";
 	  $success = $mysqli->query($delete_query);
-	  $weightedexternalquerycount++;
 	  return $viewcount;
 	}
     }

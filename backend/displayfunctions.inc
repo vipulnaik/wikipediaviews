@@ -228,10 +228,15 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
 	{
 	  $headerstring .= '<th>Views of page <a href="'. getpageurl($pageortag,$language). '" title="'.$pageortag.' (read page on Wikipedia)">' . $pageortag.'</a></th>';
 	}
-      elseif ($pageortagadvice=='tag')
+      elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month')
+	{
+	  $headerstring .= '<th>Views of pages with tag <a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageortag.'&language='.$language.'&allmonths=allmonths">'.$pageortag.'</a></th>';
+	}
+      elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year')
 	{
 	  $headerstring .= '<th>Views of pages with tag <a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageortag.'&language='.$language.'&allyears=allyears">'.$pageortag.'</a></th>';
 	}
+
     }
   if ($includetotal=='includetotal' and count($pageortaglist) > 1) 
     {

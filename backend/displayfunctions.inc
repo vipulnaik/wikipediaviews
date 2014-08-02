@@ -408,6 +408,38 @@ function printpageviewsformonthlistascsvtransposed($pagelist,$monthlist,$languag
     }
 }
 
+function printpageviewsformonthoryearlistascpi($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month')
+{
+  #Collect all the numbers that need to be printed first
+  if ($pageortagadvice=='page' and $monthoryearadvice=='month')
+    {
+      $viewcountarray = viewcountarraybymonth($pageortaglist,$monthoryearlist,$language,true,$normalization);
+    }
+  elseif ($pageortagadvice=='page' and $monthoryearadvice=='year')
+    {
+      $viewcountarray = viewcountarraybyyear($pageortaglist,$monthoryearlist,$language,true,$normalization);
+    }
+  elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month')
+    {
+      $viewcountarray = viewcountarraybytagandmonth($pageortaglist,$monthoryearlist,$language,true,$normalization);
+    }
+  elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year')
+    {
+      $viewcountarray = viewcountarraybytagandyear($pageortaglist,$monthoryearlist,$language,true,$normalization);
+    }
+  for ($i = 0; $i < count($pageortaglist); $i++)
+    {
+      for ($j = 0; $j < count($monthoryearlist); $j++)
+	{
+	  print $viewcountarray[$pageortaglist[$i]][$monthoryearlist[$j]];
+	  print " ";
+	  print "1,".$i;
+	  print " ";
+	  print "2,".$j;
+	  print "<br>";
+	}
+    }
+}
 function printpageviewsforyearlistascsv($pagelist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='')
 {
   $headerstring = "Page name";

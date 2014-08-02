@@ -53,4 +53,9 @@ elseif ($displayformat=='htmltabletransposed')
     printpageviewsformonthoryearlistashtmltabletransposed($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
     include("inputdisplay/multiplemonthsdataentry.inc");
   }
+
+elseif ($displayformat=='cpi')
+  {
+    printpageviewsformonthoryearlistascpi($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
+  }
 ?>

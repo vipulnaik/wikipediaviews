@@ -47,5 +47,13 @@ if ($formdata == true and $displayformat=="csvtransposed")
   }
 print '>';
 print 'CSV: Month and number of views separated by comma; each line for a different month</option>';
+print '<option value="cpi"';
+if ($formdata == true and $displayformat=="cpi") 
+  {
+    print 'selected="selected"';
+  }
+print '>';
+print 'CPI: Special format (documentation pending)</option>';
+
 print '</select></td></tr>';
 ?>

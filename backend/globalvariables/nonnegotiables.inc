@@ -15,4 +15,8 @@ $recentmonthslowdownfactor = 2;
 global $exceededquerylimitmessage;
 $exceededquerylimitmessage = 'exceeded query limit and timed out';
 
+## Maximum number of pages we are allowed to display
+global $maximumpagedisplaylimit;
+$maximumpagedisplaylimit = 5000;
+
 ?>

@@ -62,24 +62,36 @@ if (!empty($_REQUEST['archivalstatus']))
     $archivalstatus = $_REQUEST['archivalstatus'];
   }
 
+$viewbound = 0;
+if (!empty($_REQUEST['viewbound']))
+  {
+    $viewbound = intval($_REQUEST['viewbound']);
+  }
+
+$monthfilter = $thismonth;
+if (!empty($_REQUEST['monthfilter']))
+  {
+    $monthfilter = $_REQUEST['monthfilter'];
+  }
+
 
 ##Figuring out if the page list has been specified in multiple
 ##ways, or not at all, and displaying the appropriate error message.
 
-if (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))==0 and $tag==='' and $category==='' and $user==='' and $linkingpage==='' and $archivalstatus==='')
+if (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))==0 and $tag==='' and $category==='' and $user==='' and $linkingpage==='' and $archivalstatus==='' and $viewbound==0)
   {
     include(__DIR__."/../style/head.inc");
     print "You didn't list any pages (either directly, or via one of the alternative methods).<br>";
     $pagespecificationerror = true;
   }
-elseif (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))>0 and ($tag!='' or $category!='' or $user != ''))
+elseif (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))>0 and ($tag!='' or $category!='' or $user != '' or $viewbound > 0))
   {
     include(__DIR__."/../style/head.inc");
     print "You listed page(s) directly <em>and</em> selected an alternative method to list pages. You can only use one of the two methods at a time.";
     $pagespecificationerror = true;
   }
 
-elseif (($tag != '' and ($category != '' or $user != '' or $linkingpage != '' or $archivalstatus != '')) or ($category != '' and ($user != '' or $linkingpage != '' or $archivalstatus != '')) or ($user != '' and ($linkingpage != '' or $archivalstatus != '')) or ($linkingpage != '' and $archivalstatus != ''))
+elseif (($tag != '' and ($category != '' or $user != '' or $linkingpage != '' or $archivalstatus != '' or $viewbound > 0)) or ($category != '' and ($user != '' or $linkingpage != '' or $archivalstatus != '' or $viewbound > 0)) or ($user != '' and ($linkingpage != '' or $archivalstatus != '' or $viewbound > 0)) or ($linkingpage != '' and ($archivalstatus != '' or $viewbound > 0)) or ($archivalstatus != '' and $viewbound > 0))
   {
     include(__DIR__."/../style/head.inc");
     print "You selected multiple alternate methods. Please modify the form below appropriately.<br>";
@@ -153,5 +165,16 @@ if ($pagespecificationerror == false)
 	  }
 	sort($pagelistasarray);
       } 
+    elseif ($viewbound > 0)
+      {
+	$pagelistasarray = getpagelistbyviewbound($viewbound,$monthfilter,$language);
+	if (sizeof($pagelistasarray) == 0)
+	  {
+	    include(__DIR__."/../style/head.inc");
+	    print "There are no pages for the view bound-month filter-language <em>combination</em>.<br>";
+	    $pagespecificationerror = true;
+	  }
+	sort($pagelistasarray);
+      }
   }
 ?>

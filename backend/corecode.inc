@@ -7,5 +7,6 @@ include("pageviewqueries.inc");
 include("tagmanipulatives.inc");
 include("displayfunctions.inc");
 include("archivalstatus.inc");
+include("viewbound.inc");
 include("advice.inc");
 ?>

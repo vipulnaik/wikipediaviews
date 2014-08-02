@@ -24,8 +24,8 @@ include(__DIR__."/categorynameentry.inc");
 include(__DIR__."/creatinguserentry.inc");
 include(__DIR__."/linkingpageentry.inc");
 include(__DIR__."/archivalstatus.inc");
+include(__DIR__."/filterpagesbyviewcounts.inc");
 print '</table>';
-
 if ((($formdata == false) or ($tag==='' and $category==='' and $user==='' and $linkingpage==='')) and $tags_recommended == false)
   {
     print '</div><br>';

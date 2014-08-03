@@ -74,6 +74,12 @@ if (!empty($_REQUEST['monthfilter']))
     $monthfilter = $_REQUEST['monthfilter'];
   }
 
+$yearfilter = '';
+if (!empty($_REQUEST['yearfilter']))
+  {
+    $yearfilter = $_REQUEST['yearfilter'];
+  }
+
 
 ##Figuring out if the page list has been specified in multiple
 ##ways, or not at all, and displaying the appropriate error message.
@@ -167,11 +173,14 @@ if ($pagespecificationerror == false)
       } 
     elseif ($viewbound > 0)
       {
-	$pagelistasarray = getpagelistbyviewbound($viewbound,$monthfilter,$language);
+	if (strlen($yearfilter) == 0)
+	  $pagelistasarray = getpagelistbyviewbound($viewbound,$monthfilter,$language,'month');
+	else
+	  $pagelistasarray = getpagelistbyviewbound($viewbound,$yearfilter,$language,'year');
 	if (sizeof($pagelistasarray) == 0)
 	  {
 	    include(__DIR__."/../style/head.inc");
-	    print "There are no pages for the view bound-month filter-language <em>combination</em>.<br>";
+	    print "There are no pages for the view bound-filter-language <em>combination</em>.<br>";
 	    $pagespecificationerror = true;
 	  }
 	sort($pagelistasarray);

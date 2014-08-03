@@ -1,5 +1,24 @@
 <?php
 
+function checksizes($pageortaglist,$monthoryearlist)
+{
+  global $pagedisplaylimit;
+  global $celldisplaylimit;
+  $numberofpagesortags = count($pageortaglist);
+  $numberofmonthsoryears = count($monthoryearlist);
+  if ($numberofpagesortags > $pagedisplaylimit)
+    {
+      print "The number of pages or tags, namely ".$numberofpagesortags.", exceeds ".$pagedisplaylimit.", our hard limit on the number of pages that can be displayed.";
+      return 1;
+    }
+  $numberofcells = $numberofpagesortags * $numberofmonthsoryears;
+  if ($numberofcells > $celldisplaylimit)
+    {
+      print "The total number of cells to display, namely ".$numberofcells.", exceeds ".$celldisplaylimit.", our hard limit on the number of cells that can be displayed.";
+      return 2;
+    }
+  return 0;
+}
 function totalsandpercentages($pageortaglist,$monthoryearlist,$viewcountarray)
 {
   $grand_total = 0;
@@ -71,6 +90,10 @@ function printtagviewcountbyyear($tag,$year,$language,$viewcount,$numericdisplay
 
 function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month')
 {
+  #Check that sizes are workable
+  $sizeoverflow = checksizes($pageortaglist,$monthoryearlist);
+  if ($sizeoverflow > 0)
+    return false;
   #Collect all the numbers that need to be printed first
   if ($pageortagadvice=='page' and $monthoryearadvice=='month')
     {
@@ -195,6 +218,10 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
 
 function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month')
 {
+  #Check that sizes are workable
+  $sizeoverflow = checksizes($pageortaglist,$monthoryearlist);
+  if ($sizeoverflow > 0)
+    return false;
 
   #Collect all the numbers that need to be printed first
   if ($pageortagadvice=='page' and $monthoryearadvice=='month')
@@ -415,6 +442,10 @@ function printpageviewsformonthlistascsvtransposed($pagelist,$monthlist,$languag
 
 function printpageviewsformonthoryearlistascpi($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month')
 {
+  #Check that sizes are workable
+  $sizeoverflow = checksizes($pageortaglist,$monthoryearlist);
+  if ($sizeoverflow > 0)
+    return false;
   #Collect all the numbers that need to be printed first
   if ($pageortagadvice=='page' and $monthoryearadvice=='month')
     {

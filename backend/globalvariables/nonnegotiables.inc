@@ -16,7 +16,9 @@ global $exceededquerylimitmessage;
 $exceededquerylimitmessage = 'exceeded query limit and timed out';
 
 ## Maximum number of pages we are allowed to display
-global $maximumpagedisplaylimit;
-$maximumpagedisplaylimit = 5000;
+global $pagedisplaylimit;
+$pagedisplaylimit = 15000;
 
+global $celldisplaylimit;
+$celldisplaylimit = 500000;
 ?>

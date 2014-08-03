@@ -84,7 +84,7 @@ if (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))==0 and $tag==='' and $catego
     print "You didn't list any pages (either directly, or via one of the alternative methods).<br>";
     $pagespecificationerror = true;
   }
-elseif (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))>0 and ($tag!='' or $category!='' or $user != '' or $viewbound > 0))
+elseif (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))>0 and ($tag!='' or $category!='' or $user != '' or $archivalstatus != '' or $viewbound > 0))
   {
     include(__DIR__."/../style/head.inc");
     print "You listed page(s) directly <em>and</em> selected an alternative method to list pages. You can only use one of the two methods at a time.";

@@ -10,7 +10,9 @@ function pagemonthadvice($pagelist,$monthlist,$camefromtag=false)
   global $tags_recommended;
   global $alternatemonthspecs_recommended;
   global $hardquerylimit;
-  if (count($pagelist) == 0 or count($monthlist) == 0)
+  global $pagedisplaylimit;
+  global $celldisplaylimit;
+  if (count($pagelist) == 0 or count($monthlist) == 0 or count($pagelist) > $pagedisplaylimit or count($pagelist) * count ($monthlist) > $celldisplaylimit)
     {
       return true;
     }

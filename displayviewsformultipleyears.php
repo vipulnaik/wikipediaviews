@@ -32,9 +32,7 @@ elseif ($displayformat=='htmltableautomatic')
   }
 
 elseif ($displayformat=='csv') 
-  { 
-    printpageviewsforyearlistascsv($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
-  }
+  printpageviewsformonthoryearlistascsv($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,'','page','year');
 
 elseif ($displayformat=='htmltable') 
   { 
@@ -44,9 +42,7 @@ elseif ($displayformat=='htmltable')
   }
 
 elseif ($displayformat=='csvtransposed') 
-  {
-    printpageviewsforyearlistascsvtransposed($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
-  }
+  printpageviewsformonthoryearlistascsvtransposed($pagelistasarray,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,'','page','year');
 
 elseif ($displayformat=='htmltabletransposed') 
   {

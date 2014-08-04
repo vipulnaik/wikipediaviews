@@ -31,9 +31,8 @@ elseif ($displayformat=='htmltableautomatic')
   }
 
 elseif ($displayformat=='csv') 
-  { 
-    printpageviewsformonthlistascsv($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
-  }
+  printpageviewsformonthoryearlistascsv($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,'','page','month');
+
 
 elseif ($displayformat=='htmltable') 
   { 
@@ -43,9 +42,7 @@ elseif ($displayformat=='htmltable')
   }
 
 elseif ($displayformat=='csvtransposed') 
-  {
-    printpageviewsformonthlistascsvtransposed($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
-  }
+  printpageviewsformonthoryearlistascsvtransposed($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,'','page','month');
 
 elseif ($displayformat=='htmltabletransposed') 
   {

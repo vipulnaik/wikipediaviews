@@ -347,6 +347,7 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
 
 function printpageviewsascsv($pagelist,$month,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='')
 {
+
   if ($explanatoryheader != 'noheader') {print "Page name,Pageviews in month ".$month."<br>";}
   $total=0;
   foreach($pagelist as $page)
@@ -388,55 +389,157 @@ function printpageviewsascountsonlyseparatelines($pagelist,$month,$language,$exp
   if ($includetotal=='includetotal') {print "<tr><th>Total</th><th>".$total."</th></tr>";}
 }
 
-function printpageviewsformonthlistascsv($pagelist,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='')
+function printpageviewsformonthoryearlistascsv($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month')
 {
-  $headerstring = "Page name";
-  foreach($monthlist as $month)
+  #Check that sizes are workable
+  $sizeoverflow = checksizes($pageortaglist,$monthoryearlist);
+  if ($sizeoverflow > 0)
+    return false;
+  #Collect all the numbers that need to be printed first
+  if ($pageortagadvice=='page' and $monthoryearadvice=='month')
     {
-      $headerstring .= ",Pageviews in month ".$month;
+      $viewcountarray = viewcountarraybymonth($pageortaglist,$monthoryearlist,$language,true,$normalization);
     }
-  if ($includetotal=='includetotal') {$headerstring .=",Total";}
+  elseif ($pageortagadvice=='page' and $monthoryearadvice=='year')
+    {
+      $viewcountarray = viewcountarraybyyear($pageortaglist,$monthoryearlist,$language,true,$normalization);
+    }
+  elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month')
+    {
+      $viewcountarray = viewcountarraybytagandmonth($pageortaglist,$monthoryearlist,$language,true,$normalization);
+    }
+  elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year')
+    {
+      $viewcountarray = viewcountarraybytagandyear($pageortaglist,$monthoryearlist,$language,true,$normalization);
+    }
+
+  $totalsandpercentages_array = totalsandpercentages($pageortaglist,$monthoryearlist,$viewcountarray);
+  $grand_total = $totalsandpercentages_array[0];
+  $pageortag_total = $totalsandpercentages_array[1];
+  $monthoryear_total = $totalsandpercentages_array[2];
+  $pageortag_percentage = $totalsandpercentages_array[3];
+  $monthoryear_percentage = $totalsandpercentages_array[4];
+
+
+  $headerstring = ucfirst($pageortagadvice)." name";
+  foreach($monthoryearlist as $monthoryear)
+    $headerstring .= ",Pageviews in ".$monthoryearadvice." ".$monthoryear;
+  if ($includetotal=='includetotal' and count($monthoryearlist) > 1) 
+    $headerstring .=",Total";
+  if (count($pageortaglist) > 1)
+    $headerstring .=",Percentage";
   $headerstring.="<br>";
   print $headerstring;
-  foreach($pagelist as $page)
+  foreach($pageortaglist as $pageortag)
     {
-	$stringtoprint = $page;
+	$stringtoprint = $pageortag;
 	$total = 0;
-	foreach($monthlist as $month)
+	foreach($monthoryearlist as $monthoryear)
 	  {
-	    $viewcount = getpageviews($page,$month,$language);
-	    if ($includetotal=='includetotal') {$total = $total + intval($viewcount);}
+	    $viewcount = $viewcountarray[$pageortag][$monthoryear];
 	    $stringtoprint .= ",".$viewcount;
 	  }
-	if ($includetotal=='includetotal') {$stringtoprint .=",".$total;}
+	if ($includetotal=='includetotal' and count($monthoryearlist) > 1) 
+	  $stringtoprint .=",".$pageortag_total[$pageortag];
+	if (count($pageortaglist) > 1) 
+	    $stringtoprint .=",".$pageortag_percentage[$pageortag];
 	$stringtoprint .="<br>";
 	print $stringtoprint;
     }
+  if ($includetotal == 'includetotal' and count($pageortaglist) > 1)
+    {
+      $totals_rowstring = "Total,";
+      foreach($monthoryearlist as $monthoryear)
+	  $totals_rowstring .= $monthoryear_total[$monthoryear].",";
+      $totals_rowstring .= $grand_total;
+      $totals_rowstring .= ",100";
+      $totals_rowstring .= "<br>";
+      print $totals_rowstring;
+    }
+  if (count($monthoryearlist) > 1)
+    {
+      $percentages_rowstring = "Percentage";
+      foreach($monthoryearlist as $monthoryear)
+	{
+	  $percentages_rowstring .= ",".$monthoryear_percentage[$monthoryear];
+	}
+      $percentages_rowstring .= ",100";
+      $percentages_rowstring .= "<br>";
+      print $percentages_rowstring;
+    }
 }
 
-function printpageviewsformonthlistascsvtransposed($pagelist,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='')
+function printpageviewsformonthoryearlistascsvtransposed($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month')
 {
-  $headerstring = "Month";
-  foreach($pagelist as $page)
-    {
-      $headerstring .= ",Views of page ".$page;
-    }
-  if ($includetotal=='includetotal') {$headerstring .=",Total";}
+  #Check that sizes are workable
+  $sizeoverflow = checksizes($pageortaglist,$monthoryearlist);
+  if ($sizeoverflow > 0)
+    return false;
+  #Collect all the numbers that need to be printed first
+  if ($pageortagadvice=='page' and $monthoryearadvice=='month')
+    $viewcountarray = viewcountarraybymonth($pageortaglist,$monthoryearlist,$language,true,$normalization);
+  elseif ($pageortagadvice=='page' and $monthoryearadvice=='year')
+    $viewcountarray = viewcountarraybyyear($pageortaglist,$monthoryearlist,$language,true,$normalization);
+  elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month')
+    $viewcountarray = viewcountarraybytagandmonth($pageortaglist,$monthoryearlist,$language,true,$normalization);
+  elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year')
+    $viewcountarray = viewcountarraybytagandyear($pageortaglist,$monthoryearlist,$language,true,$normalization);
+
+  $totalsandpercentages_array = totalsandpercentages($pageortaglist,$monthoryearlist,$viewcountarray);
+  $grand_total = $totalsandpercentages_array[0];
+  $pageortag_total = $totalsandpercentages_array[1];
+  $monthoryear_total = $totalsandpercentages_array[2];
+  $pageortag_percentage = $totalsandpercentages_array[3];
+  $monthoryear_percentage = $totalsandpercentages_array[4];
+
+
+  $headerstring = ucfirst($monthoryearadvice);
+  foreach($pageortaglist as $pageortag)
+    $headerstring .= ",Views of ".$pageortagadvice." ".$pageortag;
+  if ($includetotal=='includetotal' and count($pageortaglist) > 1) 
+    $headerstring .=",Total";
+  if (count($monthoryearlist) > 1)
+    $headerstring .=",Percentage";
   $headerstring.="<br>";
   print $headerstring;
-  foreach($monthlist as $month)
+  foreach($monthoryearlist as $monthoryear)
     {
-     $stringtoprint = $month;
-     $total = 0;
-     foreach($pagelist as $page)
-       {
-	 $viewcount = getpageviews($page,$month,$language);
-	 if ($includetotal=='includetotal') {$total = $total + intval($viewcount);}
-	 $stringtoprint .= ",".$viewcount;
-       }
-     if ($includetotal=='includetotal') {$stringtoprint .=",".$total;}
-     $stringtoprint .="<br>";
-     print $stringtoprint;
+	$stringtoprint = $monthoryear;
+	$total = 0;
+	foreach($pageortaglist as $pageortag)
+	  {
+	    $viewcount = $viewcountarray[$pageortag][$monthoryear];
+	    $stringtoprint .= ",".$viewcount;
+	  }
+	if ($includetotal=='includetotal' and count($pageortaglist) > 1) 
+	  $stringtoprint .=",".$monthoryear_total[$monthoryear];
+	if (count($monthoryearlist) > 1) 
+	  {
+	    $stringtoprint .=",".$monthoryear_percentage[$monthoryear];
+	  }
+	$stringtoprint .="<br>";
+	print $stringtoprint;
+    }
+  if ($includetotal == 'includetotal' and count($monthoryearlist) > 1)
+    {
+      $totals_rowstring = "Total,";
+      foreach($pageortaglist as $pageortag)
+	$totals_rowstring .= $pageortag_total[$pageortag].",";
+      $totals_rowstring .= $grand_total;
+      $totals_rowstring .=",100";
+      $totals_rowstring .= "<br>";
+      print $totals_rowstring;
+    }
+  if (count($pageortaglist) > 1)
+    {
+      $percentages_rowstring = "Percentage";
+      foreach($pageortaglist as $pageortag)
+	{
+	  $percentages_rowstring .= ",".$pageortag_percentage[$pageortag];
+	}
+      $percentages_rowstring .= ",100";
+      $percentages_rowstring .= "<br>";
+      print $percentages_rowstring;
     }
 }
 
@@ -474,57 +577,6 @@ function printpageviewsformonthoryearlistascpi($pageortaglist,$monthoryearlist,$
 	  print "2,".$j;
 	  print "<br>";
 	}
-    }
-}
-function printpageviewsforyearlistascsv($pagelist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='')
-{
-  $headerstring = "Page name";
-  foreach($yearlist as $year)
-    {
-      $headerstring .= ",Pageviews in year ".$year;
-    }
-  if ($includetotal=='includetotal') {$headerstring .=",Total";}
-  $headerstring.="<br>";
-  print $headerstring;
-  foreach($pagelist as $page)
-    {
-      $stringtoprint = $page;
-      $total = 0;
-      foreach($yearlist as $year)
-	{
-	  $viewcount = getannualpageviews($page,$year,$language);
-	  if ($includetotal=='includetotal') {$total = $total + intval($viewcount);}
-	  $stringtoprint .= ",".$viewcount;
-	}
-      if ($includetotal=='includetotal') {$stringtoprint .=",".$total;}
-      $stringtoprint .="<br>";
-      print $stringtoprint;
-    }
-}
-
-function printpageviewsforyearlistascsvtransposed($pagelist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='')
-{
-  $headerstring = "Year";
-  foreach($pagelist as $page)
-    {
-	$headerstring .= ",Views of page ".$page;
-    }
-  if ($includetotal=='includetotal') {$headerstring .=",Total";}
-  $headerstring.="<br>";
-  print $headerstring;
-  foreach($yearlist as $year)
-    {
-      $stringtoprint = $year;
-      $total = 0;
-      foreach($pagelist as $page)
-	{
-	  $viewcount = getannualpageviews($page,$year,$language);
-	  if ($includetotal=='includetotal') {$total = $total + intval($viewcount);}
-	  $stringtoprint .= ",".$viewcount;
-	}
-      if ($includetotal=='includetotal') {$stringtoprint .=",".$total;}
-      $stringtoprint .="<br>";
-      print $stringtoprint;
     }
 }
 

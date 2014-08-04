@@ -345,50 +345,6 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
   print "</table>";
 }
 
-function printpageviewsascsv($pagelist,$month,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='')
-{
-
-  if ($explanatoryheader != 'noheader') {print "Page name,Pageviews in month ".$month."<br>";}
-  $total=0;
-  foreach($pagelist as $page)
-    {
-      $viewcount = getpageviews($page,$month,$language);
-      if ($includetotal=='includetotal') {$total = $total + intval($viewcount);}
-      $stringtoprint = $page."," . $viewcount ."<br>";
-      print $stringtoprint;
-    }
-  if ($includetotal=='includetotal') {print "Total,".$total;}
-}
-
-
-function printpageviewsascountsonlycsv($pagelist,$month,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='')
-{
-  if ($explanatoryheader != 'noheader') {print "Pageviews in month ".$month.":<br>";}
-  $total=0;
-  foreach($pagelist as $page)
-    {
-      $viewcount = getpageviews($page,$month,$language);
-      if ($includetotal=='includetotal') {$total = $total + intval($viewcount);}
-      $stringtoprint = $viewcount.",";
-      print $stringtoprint;
-    }
-  if ($includetotal=='includetotal') {print "<tr><th>Total</th><th>".$total."</th></tr>";}
-}
-
-function printpageviewsascountsonlyseparatelines($pagelist,$month,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='')
-{
-  if ($explanatoryheader != 'noheader') {print "Pageviews in month ".$month.":<br>";}
-  $total=0;
-  foreach($pagelist as $page)
-    {
-      $viewcount = getpageviews($page,$month,$language);
-      if ($includetotal=='includetotal') {$total = $total + intval($viewcount);}
-      $stringtoprint = $viewcount."<br>";
-      print $stringtoprint;
-    }
-  if ($includetotal=='includetotal') {print "<tr><th>Total</th><th>".$total."</th></tr>";}
-}
-
 function printpageviewsformonthoryearlistascsv($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month')
 {
   #Check that sizes are workable
@@ -448,10 +404,11 @@ function printpageviewsformonthoryearlistascsv($pageortaglist,$monthoryearlist,$
     }
   if ($includetotal == 'includetotal' and count($pageortaglist) > 1)
     {
-      $totals_rowstring = "Total,";
+      $totals_rowstring = "Total";
       foreach($monthoryearlist as $monthoryear)
-	  $totals_rowstring .= $monthoryear_total[$monthoryear].",";
-      $totals_rowstring .= $grand_total;
+	  $totals_rowstring .= ",".$monthoryear_total[$monthoryear];
+      if (count($monthoryearlist) > 1)
+	$totals_rowstring .= ",".$grand_total;
       $totals_rowstring .= ",100";
       $totals_rowstring .= "<br>";
       print $totals_rowstring;
@@ -522,10 +479,11 @@ function printpageviewsformonthoryearlistascsvtransposed($pageortaglist,$monthor
     }
   if ($includetotal == 'includetotal' and count($monthoryearlist) > 1)
     {
-      $totals_rowstring = "Total,";
+      $totals_rowstring = "Total";
       foreach($pageortaglist as $pageortag)
-	$totals_rowstring .= $pageortag_total[$pageortag].",";
-      $totals_rowstring .= $grand_total;
+	$totals_rowstring .= ",".$pageortag_total[$pageortag];
+      if (count($pageortaglist) > 1)
+	$totals_rowstring .= $grand_total;
       $totals_rowstring .=",100";
       $totals_rowstring .= "<br>";
       print $totals_rowstring;

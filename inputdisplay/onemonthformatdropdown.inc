@@ -26,19 +26,12 @@ if ($formdata == true and $displayformat=="csv")
   }
 print '>';
 print 'CSV: Page name and number of views separated by comma; different pages in different lines (easiest to export to Excel)</option>';
-print '<option value="countsonlycsv"';
-if ($formdata == true and $displayformat=="countsonlycsv") 
+print '<option value="csvtransposed"';
+if ($formdata == true and $displayformat=="csvtransposed") 
   {
     print ' selected="selected"';
   }
 print '>';
-print 'Number of views only, separated by commas</option>';
-print '<option value="countsonlyseparatelines"';
-if ($formdata == true and $displayformat=="countsonlyseparatelines") 
-  {
-    print ' selected="selected"';
-  }
-print '>';
-print 'Number of views only, one in each line</option>';
+print 'CSV: All views in one line, separated by commas</option>';
 print '</select></td></tr>';
 ?>

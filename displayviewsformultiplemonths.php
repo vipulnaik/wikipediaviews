@@ -30,19 +30,12 @@ elseif ($displayformat=='htmltableautomatic')
     include("inputdisplay/multiplemonthsdataentry.inc");
   }
 
-elseif ($displayformat=='csv') 
-  printpageviewsformonthoryearlistascsv($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,'','page','month');
-
-
 elseif ($displayformat=='htmltable') 
   { 
     include("style/head.inc"); 
     printpageviewsformonthoryearlistashtmltable($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
     include("inputdisplay/multiplemonthsdataentry.inc");
   }
-
-elseif ($displayformat=='csvtransposed') 
-  printpageviewsformonthoryearlistascsvtransposed($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,'','page','month');
 
 elseif ($displayformat=='htmltabletransposed') 
   {
@@ -51,8 +44,14 @@ elseif ($displayformat=='htmltabletransposed')
     include("inputdisplay/multiplemonthsdataentry.inc");
   }
 
+elseif ($displayformat=='csv') 
+  printpageviewsformonthoryearlistascsv($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,'','page','month');
+
+elseif ($displayformat=='csvtransposed') 
+  printpageviewsformonthoryearlistascsvtransposed($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,'','page','month');
+
+
 elseif ($displayformat=='cpi')
-  {
-    printpageviewsformonthoryearlistascpi($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
-  }
+    printpageviewsformonthoryearlistascpi($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,'','page','month');
+
 ?>

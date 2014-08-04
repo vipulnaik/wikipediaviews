@@ -23,7 +23,7 @@ if ($pagespecificationerror == true or $monthspecificationerror == true)
 
 elseif ($displayformat=='csv') 
   { 
-    printpageviewsascsv($pagelistasarray,$month,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+    printpageviewsformonthoryearlistascsv($pagelistasarray,array($month),$language,$explanatoryheader,$includetotal,$numericdisplayformat);
   }
 elseif ($displayformat=='htmltable') 
 
@@ -36,9 +36,9 @@ elseif ($displayformat=='htmltable')
     include("inputdisplay/multiplemonthsdataentry.inc");
   }
 
-elseif ($displayformat=='countsonlycsv') 
+elseif ($displayformat=='csvtransposed') 
   {
-    printpageviewsascountsonlycsv($pagelistasarray,$month,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
+    printpageviewsformonthoryearlistascsvtransposed($pagelistasarray,array($month),$language,$explanatoryheader,$includetotal,$numericdisplayformat);
   }
 
 elseif ($displayformat=='countsonlyseparatelines') 

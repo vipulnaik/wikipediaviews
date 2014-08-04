@@ -6,12 +6,12 @@ include("style/toggler.inc");
 print '</head>';
 include_once("backend/corecode.inc");
 $formdata = true;
-$pagetypeadvice = "multipletagsandmonths";
+$pagetypeadvice = "multipletagsandyears";
 include("retrieval/taglistretrieval.inc");
-include("retrieval/monthlistretrieval.inc");
+include("retrieval/yearlistretrieval.inc");
 include("retrieval/advancedoptionretrieval.inc");
 
-if ($pagespecificationerror == true or $monthspecificationerror == true)
+if ($pagespecificationerror == true)
   {
     include("inputdisplay/".$pagetypeadvice."dataentry.inc");
   }
@@ -19,28 +19,28 @@ if ($pagespecificationerror == true or $monthspecificationerror == true)
 if ($displayformat=='htmltableautomatic') 
   {
     include("style/head.inc");
-    if (count($taglist) >= count($monthlist)) 
+    if (count($taglist) >= count($yearlist)) 
       {
-	printpageviewsformonthoryearlistashtmltable($taglist,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
+	printpageviewsformonthoryearlistashtmltable($taglist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
       }
     else 
       {
-	printpageviewsformonthoryearlistashtmltabletransposed($taglist,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
+	printpageviewsformonthoryearlistashtmltabletransposed($taglist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
       }
-    include("inputdisplay/multipletagsandmonthsdataentry.inc");
+    include("inputdisplay/multipletagsandyearsdataentry.inc");
   }
 
 elseif ($displayformat=='htmltable') 
   { 
     include("style/head.inc"); 
-    printpageviewsformonthoryearlistashtmltable($taglist,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
-    include("inputdisplay/multipletagsandmonthsdataentry.inc");
+    printpageviewsformonthoryearlistashtmltable($taglist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
+    include("inputdisplay/multipletagsandyearsdataentry.inc");
   }
 
 elseif ($displayformat=='htmltabletransposed') 
   {
     include("style/head.inc");
-    printpageviewsformonthoryearlistashtmltabletransposed($taglist,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
-    include("inputdisplay/multipletagsandmonthsdataentry.inc");
+    printpageviewsformonthoryearlistashtmltabletransposed($taglist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
+    include("inputdisplay/multipletagsandyearsdataentry.inc");
   }
 ?>

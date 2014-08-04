@@ -25,14 +25,8 @@ if ($formdata == true and $displayformat=="htmltable")
     print ' selected="selected"';
   }
 print '>';
-print 'HTML table (best for online viewing) with rows corresponding to pages and columns corresponding to years</option>';
-print '<option value="csv"';
-if ($formdata == true and $displayformat=="csv") 
-  {
-    print 'selected="selected"';
-  }
-print '>';
-print 'CSV: Page name and number of views separated by comma; each line for a different page</option>';
+print 'HTML table with rows corresponding to pages and columns corresponding to years</option>';
+
 print '<option value="htmltabletransposed"';
 if ($formdata == true and $displayformat=="htmltabletransposed") 
   {
@@ -40,6 +34,15 @@ if ($formdata == true and $displayformat=="htmltabletransposed")
   }
 print '>';
 print 'HTML table with rows corresponding to years and columns corresponding to pages (best if few pages, many years)</option>';
+
+print '<option value="csv"';
+if ($formdata == true and $displayformat=="csv") 
+  {
+    print 'selected="selected"';
+  }
+print '>';
+print 'CSV: Page name and number of views separated by comma; each line for a different page</option>';
+
 print '<option value="csvtransposed"';
 if ($formdata == true and $displayformat=="csvtransposed") 
   {
@@ -47,5 +50,14 @@ if ($formdata == true and $displayformat=="csvtransposed")
   }
 print '>';
 print 'CSV: Year and number of views separated by comma; each line for a different year</option>';
+
+print '<option value="cpi"';
+if ($formdata == true and $displayformat=="cpi") 
+  {
+    print 'selected="selected"';
+  }
+print '>';
+print 'CPI: Special format (documentation pending)</option>';
+
 print '</select></td></tr>';
 ?>

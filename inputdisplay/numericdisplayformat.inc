@@ -10,7 +10,7 @@
 
 ##Relevant execution code in backend/stringfunctions.inc
 
-print '<tr><td>Enter the format in which you want the numbers displayed (for HTML displays only)</td><td>';
+print '<tr><td>Enter the format in which you want the numbers displayed (<strong>ONLY HTML DISPLAYS</strong>)</td><td>';
 print '<select name="numericdisplayformat">';
 print '<option value="kmb"';
 if (($formdata == false) or ($formdata == true and $numericdisplayformat=='kmb')) 

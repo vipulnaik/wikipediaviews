@@ -43,4 +43,14 @@ elseif ($displayformat=='htmltabletransposed')
     printpageviewsformonthoryearlistashtmltabletransposed($taglist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
     include("inputdisplay/multipletagsandyearsdataentry.inc");
   }
+
+elseif ($displayformat=='csv') 
+  printpageviewsformonthoryearlistascsv($taglist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,'','tag','year');
+
+elseif ($displayformat=='csvtransposed') 
+  printpageviewsformonthoryearlistascsvtransposed($taglist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,'','tag','year');
+
+elseif ($displayformat=='cpi')
+  printpageviewsformonthoryearlistascpi($taglist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,'','tag','year');
+
 ?>

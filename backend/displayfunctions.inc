@@ -90,6 +90,7 @@ function printtagviewcountbyyear($tag,$year,$language,$viewcount,$numericdisplay
 
 function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month')
 {
+  flush();
   #Check that sizes are workable
   $sizeoverflow = checksizes($pageortaglist,$monthoryearlist);
   if ($sizeoverflow > 0)
@@ -118,6 +119,12 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
   $pageortag_percentage = $totalsandpercentages_array[3];
   $monthoryear_percentage = $totalsandpercentages_array[4];
   
+  #Pre-table warnings
+
+  if ($monthoryearadvice=='year')
+    print "<strong>For speed and consistency reasons, we do <em>not</em> include the current month in totals for the current year</strong><br><br>";
+
+  flush();
   ##Table header row
     
   print '<table border="1">';
@@ -213,11 +220,13 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
       $percentages_rowstring .= '</tr>';
       print $percentages_rowstring;
     }
-  print "</tbody></table>";
+  print "</table>";
+  flush();
 }
 
 function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month')
 {
+  flush();
   #Check that sizes are workable
   $sizeoverflow = checksizes($pageortaglist,$monthoryearlist);
   if ($sizeoverflow > 0)
@@ -246,7 +255,14 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
   $monthoryear_total = $totalsandpercentages_array[2];
   $pageortag_percentage = $totalsandpercentages_array[3];
   $monthoryear_percentage = $totalsandpercentages_array[4];
-  
+
+  #Pre-table warnings
+    
+  if ($monthoryearadvice=='year')
+    print "<strong>For speed and consistency reasons, we do <em>not</em> include the current month in totals for the current year</strong><br><br>";
+
+  flush();
+  #Table header row
   print '<table border="1">';
   $headerstring = "<tr><th>".ucfirst($monthoryearadvice)."</th>";
   foreach($pageortaglist as $pageortag)
@@ -343,6 +359,7 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
       print $percentages_rowstring;
     }
   print "</table>";
+  flush();
 }
 
 function printpageviewsformonthoryearlistascsv($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month')

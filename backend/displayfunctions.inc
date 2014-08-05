@@ -118,7 +118,11 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
   $monthoryear_total = $totalsandpercentages_array[2];
   $pageortag_percentage = $totalsandpercentages_array[3];
   $monthoryear_percentage = $totalsandpercentages_array[4];
-  
+
+  #Tag list fetching
+  if ($pageortagadvice=='page')
+     $taglistbypages = gettaglistbypagelist($pageortaglist,$language);
+
   #Pre-table warnings
 
   if ($monthoryearadvice=='year')
@@ -141,6 +145,11 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
     {
       $headerstring.="<th>Percentage</th>";
     }
+
+  #Tag list column printing
+  if ($pageortagadvice == 'page')
+      $headerstring .= "<th>Tags</th>";
+  
   $headerstring .= "</tr>";
   print $headerstring;
   
@@ -181,10 +190,24 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
 
 	}
       if ($includetotal=='includetotal' and count($monthoryearlist) > 1) 
+	$pageortag_rowstring .='<td align="right"><strong><element title="'.$pageortag_total[$pageortag].'">'.numericdisplay($pageortag_total[$pageortag],$numericdisplayformat).'</element></strong></td>';
+      if (count($pageortaglist) > 1) 
+	$pageortag_rowstring .= '<td align="right"><strong>'.$pageortag_percentage[$pageortag].'</strong></td>';
+      if ($pageortagadvice == 'page')
 	{
-	  $pageortag_rowstring .='<td align="right"><strong><element title="'.$pageortag_total[$pageortag].'">'.numericdisplay($pageortag_total[$pageortag],$numericdisplayformat).'</element></strong></td>';
+	  $pageortag_rowstring .= '<td>';
+	  $taglistforpage = $taglistbypages[$pageortag];
+	  if (count($taglistforpage)==0)
+	    $pageortag_rowstring .= "--";
+	  foreach ($taglistforpage as $tag)
+	    {
+	      if ($monthoryearadvice == 'month')
+		$pageortag_rowstring .= '<a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$tag.'&language='.$language.'&allmonths=allmonths">'.$tag.'</a> ';
+	      else
+		$pageortag_rowstring .= '<a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$tag.'&language='.$language.'&allyears=allyears">'.$tag.'</a> ';
+	    }
+	  $pageortag_rowstring .= '</td>';
 	}
-      if (count($pageortaglist) > 1) {$pageortag_rowstring .= '<td align="right"><strong>'.$pageortag_percentage[$pageortag].'</strong></td>';}
       $pageortag_rowstring .="</tr>";
       print $pageortag_rowstring;
     }
@@ -199,7 +222,10 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
 	{ 
 	  $totals_rowstring .= '<td align="right"><strong><element title="'.$grand_total.'">'.numericdisplay($grand_total,$numericdisplayformat).'</element></strong></td>';
 	}
-      $totals_rowstring .= '<td align="right"><strong>100</strong></td></tr>';
+      $totals_rowstring .= '<td align="right"><strong>100</strong></td>';
+      if ($pageortagadvice == 'page')
+	$totals_rowstring .= "<td>--</td>";
+      $totals_rowstring .= "</tr>";
       print $totals_rowstring;
     }
   if (count($monthoryearlist) > 1)
@@ -217,6 +243,8 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
 	{
 	  $percentages_rowstring .= '<td align="right">--</td>';
 	}
+      if ($pageortagadvice == 'page')
+	$percentages_rowstring .= "<td>--</td>";
       $percentages_rowstring .= '</tr>';
       print $percentages_rowstring;
     }
@@ -255,6 +283,10 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
   $monthoryear_total = $totalsandpercentages_array[2];
   $pageortag_percentage = $totalsandpercentages_array[3];
   $monthoryear_percentage = $totalsandpercentages_array[4];
+
+  #Tag list fetching
+  if ($pageortagadvice=='page')
+     $taglistbypages = gettaglistbypagelist($pageortaglist,$language);
 
   #Pre-table warnings
     
@@ -327,6 +359,8 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
 	}
       print $monthoryear_rowstring;
     }
+    
+  ##Totals row
   if ($includetotal=='includetotal' and count($monthoryearlist) > 1)
     {
       $totals_rowstring="<tr><td><strong>Total</strong></td>";
@@ -341,6 +375,8 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
       $totals_rowstring .= '<td align="right"><strong>100</strong></td></tr>';
       print $totals_rowstring;
     }
+
+  ##Percentages row
   if (count($pageortaglist) > 1)
     {
       $percentages_rowstring = "<tr><td><strong>Percentage</strong></td>";
@@ -358,6 +394,32 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
 	}
       print $percentages_rowstring;
     }
+
+  if ($pageortagadvice == 'page')
+    {
+      $tags_rowstring = "<tr><td><strong>Tags</strong></td>";
+      foreach ($pageortaglist as $pageortag)
+	{
+	  $tags_rowstring .= '<td>';
+	  $taglistforpage = $taglistbypages[$pageortag];
+	  if (count($taglistforpage)==0)
+	    $tags_rowstring .= "--";
+	  foreach ($taglistforpage as $tag)
+	    {
+	      if ($monthoryearadvice == 'month') 
+		$tags_rowstring .= '<a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$tag.'&language='.$language.'&allmonths=allmonths">'.$tag.'</a> ';
+	      else
+		$tags_rowstring .= '<a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$tag.'&language='.$language.'&allyears=allyears">'.$tag.'</a> ';
+	    }
+	  $tags_rowstring .= '</td>';
+	}
+      if (count($pageortaglist) > 1)
+	$tags_rowstring .= '<td>--</td>';
+      if (count($monthoryearlist) > 1)
+	$tags_rowstring .= '<td>--</td>';
+      $tags_rowstring .= '</tr>';
+      print $tags_rowstring;
+    }	  
   print "</table>";
   flush();
 }

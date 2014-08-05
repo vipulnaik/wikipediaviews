@@ -139,7 +139,7 @@ function getpagelistbytaglist($taglist,$language,$connective='or')
       $taglistasquotedcsvstring = convertlisttoquotedcsvstring($taglist);
       $tagselect_query .= "and pagetags.tag in (".$taglistasquotedcsvstring.")";
     }
-  $taglist .= "order by pagetags.pagename asc;";
+  $tagselect_query .= "order by pagetags.pagename asc;";
   $result = $mysqli->query($tagselect_query);
   $pagelist = array();
   for ($i = 0; $i < $result->num_rows;$i++)
@@ -149,6 +149,26 @@ function getpagelistbytaglist($taglist,$language,$connective='or')
       array_push($pagelist,$pagename);
     }
   return $pagelist;
+}
+
+function gettaglistbypagelist($pagelist,$language)
+{
+  global $mysqli;
+  if ($mysqli->connect_errno) 
+    {
+      echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+    }
+  foreach ($pagelist as $page)
+    $taglist[$page] = array();
+  $pagelistasquotedcsvstring = convertlisttoquotedcsvstring($pagelist);
+  $tagselect_query = "select distinct pagename,tag from pagetags where pagename in (".$pagelistasquotedcsvstring.") and language='".$language."';";
+  $result = $mysqli->query($tagselect_query);
+  for ($i = 0;$i < $result -> num_rows; $i++)
+    {
+      $row = $result -> fetch_assoc();
+      array_push($taglist[$row['pagename']],$row['tag']);      
+    }
+  return $taglist;
 }
 
 ?>

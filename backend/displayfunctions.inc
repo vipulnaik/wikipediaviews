@@ -582,37 +582,46 @@ function printpageviewsformonthoryearlistascsvtransposed($pageortaglist,$monthor
 
 function printpageviewsformonthoryearlistascpi($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month')
 {
+  global $exceededquerylimitmessage;
   #Check that sizes are workable
   $sizeoverflow = checksizes($pageortaglist,$monthoryearlist);
   if ($sizeoverflow > 0)
     return false;
   #Collect all the numbers that need to be printed first
   if ($pageortagadvice=='page' and $monthoryearadvice=='month')
-    {
-      $viewcountarray = viewcountarraybymonth($pageortaglist,$monthoryearlist,$language,true,$normalization);
-    }
+    $viewcountarray = viewcountarraybymonth($pageortaglist,$monthoryearlist,$language,true,$normalization);
   elseif ($pageortagadvice=='page' and $monthoryearadvice=='year')
-    {
-      $viewcountarray = viewcountarraybyyear($pageortaglist,$monthoryearlist,$language,true,$normalization);
-    }
+    $viewcountarray = viewcountarraybyyear($pageortaglist,$monthoryearlist,$language,true,$normalization);
   elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month')
-    {
-      $viewcountarray = viewcountarraybytagandmonth($pageortaglist,$monthoryearlist,$language,true,$normalization);
-    }
+    $viewcountarray = viewcountarraybytagandmonth($pageortaglist,$monthoryearlist,$language,true,$normalization);
   elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year')
+    $viewcountarray = viewcountarraybytagandyear($pageortaglist,$monthoryearlist,$language,true,$normalization);
+  
+  #Collect tag information
+  if ($pageortagadvice=='page')
     {
-      $viewcountarray = viewcountarraybytagandyear($pageortaglist,$monthoryearlist,$language,true,$normalization);
+      $taglistbypages = gettaglistbypagelist($pageortaglist,$language);
+      $tagindices = gettagindices($pageortaglist,$language);
     }
   for ($i = 0; $i < count($pageortaglist); $i++)
     {
       for ($j = 0; $j < count($monthoryearlist); $j++)
 	{
-	  print $viewcountarray[$pageortaglist[$i]][$monthoryearlist[$j]];
-	  print " ";
-	  print "1,".$i;
-	  print " ";
-	  print "2,".$j;
-	  print "<br>";
+	  $viewcount = $viewcountarray[$pageortaglist[$i]][$monthoryearlist[$j]];
+	  if ($viewcount != $exceededquerylimitmessage)
+	    {
+	      print $viewcount; 
+	      print " ";
+	      print "1,".$i;
+	      print " ";
+	      print "2,".$j;
+	      foreach ($taglistbypages[$pageortaglist[$i]] as $tag)
+		{
+		  print " 3,".$tagindices[$tag];
+		  print " 4,".($tagindices[$tag] * count($monthoryearlist) + $j);
+		}
+	      print "<br>";
+	    }
 	}
     }
 }

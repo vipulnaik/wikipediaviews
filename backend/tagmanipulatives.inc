@@ -171,4 +171,22 @@ function gettaglistbypagelist($pagelist,$language)
   return $taglist;
 }
 
+function gettagindices($pagelist,$language)
+{
+  global $mysqli;
+  if ($mysqli->connect_errno) 
+    {
+      echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+    }
+  $pagelistasquotedcsvstring = convertlisttoquotedcsvstring($pagelist);
+  $tagselect_query = "select distinct tag from pagetags where pagename in (".$pagelistasquotedcsvstring.") and language='".$language."';";
+  $result = $mysqli->query($tagselect_query);
+  for ($i = 0;$i < $result -> num_rows; $i++)
+    {
+      $row = $result -> fetch_assoc();
+      $tagindices[$row['tag']] = $i;
+    }
+  return $tagindices;
+}
+
 ?>

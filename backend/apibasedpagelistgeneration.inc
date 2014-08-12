@@ -11,6 +11,7 @@ function getpagelistbywikipediacategory($category,$language)
   #preg_match_all('/(?<=\bns=&quot;0&quot; title=&quot;)\K[^&]+/',$apiquery_html,$pagelist);
   preg_match_all('/(?<=\bns="0" title=")\K[^"]+/',$apiquery_txt,$pagelist);
   #print_r($pagelist[0]);
+  #$pagelist[0] = str_replace($pagelist[0],"#039&","%27");
   return $pagelist[0];
 }
 
@@ -24,7 +25,7 @@ function getpagelistbycreatinguser($user,$language)
   $apiquery_txt = html_entity_decode($apiquery_html);
   #preg_match_all('/(?<=\bns=&quot;0&quot; title=&quot;)\K[^&]+/',$apiquery_html,$pagelist);
   preg_match_all('/(?<=\bns="0" title=")\K[^"]+/',$apiquery_txt,$pagelist);
-  #print_r($pagelist[0]);
+  #$pagelist[0] = str_replace($pagelist[0],"#039&","%27");
   return $pagelist[0];
 }
 
@@ -40,6 +41,7 @@ function getpagelistbylinkingpage($linkingpage,$language)
   #preg_match_all('/(?<=\bns=&quot;0&quot; title=&quot;)\K[^&]+/',$apiquery_html,$pagelist);
   preg_match_all('/(?<=\bns="0" title=")\K[^"]+/',$apiquery_txt,$pagelist);
   #print_r($pagelist[0]);
+  #$pagelist[0] = str_replace($pagelist[0],"#039&","%27");
   return $pagelist[0];	
 }
 

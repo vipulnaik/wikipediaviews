@@ -7,6 +7,10 @@
 global $hardquerylimit;
 $hardquerylimit = 100;
 
+## Background query limit (applicable to archival queries)
+global $backgroundquerylimit;
+$backgroundquerylimit = 50;
+
 ## Number of ordinary queries that are equivalent to one recent-month query
 global $recentmonthslowdownfactor;
 $recentmonthslowdownfactor = 2;

@@ -119,7 +119,8 @@ function getpageviewsfromdb($page,$month,$language,$online)
 	{
 	  $currentdate = new DateTime("now");
 	  $dateofretrieval = new DateTime($row['querytime']); 
-	  $dayspassed = intval(date_diff($dateofretrieval,$currentdate));
+	  $dayspassedasdiff = date_diff($dateofretrieval,$currentdate);
+	  $dayspassed = intval($dayspassedasdiff -> d);
 	  if ($dayspassed > $purgeperiod)
 	    {
 	      $viewcount = getpageviewsonline($page,$month,$language);
@@ -248,7 +249,8 @@ function viewcountarraybymonth_raw($pagelist,$monthlist,$language,$online=true,$
 	{
 	  $currentdate = new DateTime("now");
 	  $dateofretrieval = new DateTime($row['querytime']); 
-	  $dayspassed = intval(date_diff($dateofretrieval,$currentdate));
+	  $dayspassedasdiff = date_diff($dateofretrieval,$currentdate);
+	  $dayspassed = intval($dayspassedasdiff->d);
 	  if ($dayspassed > $purgeperiod)
 	      $viewcountarray[$row['pagename']][$row['monthfull']] = 'unavailable';
 	  else
@@ -307,9 +309,7 @@ function viewcountarraybymonth($pagelist,$monthlist,$language,$online,$normaliza
   global $numberofdays_allmonths;
   $viewcountarray = viewcountarraybymonth_raw($pagelist,$monthlist,$language,$online,$normalization);
   if ($normalization == '')
-    {
-      return $viewcountarray;
-    }
+    return $viewcountarray;
   elseif ($normalization == 'dailyaverage')
     {
       foreach ($pagelist as $page)

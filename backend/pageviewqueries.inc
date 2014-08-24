@@ -333,12 +333,8 @@ function viewcountarraybyyear($pagelist,$yearlist,$language,$online,$normalizati
     }
   if (sizeof($pagelist) == 0 or sizeof($yearlist) == 0) return false;
   foreach($pagelist as $page)
-    {
       foreach($yearlist as $year)
-	{
-	  $viewcountarray[$page][$year] = 'unavailable';
-	}
-    }
+	$viewcountarray[$page][$year] = 'unavailable';
   $pagelistasquotedcsvstring = convertlisttoquotedcsvstring($pagelist);
   $yearlistasquotedcsvstring = convertlisttoquotedcsvstring($yearlist);	
   $select_query = "select pagename,year,viewcount from viewcountsbyyear where pagename in (".$pagelistasquotedcsvstring.") and year in (".$yearlistasquotedcsvstring.") and language='".$language."';";
@@ -349,34 +345,22 @@ function viewcountarraybyyear($pagelist,$yearlist,$language,$online,$normalizati
       $viewcountarray[$row['pagename']][$row['year']] = $row['viewcount'];
     }
   foreach(array_reverse($pagelist) as $page)
-    {
       queriedpagelog($page,$language,'partial');
-    }
   foreach($pagelist as $page)
-    {
-      foreach($yearlist as $year)
-	{
-	  if ($viewcountarray[$page][$year] == 'unavailable' and $online = true)
-	    {
-	      $viewcountarray[$page][$year] = getannualpageviewsfromdb($page,$year,$language,true);
-	    }
-	}
-    }
+    foreach($yearlist as $year)
+      if ($viewcountarray[$page][$year] == 'unavailable' and $online = true)
+	$viewcountarray[$page][$year] = getannualpageviewsfromdb($page,$year,$language,true);
+
   if ($weightedexternalquerycount < $weightedexternalquerylimit)
     {
       #print "Successfully completed without timing out :)<br>";
       return $viewcountarray;
     }
   foreach($pagelist as $page)
-    {
-      foreach($yearlist as $year)
-	{
-	  if ($viewcountarray[$page][$year] == $exceededquerylimitmessage)
-	    {
-	      $viewcountarray[$page][$year] = getannualpageviewsfromdb($page,$year,$language,true);
-	    }
-	}
-    }
+    foreach($yearlist as $year)
+      if ($viewcountarray[$page][$year] == $exceededquerylimitmessage)
+	$viewcountarray[$page][$year] = getannualpageviewsfromdb($page,$year,$language,true);
+      
   return $viewcountarray;	
 }
 
@@ -387,9 +371,7 @@ function fillinwantedviewcounts($querylimit)
   global $weightedexternalquerylimit;
   global $exceededquerylimitmessage;
   if ($mysqli->connect_errno) 
-    {
-      echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-    }
+    echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   $select_query = "select * from wantedviewcountsbymonth where status='wanted' limit ".$querylimit.";";
   #print $select_query;
   $result = $mysqli->query($select_query);

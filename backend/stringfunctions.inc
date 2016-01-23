@@ -82,7 +82,7 @@ function numericdisplaykmb($number)
       $number_k = round((floatval ($number_int))/1000,1);
       return (strval($number_k)."K");
     }
-  if ($number_int >= 10000 and $number_int < 999500)
+  if ($number_int >= 9950 and $number_int < 999500)
     {
       $number_k = round((floatval ($number_int))/1000,0);
       return (strval($number_k)."K");

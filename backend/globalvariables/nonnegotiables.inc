@@ -5,7 +5,7 @@
 
 ## Hard (non-negotiable) upper bound on number of external queries
 global $hardquerylimit;
-$hardquerylimit = 100;
+$hardquerylimit = 1000;
 
 ## Background query limit (applicable to archival queries)
 global $backgroundquerylimit;
@@ -13,7 +13,7 @@ $backgroundquerylimit = 100;
 
 ## Number of ordinary queries that are equivalent to one recent-month query
 global $recentmonthslowdownfactor;
-$recentmonthslowdownfactor = 2;
+$recentmonthslowdownfactor = 1;
 
 ## Message to display in a cell that could not be computed because the query limit was exceeded
 global $exceededquerylimitmessage;

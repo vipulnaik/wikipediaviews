@@ -15,4 +15,5 @@
   <option value="no" <?php if ($formdata==true and $language=="no") {print 'selected="selected"';} ?>>Norwegian (Norsk (bokmal)) (no)</option>
   <option value="fi" <?php if ($formdata==true and $language=="fi") {print 'selected="selected"';} ?>>Finnish (fi)</option>
   <option value="hi" <?php if ($formdata==true and $language=="hi") {print 'selected="selected"';} ?>>Hindi (hi)</option>
+  <option value="ja" <?php if ($formdata==true and $language=="ja") {print 'selected="selected"';} ?>>Japanese (ja)</option>
 </select></td></tr>

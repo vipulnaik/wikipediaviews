@@ -3,7 +3,7 @@
 
 <body>
 <?php
-   include(__DIR__."/../head.inc");
+   include(__DIR__."/../style/head.inc");
 ?>
 
 <p>This page includes technical notes on how to interpret the pageview statistics.</p>
@@ -78,6 +78,7 @@ pageviews.</p></li>
 <li><p>Internal navigation within a page, for instance, by clicking on
 section titles in the table of contents, does not count as additional
 views of the page.</p></li>
+<li><p>As discussed on the <a href="https://wikitech.wikimedia.org/wiki/Analytics/Data/Pagecounts-raw">page about pagecounts-raw</a>, the dumps exclude pageviews on mobile domains but include bot pageviews. This should be kept in mind when interpreting pageviews.</p></li>
 </ul>
 
 <h4>Investigating anomalous page view numbers</h4>
@@ -92,7 +93,7 @@ typically through internal links, but the traffic is much less in
 quantity than for the main page name.</p></li>
 <li><p>In some cases, pagenames may contain unusual characters that
 confuse the system, either at Wikipedia Views or at stats.grok.se. If
-you encounter such issues, please <a href="/contact.php">contact
+you encounter such issues, please <a href="/about/contact.php">contact
 us</a> with the information. We'll look into the issue and attempt to fix it if possible.</p></li>
 <li><p>The page may have been created after the month for which you're
 viewing statistics, or sometime in the middle of the month, or in the
@@ -118,3 +119,9 @@ the month. You can then use other investigative tools to determine
 whether anything happened on those days that sparked interest in the
 topic.</p></li>
 </ul>
+
+<h4>Interested more in Wikipedia pageviews?</h4>
+
+<p>You might like to read this <a href="http://vipulnaik.com/blog/the-great-decline-in-wikipedia-pageviews-full-version/">blog post on the decline in Wikipedia pageviews over time</a>, written based on data collated by Wikipedia Views. A shorter version was <a href="http://lesswrong.com/r/discussion/lw/lxc/the_great_decline_in_wikipedia_pageviews/">published on LessWrong</a>.</p>
+
+</body>

@@ -64,14 +64,37 @@ function getpageviewsonline($page, $month, $language)
   else
       $weightedexternalquerycount++;
   $url = getpageviewsurl($page,$month,$language);
-  $html = file_get_contents($url);
-  preg_match('/(?<=\bhas been viewed)\s+\K[^\s]+/',$html,$numberofpageviews);
-  if (count($numberofpageviews) > 0)
-    if (strlen($numberofpageviews[0]) > 0)
-	{
-	  $externalquerycount++;
-	  return $numberofpageviews[0];
-	}
+  if ($month < 201601)
+  {
+    $html = file_get_contents($url);
+    preg_match('/(?<=\bhas been viewed)\s+\K[^\s]+/',$html,$numberofpageviews);
+    if (count($numberofpageviews) > 0)
+      if (strlen($numberofpageviews[0]) > 0)
+      {
+        $externalquerycount++;
+        return $numberofpageviews[0];
+      }
+  }
+  else
+  {
+    # Calculate string of the first date of next month (used as upper limit of
+    # query)
+    ini_set('user_agent', 'Wikipedia Views (wikipediaviews.org)');
+    usleep(500000);
+    $html = file_get_contents($url);
+    if (!$html)
+    {
+      return $exceededquerylimitmessage;
+    }
+    $json = json_decode($html,true);
+    $sum = 0;
+    foreach ($json["items"] as $day)
+    {
+      $sum += intval($day["views"]);
+    }
+    $externalquerycount++;
+    return $sum;
+  }
   return getpageviewsonline($page, $month, $language);
 }
 

@@ -11,19 +11,25 @@ Wikipedia pages or collections of pages get viewed.</p>
 
 <h3>Behind the curtain</h3>
 
-<strong>Wikipedia Views</strong> has been developed
+<p><strong>Wikipedia Views</strong> has been developed
 by <a href="http://vipulnaik.com">Vipul Naik</a> using PHP and
 MySQL. Special thanks go
 to <a href="http://www.stackoverflow.com">Stack Overflow</a> for help
 with overcoming some of the coding hurdles that needed to be cleared
-to get to functioning code. We rely on statistics
-from <a href="http://stats.grok.se">stats.grok.se</a>.</p>
+to get to functioning code.</p>
+
+<p>For data between December 2007 and December 2015 (inclusive) we rely on statistics
+from <a href="http://stats.grok.se">stats.grok.se</a>, which in turn uses the <a href="https://wikitech.wikimedia.org/wiki/Analytics/Data/Pagecounts-raw">pagecounts-raw dump</a> provided hourly by the Wikimedia Foundation. This dump includes all pageview data for the main domain but excludes mobile and Wikipedia Zero pageviews.</p>
+
+<p>Data from January 2016 onward is from the Wikimedia REST API.</p>
 
 <p>The development was concentrated between April 30, 2014 and July 31,
 2014.</p>
 
 <p>Code is available
 at <a href="http://github.com/vipulnaik/wikipediaviews">Github</a>.</p>
+
+<p>For more on how to interpret the pageview data, see <a href="pageviewstatsinterpretation.php">here</a>.
 
 <h3>Pageview data fetching and caching</h3>
 

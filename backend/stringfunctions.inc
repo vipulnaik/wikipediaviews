@@ -17,11 +17,54 @@ function convertpagelisttoarray($pagelistasstring)
 
 function getpageviewsurl($page,$month,$language)
 {
+  if ($month < 201601)
+    return getsgspageviewsurl($page,$month,$language);
+  else
+    return getapipageviewsurl($page,$month,$language);
+}
+
+function getsgspageviewsurl($page,$month,$language)
+{
   $page = str_replace(" ","_",$page);
   $page = str_replace("'","%27",$page);
   return "http://stats.grok.se/" . $language . "/" . $month . "/" . $page;
 }
 
+function getapipageviewsurl($page,$month,$language)
+{
+  $year = intval(substr($month, 0, 4));
+  $justMonth = intval(substr($month, 4));
+  switch (intval($justMonth))
+  {
+    case 1: $endOfMonth = $year . '0131';
+    	    break;
+    case 2: if ($year % 4 != 0) 
+    	       $endOfMonth = $year.'0228';
+	    else 
+	       $endOfMonth = $year.'0229';
+	    break;
+    case 3: $endOfMonth = $year . '0331';
+    	    break;
+    case 4 : $endOfMonth = $year . '0430';
+    	     break;
+    case 5 : $endOfMonth = $year . '0531';
+    	     break;
+    case 6 : $endOfMonth = $year . '0630';
+    	     break;
+    case 7 : $endOfMonth = $year . '0731';	
+    	     break;
+    case 8 : $endOfMonth = $year . '0831';
+    	     break;
+    case 9 : $endOfMonth = $year . '0930';
+    	     break;
+    case 10: $endOfMonth = $year . '1031';
+    	     break;
+    case 11: $endOfMonth = $year . '1130';
+    	     break;
+    case 12: $endOfMonth = $year . '1231';
+  }
+  return "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/" . $language . ".wikipedia/desktop/user/" . str_replace("%2527", "%27", urlencode(str_replace(" ","_",$page))) . "/daily/" . $month . "01/" . $endOfMonth . "?purge" . strval(rand());
+}
 function getannualpageviewsurl($page,$year,$language)
 {
   return "http://wikipediaviews.org/displayviewsformultiplemonths.php?year=".$year."&page=".$page."&language=".$language;
@@ -119,7 +162,7 @@ function numericdisplaylog($number)
 function monthviewtooltip($number)
 {
   $tooltipstring = $number;
-  $tooltipstring .= " views (click to view day-wise breakdown on stats.grok.se)";
+  $tooltipstring .= " views (click to view day-wise breakdown)";
   return $tooltipstring;
 }
 

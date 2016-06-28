@@ -24,7 +24,7 @@ display:inline;
 <li><a href="/about">About</a></li>
 </ul>
 <p>This website is <strong>not affiliated with or endorsed by the <a href="https://wikimediafoundation.org">Wikimedia Foundation</a>, the nonprofit that maintains Wikipedia and manages the Wikipedia trademark</strong>.</p>
-<p>Note that these pageviews <b>exclude pageviews on the mobile domain (m.wikipedia.org) and in the mobile app</b>. Views until December 2015 <b>include bot pageviews</b>, while those from January 2016 exclude identifiable bots and spiders (but may still miss many).</p>
+<p>Note that these pageviews <b>exclude pageviews on the mobile domain (m.wikipedia.org) and in the mobile app</b>. Views until December 2015 <b>include bot pageviews</b>, while those from January 2016 exclude identifiable bots and spiders (but may still end up counting many views by bots and spiders as legitimate human views).</p>
 <p>There is now a more powerful website available if you're interested in visualizing trends. It's called <a href="http://www.wikipediatrends.com/">Wikipedia Trends</a> and is unaffiliated with Wikipedia Views.</p>
 <?php
 include_once(__DIR__."/../backend/corecode.inc");

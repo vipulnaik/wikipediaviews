@@ -84,7 +84,7 @@ function getpageviewsonline($page, $month, $language)
     $html = file_get_contents($url);
     if (!$html)
     {
-      return $exceededquerylimitmessage;
+      return 0;
     }
     $json = json_decode($html,true);
     $sum = 0;
@@ -120,7 +120,7 @@ function getpageviewsfromdb($page,$month,$language,$online)
   $select_query = "select viewcount,querytime from viewcountsbymonth where pagename='".$page."' and monthfull='".$month."' and language='".$language."' limit 1;";
   $result = $mysqli->query($select_query);
 
-  #If there is no entry, fetches it onlinefrom stats.grok.se
+  #If there is no entry, fetches it online
 
   if ($result->num_rows == 0)
     {

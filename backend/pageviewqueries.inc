@@ -418,7 +418,7 @@ function fillinwantedviewcounts($querylimit, $online)
     {
       $count = getpageviewsfromdb($page[$i],$month[$i],$language[$i],$online);
       print "Weighted external query count is ".$weightedexternalquerycount." and ";
-      print "weighted external query limit is ".$weightedexternalquerylimit.".\n";
+      print "weighted external query limit is ".$weightedexternalquerylimit."\n";
       print "For page ".$page[$i]." and month ".$month[$i].", page view count is ".$count."\n";
       if ($count != $exceededquerylimitmessage)
 	{

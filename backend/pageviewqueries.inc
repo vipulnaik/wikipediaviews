@@ -416,19 +416,24 @@ function fillinwantedviewcounts($querylimit, $online)
   $update_result = $mysqli->query($working_query);
   for($i=0;$i < $result->num_rows;$i++)
     {
-      $count = getpageviewsfromdb($page[$i],$month[$i],$language[$i],$online);
-      print "Weighted external query count is ".$weightedexternalquerycount." and ";
-      print "weighted external query limit is ".$weightedexternalquerylimit."\n";
-      print "For page ".$page[$i]." and month ".$month[$i].", page view count is ".$count."\n";
-      if ($count != $exceededquerylimitmessage)
-	{
-	  $deletion_query .= ",".$row_id[$i];
-	}
+      $currentLoad = sys_getloadavg();
+      if ($currentLoad[0] < 2.2) {
+        $count = getpageviewsfromdb($page[$i],$month[$i],$language[$i],$online);
+        print "Weighted external query count is ".$weightedexternalquerycount." and ";
+        print "weighted external query limit is ".$weightedexternalquerylimit."\n";
+        print "For page ".$page[$i]." and month ".$month[$i].", page view count is ".$count."\n";
+        if ($count != $exceededquerylimitmessage)
+	  {
+	    $deletion_query .= ",".$row_id[$i];
+	  }
+      } else {
+      	sleep(5);
+      }
     }
   $deletion_query .= ");";
   print "Running deletion query: ".$deletion_query."\n";
   $deletion_result = $mysqli->query($deletion_query);
-  print "Deletion query: ".$deletion_query." succeeded\n";
+  print "Succeeded in running deletion query: ".$deletion_query."\n";
   return false;
 }	
 

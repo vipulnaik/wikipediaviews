@@ -417,7 +417,7 @@ function fillinwantedviewcounts($querylimit, $online)
   for($i=0;$i < $result->num_rows;$i++)
     {
       $currentLoad = sys_getloadavg();
-      if ($currentLoad[0] < 0.85) {
+      if ($currentLoad[0] < 0.75) {
         $count = getpageviewsfromdb($page[$i],$month[$i],$language[$i],$online);
         print "Weighted external query count is ".$weightedexternalquerycount." and ";
         print "weighted external query limit is ".$weightedexternalquerylimit."\n";
@@ -427,7 +427,7 @@ function fillinwantedviewcounts($querylimit, $online)
 	    $deletion_query .= ",".$row_id[$i];
 	  }
       } else {
-      	sleep(1);
+      	exit;
       }
     }
   $deletion_query .= ");";

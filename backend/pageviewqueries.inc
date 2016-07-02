@@ -428,7 +428,7 @@ function fillinwantedviewcounts($querylimit, $online)
   $deletion_query .= ");";
   print "Running deletion query: ".$deletion_query."\n";
   $deletion_result = $mysqli->query($deletion_query);
-  print "Deletion query: ".$deletion_query." succeeded";
+  print "Deletion query: ".$deletion_query." succeeded\n";
   return false;
 }	
 

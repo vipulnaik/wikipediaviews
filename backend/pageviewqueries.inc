@@ -412,7 +412,7 @@ function fillinwantedviewcounts($querylimit, $online)
       $row_id[$i] = $row['row_id'];
     }
   $working_query .= ");";
-  print $working_query;
+  print "Going to execute query to reserve a few pages for lookup: ".$working_query."\n";
   $update_result = $mysqli->query($working_query);
   for($i=0;$i < $result->num_rows;$i++)
     {

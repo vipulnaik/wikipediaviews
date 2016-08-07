@@ -1,3 +1,9 @@
+// First, create your database, user, and password, and give your user access to the database. Then set up a file at backend/globavariables/passwordfile.inc with the content:
+
+// <?php
+// $mysqli = new mysqli("your hostname (could be localhost)", "your username", "your password", "your database");
+// ?>
+
 // Create table for viewcountsbymonth
 
 CREATE TABLE `viewcountsbymonth` (

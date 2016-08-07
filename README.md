@@ -8,9 +8,8 @@ GitHub URL: https://github.com/vipulnaik/wikipediaviews
 WARNING: If you just get the code from GitHub and try running it, it
 will fail. You also need to set up the database and add a file called
 passwordfile.inc to your backend subdirectory with the credentials for
-accessing the database. Instructions for database setup (or a file
-that would create the necessary database tables) have not yet been
-included, and are in the to-do list.
+accessing the database. Instructions for database setup are at
+sql/table-creations.txt.
 
 ==File structure==
 

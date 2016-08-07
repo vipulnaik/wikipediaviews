@@ -10,39 +10,32 @@ $pagetypeadvice="onemonth";
 include("retrieval/pagelistretrieval.inc");
 include("retrieval/advancedoptionretrieval.inc");
 $month = $mostrecentmonth;
-if (!empty($_REQUEST['month']))
-  {
+if (!empty($_REQUEST['month'])) {
     $month = $_REQUEST['month'];
   }
 $monthlist = array($month);
 
-if ($pagespecificationerror == true or $monthspecificationerror == true)
-  {
-    include("inputdisplay/".$pagetypeadvice."dataentry.inc");
+if ($pagespecificationerror == true or $monthspecificationerror == true) {
+  include("inputdisplay/".$pagetypeadvice."dataentry.inc");
+} else {
+  switch ($displayformat) {
+    case 'csv' :
+      printpageviewsformonthoryearlistascsv($pagelistasarray,array($month),$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat);
+      break;
+    case 'htmltable' : 
+      include("style/head.inc"); 
+      printpageviewsformonthoryearlistashtmltable($pagelistasarray,$monthlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
+      $originalmonthlist = $monthlist;
+      $displayformat='htmltableautomatic';
+      $carryoverfromonemonth=true;
+      include("inputdisplay/multiplemonthsdataentry.inc");
+      break;
+    case 'csvtransposed' :
+      printpageviewsformonthoryearlistascsvtransposed($pagelistasarray,array($month),$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat);
+      break;
+    case 'countsonlyseparatelines' :
+      printpageviewsascountsonlyseparatelines($pagelistasarray,$month,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat);
+      break;
   }
-
-elseif ($displayformat=='csv') 
-  { 
-    printpageviewsformonthoryearlistascsv($pagelistasarray,array($month),$language,$explanatoryheader,$includetotal,$numericdisplayformat);
-  }
-elseif ($displayformat=='htmltable') 
-
-  {         
-    include("style/head.inc"); 
-    printpageviewsformonthoryearlistashtmltable($pagelistasarray,$monthlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
-    $originalmonthlist = $monthlist;
-    $displayformat='htmltableautomatic';
-    $carryoverfromonemonth=true;
-    include("inputdisplay/multiplemonthsdataentry.inc");
-  }
-
-elseif ($displayformat=='csvtransposed') 
-  {
-    printpageviewsformonthoryearlistascsvtransposed($pagelistasarray,array($month),$language,$explanatoryheader,$includetotal,$numericdisplayformat);
-  }
-
-elseif ($displayformat=='countsonlyseparatelines') 
-  {
-    printpageviewsascountsonlyseparatelines($pagelistasarray,$month,$language,$explanatoryheader,$includetotal,$numericdisplayformat);
-  }
+}
 ?>

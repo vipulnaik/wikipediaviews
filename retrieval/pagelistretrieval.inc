@@ -13,102 +13,94 @@
 
 ##Retrieval of language
 $language='en';
-if (!empty($_REQUEST['language']))
-  {
-    $language = $_REQUEST['language'];
-  }
+if (!empty($_REQUEST['language'])) {
+  $language = $_REQUEST['language'];
+}
+
+## Retrieval of device
+$device='desktop';
+if (!empty($_REQUEST['device'])) {
+  $device = $_REQUEST['device'];
+}
+
 
 ##Retrieval of page list as entered directly
 
 $pagelistasstring='';
 $pagelistasarray = array();
-if (!empty($_REQUEST['pagelistasstring']))
-  {
+if (!empty($_REQUEST['pagelistasstring'])) {
     $pagelistasstring = $_REQUEST['pagelistasstring'];
-  }
-if (!empty($_REQUEST['page']))
-  {
+}
+if (!empty($_REQUEST['page'])) {
     $pagelistasstring = $_REQUEST['page'];
-  }
+}
 
 ##Retrieval of alternate page specification formats
 $tag = '';
-if (!empty($_REQUEST['tag']))
-  {
+if (!empty($_REQUEST['tag'])) {
     $tag = $_REQUEST['tag'];
-  }
+}
 
 $category = '';
-if (!empty($_REQUEST['category']))
-  {
+if (!empty($_REQUEST['category'])) {
     $category = $_REQUEST['category'];
-  }
+}
 
 $user = '';
-if (!empty($_REQUEST['user']))
-  {
+if (!empty($_REQUEST['user'])) {
     $user = $_REQUEST['user'];
-  }
+}
 
 $linkingpage = '';
-if (!empty($_REQUEST['linkingpage']))
-  {
+if (!empty($_REQUEST['linkingpage'])) {
     $linkingpage = $_REQUEST['linkingpage'];
-  }
+}
 
 $archivalstatus = '';
-if (!empty($_REQUEST['archivalstatus']))
-  {
+if (!empty($_REQUEST['archivalstatus'])) {
     $archivalstatus = $_REQUEST['archivalstatus'];
-  }
+}
 
 $viewbound = 0;
-if (!empty($_REQUEST['viewbound']))
-  {
+if (!empty($_REQUEST['viewbound'])) {
     $viewbound = intval($_REQUEST['viewbound']);
-  }
+}
 
 $monthfilter = $thismonth;
-if (!empty($_REQUEST['monthfilter']))
-  {
+if (!empty($_REQUEST['monthfilter'])) {
     $monthfilter = $_REQUEST['monthfilter'];
-  }
+}
 
 $yearfilter = '';
-if (!empty($_REQUEST['yearfilter']))
-  {
+if (!empty($_REQUEST['yearfilter'])) {
     $yearfilter = $_REQUEST['yearfilter'];
-  }
+}
 
 
 ##Figuring out if the page list has been specified in multiple
 ##ways, or not at all, and displaying the appropriate error message.
 
-if (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))==0 and $tag==='' and $category==='' and $user==='' and $linkingpage==='' and $archivalstatus==='' and $viewbound==0)
-  {
+if (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))==0 and $tag==='' and $category==='' and $user==='' and $linkingpage==='' and $archivalstatus==='' and $viewbound==0) {
     include(__DIR__."/../style/head.inc");
     print "You didn't list any pages (either directly, or via one of the alternative methods).<br>";
     $pagespecificationerror = true;
-  }
-elseif (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))>0 and ($tag!='' or $category!='' or $user != '' or $archivalstatus != '' or $viewbound > 0))
-  {
+}
+elseif (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))>0 and ($tag!='' or $category!='' or $user != '' or $archivalstatus != '' or $viewbound > 0)) {
     include(__DIR__."/../style/head.inc");
     print "You listed page(s) directly <em>and</em> selected an alternative method to list pages. You can only use one of the two methods at a time.";
     $pagespecificationerror = true;
-  }
+}
 
-elseif (($tag != '' and ($category != '' or $user != '' or $linkingpage != '' or $archivalstatus != '' or $viewbound > 0)) or ($category != '' and ($user != '' or $linkingpage != '' or $archivalstatus != '' or $viewbound > 0)) or ($user != '' and ($linkingpage != '' or $archivalstatus != '' or $viewbound > 0)) or ($linkingpage != '' and ($archivalstatus != '' or $viewbound > 0)) or ($archivalstatus != '' and $viewbound > 0))
-  {
+elseif (($tag != '' and ($category != '' or $user != '' or $linkingpage != '' or $archivalstatus != '' or $viewbound > 0)) or ($category != '' and ($user != '' or $linkingpage != '' or $archivalstatus != '' or $viewbound > 0)) or ($user != '' and ($linkingpage != '' or $archivalstatus != '' or $viewbound > 0)) or ($linkingpage != '' and ($archivalstatus != '' or $viewbound > 0)) or ($archivalstatus != '' and $viewbound > 0)) {
     include(__DIR__."/../style/head.inc");
     print "You selected multiple alternate methods. Please modify the form below appropriately.<br>";
     $pagespecificationerror = true;
-  }
+}
 
 ##Now that we're sure that the page list is specified uniquely, we convert it to an array
 ##named $pagelistasarray
 
-if ($pagespecificationerror == false)
-  {
+if ($pagespecificationerror == false) {
     if (strlen(trim($pagelistasstring," \t\n\r\0\x0B"))>0)
       {
 	$pagelistasstring_mod = str_replace("http://","",$pagelistasstring);
@@ -185,5 +177,5 @@ if ($pagespecificationerror == false)
 	  }
 	sort($pagelistasarray);
       }
-  }
+}
 ?>

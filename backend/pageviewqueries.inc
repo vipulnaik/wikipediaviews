@@ -1,7 +1,6 @@
 <?php
 
-function wantedviewcountsquery($pagelist,$monthlist,$language,$viewcountarray)
-{
+function wantedviewcountsquery($pagelist,$monthlist,$language,$viewcountarray) {
   $numberofwantedviewcounts = 0;
   $insert_query = "insert into wantedviewcountsbymonth(pagename,monthfull,language,status) values ";
   foreach ($pagelist as $page)
@@ -30,8 +29,7 @@ function wantedviewcountsquery($pagelist,$monthlist,$language,$viewcountarray)
 }
 
 
-function queriedpagelog($page,$language,$archivalstatus)
-{
+function queriedpagelog($page,$language,$archivalstatus) {
   global $mysqli;
   if ($mysqli->connect_errno) 
     {
@@ -40,16 +38,14 @@ function queriedpagelog($page,$language,$archivalstatus)
   $select_query = "select row_id from queriedpages where pagename='".$page."' and language='".$language."' limit 1;";
   $result = $mysqli->query($select_query);
   $page = str_replace("'","%27",$page);
-  if ($result->num_rows == 0)
-    {
-      $insert_query = "insert into queriedpages(pagename,language,archivalstatus) values ('".$page."','".$language."','".$archivalstatus."');";
-      $result = $mysqli->query($insert_query);
-    }
+  if ($result->num_rows == 0) {
+    $insert_query = "insert into queriedpages(pagename,language,archivalstatus) values ('".$page."','".$language."','".$archivalstatus."');";
+    $result = $mysqli->query($insert_query);
+  }
   return $result;
 }
 
-function getpageviewsonline($page, $month, $language)
-{
+function getpageviewsonline($page, $month, $language, $device) {
   global $weightedexternalquerycount;
   global $externalquerycount;
   global $weightedexternalquerylimit;
@@ -63,20 +59,16 @@ function getpageviewsonline($page, $month, $language)
       $weightedexternalquerycount = $weightedexternalquerycount + $recentmonthslowdownfactor;
   else
       $weightedexternalquerycount++;
-  $url = getpageviewsurl($page,$month,$language);
-  if ($month < 201601)
-  {
+  $url = getpageviewsurl($page,$month,$language,$device);
+  if ($month < 201601 and $device == "desktop") {
     $html = file_get_contents($url);
     preg_match('/(?<=\bhas been viewed)\s+\K[^\s]+/',$html,$numberofpageviews);
     if (count($numberofpageviews) > 0)
-      if (strlen($numberofpageviews[0]) > 0)
-      {
+      if (strlen($numberofpageviews[0]) > 0) {
         $externalquerycount++;
         return $numberofpageviews[0];
       }
-  }
-  else
-  {
+  } else if ($month >= 201507) {
     # Calculate string of the first date of next month (used as upper limit of
     # query)
     ini_set('user_agent', 'Wikipedia Views (wikipediaviews.org)');
@@ -94,12 +86,13 @@ function getpageviewsonline($page, $month, $language)
     }
     $externalquerycount++;
     return $sum;
+  } else {
+    return 0;
   }
   return getpageviewsonline($page, $month, $language);
 }
 
-function getpageviewsfromdb($page,$month,$language,$online)
-{
+function getpageviewsfromdb($page,$month,$language,$online) {
   global $mysqli;
   global $weightedexternalquerycount;
   global $weightedexternalquerylimit;
@@ -124,7 +117,7 @@ function getpageviewsfromdb($page,$month,$language,$online)
 
   if ($result->num_rows == 0)
     {
-      $viewcount = getpageviewsonline($page,$month,$language);
+      $viewcount = getpageviewsonline($page,$month,$language,"desktop");
       $insert_query="insert into viewcountsbymonth(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
       $success = $mysqli->query($insert_query);
     }
@@ -146,7 +139,7 @@ function getpageviewsfromdb($page,$month,$language,$online)
 	  $dayspassed = intval($dayspassedasdiff -> d);
 	  if ($dayspassed > $purgeperiod)
 	    {
-	      $viewcount = getpageviewsonline($page,$month,$language);
+	      $viewcount = getpageviewsonline($page,$month,$language,"desktop");
 	      if ($viewcount != $exceededquerylimitmessage)
 		{
 		  $delete_query = "delete from viewcountsbymonth where pagename='".$page."' and monthfull='".$month."' and language='".$language."';";
@@ -167,8 +160,7 @@ function getpageviewsfromdb($page,$month,$language,$online)
   return $viewcount;
 }
 
-function getpageviews($page,$month,$language,$normalization='')
-{
+function getpageviews($page,$month,$language,$normalization='') {
   global $thismonth;
   global $mysqli;
   global $numberofdays_allmonths;
@@ -187,8 +179,7 @@ function getpageviews($page,$month,$language,$normalization='')
 
 }
 
-function getannualpageviewsfromdb($page,$year,$language,$online)
-{
+function getannualpageviewsfromdb($page,$year,$language,$online) {
   global $mysqli;
   global $exceededquerylimitmessage;
   if ($mysqli->connect_errno) 
@@ -225,8 +216,7 @@ function getannualpageviewsfromdb($page,$year,$language,$online)
   return $totalviews;
 }
 
-function getannualpageviews($page,$year,$language)
-{
+function getannualpageviews($page,$year,$language) {
   global $mysqli;
   if ($mysqli->connect_errno) 
     {
@@ -238,8 +228,7 @@ function getannualpageviews($page,$year,$language)
   return getannualpageviewsfromdb($page,$year,$language,true);
 }
 
-function viewcountarraybymonth_raw($pagelist,$monthlist,$language,$online=true,$normalization='')
-{
+function viewcountarraybymonth_raw($pagelist,$monthlist,$language,$online=true,$normalization='') {
   global $mysqli;
   global $weightedexternalquerycount;
   global $weightedexternalquerylimit;
@@ -326,8 +315,7 @@ function viewcountarraybymonth_raw($pagelist,$monthlist,$language,$online=true,$
   return $viewcountarray;
 }
 
-function viewcountarraybymonth($pagelist,$monthlist,$language,$online,$normalization='')
-{
+function viewcountarraybymonth($pagelist,$monthlist,$language,$online,$normalization='') {
   global $exceededquerylimitmessage;
   global $numberofdays_allmonths;
   $viewcountarray = viewcountarraybymonth_raw($pagelist,$monthlist,$language,$online,$normalization);
@@ -345,8 +333,7 @@ function viewcountarraybymonth($pagelist,$monthlist,$language,$online,$normaliza
   return $viewcountarray;
 }
 
-function viewcountarraybyyear($pagelist,$yearlist,$language,$online,$normalization='')
-{
+function viewcountarraybyyear($pagelist,$yearlist,$language,$online,$normalization='') {
   global $mysqli;
   global $weightedexternalquerycount;
   global $weightedexternalquerylimit;
@@ -387,8 +374,7 @@ function viewcountarraybyyear($pagelist,$yearlist,$language,$online,$normalizati
   return $viewcountarray;	
 }
 
-function fillinwantedviewcounts($querylimit, $online)
-{
+function fillinwantedviewcounts($querylimit, $online) {
   global $mysqli;
   global $weightedexternalquerycount;
   global $weightedexternalquerylimit;

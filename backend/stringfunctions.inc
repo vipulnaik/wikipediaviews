@@ -1,7 +1,6 @@
 <?php
 
-function convertpagelisttoarray($pagelistasstring)
-{
+function convertpagelisttoarray($pagelistasstring) {
   $pagelistasinput = isset($pagelistasstring)?$pagelistasstring:"";
   $pagelistasarray = array_unique(explode("\n", str_replace("\r", "", $pagelistasinput)));
   foreach (array_keys($pagelistasarray, "") as $key) 
@@ -15,23 +14,20 @@ function convertpagelisttoarray($pagelistasstring)
   return $pagelistasarray;
 }
 
-function getpageviewsurl($page,$month,$language)
-{
-  if ($month < 201601)
+function getpageviewsurl($page,$month,$language,$device) {
+  if ($month < 201601 and $device == "desktop")
     return getsgspageviewsurl($page,$month,$language);
   else
-    return getapipageviewsurl($page,$month,$language);
+    return getapipageviewsurl($page,$month,$language,$device);
 }
 
-function getsgspageviewsurl($page,$month,$language)
-{
+function getsgspageviewsurl($page,$month,$language) {
   $page = str_replace(" ","_",$page);
   $page = str_replace("'","%27",$page);
   return "http://stats.grok.se/" . $language . "/" . $month . "/" . $page;
 }
 
-function getapipageviewsurl($page,$month,$language)
-{
+function getapipageviewsurl($page,$month,$language,$device) {
   $year = intval(substr($month, 0, 4));
   $justMonth = intval(substr($month, 4));
   switch (intval($justMonth))
@@ -63,31 +59,26 @@ function getapipageviewsurl($page,$month,$language)
     	     break;
     case 12: $endOfMonth = $year . '1231';
   }
-  return "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/" . $language . ".wikipedia/desktop/user/" . str_replace("%2527", "%27", urlencode(str_replace(" ","_",$page))) . "/daily/" . $month . "01/" . $endOfMonth . "?purge" . strval(rand());
+  return "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/" . $language . ".wikipedia/" . $device . "/user/" . str_replace("%2527", "%27", urlencode(str_replace(" ","_",$page))) . "/daily/" . $month . "01/" . $endOfMonth . "?purge" . strval(rand());
 }
-function getannualpageviewsurl($page,$year,$language)
-{
+function getannualpageviewsurl($page,$year,$language) {
   return "http://wikipediaviews.org/displayviewsformultiplemonths.php?year=".$year."&page=".$page."&language=".$language;
 }
 
-function gettagviewsurl($tag,$month,$language)
-{
+function gettagviewsurl($tag,$month,$language) {
   return "http://wikipediaviews.org/displayviewsforonemonth.php?month=".$month."&tag=".$tag."&language=".$language;
 }
 
-function getannualtagviewsurl($tag,$year,$language)
-{
+function getannualtagviewsurl($tag,$year,$language) {
   return "http://wikipediaviews.org/displayviewsformultipleyears.php?year=".$year."&tag=".$tag."&language=".$language;
 }
 
-function getpageurl($page,$language)
-{
+function getpageurl($page,$language) {
   $page = str_replace(" ","_",$page);
   return "http://" . $language . ".wikipedia.org/wiki/" . $page;
 }
 
-function convertlisttoquotedcsvstring($listasarray)
-{
+function convertlisttoquotedcsvstring($listasarray) {
   $listasquotedcsvstring = "'".$listasarray[0]."'";
   for($i = 1;$i < sizeof($listasarray);$i++)
     {
@@ -96,8 +87,7 @@ function convertlisttoquotedcsvstring($listasarray)
   return $listasquotedcsvstring;
 }
 
-function numericdisplay($number,$numericdisplayformat)
-{
+function numericdisplay($number,$numericdisplayformat) {
   if ($numericdisplayformat=='fullprecision')
     {
       return $number;
@@ -113,8 +103,7 @@ function numericdisplay($number,$numericdisplayformat)
   return $number;
 }
 
-function numericdisplaykmb($number)
-{
+function numericdisplaykmb($number) {
   $number_int = intval($number);
   if ($number_int < 1000)
     {
@@ -153,21 +142,18 @@ function numericdisplaykmb($number)
   return $number;
 }
 
-function numericdisplaylog($number)
-{
+function numericdisplaylog($number) {
   if ($number == 0) return "-infinity";
   return round(log($number,10),1);
 }
 
-function monthviewtooltip($number)
-{
+function monthviewtooltip($number) {
   $tooltipstring = $number;
   $tooltipstring .= " views (click to view day-wise breakdown)";
   return $tooltipstring;
 }
 
-function yearviewtooltip($number)
-{
+function yearviewtooltip($number) {
   $tooltipstring = $number;
   $tooltipstring .= " (click to view month-wise breakdown on this site)";
   return $tooltipstring;

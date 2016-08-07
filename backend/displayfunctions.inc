@@ -1,7 +1,6 @@
 <?php
 
-function checksizes($pageortaglist,$monthoryearlist)
-{
+function checksizes($pageortaglist,$monthoryearlist) {
   global $pagedisplaylimit;
   global $celldisplaylimit;
   $numberofpagesortags = count($pageortaglist);
@@ -19,8 +18,7 @@ function checksizes($pageortaglist,$monthoryearlist)
     }
   return 0;
 }
-function totalsandpercentages($pageortaglist,$monthoryearlist,$viewcountarray)
-{
+function totalsandpercentages($pageortaglist,$monthoryearlist,$viewcountarray) {
   $grand_total = 0;
   foreach ($pageortaglist as $pageortag)#Computes page totals and grand total
     {
@@ -68,28 +66,23 @@ function totalsandpercentages($pageortaglist,$monthoryearlist,$viewcountarray)
   return array($grand_total,$pageortag_total,$monthoryear_total,$pageortag_percentage,$monthoryear_percentage);
 }
 
-function printmonthviewcount($page,$month,$language,$viewcount,$numericdisplayformat)
-{
-  return '<td align="right"><a href="'.getpageviewsurl($page,$month,$language).'" title="'.monthviewtooltip($viewcount).'">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
+function printmonthviewcount($page,$month,$language,$viewcount,$numericdisplayformat) {
+  return '<td align="right"><a href="'.getpageviewsurl($page,$month,$language,"desktop").'" title="'.monthviewtooltip($viewcount).'">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
 }
 
-function printyearviewcount($page,$year,$language,$viewcount,$numericdisplayformat)
-{
+function printyearviewcount($page,$year,$language,$viewcount,$numericdisplayformat) {
   return '<td align="right"><a href="'.getannualpageviewsurl($page,$year,$language).'" title="'.yearviewtooltip($viewcount).'">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
 }
 
-function printtagviewcount($tag,$month,$language,$viewcount,$numericdisplayformat)
-{
+function printtagviewcount($tag,$month,$language,$viewcount,$numericdisplayformat) {
   return '<td align="right"><a href="'.gettagviewsurl($tag,$month,$language).'" title="'.$viewcount.' (click for data on individual pages)">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
 }
 
-function printtagviewcountbyyear($tag,$year,$language,$viewcount,$numericdisplayformat)
-{
+function printtagviewcountbyyear($tag,$year,$language,$viewcount,$numericdisplayformat) {
   return '<td align="right"><a href="'.getannualtagviewsurl($tag,$year,$language).'" title="'.$viewcount.' (click for data on individual pages)">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
 }
 
-function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month')
-{
+function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month',$device='desktop') {
   flush();
   #Check that sizes are workable
   $sizeoverflow = checksizes($pageortaglist,$monthoryearlist);
@@ -252,8 +245,7 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
   flush();
 }
 
-function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month')
-{
+function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month') {
   flush();
   #Check that sizes are workable
   $sizeoverflow = checksizes($pageortaglist,$monthoryearlist);
@@ -424,8 +416,7 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
   flush();
 }
 
-function printpageviewsformonthoryearlistascsv($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month')
-{
+function printpageviewsformonthoryearlistascsv($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month') {
   #Check that sizes are workable
   $sizeoverflow = checksizes($pageortaglist,$monthoryearlist);
   if ($sizeoverflow > 0)
@@ -505,8 +496,7 @@ function printpageviewsformonthoryearlistascsv($pageortaglist,$monthoryearlist,$
     }
 }
 
-function printpageviewsformonthoryearlistascsvtransposed($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month')
-{
+function printpageviewsformonthoryearlistascsvtransposed($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month') {
   #Check that sizes are workable
   $sizeoverflow = checksizes($pageortaglist,$monthoryearlist);
   if ($sizeoverflow > 0)
@@ -580,8 +570,7 @@ function printpageviewsformonthoryearlistascsvtransposed($pageortaglist,$monthor
     }
 }
 
-function printpageviewsformonthoryearlistascpi($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month')
-{
+function printpageviewsformonthoryearlistascpi($pageortaglist,$monthoryearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month') {
   global $exceededquerylimitmessage;
   #Check that sizes are workable
   $sizeoverflow = checksizes($pageortaglist,$monthoryearlist);

@@ -23,6 +23,7 @@ print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pagety
 include("tagdropdownselectmultiple.inc");
 print '<br>';
 include("languagedropdown.inc");
+include("devicedropdown.inc");
 print '<br><br><input type="submit" value="Submit"><br><br>';
 include("advancedoptions.inc");
 

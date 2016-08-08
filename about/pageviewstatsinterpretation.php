@@ -6,7 +6,11 @@
    include(__DIR__."/../style/head.inc");
 ?>
 
-<p>This page includes technical notes on how to interpret the pageview statistics.</p>
+<p>This page includes technical notes on how to interpret the pageview
+statistics for desktop data until December 2015. Mobile web and mobile
+app data, as well as desktop data starting Januray 2016, is fetched
+directly from the Wikimedia API and many of these remarks do not
+apply.</p>
 
 <p>Statistics are obtained
 from <a href="http://stats.grok.se">stats.grok.se</a>. For maximal

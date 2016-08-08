@@ -85,6 +85,7 @@ function getpageviewsonline($page, $month, $language, $device) {
     $externalquerycount++;
     return $sum;
   } else {
+    $weightedexternalquerycount = $weightedexternalquerycount - $recentmonthslowdownfactor;
     return 0;
   }
   return getpageviewsonline($page, $month, $language, $device);

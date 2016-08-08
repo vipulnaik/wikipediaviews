@@ -21,10 +21,11 @@ else
 print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pagetypeadvice.'.php">';
 
 include("tagdropdownselectmultiple.inc");
-print '<br>';
+print '<table><col width=600/><col width=500/>';
 include("languagedropdown.inc");
 include("devicedropdown.inc");
-print '<br><br><input type="submit" value="Submit"><br><br>';
+print '<tr><td><input type="submit" value="Submit"></td></tr>';
+print '</table>';
 include("advancedoptions.inc");
 
 include("yearcheckboxlist.inc");

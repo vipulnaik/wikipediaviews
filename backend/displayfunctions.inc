@@ -247,7 +247,7 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
 
   #Collect all the numbers that need to be printed first
   if ($pageortagadvice=='page' and $monthoryearadvice=='month') {
-      $viewcountarray = viewcountarraybymonth($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+    $viewcountarray = viewcountarraybymonth($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
   } elseif ($pageortagadvice=='page' and $monthoryearadvice=='year') {
     $viewcountarray = viewcountarraybyyear($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
   } elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month') {

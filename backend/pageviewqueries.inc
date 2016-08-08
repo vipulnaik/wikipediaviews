@@ -146,7 +146,7 @@ function getpageviewsfromdb($page,$month,$language,$device, $online) {
       $dayspassedasdiff = date_diff($dateofretrieval,$currentdate);
       $dayspassed = intval($dayspassedasdiff -> d);
       if ($dayspassed > $purgeperiod) {
-	$viewcount = getpageviewsonline($page,$month,$language,"desktop");
+	$viewcount = getpageviewsonline($page,$month,$language,$device);
 
         if ($viewcount != $exceededquerylimitmessage) {
           $insert_query="insert into viewcountsbymonth(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
@@ -202,6 +202,14 @@ function getannualpageviewsfromdb($page,$year,$language,$device,$online) {
   }
   $page = str_replace("'","%27",$page);
   $select_query = "select viewcount from viewcountsbyyear where pagename='".$page."' and year='".$year."' and language='".$language."' limit 1;";
+  switch ($device) {
+    case "mobile-app" :
+      $select_query = "select viewcount from viewcountsbyyear_mobileapp where pagename='".$page."' and year='".$year."' and language='".$language."' limit 1;";
+      break;
+    case "mobile-web" :
+      $select_query = "select viewcount from viewcountsbyyear_mobileweb where pagename='".$page."' and year='".$year."' and language='".$language."' limit 1;";
+      break;
+  }
   $result = $mysqli->query($select_query);
   if ($result->num_rows == 1) {
     $row = $result->fetch_assoc();
@@ -213,7 +221,7 @@ function getannualpageviewsfromdb($page,$year,$language,$device,$online) {
   for($i=0;$i < $result->num_rows;$i++) {
     $row = $result->fetch_assoc();
     $monthfull = $row['monthfull'];
-    $increment = getpageviewsfromdb($page,$monthfull,$language,"desktop",$online);
+    $increment = getpageviewsfromdb($page,$monthfull,$language,$device,$online);
     if ($increment == $exceededquerylimitmessage) {return $exceededquerylimitmessage;}
     $totalviews += intval($increment);
   }
@@ -222,6 +230,13 @@ function getannualpageviewsfromdb($page,$year,$language,$device,$online) {
   $row = $result->fetch_assoc();
   if ($row['status'] != 'future') {
     $insert_query = "insert into viewcountsbyyear(pagename,year,language,viewcount) values('".$page."','".$year."','".$language."',".$totalviews.");";
+    switch ($device) {
+      case "mobile-app" :
+        $insert_query = "insert into viewcountsbyyear_mobileapp(pagename,year,language,viewcount) values('".$page."','".$year."','".$language."',".$totalviews.");";
+	break;
+      case "mobile-web" :
+        $insert_query = "insert into viewcountsbyyear_mobileweb(pagename,year,language,viewcount) values('".$page."','".$year."','".$language."',".$totalviews.");";
+    }
     $success = $mysqli->query($insert_query);
   }
   return $totalviews;
@@ -236,7 +251,7 @@ function getannualpageviews($page,$year,$language,$device) {
   $log_query = "insert into viewquerylogbyyear(pagename,year,language) values ('".$page."','".$year."','".$language."');";
   $result = $mysqli->query($log_query);
   queriedpagelog($page,$language,'partial');
-  return getannualpageviewsfromdb($page,$year,$language,'desktop',true);
+  return getannualpageviewsfromdb($page,$year,$language,$device,true);
 }
 
 function viewcountarraybymonth_raw($pagelist,$monthlist,$language,$device,$online=true,$normalization='') {
@@ -351,6 +366,14 @@ function viewcountarraybyyear($pagelist,$yearlist,$language,$device,$online,$nor
   $pagelistasquotedcsvstring = convertlisttoquotedcsvstring($pagelist);
   $yearlistasquotedcsvstring = convertlisttoquotedcsvstring($yearlist);	
   $select_query = "select pagename,year,viewcount from viewcountsbyyear where pagename in (".$pagelistasquotedcsvstring.") and year in (".$yearlistasquotedcsvstring.") and language='".$language."';";
+  switch ($device) {
+    case "mobile-app" :
+      $select_query = "select pagename,year,viewcount from viewcountsbyyear_mobileapp where pagename in (".$pagelistasquotedcsvstring.") and year in (".$yearlistasquotedcsvstring.") and language='".$language."';";
+      break;
+    case "mobile-web" :
+      $select_query = "select pagename,year,viewcount from viewcountsbyyear_mobileweb where pagename in (".$pagelistasquotedcsvstring.") and year in (".$yearlistasquotedcsvstring.") and language='".$language."';";
+      break;
+  }
   $result = $mysqli->query($select_query);
   for ($i = 0;$i < $result->num_rows;$i++)
     {

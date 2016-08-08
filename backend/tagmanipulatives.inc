@@ -49,7 +49,7 @@ function getpagelistbytag($tag,$language)
   return $pagelist;
 }
 
-function gettagtotal($tag,$monthlist,$language='en',$online=true,$normalization='')
+function gettagtotal($tag,$monthlist,$language='en',$device='desktop',$online=true,$normalization='')
 {
   global $mysqli;
   if ($mysqli->connect_errno) 
@@ -57,12 +57,12 @@ function gettagtotal($tag,$monthlist,$language='en',$online=true,$normalization=
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
   $pagelist = getpagelistbytag($tag,$language);
-  $viewcountarray = viewcountarraybymonth($pagelist,$monthlist,$language,$online,$normalization);
+  $viewcountarray = viewcountarraybymonth($pagelist,$monthlist,$language,$device,$online,$normalization);
   $totalsandpercentages_array = totalsandpercentages($pagelist,$monthlist,$viewcountarray);
   return $totalsandpercentages_array[2];
 }
 
-function gettagtotalbyyear($tag,$yearlist,$language='en',$online=true,$normalization='')
+function gettagtotalbyyear($tag,$yearlist,$language='en',$device='desktop',$online=true,$normalization='')
 {
   global $mysqli;
   if ($mysqli->connect_errno) 
@@ -70,16 +70,16 @@ function gettagtotalbyyear($tag,$yearlist,$language='en',$online=true,$normaliza
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
   $pagelist = getpagelistbytag($tag,$language);
-  $viewcountarray = viewcountarraybyyear($pagelist,$yearlist,$language,$online,$normalization);
+  $viewcountarray = viewcountarraybyyear($pagelist,$yearlist,$language,$device,$online,$normalization);
   $totalsandpercentages_array = totalsandpercentages($pagelist,$yearlist,$viewcountarray);
   return $totalsandpercentages_array[2];
 }
 
-function viewcountarraybytagandmonth_raw($taglist,$monthlist,$language,$online=true,$normalization='')
+function viewcountarraybytagandmonth_raw($taglist,$monthlist,$language,$device,$online=true,$normalization='')
 {
   foreach ($taglist as $tag)
     {
-      $tagtotal = gettagtotal($tag,$monthlist,$language,$online,$normalization);
+      $tagtotal = gettagtotal($tag,$monthlist,$language,$device,$online,$normalization);
       foreach ($monthlist as $month)
 	{
 	  $viewcountarray[$tag][$month] = $tagtotal[$month];
@@ -88,11 +88,11 @@ function viewcountarraybytagandmonth_raw($taglist,$monthlist,$language,$online=t
   return $viewcountarray;
 }
 
-function viewcountarraybytagandmonth($taglist,$monthlist,$language='en',$online=true,$normalization='')
+function viewcountarraybytagandmonth($taglist,$monthlist,$language='en',$device='desktop',$online=true,$normalization='')
 {
   global $exceededquerylimitmessage;
   global $numberofdays_allmonths;
-  $viewcountarray = viewcountarraybytagandmonth_raw($taglist,$monthlist,$language,$online,$normalization);
+  $viewcountarray = viewcountarraybytagandmonth_raw($taglist,$monthlist,$language,$device,$online,$normalization);
   if ($normalization == '')
     {
       return $viewcountarray;
@@ -113,11 +113,11 @@ function viewcountarraybytagandmonth($taglist,$monthlist,$language='en',$online=
   return $viewcountarray;
 }
 
-function viewcountarraybytagandyear($taglist,$yearlist,$language,$online=true,$normalization='')
+function viewcountarraybytagandyear($taglist,$yearlist,$language,$device,$online=true,$normalization='')
 {
   foreach ($taglist as $tag)
     {
-      $tagtotal = gettagtotalbyyear($tag,$yearlist,$language,$online,$normalization);
+      $tagtotal = gettagtotalbyyear($tag,$yearlist,$language,$device,$online,$normalization);
       foreach ($yearlist as $year)
 	{
 	  $viewcountarray[$tag][$year] = $tagtotal[$year];

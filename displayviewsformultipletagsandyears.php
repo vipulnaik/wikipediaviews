@@ -11,46 +11,38 @@ include("retrieval/taglistretrieval.inc");
 include("retrieval/yearlistretrieval.inc");
 include("retrieval/advancedoptionretrieval.inc");
 
-if ($pagespecificationerror == true)
-  {
+if ($pagespecificationerror == true) {
     include("inputdisplay/".$pagetypeadvice."dataentry.inc");
-  }
-
-if ($displayformat=='htmltableautomatic') 
-  {
-    include("style/head.inc");
-    if (count($taglist) >= count($yearlist)) 
-      {
-	printpageviewsformonthoryearlistashtmltable($taglist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
+} else {
+  switch ($device) {   
+    case 'htmltableautomatic' :
+      include("style/head.inc");
+      if (count($taglist) >= count($yearlist)) {
+	printpageviewsformonthoryearlistashtmltable($taglist,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
+      } else {
+	printpageviewsformonthoryearlistashtmltabletransposed($taglist,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
       }
-    else 
-      {
-	printpageviewsformonthoryearlistashtmltabletransposed($taglist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
-      }
-    include("inputdisplay/multipletagsandyearsdataentry.inc");
+      include("inputdisplay/multipletagsandyearsdataentry.inc");
+      break;
+    case 'htmltable' :
+      include("style/head.inc"); 
+      printpageviewsformonthoryearlistashtmltable($taglist,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
+      include("inputdisplay/multipletagsandyearsdataentry.inc");
+      break;
+    case 'htmltabletransposed' :
+      include("style/head.inc");
+      printpageviewsformonthoryearlistashtmltabletransposed($taglist,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
+      include("inputdisplay/multipletagsandyearsdataentry.inc");
+      break;
+    case 'csv' :
+      printpageviewsformonthoryearlistascsv($taglist,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,'','tag','year');
+      break;
+    case 'csvtransposed' :
+      printpageviewsformonthoryearlistascsvtransposed($taglist,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,'','tag','year');
+      break;
+    case 'cpi' :
+      printpageviewsformonthoryearlistascpi($taglist,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,'','tag','year');
+      break;
   }
-
-elseif ($displayformat=='htmltable') 
-  { 
-    include("style/head.inc"); 
-    printpageviewsformonthoryearlistashtmltable($taglist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
-    include("inputdisplay/multipletagsandyearsdataentry.inc");
-  }
-
-elseif ($displayformat=='htmltabletransposed') 
-  {
-    include("style/head.inc");
-    printpageviewsformonthoryearlistashtmltabletransposed($taglist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
-    include("inputdisplay/multipletagsandyearsdataentry.inc");
-  }
-
-elseif ($displayformat=='csv') 
-  printpageviewsformonthoryearlistascsv($taglist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,'','tag','year');
-
-elseif ($displayformat=='csvtransposed') 
-  printpageviewsformonthoryearlistascsvtransposed($taglist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,'','tag','year');
-
-elseif ($displayformat=='cpi')
-  printpageviewsformonthoryearlistascpi($taglist,$yearlist,$language,$explanatoryheader,$includetotal,$numericdisplayformat,'','tag','year');
-
+}
 ?>

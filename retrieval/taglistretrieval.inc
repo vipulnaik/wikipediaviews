@@ -9,10 +9,15 @@
 
 ##Retrieval of language
 $language='en';
-if (!empty($_REQUEST['language']))
-  {
-    $language = $_REQUEST['language'];
-  }
+if (!empty($_REQUEST['language'])) {
+  $language = $_REQUEST['language'];
+}
+
+## Retrieval of device
+$device='desktop';
+if (!empty($_REQUEST['device'])) {
+  $device = $_REQUEST['device'];
+}
 
 $taglist = array();
 if (!empty($_REQUEST['taglist']))

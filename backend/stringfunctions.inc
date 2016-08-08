@@ -61,16 +61,16 @@ function getapipageviewsurl($page,$month,$language,$device) {
   }
   return "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/" . $language . ".wikipedia/" . $device . "/user/" . str_replace("%2527", "%27", urlencode(str_replace(" ","_",$page))) . "/daily/" . $month . "01/" . $endOfMonth . "?purge" . strval(rand());
 }
-function getannualpageviewsurl($page,$year,$language) {
-  return "http://wikipediaviews.org/displayviewsformultiplemonths.php?year=".$year."&page=".$page."&language=".$language;
+function getannualpageviewsurl($page,$year,$language,$device="desktop") {
+  return "http://wikipediaviews.org/displayviewsformultiplemonths.php?year=".$year."&page=".$page."&language=".$language."&device=".$device;
 }
 
-function gettagviewsurl($tag,$month,$language) {
-  return "http://wikipediaviews.org/displayviewsforonemonth.php?month=".$month."&tag=".$tag."&language=".$language;
+function gettagviewsurl($tag,$month,$language,$device="desktop") {
+  return "http://wikipediaviews.org/displayviewsforonemonth.php?month=".$month."&tag=".$tag."&language=".$language."&device=".$device;
 }
 
-function getannualtagviewsurl($tag,$year,$language) {
-  return "http://wikipediaviews.org/displayviewsformultipleyears.php?year=".$year."&tag=".$tag."&language=".$language;
+function getannualtagviewsurl($tag,$year,$language,$device="desktop") {
+  return "http://wikipediaviews.org/displayviewsformultipleyears.php?year=".$year."&tag=".$tag."&language=".$language."&device=".$device;
 }
 
 function getpageurl($page,$language) {

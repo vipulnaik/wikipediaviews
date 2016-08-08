@@ -1,21 +1,19 @@
 <?php
 
-function wantedviewcountsquery($pagelist,$monthlist,$language,$viewcountarray) {
+function wantedviewcountsquery($pagelist,$monthlist,$language,$device,$viewcountarray) {
   $numberofwantedviewcounts = 0;
   $insert_query = "insert into wantedviewcountsbymonth(pagename,monthfull,language,status) values ";
-  foreach ($pagelist as $page)
-    {
-      foreach ($monthlist as $month)
-	{
-	  if ($viewcountarray[$page][$month] == 'unavailable')
-	    {
-	      if ($numberofwantedviewcounts > 0)
-		  $insert_query .= ", ";
-	      $numberofwantedviewcounts++;
-	      $insert_query .= "('".$page."','".$month."','".$language."','wanted')";
-	    }
+  foreach ($pagelist as $page) {
+    foreach ($monthlist as $month) {
+      if ($viewcountarray[$page][$month] == 'unavailable') {
+	if ($numberofwantedviewcounts > 0) {
+          $insert_query .= ", ";
 	}
+	$numberofwantedviewcounts++;
+	$insert_query .= "('".$page."','".$month."','".$language."','wanted')";
+      }
     }
+  }
   $insert_query .= ";";
   if ($numberofwantedviewcounts > 0)
     {
@@ -89,10 +87,10 @@ function getpageviewsonline($page, $month, $language, $device) {
   } else {
     return 0;
   }
-  return getpageviewsonline($page, $month, $language);
+  return getpageviewsonline($page, $month, $language, $device);
 }
 
-function getpageviewsfromdb($page,$month,$language,$online) {
+function getpageviewsfromdb($page,$month,$language,$device, $online) {
   global $mysqli;
   global $weightedexternalquerycount;
   global $weightedexternalquerylimit;
@@ -111,48 +109,66 @@ function getpageviewsfromdb($page,$month,$language,$online) {
   #First looks for existing entries in the database
 
   $select_query = "select viewcount,querytime from viewcountsbymonth where pagename='".$page."' and monthfull='".$month."' and language='".$language."' limit 1;";
+  switch ($device) {
+    case "mobile-app" :
+      $select_query = "select viewcount,querytime from viewcountsbymonth_mobileapp where pagename='".$page."' and monthfull='".$month."' and language='".$language."' limit 1;";
+      break;
+    case "mobile-web" :
+      $select_query = "select viewcount,querytime from viewcountsbymonth_mobileweb where pagename='".$page."' and monthfull='".$month."' and language='".$language."' limit 1;";
+      break;
+  }
+
   $result = $mysqli->query($select_query);
 
   #If there is no entry, fetches it online
 
-  if ($result->num_rows == 0)
-    {
-      $viewcount = getpageviewsonline($page,$month,$language,"desktop");
-      $insert_query="insert into viewcountsbymonth(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
-      $success = $mysqli->query($insert_query);
+  if ($result->num_rows == 0) {
+    $viewcount = getpageviewsonline($page,$month,$language,$device);
+    $insert_query="insert into viewcountsbymonth(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
+    switch ($device) {
+      case "mobile-app" :
+        $insert_query="insert into viewcountsbymonth_mobileapp(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
+        break;
+      case "mobile-web" :
+        $insert_query="insert into viewcountsbymonth_mobileweb(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
+        break;
     }
-
-  #Otherwise, assigns the value
-
-  else
-    {
-      $row = $result->fetch_assoc();
-      $viewcount = $row['viewcount'];
+    $success = $mysqli->query($insert_query);
+  } else {
+    $row = $result->fetch_assoc();
+    $viewcount = $row['viewcount'];
       
-      #But wait, now we must check that the value is not too outdated
+    #But wait, now we must check that the value is not too outdated
 
-      if ($month == $thismonth)
-	{
-	  $currentdate = new DateTime("now");
-	  $dateofretrieval = new DateTime($row['querytime']); 
-	  $dayspassedasdiff = date_diff($dateofretrieval,$currentdate);
-	  $dayspassed = intval($dayspassedasdiff -> d);
-	  if ($dayspassed > $purgeperiod)
-	    {
-	      $viewcount = getpageviewsonline($page,$month,$language,"desktop");
-	      if ($viewcount != $exceededquerylimitmessage)
-		{
-		  $delete_query = "delete from viewcountsbymonth where pagename='".$page."' and monthfull='".$month."' and language='".$language."';";
-		  $success = $mysqli->query($delete_query);
-		  $insert_query="insert into viewcountsbymonth(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
-		  $success = $mysqli->query($insert_query);
-		}
-	    }
-	}
+    if ($month == $thismonth) {
+      $currentdate = new DateTime("now");
+      $dateofretrieval = new DateTime($row['querytime']); 
+      $dayspassedasdiff = date_diff($dateofretrieval,$currentdate);
+      $dayspassed = intval($dayspassedasdiff -> d);
+      if ($dayspassed > $purgeperiod) {
+	$viewcount = getpageviewsonline($page,$month,$language,"desktop");
+
+        if ($viewcount != $exceededquerylimitmessage) {
+          $insert_query="insert into viewcountsbymonth(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
+          $delete_query = "delete from viewcountsbymonth where pagename='".$page."' and monthfull='".$month."' and language='".$language."';";
+          switch ($device) {
+            case "mobile-app" :
+              $insert_query="insert into viewcountsbymonth_mobileapp(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
+              $delete_query = "delete from viewcountsbymonth_mobileapp where pagename='".$page."' and monthfull='".$month."' and language='".$language."';";
+              break;
+            case "mobile-web" :
+              $insert_query="insert into viewcountsbymonth_mobileweb(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
+              $delete_query = "delete from viewcountsbymonth_mobileapp where pagename='".$page."' and monthfull='".$month."' and language='".$language."';";
+              break;
+          }
+          $success = $mysqli->query($delete_query);
+          $success = $mysqli->query($insert_query);
+        }
+      }
     }
-
+  }
   #If a value has been successfully retrieved, removes it from the wanted query list
-  if ($viewcount != $exceededquerylimitmessage)
+  if ($viewcount != $exceededquerylimitmessage and $device == "desktop")
     {
       $delete_query = "delete from wantedviewcountsbymonth where pagename='".$page."' and monthfull='".$month."' and language='".$language."';";
       $success = $mysqli->query($delete_query);
@@ -160,7 +176,7 @@ function getpageviewsfromdb($page,$month,$language,$online) {
   return $viewcount;
 }
 
-function getpageviews($page,$month,$language,$normalization='') {
+function getpageviews($page,$month,$language,$device,$normalization='') {
   global $thismonth;
   global $mysqli;
   global $numberofdays_allmonths;
@@ -171,52 +187,47 @@ function getpageviews($page,$month,$language,$normalization='') {
   $log_query = "insert into viewquerylog(pagename,monthfull,language) values ('".$page."','".$month."','".$language."');";
   $result = $mysqli->query($log_query);
   queriedpagelog($page,$language,'partial');
-  $viewcount = getpageviewsfromdb($page,$month,$language,true);
+  $viewcount = getpageviewsfromdb($page,$month,$language,$device,true);
   if ($normalization == '')
     return $viewcount;
   elseif ($normalization == 'dailyaverage')
     return intval($viewcount/intval($numberofdays_allmonths[$month]));
-
 }
 
-function getannualpageviewsfromdb($page,$year,$language,$online) {
+function getannualpageviewsfromdb($page,$year,$language,$device,$online) {
   global $mysqli;
   global $exceededquerylimitmessage;
-  if ($mysqli->connect_errno) 
-    {
-      echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-    }
+  if ($mysqli->connect_errno) {
+    echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+  }
   $page = str_replace("'","%27",$page);
   $select_query = "select viewcount from viewcountsbyyear where pagename='".$page."' and year='".$year."' and language='".$language."' limit 1;";
   $result = $mysqli->query($select_query);
-  if ($result->num_rows == 1)
-    {
-      $row = $result->fetch_assoc();
-      return $row['viewcount'];
-    }
+  if ($result->num_rows == 1) {
+    $row = $result->fetch_assoc();
+    return $row['viewcount'];
+  }
   $select_query = "select monthfull from months where status!='present' and status!='future' and year='".$year."';";
   $result = $mysqli->query($select_query);
   $totalviews = 0;
-  for($i=0;$i < $result->num_rows;$i++)
-    {
-      $row = $result->fetch_assoc();
-      $monthfull = $row['monthfull'];
-      $increment = getpageviewsfromdb($page,$monthfull,$language,$online);
-      if ($increment == $exceededquerylimitmessage) {return $exceededquerylimitmessage;}
-      $totalviews += intval($increment);
-    }
+  for($i=0;$i < $result->num_rows;$i++) {
+    $row = $result->fetch_assoc();
+    $monthfull = $row['monthfull'];
+    $increment = getpageviewsfromdb($page,$monthfull,$language,"desktop",$online);
+    if ($increment == $exceededquerylimitmessage) {return $exceededquerylimitmessage;}
+    $totalviews += intval($increment);
+  }
   $select_query = "select status from years where year='".$year."';";
   $result = $mysqli->query($select_query);
   $row = $result->fetch_assoc();
-  if ($row['status'] != 'future')
-    {
-      $insert_query = "insert into viewcountsbyyear(pagename,year,language,viewcount) values('".$page."','".$year."','".$language."',".$totalviews.");";
-      $success = $mysqli->query($insert_query);
-    }
+  if ($row['status'] != 'future') {
+    $insert_query = "insert into viewcountsbyyear(pagename,year,language,viewcount) values('".$page."','".$year."','".$language."',".$totalviews.");";
+    $success = $mysqli->query($insert_query);
+  }
   return $totalviews;
 }
 
-function getannualpageviews($page,$year,$language) {
+function getannualpageviews($page,$year,$language,$device) {
   global $mysqli;
   if ($mysqli->connect_errno) 
     {
@@ -225,10 +236,10 @@ function getannualpageviews($page,$year,$language) {
   $log_query = "insert into viewquerylogbyyear(pagename,year,language) values ('".$page."','".$year."','".$language."');";
   $result = $mysqli->query($log_query);
   queriedpagelog($page,$language,'partial');
-  return getannualpageviewsfromdb($page,$year,$language,true);
+  return getannualpageviewsfromdb($page,$year,$language,'desktop',true);
 }
 
-function viewcountarraybymonth_raw($pagelist,$monthlist,$language,$online=true,$normalization='') {
+function viewcountarraybymonth_raw($pagelist,$monthlist,$language,$device,$online=true,$normalization='') {
   global $mysqli;
   global $weightedexternalquerycount;
   global $weightedexternalquerylimit;
@@ -236,21 +247,26 @@ function viewcountarraybymonth_raw($pagelist,$monthlist,$language,$online=true,$
   global $purgeperiod;
   global $thismonth;
   global $unavailablecount;
-  if ($mysqli->connect_errno) 
-    {
-      echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-    }
+  if ($mysqli->connect_errno) {
+    echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+  }
   if (sizeof($pagelist) == 0 or sizeof($monthlist) == 0) return false;
-  foreach($pagelist as $page)
-    {
-      foreach($monthlist as $month)
-	{
-	  $viewcountarray[$page][$month] = 'unavailable';
-	}
+  foreach($pagelist as $page) {
+    foreach($monthlist as $month) {
+      $viewcountarray[$page][$month] = 'unavailable';
     }
+  }
   $pagelistasquotedcsvstring = convertlisttoquotedcsvstring($pagelist);
   $monthlistasquotedcsvstring = convertlisttoquotedcsvstring($monthlist);	
   $select_query = "select pagename,monthfull,viewcount,querytime from viewcountsbymonth where pagename in (".$pagelistasquotedcsvstring.") and monthfull in (".$monthlistasquotedcsvstring.") and language='".$language."';";
+  switch ($device) {
+    case "mobile-app" :
+      $select_query = "select pagename,monthfull,viewcount,querytime from viewcountsbymonth_mobileapp where pagename in (".$pagelistasquotedcsvstring.") and monthfull in (".$monthlistasquotedcsvstring.") and language='".$language."';";
+      break;
+    case "mobile-web" :
+      $select_query = "select pagename,monthfull,viewcount,querytime from viewcountsbymonth_mobileweb where pagename in (".$pagelistasquotedcsvstring.") and monthfull in (".$monthlistasquotedcsvstring.") and language='".$language."';";
+      break;
+  }
   $result = $mysqli->query($select_query);
   for ($i = 0;$i < $result->num_rows;$i++)
     {
@@ -269,56 +285,43 @@ function viewcountarraybymonth_raw($pagelist,$monthlist,$language,$online=true,$
 	      $viewcountarray[$row['pagename']][$row['monthfull']] = $row['viewcount'];
 	}		
     }
-  wantedviewcountsquery($pagelist,$monthlist,$language,$viewcountarray);	
-  foreach(array_reverse($pagelist) as $page)
-    {
-      queriedpagelog($page,$language,'partial');
+  wantedviewcountsquery($pagelist,$monthlist,$language,$device,$viewcountarray);	
+  foreach(array_reverse($pagelist) as $page) {
+    queriedpagelog($page,$language,'partial');
+  }
+  foreach($pagelist as $page) {
+    foreach($monthlist as $month) {
+      if ($viewcountarray[$page][$month] == 'unavailable' and $online == true) {
+        $viewcountarray[$page][$month] = getpageviewsfromdb($page,$month,$language,$device,true);
+      }
     }
-  foreach($pagelist as $page)
-    {
-      foreach($monthlist as $month)
-	{
-	  
-	  if ($viewcountarray[$page][$month] == 'unavailable' and $online == true)
-	    {
-	      $viewcountarray[$page][$month] = getpageviewsfromdb($page,$month,$language,true);
-	    }
-	}
+  }
+  if ($weightedexternalquerycount < $weightedexternalquerylimit) {
+    #print "Successfully completed without timing out :)<br>";
+    return $viewcountarray;
+  }
+  foreach($pagelist as $page) {
+    foreach($monthlist as $month) {
+      if ($viewcountarray[$page][$month] == $exceededquerylimitmessage) {
+	$viewcountarray[$page][$month] = getpageviewsfromdb($page,$month,$language,true);
+      }
     }
-  if ($weightedexternalquerycount < $weightedexternalquerylimit)
-    {
-      #print "Successfully completed without timing out :)<br>";
-      return $viewcountarray;
+  }  
+  foreach($pagelist as $page) {
+    foreach($monthlist as $month) {
+      if ($viewcountarray[$page][$month] == $exceededquerylimitmessage) {
+        $unavailablecount = $unavailablecount + 1;
+      }
     }
-  foreach($pagelist as $page)
-    {
-      foreach($monthlist as $month)
-	{
-	  if ($viewcountarray[$page][$month] == $exceededquerylimitmessage)
-	    {
-	      $viewcountarray[$page][$month] = getpageviewsfromdb($page,$month,$language,true);
-	    }
-	}
-    }
-  
-  foreach($pagelist as $page)
-    {
-      foreach($monthlist as $month)
-		{
-		  if ($viewcountarray[$page][$month] == $exceededquerylimitmessage)
-		    {
-				$unavailablecount = $unavailablecount + 1;
-		    }
-	        }
-    }
+  }
   
   return $viewcountarray;
 }
 
-function viewcountarraybymonth($pagelist,$monthlist,$language,$online,$normalization='') {
+function viewcountarraybymonth($pagelist,$monthlist,$language,$device,$online,$normalization='') {
   global $exceededquerylimitmessage;
   global $numberofdays_allmonths;
-  $viewcountarray = viewcountarraybymonth_raw($pagelist,$monthlist,$language,$online,$normalization);
+  $viewcountarray = viewcountarraybymonth_raw($pagelist,$monthlist,$language,$device,$online,$normalization);
   if ($normalization == '')
     return $viewcountarray;
   elseif ($normalization == 'dailyaverage')
@@ -333,7 +336,7 @@ function viewcountarraybymonth($pagelist,$monthlist,$language,$online,$normaliza
   return $viewcountarray;
 }
 
-function viewcountarraybyyear($pagelist,$yearlist,$language,$online,$normalization='') {
+function viewcountarraybyyear($pagelist,$yearlist,$language,$device,$online,$normalization='') {
   global $mysqli;
   global $weightedexternalquerycount;
   global $weightedexternalquerylimit;
@@ -359,18 +362,16 @@ function viewcountarraybyyear($pagelist,$yearlist,$language,$online,$normalizati
   foreach($pagelist as $page)
     foreach($yearlist as $year)
       if ($viewcountarray[$page][$year] == 'unavailable' and $online = true)
-	$viewcountarray[$page][$year] = getannualpageviewsfromdb($page,$year,$language,true);
+	$viewcountarray[$page][$year] = getannualpageviewsfromdb($page,$year,$language,$device,true);
 
-  if ($weightedexternalquerycount < $weightedexternalquerylimit)
-    {
-      #print "Successfully completed without timing out :)<br>";
-      return $viewcountarray;
-    }
+  if ($weightedexternalquerycount < $weightedexternalquerylimit) {
+    #print "Successfully completed without timing out :)<br>";
+    return $viewcountarray;
+  }
   foreach($pagelist as $page)
     foreach($yearlist as $year)
       if ($viewcountarray[$page][$year] == $exceededquerylimitmessage)
-	$viewcountarray[$page][$year] = getannualpageviewsfromdb($page,$year,$language,true);
-      
+	$viewcountarray[$page][$year] = getannualpageviewsfromdb($page,$year,$language,$device,true);    
   return $viewcountarray;	
 }
 

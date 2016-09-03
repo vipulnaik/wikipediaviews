@@ -47,7 +47,7 @@ function pagemonthadvice($pagelist,$monthlist,$camefromtag=false)
   if ($unavailablecount == 0 and count($pagelist) == 1 and count($monthlist) == 1)
     { 
       
-      print "<strong>TIP</strong>: If you're just selecting one page and one month, you might as well use <a href=\"http://stats.grok.se\">stats.grok.se</a> directly. The power of this interface is that you can easily compare multiple pages across multiple months or years. So consider adding more pages or more months to your query.<br>";
+      print "<strong>TIP</strong>: The power of this interface is that you can easily compare multiple pages across multiple months or years. So consider adding more pages or more months to your query.<br>";
     }
   if ($unavailablecount == 0 and count($monthlist) <= 4 and count($pagelist) > 1)
     {

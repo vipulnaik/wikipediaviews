@@ -429,7 +429,7 @@ function fillinwantedviewcounts($querylimit, $online) {
     {
       $currentLoad = sys_getloadavg();
       if ($currentLoad[0] < 0.75) {
-        $count = getpageviewsfromdb($page[$i],$month[$i],$language[$i],$online);
+        $count = getpageviewsfromdb($page[$i],$month[$i],$language[$i],"desktop",$online);
         print "Weighted external query count is ".$weightedexternalquerycount." and ";
         print "weighted external query limit is ".$weightedexternalquerylimit."\n";
         print "For page ".$page[$i].", month ".$month[$i].", and language ".$language[$i].", page view count is ".$count."\n";

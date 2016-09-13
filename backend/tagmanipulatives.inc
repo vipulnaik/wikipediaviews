@@ -23,7 +23,7 @@ function addpagetotag($page,$language,$tag)
   $result = $mysqli->query($select_query);
   if ($result->num_rows==0)
     {
-      $insert_query = "insert into pagetags(pagename,language,tag) values ('".$page."','".$language."','".$tag."');";
+      $insert_query = "insert into pagetags(pagename,language,tag) values (\"".$page."\",'".$language."','".$tag."');";
       $insert_result = $mysqli->query($insert_query);
       queriedpagelog($page,$language,'empty');
     }

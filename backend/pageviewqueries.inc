@@ -10,7 +10,7 @@ function wantedviewcountsquery($pagelist,$monthlist,$language,$device,$viewcount
           $insert_query .= ", ";
 	}
 	$numberofwantedviewcounts++;
-	$insert_query .= "('".$page."','".$month."','".$language."','wanted')";
+	$insert_query .= "(\"".$page."\",'".$month."','".$language."','wanted')";
       }
     }
   }
@@ -37,7 +37,7 @@ function queriedpagelog($page,$language,$archivalstatus) {
   $result = $mysqli->query($select_query);
   $page = str_replace('"','\"',$page);
   if ($result->num_rows == 0) {
-    $insert_query = "insert into queriedpages(pagename,language,archivalstatus) values ('".$page."','".$language."','".$archivalstatus."');";
+    $insert_query = "insert into queriedpages(pagename,language,archivalstatus) values (\"".$page."\",'".$language."','".$archivalstatus."');";
     $result = $mysqli->query($insert_query);
   }
   return $result;
@@ -125,13 +125,13 @@ function getpageviewsfromdb($page,$month,$language,$device, $online) {
 
   if ($result->num_rows == 0) {
     $viewcount = getpageviewsonline($page,$month,$language,$device);
-    $insert_query="insert into viewcountsbymonth(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
+    $insert_query="insert into viewcountsbymonth(pagename,monthfull,language,viewcount) values (\"".$page."\",'".$month."','".$language."',".$viewcount.");";
     switch ($device) {
       case "mobile-app" :
-        $insert_query="insert into viewcountsbymonth_mobileapp(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
+        $insert_query="insert into viewcountsbymonth_mobileapp(pagename,monthfull,language,viewcount) values (\"".$page."\",'".$month."','".$language."',".$viewcount.");";
         break;
       case "mobile-web" :
-        $insert_query="insert into viewcountsbymonth_mobileweb(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
+        $insert_query="insert into viewcountsbymonth_mobileweb(pagename,monthfull,language,viewcount) values (\"".$page."\",'".$month."','".$language."',".$viewcount.");";
         break;
     }
     $success = $mysqli->query($insert_query);
@@ -150,15 +150,15 @@ function getpageviewsfromdb($page,$month,$language,$device, $online) {
 	$viewcount = getpageviewsonline($page,$month,$language,$device);
 
         if ($viewcount != $exceededquerylimitmessage) {
-          $insert_query="insert into viewcountsbymonth(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
+          $insert_query="insert into viewcountsbymonth(pagename,monthfull,language,viewcount) values (\"".$page."\",'".$month."','".$language."',".$viewcount.");";
           $delete_query = "delete from viewcountsbymonth where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."';";
           switch ($device) {
             case "mobile-app" :
-              $insert_query="insert into viewcountsbymonth_mobileapp(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
+              $insert_query="insert into viewcountsbymonth_mobileapp(pagename,monthfull,language,viewcount) values (\"".$page."\",'".$month."','".$language."',".$viewcount.");";
               $delete_query = "delete from viewcountsbymonth_mobileapp where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."';";
               break;
             case "mobile-web" :
-              $insert_query="insert into viewcountsbymonth_mobileweb(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
+              $insert_query="insert into viewcountsbymonth_mobileweb(pagename,monthfull,language,viewcount) values (\"".$page."\",'".$month."','".$language."',".$viewcount.");";
               $delete_query = "delete from viewcountsbymonth_mobileapp where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."';";
               break;
           }
@@ -185,7 +185,7 @@ function getpageviews($page,$month,$language,$device,$normalization='') {
     {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
-  $log_query = "insert into viewquerylog(pagename,monthfull,language) values ('".$page."','".$month."','".$language."');";
+  $log_query = "insert into viewquerylog(pagename,monthfull,language) values (\"".$page."\",'".$month."','".$language."');";
   $result = $mysqli->query($log_query);
   queriedpagelog($page,$language,'partial');
   $viewcount = getpageviewsfromdb($page,$month,$language,$device,true);
@@ -230,13 +230,13 @@ function getannualpageviewsfromdb($page,$year,$language,$device,$online) {
   $result = $mysqli->query($select_query);
   $row = $result->fetch_assoc();
   if ($row['status'] != 'future') {
-    $insert_query = "insert into viewcountsbyyear(pagename,year,language,viewcount) values('".$page."','".$year."','".$language."',".$totalviews.");";
+    $insert_query = "insert into viewcountsbyyear(pagename,year,language,viewcount) values(\"".$page."\",'".$year."','".$language."',".$totalviews.");";
     switch ($device) {
       case "mobile-app" :
-        $insert_query = "insert into viewcountsbyyear_mobileapp(pagename,year,language,viewcount) values('".$page."','".$year."','".$language."',".$totalviews.");";
+        $insert_query = "insert into viewcountsbyyear_mobileapp(pagename,year,language,viewcount) values(\"".$page."\",'".$year."','".$language."',".$totalviews.");";
 	break;
       case "mobile-web" :
-        $insert_query = "insert into viewcountsbyyear_mobileweb(pagename,year,language,viewcount) values('".$page."','".$year."','".$language."',".$totalviews.");";
+        $insert_query = "insert into viewcountsbyyear_mobileweb(pagename,year,language,viewcount) values(\"".$page."\",'".$year."','".$language."',".$totalviews.");";
     }
     $success = $mysqli->query($insert_query);
   }
@@ -249,7 +249,7 @@ function getannualpageviews($page,$year,$language,$device) {
     {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
-  $log_query = "insert into viewquerylogbyyear(pagename,year,language) values ('".$page."','".$year."','".$language."');";
+  $log_query = "insert into viewquerylogbyyear(pagename,year,language) values (\"".$page."\",'".$year."','".$language."');";
   $result = $mysqli->query($log_query);
   queriedpagelog($page,$language,'partial');
   return getannualpageviewsfromdb($page,$year,$language,$device,true);

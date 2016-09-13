@@ -19,7 +19,7 @@ function addpagetotag($page,$language,$tag)
     {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
-  $select_query = "select tag from pagetags where pagename='".$page."' and language='".$language."' and tag='".$tag."' limit 1;";
+  $select_query = "select tag from pagetags where pagename=\"".$page."\" and language='".$language."' and tag='".$tag."' limit 1;";
   $result = $mysqli->query($select_query);
   if ($result->num_rows==0)
     {

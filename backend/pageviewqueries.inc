@@ -33,9 +33,9 @@ function queriedpagelog($page,$language,$archivalstatus) {
     {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
-  $select_query = "select row_id from queriedpages where pagename='".$page."' and language='".$language."' limit 1;";
+  $select_query = "select row_id from queriedpages where pagename=\"".$page."\" and language='".$language."' limit 1;";
   $result = $mysqli->query($select_query);
-  $page = str_replace("'","%27",$page);
+  $page = str_replace('"','\"',$page);
   if ($result->num_rows == 0) {
     $insert_query = "insert into queriedpages(pagename,language,archivalstatus) values ('".$page."','".$language."','".$archivalstatus."');";
     $result = $mysqli->query($insert_query);
@@ -101,7 +101,7 @@ function getpageviewsfromdb($page,$month,$language,$device, $online) {
   global $mostrecentmonth;
   global $purgeperiod;
   global $recentmonthslowdownfactor;
-  $page = str_replace("'","%27",$page);
+  $page = str_replace('"','\"',$page);
   if ($mysqli->connect_errno) 
     {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
@@ -109,13 +109,13 @@ function getpageviewsfromdb($page,$month,$language,$device, $online) {
 
   #First looks for existing entries in the database
 
-  $select_query = "select viewcount,querytime from viewcountsbymonth where pagename='".$page."' and monthfull='".$month."' and language='".$language."' limit 1;";
+  $select_query = "select viewcount,querytime from viewcountsbymonth where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."' limit 1;";
   switch ($device) {
     case "mobile-app" :
-      $select_query = "select viewcount,querytime from viewcountsbymonth_mobileapp where pagename='".$page."' and monthfull='".$month."' and language='".$language."' limit 1;";
+      $select_query = "select viewcount,querytime from viewcountsbymonth_mobileapp where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."' limit 1;";
       break;
     case "mobile-web" :
-      $select_query = "select viewcount,querytime from viewcountsbymonth_mobileweb where pagename='".$page."' and monthfull='".$month."' and language='".$language."' limit 1;";
+      $select_query = "select viewcount,querytime from viewcountsbymonth_mobileweb where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."' limit 1;";
       break;
   }
 
@@ -151,15 +151,15 @@ function getpageviewsfromdb($page,$month,$language,$device, $online) {
 
         if ($viewcount != $exceededquerylimitmessage) {
           $insert_query="insert into viewcountsbymonth(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
-          $delete_query = "delete from viewcountsbymonth where pagename='".$page."' and monthfull='".$month."' and language='".$language."';";
+          $delete_query = "delete from viewcountsbymonth where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."';";
           switch ($device) {
             case "mobile-app" :
               $insert_query="insert into viewcountsbymonth_mobileapp(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
-              $delete_query = "delete from viewcountsbymonth_mobileapp where pagename='".$page."' and monthfull='".$month."' and language='".$language."';";
+              $delete_query = "delete from viewcountsbymonth_mobileapp where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."';";
               break;
             case "mobile-web" :
               $insert_query="insert into viewcountsbymonth_mobileweb(pagename,monthfull,language,viewcount) values ('".$page."','".$month."','".$language."',".$viewcount.");";
-              $delete_query = "delete from viewcountsbymonth_mobileapp where pagename='".$page."' and monthfull='".$month."' and language='".$language."';";
+              $delete_query = "delete from viewcountsbymonth_mobileapp where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."';";
               break;
           }
           $success = $mysqli->query($delete_query);
@@ -171,7 +171,7 @@ function getpageviewsfromdb($page,$month,$language,$device, $online) {
   #If a value has been successfully retrieved, removes it from the wanted query list
   if ($viewcount != $exceededquerylimitmessage and $device == "desktop")
     {
-      $delete_query = "delete from wantedviewcountsbymonth where pagename='".$page."' and monthfull='".$month."' and language='".$language."';";
+      $delete_query = "delete from wantedviewcountsbymonth where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."';";
       $success = $mysqli->query($delete_query);
     }
   return $viewcount;
@@ -201,14 +201,14 @@ function getannualpageviewsfromdb($page,$year,$language,$device,$online) {
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
-  $page = str_replace("'","%27",$page);
-  $select_query = "select viewcount from viewcountsbyyear where pagename='".$page."' and year='".$year."' and language='".$language."' limit 1;";
+  $page = str_replace('"','\"',$page);
+  $select_query = "select viewcount from viewcountsbyyear where pagename=\"".$page."\" and year='".$year."' and language='".$language."' limit 1;";
   switch ($device) {
     case "mobile-app" :
-      $select_query = "select viewcount from viewcountsbyyear_mobileapp where pagename='".$page."' and year='".$year."' and language='".$language."' limit 1;";
+      $select_query = "select viewcount from viewcountsbyyear_mobileapp where pagename=\"".$page."\" and year='".$year."' and language='".$language."' limit 1;";
       break;
     case "mobile-web" :
-      $select_query = "select viewcount from viewcountsbyyear_mobileweb where pagename='".$page."' and year='".$year."' and language='".$language."' limit 1;";
+      $select_query = "select viewcount from viewcountsbyyear_mobileweb where pagename=\"".$page."\" and year='".$year."' and language='".$language."' limit 1;";
       break;
   }
   $result = $mysqli->query($select_query);

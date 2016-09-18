@@ -4,7 +4,7 @@
 
 ##Included from: multipletagsandmonths.php, displayviewsformultipletagsandmonths.php
 
-##Sends form to: displayviewsformultipetagsandmonths.php
+##Sends form to: displayviewsformultipletagsandmonths.php
 
 ## Includes: tagdropdownselectmultiple.inc, languagedropdown.inc,
 ## alternatemonthspecificationmethods.inc, advancedoptions.inc

@@ -53,7 +53,7 @@ print 'CSV: Year and number of views separated by comma; each line for a differe
 print '<option value="cpi"';
 if ($formdata == true and $displayformat=="cpi") 
   {
-    print 'selected="selected"';
+    print ' selected="selected"';
   }
 print '>';
 print 'CPI: Special format (documentation pending)</option>';

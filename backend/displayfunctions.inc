@@ -420,11 +420,11 @@ function printpageviewsformonthoryearlistascsv($pageortaglist,$monthoryearlist,$
 
   $headerstring = ucfirst($pageortagadvice)." name";
   foreach($monthoryearlist as $monthoryear)
-    $headerstring .= ",Pageviews in ".$monthoryearadvice." ".$monthoryear;
+    $headerstring .= "|Pageviews in ".$monthoryearadvice." ".$monthoryear;
   if ($includetotal=='includetotal' and count($monthoryearlist) > 1) 
-    $headerstring .=",Total";
+    $headerstring .="|Total";
   if (count($pageortaglist) > 1)
-    $headerstring .=",Percentage";
+    $headerstring .="|Percentage";
   $headerstring.="<br>";
   print $headerstring;
   foreach($pageortaglist as $pageortag)
@@ -434,12 +434,12 @@ function printpageviewsformonthoryearlistascsv($pageortaglist,$monthoryearlist,$
 	foreach($monthoryearlist as $monthoryear)
 	  {
 	    $viewcount = $viewcountarray[$pageortag][$monthoryear];
-	    $stringtoprint .= ",".$viewcount;
+	    $stringtoprint .= "|".$viewcount;
 	  }
 	if ($includetotal=='includetotal' and count($monthoryearlist) > 1) 
-	  $stringtoprint .=",".$pageortag_total[$pageortag];
+	  $stringtoprint .="|".$pageortag_total[$pageortag];
 	if (count($pageortaglist) > 1) 
-	    $stringtoprint .=",".$pageortag_percentage[$pageortag];
+	    $stringtoprint .="|".$pageortag_percentage[$pageortag];
 	$stringtoprint .="<br>";
 	print $stringtoprint;
     }
@@ -447,10 +447,10 @@ function printpageviewsformonthoryearlistascsv($pageortaglist,$monthoryearlist,$
     {
       $totals_rowstring = "Total";
       foreach($monthoryearlist as $monthoryear)
-	  $totals_rowstring .= ",".$monthoryear_total[$monthoryear];
+	  $totals_rowstring .= "|".$monthoryear_total[$monthoryear];
       if (count($monthoryearlist) > 1)
-	$totals_rowstring .= ",".$grand_total;
-      $totals_rowstring .= ",100";
+	$totals_rowstring .= "|".$grand_total;
+      $totals_rowstring .= "|100";
       $totals_rowstring .= "<br>";
       print $totals_rowstring;
     }
@@ -459,9 +459,9 @@ function printpageviewsformonthoryearlistascsv($pageortaglist,$monthoryearlist,$
       $percentages_rowstring = "Percentage";
       foreach($monthoryearlist as $monthoryear)
 	{
-	  $percentages_rowstring .= ",".$monthoryear_percentage[$monthoryear];
+	  $percentages_rowstring .= "|".$monthoryear_percentage[$monthoryear];
 	}
-      $percentages_rowstring .= ",100";
+      $percentages_rowstring .= "|100";
       $percentages_rowstring .= "<br>";
       print $percentages_rowstring;
     }
@@ -492,11 +492,11 @@ function printpageviewsformonthoryearlistascsvtransposed($pageortaglist,$monthor
 
   $headerstring = ucfirst($monthoryearadvice);
   foreach($pageortaglist as $pageortag)
-    $headerstring .= ",Views of ".$pageortagadvice." ".$pageortag;
+    $headerstring .= "|Views of ".$pageortagadvice." ".$pageortag;
   if ($includetotal=='includetotal' and count($pageortaglist) > 1) 
-    $headerstring .=",Total";
+    $headerstring .="|Total";
   if (count($monthoryearlist) > 1)
-    $headerstring .=",Percentage";
+    $headerstring .="|Percentage";
   $headerstring.="<br>";
   print $headerstring;
   foreach($monthoryearlist as $monthoryear)
@@ -506,13 +506,13 @@ function printpageviewsformonthoryearlistascsvtransposed($pageortaglist,$monthor
 	foreach($pageortaglist as $pageortag)
 	  {
 	    $viewcount = $viewcountarray[$pageortag][$monthoryear];
-	    $stringtoprint .= ",".$viewcount;
+	    $stringtoprint .= "|".$viewcount;
 	  }
 	if ($includetotal=='includetotal' and count($pageortaglist) > 1) 
-	  $stringtoprint .=",".$monthoryear_total[$monthoryear];
+	  $stringtoprint .="|".$monthoryear_total[$monthoryear];
 	if (count($monthoryearlist) > 1) 
 	  {
-	    $stringtoprint .=",".$monthoryear_percentage[$monthoryear];
+	    $stringtoprint .="|".$monthoryear_percentage[$monthoryear];
 	  }
 	$stringtoprint .="<br>";
 	print $stringtoprint;
@@ -521,10 +521,10 @@ function printpageviewsformonthoryearlistascsvtransposed($pageortaglist,$monthor
     {
       $totals_rowstring = "Total";
       foreach($pageortaglist as $pageortag)
-	$totals_rowstring .= ",".$pageortag_total[$pageortag];
+	$totals_rowstring .= "|".$pageortag_total[$pageortag];
       if (count($pageortaglist) > 1)
 	$totals_rowstring .= $grand_total;
-      $totals_rowstring .=",100";
+      $totals_rowstring .="|100";
       $totals_rowstring .= "<br>";
       print $totals_rowstring;
     }
@@ -533,9 +533,9 @@ function printpageviewsformonthoryearlistascsvtransposed($pageortaglist,$monthor
       $percentages_rowstring = "Percentage";
       foreach($pageortaglist as $pageortag)
 	{
-	  $percentages_rowstring .= ",".$pageortag_percentage[$pageortag];
+	  $percentages_rowstring .= "|".$pageortag_percentage[$pageortag];
 	}
-      $percentages_rowstring .= ",100";
+      $percentages_rowstring .= "|100";
       $percentages_rowstring .= "<br>";
       print $percentages_rowstring;
     }

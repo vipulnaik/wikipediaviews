@@ -40,7 +40,7 @@ if ($formdata == true and $displayformat=="csv")
     print ' selected="selected"';
   }
 print '>';
-print 'CSV: Page name and number of views separated by comma; each line for a different page</option>';
+print 'CSV: Tag name and number of views separated by comma; each line for a different page</option>';
 
 print '<option value="csvtransposed"';
 if ($formdata == true and $displayformat=="csvtransposed") 

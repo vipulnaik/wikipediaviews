@@ -48,7 +48,7 @@ print 'CSV: Tag name and number of views separated by comma; each line for a dif
 print '<option value="csvtransposed"';
 if ($formdata == true and $displayformat=="csvtransposed") 
   {
-    print 'selected="selected"';
+    print ' selected="selected"';
   }
 print '>';
 print 'CSV: Month and number of views separated by comma; each line for a different month</option>';

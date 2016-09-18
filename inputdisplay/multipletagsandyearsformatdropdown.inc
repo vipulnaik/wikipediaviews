@@ -40,7 +40,7 @@ if ($formdata == true and $displayformat=="csv")
     print ' selected="selected"';
   }
 print '>';
-print 'CSV: Tag name and number of views separated by comma; each line for a different page</option>';
+print 'CSV: Tag name and number of views separated by pipe delimiter (|); each line for a different page</option>';
 
 print '<option value="csvtransposed"';
 if ($formdata == true and $displayformat=="csvtransposed") 
@@ -48,7 +48,7 @@ if ($formdata == true and $displayformat=="csvtransposed")
     print ' selected="selected"';
   }
 print '>';
-print 'CSV: Year and number of views separated by comma; each line for a different year</option>';
+print 'CSV: Year and number of views separated by pipe delimiter (|); each line for a different year</option>';
 
 print '<option value="cpi"';
 if ($formdata == true and $displayformat=="cpi") 

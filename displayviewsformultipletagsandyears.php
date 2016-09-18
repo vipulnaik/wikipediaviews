@@ -14,7 +14,7 @@ include("retrieval/advancedoptionretrieval.inc");
 if ($pagespecificationerror == true) {
     include("inputdisplay/".$pagetypeadvice."dataentry.inc");
 } else {
-  switch ($device) {   
+  switch ($displayformat) {   
     case 'htmltableautomatic' :
       include("style/head.inc");
       if (count($taglist) >= count($yearlist)) {

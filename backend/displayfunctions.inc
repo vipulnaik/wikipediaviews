@@ -496,7 +496,7 @@ function printpageviewsformonthoryearlistascsvtransposed($pageortaglist,$monthor
   if ($includetotal=='includetotal' and count($pageortaglist) > 1) 
     $headerstring .="\tTotal";
   if (count($monthoryearlist) > 1)
-    $headerstring .="\tPercentage";
+    $headerstring .=",Percentage";
   $headerstring.="<br>";
   print $headerstring;
   foreach($monthoryearlist as $monthoryear)

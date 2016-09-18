@@ -37,7 +37,7 @@ print 'HTML table with rows corresponding to years and columns corresponding to 
 print '<option value="csv"';
 if ($formdata == true and $displayformat=="csv") 
   {
-    print 'selected="selected"';
+    print ' selected="selected"';
   }
 print '>';
 print 'CSV: Page name and number of views separated by comma; each line for a different page</option>';
@@ -45,7 +45,7 @@ print 'CSV: Page name and number of views separated by comma; each line for a di
 print '<option value="csvtransposed"';
 if ($formdata == true and $displayformat=="csvtransposed") 
   {
-    print 'selected="selected"';
+    print ' selected="selected"';
   }
 print '>';
 print 'CSV: Year and number of views separated by comma; each line for a different year</option>';

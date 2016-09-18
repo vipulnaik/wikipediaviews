@@ -424,7 +424,7 @@ function printpageviewsformonthoryearlistascsv($pageortaglist,$monthoryearlist,$
   if ($includetotal=='includetotal' and count($monthoryearlist) > 1) 
     $headerstring .="\tTotal";
   if (count($pageortaglist) > 1)
-    $headerstring .=",Percentage";
+    $headerstring .="\tPercentage";
   $headerstring.="<br>";
   print $headerstring;
   foreach($pageortaglist as $pageortag)

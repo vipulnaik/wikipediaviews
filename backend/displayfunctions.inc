@@ -523,7 +523,7 @@ function printpageviewsformonthoryearlistascsvtransposed($pageortaglist,$monthor
       foreach($pageortaglist as $pageortag)
 	$totals_rowstring .= "|".$pageortag_total[$pageortag];
       if (count($pageortaglist) > 1)
-	$totals_rowstring .= $grand_total;
+	$totals_rowstring .= "|".$grand_total;
       $totals_rowstring .="|100";
       $totals_rowstring .= "<br>";
       print $totals_rowstring;

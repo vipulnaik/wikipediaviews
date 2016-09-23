@@ -10,7 +10,7 @@
   <option value="pt" <?php if ($formdata==true and $language=="pt") {print 'selected="selected"';} ?>>Portuguese (Portugues) (pt)</option>
   <option value="sv" <?php if ($formdata==true and $language=="sv") {print 'selected="selected"';} ?>>Swedish (Svenska) (sv)</option>
   <option value="zh" <?php if ($formdata==true and $language=="zh") {print 'selected="selected"';} ?>>Chinese (Zhongwen) (zh)</option>
-  <option value="simple" <?php if ($formdata==true and $language=="simple") {print 'selected="selected"';} ?>>Simple English Wikipedia (simple)</option>
+  <option value="simple" <?php if ($formdata==true and $language=="simple") {print 'selected="selected"';} ?>>Simple English (simple)</option>
   <option value="zh-classical" <?php if ($formdata==true and $language=="zh-classical") {print 'selected="selected"';} ?>>Chinese (Zhongwen) (classical) (zh-classical)</option>
   <option value="no" <?php if ($formdata==true and $language=="no") {print 'selected="selected"';} ?>>Norwegian (Norsk (bokmal)) (no)</option>
   <option value="fi" <?php if ($formdata==true and $language=="fi") {print 'selected="selected"';} ?>>Finnish (fi)</option>

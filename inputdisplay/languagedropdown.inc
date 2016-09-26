@@ -2,7 +2,7 @@
   <option value="en" <?php if ($formdata== true  and $language=="en") {print 'selected="selected"';} ?>>English (en)</option>
   <option value="de" <?php if ($formdata==true and $language=="de") {print 'selected="selected"';} ?>>German (Deutsch) (de)</option>
   <option value="fr" <?php if ($formdata==true and $language=="fr") {print 'selected="selected"';} ?>>French (Francais) (fr)</option>
-  <option value="es" <?php if ($formdata==true and $language=="es") {print 'selected="selected"';} ?>>Espanol (Spanish) (es)</option>
+  <option value="es" <?php if ($formdata==true and $language=="es") {print 'selected="selected"';} ?>>Spanish (Espanol) (es)</option>
   <option value="it" <?php if ($formdata==true and $language=="it") {print 'selected="selected"';} ?>>Italian (Italiano) (it)</option>
   <option value="nl" <?php if ($formdata==true and $language=="nl") {print 'selected="selected"';} ?>>Dutch (Nederlands) (nl)</option>
   <option value="pl" <?php if ($formdata==true and $language=="pl") {print 'selected="selected"';} ?>>Polish (Polski) (pl)</option>

@@ -59,7 +59,18 @@ function getapipageviewsurl($page,$month,$language,$device) {
     	     break;
     case 12: $endOfMonth = $year . '1231';
   }
-  return "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/" . $language . ".wikipedia/" . $device . "/user/" . str_replace("%2527", "%27", urlencode(str_replace(" ","_",$page))) . "/daily/" . $month . "01/" . $endOfMonth . "?purge" . strval(rand());
+  $userType = "user";
+  switch ($device) {
+    case "desktop-spider" :
+      $device = "desktop";
+      $userType = "spider";
+      break;
+    case "mobile-web-spider":
+      $device = "mobile-web";
+      $userType = "spider";
+      break;
+  }
+  return "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/" . $language . ".wikipedia/" . $device . "/" . $userType . "/" . str_replace("%2527", "%27", urlencode(str_replace(" ","_",$page))) . "/daily/" . $month . "01/" . $endOfMonth . "?purge" . strval(rand());
 }
 function getannualpageviewsurl($page,$year,$language,$device="desktop") {
   return "http://wikipediaviews.org/displayviewsformultiplemonths.php?year=".$year."&page=".$page."&language=".$language."&device=".$device;

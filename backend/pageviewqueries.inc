@@ -117,6 +117,12 @@ function getpageviewsfromdb($page,$month,$language,$device, $online) {
     case "mobile-web" :
       $select_query = "select viewcount,querytime from viewcountsbymonth_mobileweb where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."' limit 1;";
       break;
+    case "desktop-spider" :
+      $select_query = "select viewcount,querytime from viewcountsbymonth_desktop_spider where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."' limit 1;";
+      break;
+    case "mobile-web-spider" :
+      $select_query = "select viewcount,querytime from viewcountsbymonth_mobileweb_spider where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."' limit 1;";
+      break;
   }
 
   $result = $mysqli->query($select_query);
@@ -132,6 +138,12 @@ function getpageviewsfromdb($page,$month,$language,$device, $online) {
         break;
       case "mobile-web" :
         $insert_query="insert into viewcountsbymonth_mobileweb(pagename,monthfull,language,viewcount) values (\"".$page."\",'".$month."','".$language."',".$viewcount.");";
+        break;
+      case "desktop-spider" :
+        $insert_query="insert into viewcountsbymonth_desktop_spider(pagename,monthfull,language,viewcount) values (\"".$page."\",'".$month."','".$language."',".$viewcount.");";
+        break;
+      case "mobile-web-spider" :
+        $insert_query="insert into viewcountsbymonth_mobileweb_spider(pagename,monthfull,language,viewcount) values (\"".$page."\",'".$month."','".$language."',".$viewcount.");";
         break;
     }
     $success = $mysqli->query($insert_query);
@@ -159,9 +171,17 @@ function getpageviewsfromdb($page,$month,$language,$device, $online) {
               break;
             case "mobile-web" :
               $insert_query="insert into viewcountsbymonth_mobileweb(pagename,monthfull,language,viewcount) values (\"".$page."\",'".$month."','".$language."',".$viewcount.");";
-              $delete_query = "delete from viewcountsbymonth_mobileapp where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."';";
+              $delete_query = "delete from viewcountsbymonth_mobileweb where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."';";
               break;
-          }
+            case "desktop-spider" :
+              $insert_query="insert into viewcountsbymonth_desktop_spider(pagename,monthfull,language,viewcount) values (\"".$page."\",'".$month."','".$language."',".$viewcount.");";
+              $delete_query = "delete from viewcountsbymonth_desktop_spider where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."';";
+              break;
+            case "mobile-web-spider" :
+              $insert_query="insert into viewcountsbymonth_mobileweb_spider(pagename,monthfull,language,viewcount) values (\"".$page."\",'".$month."','".$language."',".$viewcount.");";
+              $delete_query = "delete from viewcountsbymonth_mobileweb_spider where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."';";
+              break;
+	  }
           $success = $mysqli->query($delete_query);
           $success = $mysqli->query($insert_query);
         }
@@ -210,6 +230,13 @@ function getannualpageviewsfromdb($page,$year,$language,$device,$online) {
     case "mobile-web" :
       $select_query = "select viewcount from viewcountsbyyear_mobileweb where pagename=\"".$page."\" and year='".$year."' and language='".$language."' limit 1;";
       break;
+    case "desktop-spider" :
+      $select_query = "select viewcount from viewcountsbyyear_desktop_spider where pagename=\"".$page."\" and year='".$year."' and language='".$language."' limit 1;";
+      break;
+    case "mobile-web-spider" :
+      $select_query = "select viewcount from viewcountsbyyear_mobileweb_spider where pagename=\"".$page."\" and year='".$year."' and language='".$language."' limit 1;";
+      break;
+
   }
   $result = $mysqli->query($select_query);
   if ($result->num_rows == 1) {
@@ -237,6 +264,13 @@ function getannualpageviewsfromdb($page,$year,$language,$device,$online) {
 	break;
       case "mobile-web" :
         $insert_query = "insert into viewcountsbyyear_mobileweb(pagename,year,language,viewcount) values(\"".$page."\",'".$year."','".$language."',".$totalviews.");";
+	break;
+      case "desktop-spider" :
+        $insert_query = "insert into viewcountsbyyear_desktop_spider(pagename,year,language,viewcount) values(\"".$page."\",'".$year."','".$language."',".$totalviews.");";
+	break;
+      case "mobile-web-spider" :
+        $insert_query = "insert into viewcountsbyyear_mobileweb_spider(pagename,year,language,viewcount) values(\"".$page."\",'".$year."','".$language."',".$totalviews.");";
+	break;
     }
     $success = $mysqli->query($insert_query);
   }
@@ -282,6 +316,13 @@ function viewcountarraybymonth_raw($pagelist,$monthlist,$language,$device,$onlin
     case "mobile-web" :
       $select_query = "select pagename,monthfull,viewcount,querytime from viewcountsbymonth_mobileweb where pagename in (".$pagelistasquotedcsvstring.") and monthfull in (".$monthlistasquotedcsvstring.") and language='".$language."';";
       break;
+    case "desktop-spider" :
+      $select_query = "select pagename,monthfull,viewcount,querytime from viewcountsbymonth_desktop_spider where pagename in (".$pagelistasquotedcsvstring.") and monthfull in (".$monthlistasquotedcsvstring.") and language='".$language."';";
+      break;
+    case "mobile-web-spider" :
+      $select_query = "select pagename,monthfull,viewcount,querytime from viewcountsbymonth_mobileweb_spider where pagename in (".$pagelistasquotedcsvstring.") and monthfull in (".$monthlistasquotedcsvstring.") and language='".$language."';";
+      break;
+
   }
   $result = $mysqli->query($select_query);
   for ($i = 0;$i < $result->num_rows;$i++)
@@ -373,6 +414,12 @@ function viewcountarraybyyear($pagelist,$yearlist,$language,$device,$online,$nor
       break;
     case "mobile-web" :
       $select_query = "select pagename,year,viewcount from viewcountsbyyear_mobileweb where pagename in (".$pagelistasquotedcsvstring.") and year in (".$yearlistasquotedcsvstring.") and language='".$language."';";
+      break;
+    case "desktop-spider" :
+      $select_query = "select pagename,year,viewcount from viewcountsbyyear_desktop_spider where pagename in (".$pagelistasquotedcsvstring.") and year in (".$yearlistasquotedcsvstring.") and language='".$language."';";
+      break;
+    case "mobile-web-spider" :
+      $select_query = "select pagename,year,viewcount from viewcountsbyyear_mobileweb_spider where pagename in (".$pagelistasquotedcsvstring.") and year in (".$yearlistasquotedcsvstring.") and language='".$language."';";
       break;
   }
   $result = $mysqli->query($select_query);

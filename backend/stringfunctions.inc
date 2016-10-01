@@ -90,10 +90,10 @@ function getpageurl($page,$language) {
 }
 
 function convertlisttoquotedcsvstring($listasarray) {
-  $listasquotedcsvstring = '"'.$listasarray[0].'"';
+  $listasquotedcsvstring = '"'.str_replace('"','\"',$listasarray[0]).'"';
   for($i = 1;$i < sizeof($listasarray);$i++)
     {
-      $listasquotedcsvstring .= ',"'.$listasarray[$i].'"';
+      $listasquotedcsvstring .= ',"'.str_replace('"', '\"',$listasarray[$i]).'"';
     }
   return $listasquotedcsvstring;
 }

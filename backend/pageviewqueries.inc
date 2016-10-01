@@ -70,7 +70,7 @@ function getpageviewsonline($page, $month, $language, $device) {
     # Calculate string of the first date of next month (used as upper limit of
     # query)
     ini_set('user_agent', 'Wikipedia Views (wikipediaviews.org)');
-    usleep(250000);
+    usleep(125000);
     $html = file_get_contents($url);
     if (!$html)
     {

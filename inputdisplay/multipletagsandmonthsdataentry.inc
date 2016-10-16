@@ -28,8 +28,8 @@ include("languagedropdown.inc");
 include("devicedropdown.inc");
 print '<tr><td><input type="submit" value="Submit"></td></tr>';
 print '</table>';
+include("alternatemonthspecificationmethods.inc");
 include("advancedoptions.inc");
-
 
 include("monthcheckboxlist.inc");
 print '</form>';

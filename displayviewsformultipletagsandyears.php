@@ -22,16 +22,25 @@ if ($pagespecificationerror == true) {
       } else {
 	printpageviewsformonthoryearlistashtmltabletransposed($taglist,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
       }
+      if (count($yearlist) > 1) {
+        generateGraph($taglist,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
+      }
       include("inputdisplay/multipletagsandyearsdataentry.inc");
       break;
     case 'htmltable' :
       include("style/head.inc"); 
       printpageviewsformonthoryearlistashtmltable($taglist,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
+      if (count($yearlist) > 1) {
+        generateGraph($taglist,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
+      }
       include("inputdisplay/multipletagsandyearsdataentry.inc");
       break;
     case 'htmltabletransposed' :
       include("style/head.inc");
       printpageviewsformonthoryearlistashtmltabletransposed($taglist,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
+      if (count($yearlist) > 1) {
+        generateGraph($taglist,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
+      }
       include("inputdisplay/multipletagsandyearsdataentry.inc");
       break;
     case 'csv' :

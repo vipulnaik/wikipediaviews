@@ -11,6 +11,7 @@
 ## monthcheckboxlist.inc
 
 $pagetypeadvice = "multipletagsandmonths";
+print "<br>";
 if ($formdata == true)
   {
     print "You may continue editing the list below<br>";

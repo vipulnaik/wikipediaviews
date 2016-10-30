@@ -22,16 +22,25 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
       } else {
 	printpageviewsformonthoryearlistashtmltabletransposed($taglist,$monthlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
       }
+      if (count($monthlist) > 1) {
+        generateGraph($taglist,$monthlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
+      }
       include("inputdisplay/multipletagsandmonthsdataentry.inc");
       break;
     case 'htmltable' :
       include("style/head.inc"); 
       printpageviewsformonthoryearlistashtmltable($taglist,$monthlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
+      if (count($monthlist) > 1) {
+        generateGraph($taglist,$monthlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
+      }
       include("inputdisplay/multipletagsandmonthsdataentry.inc");
       break;
     case 'htmltabletransposed':
       include("style/head.inc");
       printpageviewsformonthoryearlistashtmltabletransposed($taglist,$monthlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
+      if (count($monthlist) > 1) {
+        generateGraph($taglist,$monthlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
+      }
       include("inputdisplay/multipletagsandmonthsdataentry.inc");
       break;
     case 'csv':

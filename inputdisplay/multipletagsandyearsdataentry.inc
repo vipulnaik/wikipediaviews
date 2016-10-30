@@ -10,6 +10,7 @@
 ##yearcheckboxlist.inc
 
 $pagetypeadvice = "multipletagsandyears";
+print "<br>";
 if ($formdata == true)
   {
     print "You may continue editing the list below<br>";

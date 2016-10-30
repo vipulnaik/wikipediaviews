@@ -1,5 +1,7 @@
 <?php
 
+include_once("globalvariables/passwordfile.inc");
+
 function checksizes($pageortaglist,$monthoryearlist) {
   global $pagedisplaylimit;
   global $celldisplaylimit;
@@ -539,6 +541,86 @@ function printpageviewsformonthoryearlistascsvtransposed($pageortaglist,$monthor
       $percentages_rowstring .= "<br>";
       print $percentages_rowstring;
     }
+}
+
+function generateGraph($pageortaglist,$monthoryearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month') {
+  global $imagesPath;
+  global $generateGraphCmdBase;
+  #Check that sizes are workable
+  $sizeoverflow = checksizes($pageortaglist,$monthoryearlist);
+  if ($sizeoverflow > 0)
+    return false;
+  #Collect all the numbers that need to be printed first
+  if ($pageortagadvice=='page' and $monthoryearadvice=='month')
+    $viewcountarray = viewcountarraybymonth($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+  elseif ($pageortagadvice=='page' and $monthoryearadvice=='year')
+    $viewcountarray = viewcountarraybyyear($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+  elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month')
+    $viewcountarray = viewcountarraybytagandmonth($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+  elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year')
+    $viewcountarray = viewcountarraybytagandyear($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+
+  $totalsandpercentages_array = totalsandpercentages($pageortaglist,$monthoryearlist,$viewcountarray);
+  $grand_total = $totalsandpercentages_array[0];
+  $pageortag_total = $totalsandpercentages_array[1];
+  $monthoryear_total = $totalsandpercentages_array[2];
+  $pageortag_percentage = $totalsandpercentages_array[3];
+  $monthoryear_percentage = $totalsandpercentages_array[4];
+
+  $fullOutput = "";
+
+  $headerstring = ucfirst($monthoryearadvice);
+  foreach($pageortaglist as $pageortag)
+    $headerstring .= "|".$pageortag;
+  if ($includetotal=='includetotal' and count($pageortaglist) > 1) 
+    $headerstring .="|Total";
+  if (count($monthoryearlist) > 1)
+    $headerstring .="|Percentage";
+  $headerstring .="\n";
+  $fullOutput .= $headerstring;
+  foreach($monthoryearlist as $monthoryear) {
+    $stringtoprint = $monthoryear;
+    $total = 0;
+    foreach($pageortaglist as $pageortag) {
+      $viewcount = $viewcountarray[$pageortag][$monthoryear];
+      $stringtoprint .= "|".$viewcount;
+    }
+    if ($includetotal=='includetotal' and count($pageortaglist) > 1) {
+      $stringtoprint .="|".$monthoryear_total[$monthoryear];
+    }
+    if (count($monthoryearlist) > 1) {
+      $stringtoprint .="|".$monthoryear_percentage[$monthoryear];
+    }
+    $stringtoprint .="\n";
+    $fullOutput .= $stringtoprint;
+  }
+  if ($includetotal == 'includetotal' and count($monthoryearlist) > 1) {
+    $totals_rowstring = "Total";
+    foreach($pageortaglist as $pageortag)
+      $totals_rowstring .= "|".$pageortag_total[$pageortag];
+    if (count($pageortaglist) > 1)
+      $totals_rowstring .= "|".$grand_total;
+    $totals_rowstring .="|100";
+    $totals_rowstring .= "\n";
+    $fullOutput .= $totals_rowstring;
+  }
+  if (count($pageortaglist) > 1) {
+    $percentages_rowstring = "Percentage";
+    foreach($pageortaglist as $pageortag) {
+      $percentages_rowstring .= "|".$pageortag_percentage[$pageortag];
+    }
+    $percentages_rowstring .= "|100";
+    $percentages_rowstring .= "\n";
+    $fullOutput .= $percentages_rowstring;
+  }
+  $fileName = strval(rand());
+  $filePathBase = $imagesPath . $fileName;
+  # print("Going to try writing the following to ".$filePathBase.".csv: <br>".$fullOutput."<br>");
+  file_put_contents($filePathBase . ".csv", $fullOutput);
+  $cmdToExecute = $generateGraphCmdBase . " " . $filePathBase . ".csv " . $filePathBase . ".png";
+  # print("Going to try executing ".$cmdToExecute."<br>");
+  exec($cmdToExecute);
+  print '<img src="/images/'.$fileName.'.png" alt="Graph of pageviews should have loaded here"></img>';
 }
 
 function printpageviewsformonthoryearlistascpi($pageortaglist,$monthoryearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month') {

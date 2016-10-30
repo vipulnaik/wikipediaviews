@@ -617,7 +617,10 @@ function generateGraph($pageortaglist,$monthoryearlist,$language,$device,$explan
   $filePathBase = $imagesPath . $fileName;
   # print("Going to try writing the following to ".$filePathBase.".csv: <br>".$fullOutput."<br>");
   file_put_contents($filePathBase . ".csv", $fullOutput);
-  $cmdToExecute = $generateGraphCmdBase . " " . $filePathBase . ".csv " . $filePathBase . ".png";
+  $cmdToExecute = $generateGraphCmdBase . " " . $filePathBase . ".csv " . $filePathBase . ".png ";
+  if ($numericdisplayformat == "log") {
+    $cmdToExecute = $cmdToExecute . " --log10";
+  }
   # print("Going to try executing ".$cmdToExecute."<br>");
   exec($cmdToExecute);
   print '<img src="/images/'.$fileName.'.png" alt="Graph of pageviews should have loaded here"></img>';

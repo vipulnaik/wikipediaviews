@@ -22,6 +22,9 @@ $exceededquerylimitmessage = 'exceeded query limit and timed out';
 global $cannotRetrieveMessage;
 $cannotRetrieveMessage = 'cannot retrieve this data';
 
+global $tokenExpiredMessage;
+$tokenExpiredMessage = 'authentication token expired';
+
 ## Maximum number of pages we are allowed to display
 global $pagedisplaylimit;
 $pagedisplaylimit = 15000;

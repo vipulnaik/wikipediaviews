@@ -54,6 +54,7 @@ function getPageviewsOnline($page, $month, $language, $device) {
   global $cannotRetrieveMessage;
   global $fbToken;
   global $curlOutputDirectory;
+  global $tokenExpiredMessage;
   if ($weightedexternalquerycount >= $weightedexternalquerylimit)
       return $exceededquerylimitmessage;
   if ($month == $thismonth or $month == $mostrecentmonth)
@@ -69,6 +70,9 @@ function getPageviewsOnline($page, $month, $language, $device) {
       exec($curlCmd);
       $contents = file_get_contents($jsonFileFullPath);
       $json = json_decode($contents,true);
+      if ($json["error"]["type"] === "OAuthException") {
+        return $tokenExpiredMessage;
+      }
       $shareJson = $json["share"];
       $shareCount = intval($shareJson["share_count"]);
       return $shareCount;
@@ -139,7 +143,7 @@ function getpageviewsfromdb($page,$month,$language,$device, $online) {
 
   if ($result->num_rows == 0) {
     $viewcount = getPageviewsOnline($page,$month,$language,$device);
-    if ($viewcount !== $cannotRetrieveMessage) {
+    if ($viewcount !== $cannotRetrieveMessage and $viewcount !== $tokenExpiredMessage) {
       $insert_query="insert into ".$monthCountDb."(pagename,monthfull,language,viewcount) values (\"".$page."\",'".$month."','".$language."',".$viewcount.");";
       $success = $mysqli->query($insert_query);
     }

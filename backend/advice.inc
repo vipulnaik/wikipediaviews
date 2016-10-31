@@ -28,7 +28,7 @@ function pagemonthadvice($pagelist,$monthlist,$camefromtag=false)
     }
   if (0 < $unavailablecount)
     {
-      print "We made ".$externalquerycount." queries to stats.grok.se, treated as ".$weightedexternalquerycount." weighted queries<br>";
+      print "We made ".$externalquerycount." total queries to external sources (stats.grok.se, Wikimedia API, Facebook API), treated as ".$weightedexternalquerycount." weighted queries<br>";
       print "We used ".(count($pagelist) * count($monthlist) - $externalquerycount - $unavailablecount)." entries from within the database<br>";
       print "We were unable to compute ".$unavailablecount." of the entries<br>";
       if ($unavailablecount <= $weightedexternalquerylimit)

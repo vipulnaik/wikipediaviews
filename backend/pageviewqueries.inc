@@ -139,7 +139,7 @@ function getpageviewsfromdb($page,$month,$language,$device, $online) {
 
   if ($result->num_rows == 0) {
     $viewcount = getPageviewsOnline($page,$month,$language,$device);
-    if ($viewcount != $cannotRetrieveMessage) {
+    if ($viewcount !== $cannotRetrieveMessage) {
       $insert_query="insert into ".$monthCountDb."(pagename,monthfull,language,viewcount) values (\"".$page."\",'".$month."','".$language."',".$viewcount.");";
       $success = $mysqli->query($insert_query);
     }

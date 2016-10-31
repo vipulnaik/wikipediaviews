@@ -199,22 +199,8 @@ function getannualpageviewsfromdb($page,$year,$language,$device,$online) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
   $page = str_replace('"','\"',$page);
-  $select_query = "select viewcount from viewcountsbyyear where pagename=\"".$page."\" and year='".$year."' and language='".$language."' limit 1;";
-  switch ($device) {
-    case "mobile-app" :
-      $select_query = "select viewcount from viewcountsbyyear_mobileapp where pagename=\"".$page."\" and year='".$year."' and language='".$language."' limit 1;";
-      break;
-    case "mobile-web" :
-      $select_query = "select viewcount from viewcountsbyyear_mobileweb where pagename=\"".$page."\" and year='".$year."' and language='".$language."' limit 1;";
-      break;
-    case "desktop-spider" :
-      $select_query = "select viewcount from viewcountsbyyear_desktop_spider where pagename=\"".$page."\" and year='".$year."' and language='".$language."' limit 1;";
-      break;
-    case "mobile-web-spider" :
-      $select_query = "select viewcount from viewcountsbyyear_mobileweb_spider where pagename=\"".$page."\" and year='".$year."' and language='".$language."' limit 1;";
-      break;
-
-  }
+  $yearCountDb = getYearCountDbName($device);
+  $select_query = "select viewcount from ".$yearCountDb." where pagename=\"".$page."\" and year='".$year."' and language='".$language."' limit 1;";
   $result = $mysqli->query($select_query);
   if ($result->num_rows == 1) {
     $row = $result->fetch_assoc();
@@ -234,21 +220,7 @@ function getannualpageviewsfromdb($page,$year,$language,$device,$online) {
   $result = $mysqli->query($select_query);
   $row = $result->fetch_assoc();
   if ($row['status'] != 'future') {
-    $insert_query = "insert into viewcountsbyyear(pagename,year,language,viewcount) values(\"".$page."\",'".$year."','".$language."',".$totalviews.");";
-    switch ($device) {
-      case "mobile-app" :
-        $insert_query = "insert into viewcountsbyyear_mobileapp(pagename,year,language,viewcount) values(\"".$page."\",'".$year."','".$language."',".$totalviews.");";
-	break;
-      case "mobile-web" :
-        $insert_query = "insert into viewcountsbyyear_mobileweb(pagename,year,language,viewcount) values(\"".$page."\",'".$year."','".$language."',".$totalviews.");";
-	break;
-      case "desktop-spider" :
-        $insert_query = "insert into viewcountsbyyear_desktop_spider(pagename,year,language,viewcount) values(\"".$page."\",'".$year."','".$language."',".$totalviews.");";
-	break;
-      case "mobile-web-spider" :
-        $insert_query = "insert into viewcountsbyyear_mobileweb_spider(pagename,year,language,viewcount) values(\"".$page."\",'".$year."','".$language."',".$totalviews.");";
-	break;
-    }
+    $insert_query = "insert into ".$yearCountDb."(pagename,year,language,viewcount) values(\"".$page."\",'".$year."','".$language."',".$totalviews.");";
     $success = $mysqli->query($insert_query);
   }
   return $totalviews;
@@ -371,7 +343,8 @@ function viewcountarraybyyear($pagelist,$yearlist,$language,$device,$online,$nor
 	$viewcountarray[$page][$year] = 'unavailable';
   $pagelistasquotedcsvstring = convertlisttoquotedcsvstring($pagelist);
   $yearlistasquotedcsvstring = convertlisttoquotedcsvstring($yearlist);	
-  $select_query = "select pagename,year,viewcount from ". where pagename in (".$pagelistasquotedcsvstring.") and year in (".$yearlistasquotedcsvstring.") and language='".$language."';";
+  $yearCountDb = getYearCountDbName($device);
+  $select_query = "select pagename,year,viewcount from ".$yearCountDb." where pagename in (".$pagelistasquotedcsvstring.") and year in (".$yearlistasquotedcsvstring.") and language='".$language."';";
   $result = $mysqli->query($select_query);
   for ($i = 0;$i < $result->num_rows;$i++)
     {

@@ -37,7 +37,7 @@ function getMonthCountDbName($device) {
   }
 }
 
-function yearCountDbName($device) {
+function getYearCountDbName($device) {
   switch ($device) {
     case "desktop" :
       return "viewcountsbyyear";

@@ -19,6 +19,9 @@ $recentmonthslowdownfactor = 1;
 global $exceededquerylimitmessage;
 $exceededquerylimitmessage = 'exceeded query limit and timed out';
 
+global $cannotRetrieveMessage;
+$cannotRetrieveMessage = 'cannot retrieve this data';
+
 ## Maximum number of pages we are allowed to display
 global $pagedisplaylimit;
 $pagedisplaylimit = 15000;

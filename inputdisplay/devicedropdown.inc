@@ -4,4 +4,5 @@
   <option value="mobile-app" <?php if ($formdata==true and $device=="mobile-app") {print 'selected="selected"';} ?>>Mobile app</option>
   <option value="desktop-spider" <?php if ($formdata==true and $device=="desktop-spider") {print 'selected="selected"';} ?>>Desktop spider</option>
   <option value="mobile-web-spider" <?php if ($formdata==true and $device=="mobile-web-spider") {print 'selected="selected"';} ?>>Mobile web spider</option>
+  <option value="facebook-share" <?php if ($formdata==true and $device=="facebook-share") {print 'selected="selected"';} ?>>Facebook share count</option>
 </select></td></tr>

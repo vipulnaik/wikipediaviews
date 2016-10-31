@@ -14,24 +14,79 @@ function convertpagelisttoarray($pagelistasstring) {
   return $pagelistasarray;
 }
 
-function getpageviewsurl($page,$month,$language,$device) {
-  if ($month < 201601 and $device == "desktop")
-    return getsgspageviewsurl($page,$month,$language);
-  else
-    return getapipageviewsurl($page,$month,$language,$device);
+function getMonthCountDbName($device) {
+  switch ($device) {
+    case "desktop" :
+      return "viewcountsbymonth";
+      break;
+    case "mobile-app" :
+      return "viewcountsbymonth_mobileapp";
+      break;
+    case "mobile-web" :
+      return "viewcountsbymonth_mobileweb";
+      break;
+    case "desktop-spider" :
+      return "viewcountsbymonth_desktop_spider";
+      break;
+    case "mobile-web-spider" :
+      return "viewcountsbymonth_mobileweb_spider";
+      break;
+    case "facebook-share" :
+      return "facebooksharecounts";
+      break;
+  }
 }
 
-function getsgspageviewsurl($page,$month,$language) {
+function getDescriptor($device) {
+  switch ($device) {
+    case "desktop" :
+      return "Pageviews";
+      break;
+    case "mobile-app" :
+      return "Pageviews";
+      break;
+    case "mobile-web" :
+      return "Pageviews";
+      break;
+    case "desktop-spider" :
+      return "Pageviews";
+      break;
+    case "mobile-web-spider" :
+      return "Pageviews";
+      break;
+    case "facebook-share" :
+      return "Cumulative Facebook shares";
+      break;
+  }
+}
+  
+function getPageviewsUrl($page,$month,$language,$device) {
+  if ($device == "facebook-share") {
+    return getFacebookShareCountUrl($page,$month,$language);
+  } else if ($month < 201601 and $device == "desktop") {
+    return getSgsPageviewsUrl($page,$month,$language);
+  } else {
+    return getApiPageviewsUrl($page,$month,$language,$device);
+  }
+}
+
+function getFacebookShareCountUrl($page, $month, $language) {
+  $preEncodingPage = "https://".$language.".wikipedia.org/wiki/".str_replace(" ","_",$page);
+  $urlEncodedPage = urlencode($preEncodingPage);
+  $fbUrl = "https://graph.facebook.com/v2.8/?id=" . $urlEncodedPage;
+  return $fbUrl;
+}
+
+function getSgsPageviewsUrl($page,$month,$language) {
   $page = str_replace(" ","_",$page);
   $page = str_replace("'","%27",$page);
   return "http://stats.grok.se/" . $language . "/" . $month . "/" . $page;
 }
 
-function getapipageviewsurl($page,$month,$language,$device) {
+function getApiPageviewsUrl($page,$month,$language,$device) {
   $year = intval(substr($month, 0, 4));
   $justMonth = intval(substr($month, 4));
-  switch (intval($justMonth))
-  {
+  switch (intval($justMonth)) {
     case 1: $endOfMonth = $year . '0131';
     	    break;
     case 2: if ($year % 4 != 0) 

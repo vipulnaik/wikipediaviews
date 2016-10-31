@@ -113,26 +113,25 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
 
   #Pre-table warnings
 
-  if ($monthoryearadvice=='year')
+  if ($monthoryearadvice=='year') {
     print "<strong>For speed and consistency reasons, we do <em>not</em> include the current month in totals for the current year</strong><br><br>";
-
+  }
   flush();
   ##Table header row
     
   print '<table border="1">';
   $headerstring = "<tr><th>".ucfirst($pageortagadvice)." name</th>";
-  foreach($monthoryearlist as $monthoryear)
-    {
-      $headerstring .= "<th>Pageviews in ".$monthoryearadvice." ".$monthoryear."</th>";
-    }
-  if ($includetotal=='includetotal' and count($monthoryearlist) > 1) 
-    {
-      $headerstring .="<th>Total</th>";
-    }
-  if (count($pageortaglist) > 1) 
-    {
-      $headerstring.="<th>Percentage</th>";
-    }
+  $descriptor = getDescriptor($device);
+
+  foreach($monthoryearlist as $monthoryear) {
+    $headerstring .= "<th>".$descriptor." in ".$monthoryearadvice." ".$monthoryear."</th>";
+  }
+  if ($includetotal=='includetotal' and count($monthoryearlist) > 1) {
+    $headerstring .="<th>Total</th>";
+  }
+  if (count($pageortaglist) > 1) {
+    $headerstring.="<th>Percentage</th>";
+  }
 
   #Tag list column printing
   if ($pageortagadvice == 'page')
@@ -421,8 +420,10 @@ function printpageviewsformonthoryearlistascsv($pageortaglist,$monthoryearlist,$
 
 
   $headerstring = ucfirst($pageortagadvice)." name";
-  foreach($monthoryearlist as $monthoryear)
-    $headerstring .= "|Pageviews in ".$monthoryearadvice." ".$monthoryear;
+  $descriptor = getDescriptor($device);
+  foreach($monthoryearlist as $monthoryear) {
+    $headerstring .= "|".$descriptor." in ".$monthoryearadvice." ".$monthoryear;
+  }
   if ($includetotal=='includetotal' and count($monthoryearlist) > 1) 
     $headerstring .="|Total";
   if (count($pageortaglist) > 1)

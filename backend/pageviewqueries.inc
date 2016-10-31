@@ -371,21 +371,7 @@ function viewcountarraybyyear($pagelist,$yearlist,$language,$device,$online,$nor
 	$viewcountarray[$page][$year] = 'unavailable';
   $pagelistasquotedcsvstring = convertlisttoquotedcsvstring($pagelist);
   $yearlistasquotedcsvstring = convertlisttoquotedcsvstring($yearlist);	
-  $select_query = "select pagename,year,viewcount from viewcountsbyyear where pagename in (".$pagelistasquotedcsvstring.") and year in (".$yearlistasquotedcsvstring.") and language='".$language."';";
-  switch ($device) {
-    case "mobile-app" :
-      $select_query = "select pagename,year,viewcount from viewcountsbyyear_mobileapp where pagename in (".$pagelistasquotedcsvstring.") and year in (".$yearlistasquotedcsvstring.") and language='".$language."';";
-      break;
-    case "mobile-web" :
-      $select_query = "select pagename,year,viewcount from viewcountsbyyear_mobileweb where pagename in (".$pagelistasquotedcsvstring.") and year in (".$yearlistasquotedcsvstring.") and language='".$language."';";
-      break;
-    case "desktop-spider" :
-      $select_query = "select pagename,year,viewcount from viewcountsbyyear_desktop_spider where pagename in (".$pagelistasquotedcsvstring.") and year in (".$yearlistasquotedcsvstring.") and language='".$language."';";
-      break;
-    case "mobile-web-spider" :
-      $select_query = "select pagename,year,viewcount from viewcountsbyyear_mobileweb_spider where pagename in (".$pagelistasquotedcsvstring.") and year in (".$yearlistasquotedcsvstring.") and language='".$language."';";
-      break;
-  }
+  $select_query = "select pagename,year,viewcount from ". where pagename in (".$pagelistasquotedcsvstring.") and year in (".$yearlistasquotedcsvstring.") and language='".$language."';";
   $result = $mysqli->query($select_query);
   for ($i = 0;$i < $result->num_rows;$i++)
     {

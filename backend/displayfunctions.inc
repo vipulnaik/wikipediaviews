@@ -276,30 +276,22 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
   #Table header row
   print '<table border="1">';
   $headerstring = "<tr><th>".ucfirst($monthoryearadvice)."</th>";
-  foreach($pageortaglist as $pageortag)
-    {
-      if ($pageortagadvice=='page')
-	{
-	  $headerstring .= '<th>Views of page <a href="'. getpageurl($pageortag,$language). '" title="'.$pageortag.' (read page on Wikipedia)">' . $pageortag.'</a></th>';
-	}
-      elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month')
-	{
-	  $headerstring .= '<th>Views of pages with tag <a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageortag.'&language='.$language.'&device='.$device.'&allmonths=allmonths">'.$pageortag.'</a></th>';
-	}
-      elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year')
-	{
-	  $headerstring .= '<th>Views of pages with tag <a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageortag.'&language='.$language.'&device='.$device.'&allyears=allyears">'.$pageortag.'</a></th>';
-	}
-
+  $shortDescriptor = getShortDescriptor($device);
+  foreach($pageortaglist as $pageortag) {
+    if ($pageortagadvice=='page') {
+      $headerstring .= '<th>'.$shortDescriptor.' of page <a href="'. getpageurl($pageortag,$language). '" title="'.$pageortag.' (read page on Wikipedia)">' . $pageortag.'</a></th>';
+    } elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month') {
+      $headerstring .= '<th>'.$shortDescriptor.' of pages with tag <a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageortag.'&language='.$language.'&device='.$device.'&allmonths=allmonths">'.$pageortag.'</a></th>';
+    } elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year') {
+      $headerstring .= '<th>Views of pages with tag <a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageortag.'&language='.$language.'&device='.$device.'&allyears=allyears">'.$pageortag.'</a></th>';
     }
-  if ($includetotal=='includetotal' and count($pageortaglist) > 1) 
-    {
-      $headerstring .="<th>Total</th>";
-    }
-  if (count($monthoryearlist) > 1) 
-    {
-      $headerstring.='<td><strong>Percentage</strong></td>';
-    }
+  }
+  if ($includetotal=='includetotal' and count($pageortaglist) > 1) {
+    $headerstring .="<th>Total</th>";
+  }
+  if (count($monthoryearlist) > 1) {
+    $headerstring.='<td><strong>Percentage</strong></td>';
+  }
   $headerstring .= '</tr>';
   print $headerstring;
   

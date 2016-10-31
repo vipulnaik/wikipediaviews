@@ -37,6 +37,26 @@ function getMonthCountDbName($device) {
   }
 }
 
+function yearCountDbName($device) {
+  switch ($device) {
+    case "desktop" :
+      return "viewcountsbyyear";
+      break;
+    case "mobile-app" :
+      return "viewcountsbyyear_mobileapp";
+      break;
+    case "mobile-web" :
+      return "viewcountsbyyear_mobileweb";
+      break;
+    case "desktop-spider" :
+      return "viewcountsbyyear_desktop_spider";
+      break;
+    case "mobile-web-spider" :
+      return "viewcountsbyyear_mobileweb_spider";
+      break;
+  }
+}
+
 function getDescriptor($device) {
   switch ($device) {
     case "desktop" :
@@ -59,7 +79,30 @@ function getDescriptor($device) {
       break;
   }
 }
-  
+
+function getShortDescriptor($device) {
+  switch ($device) {
+    case "desktop" :
+      return "Views";
+      break;
+    case "mobile-app" :
+      return "Views";
+      break;
+    case "mobile-web" :
+      return "Views";
+      break;
+    case "desktop-spider" :
+      return "Views";
+      break;
+    case "mobile-web-spider" :
+      return "Views";
+      break;
+    case "facebook-share" :
+      return "Cumulative shares";
+      break;
+  }
+}
+
 function getPageviewsUrl($page,$month,$language,$device) {
   if ($device == "facebook-share") {
     return getFacebookShareCountUrl($page,$month,$language);

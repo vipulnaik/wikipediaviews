@@ -604,7 +604,7 @@ function generateGraph($pageortaglist,$monthoryearlist,$language,$device,$explan
     $totals_rowstring .= "\n";
     $fullOutput .= $totals_rowstring;
   }
-  if (count($pageortaglist) > 1) {
+  if (count($pageortaglist) > 0) {
     $percentages_rowstring = "Percentage";
     foreach($pageortaglist as $pageortag) {
       $percentages_rowstring .= "|".$pageortag_percentage[$pageortag];

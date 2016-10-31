@@ -11,7 +11,7 @@ passwordfile.inc to your backend subdirectory with the credentials for
 accessing the database. Instructions for database setup are at
 sql/table-creations.txt.
 
-==File structure==
+## File structure
 
 All publicly accessible files are in the home directory.
 
@@ -60,7 +60,7 @@ we get sent to a display page. There are three display pages:
 All these PHP files also include head.inc and toggler.inc from the
 style subdirectory.
 
-==A closer look at the data entry files and the inputdisplay subdirectory==
+## A closer look at the data entry files and the inputdisplay subdirectory
 
 The data entry files themselves include other files, because of common
 structure to them. The included files, however, are in the

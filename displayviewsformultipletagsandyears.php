@@ -22,7 +22,7 @@ if ($pagespecificationerror == true) {
       } else {
 	printpageviewsformonthoryearlistashtmltabletransposed($taglist,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
       }
-      if (count($yearlist) > 1) {
+      if (count($yearlist) > 1 and count($pagelist) <= 1000) {
         generateGraph($taglist,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
       }
       include("inputdisplay/multipletagsandyearsdataentry.inc");
@@ -30,7 +30,7 @@ if ($pagespecificationerror == true) {
     case 'htmltable' :
       include("style/head.inc"); 
       printpageviewsformonthoryearlistashtmltable($taglist,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
-      if (count($yearlist) > 1) {
+      if (count($yearlist) > 1 and count($pagelist) <= 1000) {
         generateGraph($taglist,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
       }
       include("inputdisplay/multipletagsandyearsdataentry.inc");
@@ -38,7 +38,7 @@ if ($pagespecificationerror == true) {
     case 'htmltabletransposed' :
       include("style/head.inc");
       printpageviewsformonthoryearlistashtmltabletransposed($taglist,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
-      if (count($yearlist) > 1) {
+      if (count($yearlist) > 1 and count($pagelist) <= 1000) {
         generateGraph($taglist,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','year');
       }
       include("inputdisplay/multipletagsandyearsdataentry.inc");

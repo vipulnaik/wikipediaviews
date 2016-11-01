@@ -23,7 +23,7 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
       } else {
         printpageviewsformonthoryearlistashtmltabletransposed($pagelistasarray,$monthlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
       }
-      if (count($monthlist) > 1) {
+      if (count($monthlist) > 1 and count($pagelist) <= 1000) {
         generateGraph($pagelistasarray,$monthlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
       }
       include("inputdisplay/multiplemonthsdataentry.inc");
@@ -31,8 +31,7 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
     case 'htmltable' :
       include("style/head.inc"); 
       printpageviewsformonthoryearlistashtmltable($pagelistasarray,$monthlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
-      generateGraph($pagelistasarray,$monthlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
-      if (count($monthlist) > 1) {
+      if (count($monthlist) > 1 and count($pagelist) <= 1000) {
         generateGraph($pagelistasarray,$monthlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
       }
       include("inputdisplay/multiplemonthsdataentry.inc");
@@ -40,7 +39,7 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
     case 'htmltabletransposed' :
       include("style/head.inc");
       printpageviewsformonthoryearlistashtmltabletransposed($pagelistasarray,$monthlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
-      if (count($monthlist) > 1) {
+      if (count($monthlist) > 1 and count($pagelist) <= 1000) {
         generateGraph($pagelistasarray,$monthlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
       }
       include("inputdisplay/multiplemonthsdataentry.inc");

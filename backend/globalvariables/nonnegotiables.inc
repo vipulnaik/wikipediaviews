@@ -30,5 +30,5 @@ global $pagedisplaylimit;
 $pagedisplaylimit = 15000;
 
 global $celldisplaylimit;
-$celldisplaylimit = 500000;
+$celldisplaylimit = 1000000;
 ?>

@@ -22,7 +22,7 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
       } else {
 	printpageviewsformonthoryearlistashtmltabletransposed($taglist,$monthlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
       }
-      if (count($monthlist) > 1 and count($pagelist) <= 1000) {
+      if (count($monthlist) > 1 and count($pagelistasarray) <= 1000) {
         generateGraph($taglist,$monthlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
       }
       include("inputdisplay/multipletagsandmonthsdataentry.inc");
@@ -30,7 +30,7 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
     case 'htmltable' :
       include("style/head.inc"); 
       printpageviewsformonthoryearlistashtmltable($taglist,$monthlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
-      if (count($monthlist) > 1 and count($pagelist) <= 1000) {
+      if (count($monthlist) > 1 and count($pagelistasarray) <= 1000) {
         generateGraph($taglist,$monthlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
       }
       include("inputdisplay/multipletagsandmonthsdataentry.inc");
@@ -38,7 +38,7 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
     case 'htmltabletransposed':
       include("style/head.inc");
       printpageviewsformonthoryearlistashtmltabletransposed($taglist,$monthlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
-      if (count($monthlist) > 1 and count($pagelist) <= 1000) {
+      if (count($monthlist) > 1 and count($pagelistasarray) <= 1000) {
         generateGraph($taglist,$monthlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
       }
       include("inputdisplay/multipletagsandmonthsdataentry.inc");

@@ -24,7 +24,7 @@ print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pagety
 include("tagdropdownselectmultiple.inc");
 print '<table><col width=600/><col width=500/>';
 include("languagedropdown.inc");
-include("devicedropdown.inc");
+include("drilldowndropdown.inc");
 print '<tr><td><input type="submit" value="Submit"></td></tr>';
 print '</table>';
 include("advancedoptions.inc");

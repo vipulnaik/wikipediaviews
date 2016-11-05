@@ -8,7 +8,7 @@ function getpagelistbyviewbound($viewbound,$monthoryearfilter,$language='en',$mo
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
   if ($monthoryearadvice=='month')
-    $select_query = "select distinct pagename from viewcountsbymonth where language='".$language."' and viewcount >=".$viewbound." and monthfull='".$monthoryearfilter."' limit ".$pagedisplaylimit.";";
+    $select_query = "select distinct pagename from viewcountsbymonth_all where language='".$language."' and viewcount >=".$viewbound." and monthfull='".$monthoryearfilter."' limit ".$pagedisplaylimit.";";
   else
     $select_query = "select distinct pagename from viewcountsbyyear where language='".$language."' and viewcount >=".$viewbound." and year='".$monthoryearfilter."' limit ".$pagedisplaylimit.";";
   #print $select_query;

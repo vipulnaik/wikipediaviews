@@ -14,29 +14,6 @@ function convertpagelisttoarray($pagelistasstring) {
   return $pagelistasarray;
 }
 
-function getMonthCountDbName($device) {
-  switch ($device) {
-    case "desktop" :
-      return "viewcountsbymonth";
-      break;
-    case "mobile-app" :
-      return "viewcountsbymonth_mobileapp";
-      break;
-    case "mobile-web" :
-      return "viewcountsbymonth_mobileweb";
-      break;
-    case "desktop-spider" :
-      return "viewcountsbymonth_desktop_spider";
-      break;
-    case "mobile-web-spider" :
-      return "viewcountsbymonth_mobileweb_spider";
-      break;
-    case "facebook-share" :
-      return "facebooksharecounts";
-      break;
-  }
-}
-
 function getYearCountDbName($device) {
   switch ($device) {
     case "desktop" :
@@ -74,7 +51,7 @@ function getDescriptor($device) {
     case "mobile-web-spider" :
       return "Pageviews";
       break;
-    case "facebook-share" :
+    case "cumulative-facebook-shares" :
       return "Cumulative Facebook shares";
       break;
   }

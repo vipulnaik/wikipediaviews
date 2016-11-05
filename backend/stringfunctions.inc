@@ -14,26 +14,6 @@ function convertpagelisttoarray($pagelistasstring) {
   return $pagelistasarray;
 }
 
-function getYearCountDbName($drilldown) {
-  switch ($drilldown) {
-    case "desktop" :
-      return "viewcountsbyyear";
-      break;
-    case "mobile-app" :
-      return "viewcountsbyyear_mobileapp";
-      break;
-    case "mobile-web" :
-      return "viewcountsbyyear_mobileweb";
-      break;
-    case "desktop-spider" :
-      return "viewcountsbyyear_desktop_spider";
-      break;
-    case "mobile-web-spider" :
-      return "viewcountsbyyear_mobileweb_spider";
-      break;
-  }
-}
-
 function getDescriptor($drilldown) {
   switch ($drilldown) {
     case "desktop" :

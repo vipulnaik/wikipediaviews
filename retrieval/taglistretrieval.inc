@@ -13,10 +13,10 @@ if (!empty($_REQUEST['language'])) {
   $language = $_REQUEST['language'];
 }
 
-## Retrieval of device
-$device='desktop';
-if (!empty($_REQUEST['device'])) {
-  $device = $_REQUEST['device'];
+## Retrieval of drilldown
+$drilldown='desktop';
+if (!empty($_REQUEST['drilldown'])) {
+  $drilldown = $_REQUEST['drilldown'];
 }
 
 $taglist = array();

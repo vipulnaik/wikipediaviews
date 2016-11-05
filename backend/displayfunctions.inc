@@ -68,23 +68,23 @@ function totalsandpercentages($pageortaglist,$monthoryearlist,$viewcountarray) {
   return array($grand_total,$pageortag_total,$monthoryear_total,$pageortag_percentage,$monthoryear_percentage);
 }
 
-function printmonthviewcount($page,$month,$language,$device,$viewcount,$numericdisplayformat) {
-  return '<td align="right"><a href="'.getpageviewsurl($page,$month,$language,$device).'" title="'.monthviewtooltip($viewcount).'">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
+function printmonthviewcount($page,$month,$language,$drilldown,$viewcount,$numericdisplayformat) {
+  return '<td align="right"><a href="'.getpageviewsurl($page,$month,$language,$drilldown).'" title="'.monthviewtooltip($viewcount).'">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
 }
 
-function printyearviewcount($page,$year,$language,$device,$viewcount,$numericdisplayformat) {
-  return '<td align="right"><a href="'.getannualpageviewsurl($page,$year,$language,$device).'" title="'.yearviewtooltip($viewcount).'">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
+function printyearviewcount($page,$year,$language,$drilldown,$viewcount,$numericdisplayformat) {
+  return '<td align="right"><a href="'.getannualpageviewsurl($page,$year,$language,$drilldown).'" title="'.yearviewtooltip($viewcount).'">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
 }
 
-function printtagviewcount($tag,$month,$language,$device,$viewcount,$numericdisplayformat) {
-  return '<td align="right"><a href="'.gettagviewsurl($tag,$month,$language,$device).'" title="'.$viewcount.' (click for data on individual pages)">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
+function printtagviewcount($tag,$month,$language,$drilldown,$viewcount,$numericdisplayformat) {
+  return '<td align="right"><a href="'.gettagviewsurl($tag,$month,$language,$drilldown).'" title="'.$viewcount.' (click for data on individual pages)">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
 }
 
-function printtagviewcountbyyear($tag,$year,$language,$device,$viewcount,$numericdisplayformat) {
-  return '<td align="right"><a href="'.getannualtagviewsurl($tag,$year,$language,$device).'" title="'.$viewcount.' (click for data on individual pages)">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
+function printtagviewcountbyyear($tag,$year,$language,$drilldown,$viewcount,$numericdisplayformat) {
+  return '<td align="right"><a href="'.getannualtagviewsurl($tag,$year,$language,$drilldown).'" title="'.$viewcount.' (click for data on individual pages)">'.numericdisplay($viewcount,$numericdisplayformat).'</a></td>';
 }
 
-function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month') {
+function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryearlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month') {
   flush();
   #Check that sizes are workable
   $sizeoverflow = checksizes($pageortaglist,$monthoryearlist);
@@ -92,13 +92,13 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
     return false;
   #Collect all the numbers that need to be printed first
   if ($pageortagadvice=='page' and $monthoryearadvice=='month') {
-    $viewcountarray = viewcountarraybymonth($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+    $viewcountarray = viewcountarraybymonth($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
   } elseif ($pageortagadvice=='page' and $monthoryearadvice=='year') {
-    $viewcountarray = viewcountarraybyyear($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+    $viewcountarray = viewcountarraybyyear($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
   } elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month') {
-      $viewcountarray = viewcountarraybytagandmonth($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+      $viewcountarray = viewcountarraybytagandmonth($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
   } elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year') {
-    $viewcountarray = viewcountarraybytagandyear($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+    $viewcountarray = viewcountarraybytagandyear($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
   }
   $totalsandpercentages_array = totalsandpercentages($pageortaglist,$monthoryearlist,$viewcountarray);
   $grand_total = $totalsandpercentages_array[0];
@@ -121,7 +121,7 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
     
   print '<table border="1">';
   $headerstring = "<tr><th>".ucfirst($pageortagadvice)." name</th>";
-  $descriptor = getDescriptor($device);
+  $descriptor = getDescriptor($drilldown);
 
   foreach($monthoryearlist as $monthoryear) {
     $headerstring .= "<th>".$descriptor." in ".$monthoryearadvice." ".$monthoryear."</th>";
@@ -149,30 +149,30 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
 	}
       elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month')
 	{
-	  $pageortag_rowstring = '<td><a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageortag.'&language='.$language.'&device='.$device.'&allmonths=allmonths">'.$pageortag.'</a></td>';
+	  $pageortag_rowstring = '<td><a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageortag.'&language='.$language.'&device='.$drilldown.'&allmonths=allmonths">'.$pageortag.'</a></td>';
 	}		       
       elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year')
 	{
-	  $pageortag_rowstring = '<td><a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageortag.'&language='.$language.'&device='.$device.'&allyears=allyears">'.$pageortag.'</a></td>';
+	  $pageortag_rowstring = '<td><a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageortag.'&language='.$language.'&device='.$drilldown.'&allyears=allyears">'.$pageortag.'</a></td>';
 	}
       foreach($monthoryearlist as $monthoryear) #Computes one cell entry
 	{
 	  $viewcount = $viewcountarray[$pageortag][$monthoryear];
 	  if ($pageortagadvice=='page' and $monthoryearadvice=='month')
 	    {
-	      $pageortag_rowstring .= printmonthviewcount($pageortag,$monthoryear,$language,$device,$viewcount,$numericdisplayformat);
+	      $pageortag_rowstring .= printmonthviewcount($pageortag,$monthoryear,$language,$drilldown,$viewcount,$numericdisplayformat);
 	    }
 	  elseif ($pageortagadvice=='page' and $monthoryearadvice=='year')
 	    {
-	      $pageortag_rowstring .= printyearviewcount($pageortag,$monthoryear,$language,$device,$viewcount,$numericdisplayformat);
+	      $pageortag_rowstring .= printyearviewcount($pageortag,$monthoryear,$language,$drilldown,$viewcount,$numericdisplayformat);
 	    }
 	  elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month')
 	    {
-	      $pageortag_rowstring .= printtagviewcount($pageortag,$monthoryear,$language,$device,$viewcount,$numericdisplayformat);
+	      $pageortag_rowstring .= printtagviewcount($pageortag,$monthoryear,$language,$drilldown,$viewcount,$numericdisplayformat);
 	    }
 	  elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year')
 	    {
-	      $pageortag_rowstring .= printtagviewcountbyyear($pageortag,$monthoryear,$language,$device,$viewcount,$numericdisplayformat);
+	      $pageortag_rowstring .= printtagviewcountbyyear($pageortag,$monthoryear,$language,$drilldown,$viewcount,$numericdisplayformat);
 	    }
 
 	}
@@ -189,9 +189,9 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
 	  foreach ($taglistforpage as $tag)
 	    {
 	      if ($monthoryearadvice == 'month')
-		$pageortag_rowstring .= '<a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$tag.'&language='.$language.'&device='.$device.'&allmonths=allmonths">'.$tag.'</a> ';
+		$pageortag_rowstring .= '<a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$tag.'&language='.$language.'&device='.$drilldown.'&allmonths=allmonths">'.$tag.'</a> ';
 	      else
-		$pageortag_rowstring .= '<a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$tag.'&language='.$language.'&device='.$device.'&allyears=allyears">'.$tag.'</a> ';
+		$pageortag_rowstring .= '<a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$tag.'&language='.$language.'&device='.$drilldown.'&allyears=allyears">'.$tag.'</a> ';
 	    }
 	  $pageortag_rowstring .= '</td>';
 	}
@@ -239,7 +239,7 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
   flush();
 }
 
-function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$monthoryearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month') {
+function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$monthoryearlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month') {
   flush();
   #Check that sizes are workable
   $sizeoverflow = checksizes($pageortaglist,$monthoryearlist);
@@ -248,13 +248,13 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
 
   #Collect all the numbers that need to be printed first
   if ($pageortagadvice=='page' and $monthoryearadvice=='month') {
-    $viewcountarray = viewcountarraybymonth($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+    $viewcountarray = viewcountarraybymonth($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
   } elseif ($pageortagadvice=='page' and $monthoryearadvice=='year') {
-    $viewcountarray = viewcountarraybyyear($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+    $viewcountarray = viewcountarraybyyear($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
   } elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month') {
-    $viewcountarray = viewcountarraybytagandmonth($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+    $viewcountarray = viewcountarraybytagandmonth($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
   } elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year') {
-    $viewcountarray = viewcountarraybytagandyear($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+    $viewcountarray = viewcountarraybytagandyear($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
   }
   $totalsandpercentages_array = totalsandpercentages($pageortaglist,$monthoryearlist,$viewcountarray);
   $grand_total = $totalsandpercentages_array[0];
@@ -276,14 +276,14 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
   #Table header row
   print '<table border="1">';
   $headerstring = "<tr><th>".ucfirst($monthoryearadvice)."</th>";
-  $shortDescriptor = getShortDescriptor($device);
+  $shortDescriptor = getShortDescriptor($drilldown);
   foreach($pageortaglist as $pageortag) {
     if ($pageortagadvice=='page') {
       $headerstring .= '<th>'.$shortDescriptor.' of page <a href="'. getpageurl($pageortag,$language). '" title="'.$pageortag.' (read page on Wikipedia)">' . $pageortag.'</a></th>';
     } elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month') {
-      $headerstring .= '<th>'.$shortDescriptor.' of pages with tag <a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageortag.'&language='.$language.'&device='.$device.'&allmonths=allmonths">'.$pageortag.'</a></th>';
+      $headerstring .= '<th>'.$shortDescriptor.' of pages with tag <a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageortag.'&language='.$language.'&device='.$drilldown.'&allmonths=allmonths">'.$pageortag.'</a></th>';
     } elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year') {
-      $headerstring .= '<th>Views of pages with tag <a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageortag.'&language='.$language.'&device='.$device.'&allyears=allyears">'.$pageortag.'</a></th>';
+      $headerstring .= '<th>Views of pages with tag <a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageortag.'&language='.$language.'&device='.$drilldown.'&allyears=allyears">'.$pageortag.'</a></th>';
     }
   }
   if ($includetotal=='includetotal' and count($pageortaglist) > 1) {
@@ -301,13 +301,13 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
     foreach($pageortaglist as $pageortag) { #Computes one cell entry
       $viewcount = $viewcountarray[$pageortag][$monthoryear];
       if ($pageortagadvice=='page' and $monthoryearadvice=='month') {
-        $monthoryear_rowstring .= printmonthviewcount($pageortag,$monthoryear,$language,$device,$viewcount,$numericdisplayformat);
+        $monthoryear_rowstring .= printmonthviewcount($pageortag,$monthoryear,$language,$drilldown,$viewcount,$numericdisplayformat);
       } elseif ($pageortagadvice=='page' and $monthoryearadvice=='year') {
-        $monthoryear_rowstring .= printyearviewcount($pageortag,$monthoryear,$language,$device,$viewcount,$numericdisplayformat);
+        $monthoryear_rowstring .= printyearviewcount($pageortag,$monthoryear,$language,$drilldown,$viewcount,$numericdisplayformat);
       } elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month') {
-        $monthoryear_rowstring .= printtagviewcount($pageortag,$monthoryear,$language,$device,$viewcount,$numericdisplayformat);
+        $monthoryear_rowstring .= printtagviewcount($pageortag,$monthoryear,$language,$drilldown,$viewcount,$numericdisplayformat);
       } elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year') {
-        $monthoryear_rowstring .= printtagviewcountbyyear($pageortag,$monthoryear,$language,$device,$viewcount,$numericdisplayformat);
+        $monthoryear_rowstring .= printtagviewcountbyyear($pageortag,$monthoryear,$language,$drilldown,$viewcount,$numericdisplayformat);
       }
     }
     if ($includetotal=='includetotal' and count($pageortaglist) > 1) {
@@ -380,7 +380,7 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
   flush();
 }
 
-function printpageviewsformonthoryearlistascsv($pageortaglist,$monthoryearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month') {
+function printpageviewsformonthoryearlistascsv($pageortaglist,$monthoryearlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month') {
   #Check that sizes are workable
   $sizeoverflow = checksizes($pageortaglist,$monthoryearlist);
   if ($sizeoverflow > 0)
@@ -388,19 +388,19 @@ function printpageviewsformonthoryearlistascsv($pageortaglist,$monthoryearlist,$
   #Collect all the numbers that need to be printed first
   if ($pageortagadvice=='page' and $monthoryearadvice=='month')
     {
-      $viewcountarray = viewcountarraybymonth($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+      $viewcountarray = viewcountarraybymonth($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
     }
   elseif ($pageortagadvice=='page' and $monthoryearadvice=='year')
     {
-      $viewcountarray = viewcountarraybyyear($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+      $viewcountarray = viewcountarraybyyear($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
     }
   elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month')
     {
-      $viewcountarray = viewcountarraybytagandmonth($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+      $viewcountarray = viewcountarraybytagandmonth($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
     }
   elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year')
     {
-      $viewcountarray = viewcountarraybytagandyear($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+      $viewcountarray = viewcountarraybytagandyear($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
     }
 
   $totalsandpercentages_array = totalsandpercentages($pageortaglist,$monthoryearlist,$viewcountarray);
@@ -412,7 +412,7 @@ function printpageviewsformonthoryearlistascsv($pageortaglist,$monthoryearlist,$
 
 
   $headerstring = ucfirst($pageortagadvice)." name";
-  $descriptor = getDescriptor($device);
+  $descriptor = getDescriptor($drilldown);
   foreach($monthoryearlist as $monthoryear) {
     $headerstring .= "|".$descriptor." in ".$monthoryearadvice." ".$monthoryear;
   }
@@ -462,20 +462,20 @@ function printpageviewsformonthoryearlistascsv($pageortaglist,$monthoryearlist,$
     }
 }
 
-function printpageviewsformonthoryearlistascsvtransposed($pageortaglist,$monthoryearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month') {
+function printpageviewsformonthoryearlistascsvtransposed($pageortaglist,$monthoryearlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month') {
   #Check that sizes are workable
   $sizeoverflow = checksizes($pageortaglist,$monthoryearlist);
   if ($sizeoverflow > 0)
     return false;
   #Collect all the numbers that need to be printed first
   if ($pageortagadvice=='page' and $monthoryearadvice=='month')
-    $viewcountarray = viewcountarraybymonth($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+    $viewcountarray = viewcountarraybymonth($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
   elseif ($pageortagadvice=='page' and $monthoryearadvice=='year')
-    $viewcountarray = viewcountarraybyyear($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+    $viewcountarray = viewcountarraybyyear($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
   elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month')
-    $viewcountarray = viewcountarraybytagandmonth($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+    $viewcountarray = viewcountarraybytagandmonth($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
   elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year')
-    $viewcountarray = viewcountarraybytagandyear($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+    $viewcountarray = viewcountarraybytagandyear($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
 
   $totalsandpercentages_array = totalsandpercentages($pageortaglist,$monthoryearlist,$viewcountarray);
   $grand_total = $totalsandpercentages_array[0];
@@ -536,7 +536,7 @@ function printpageviewsformonthoryearlistascsvtransposed($pageortaglist,$monthor
     }
 }
 
-function generateGraph($pageortaglist,$monthoryearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month') {
+function generateGraph($pageortaglist,$monthoryearlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month') {
   global $imagesPath;
   global $generateGraphCmdBase;
   #Check that sizes are workable
@@ -545,13 +545,13 @@ function generateGraph($pageortaglist,$monthoryearlist,$language,$device,$explan
     return false;
   #Collect all the numbers that need to be printed first
   if ($pageortagadvice=='page' and $monthoryearadvice=='month')
-    $viewcountarray = viewcountarraybymonth($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+    $viewcountarray = viewcountarraybymonth($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
   elseif ($pageortagadvice=='page' and $monthoryearadvice=='year')
-    $viewcountarray = viewcountarraybyyear($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+    $viewcountarray = viewcountarraybyyear($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
   elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month')
-    $viewcountarray = viewcountarraybytagandmonth($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+    $viewcountarray = viewcountarraybytagandmonth($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
   elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year')
-    $viewcountarray = viewcountarraybytagandyear($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+    $viewcountarray = viewcountarraybytagandyear($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
 
   $totalsandpercentages_array = totalsandpercentages($pageortaglist,$monthoryearlist,$viewcountarray);
   $grand_total = $totalsandpercentages_array[0];
@@ -619,7 +619,7 @@ function generateGraph($pageortaglist,$monthoryearlist,$language,$device,$explan
   print '<img src="/images/'.$fileName.'.png" alt="Graph of pageviews should have loaded here"></img>';
 }
 
-function printpageviewsformonthoryearlistascpi($pageortaglist,$monthoryearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month') {
+function printpageviewsformonthoryearlistascpi($pageortaglist,$monthoryearlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization='',$pageortagadvice='page',$monthoryearadvice='month') {
   global $exceededquerylimitmessage;
   #Check that sizes are workable
   $sizeoverflow = checksizes($pageortaglist,$monthoryearlist);
@@ -627,13 +627,13 @@ function printpageviewsformonthoryearlistascpi($pageortaglist,$monthoryearlist,$
     return false;
   #Collect all the numbers that need to be printed first
   if ($pageortagadvice=='page' and $monthoryearadvice=='month')
-    $viewcountarray = viewcountarraybymonth($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+    $viewcountarray = viewcountarraybymonth($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
   elseif ($pageortagadvice=='page' and $monthoryearadvice=='year')
-    $viewcountarray = viewcountarraybyyear($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+    $viewcountarray = viewcountarraybyyear($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
   elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month')
-    $viewcountarray = viewcountarraybytagandmonth($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+    $viewcountarray = viewcountarraybytagandmonth($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
   elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year')
-    $viewcountarray = viewcountarraybytagandyear($pageortaglist,$monthoryearlist,$language,$device,true,$normalization);
+    $viewcountarray = viewcountarraybytagandyear($pageortaglist,$monthoryearlist,$language,$drilldown,true,$normalization);
   
   #Collect tag information
   if ($pageortagadvice=='page')

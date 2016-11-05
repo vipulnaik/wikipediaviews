@@ -62,7 +62,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   else
       $weightedexternalquerycount++;
   $url = getPageviewsUrl($page,$month,$language,$drilldown);
-  if ($drilldown == "facebook-share") {
+  if ($drilldown == "cumulative-facebook-shares") {
     if ($month == $thismonth) {
       $tmpString = strval(rand());
       $jsonFileFullPath = $curlOutputDirectory.$tmpString.'.json';

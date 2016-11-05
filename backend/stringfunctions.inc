@@ -14,8 +14,8 @@ function convertpagelisttoarray($pagelistasstring) {
   return $pagelistasarray;
 }
 
-function getYearCountDbName($device) {
-  switch ($device) {
+function getYearCountDbName($drilldown) {
+  switch ($drilldown) {
     case "desktop" :
       return "viewcountsbyyear";
       break;
@@ -34,8 +34,8 @@ function getYearCountDbName($device) {
   }
 }
 
-function getDescriptor($device) {
-  switch ($device) {
+function getDescriptor($drilldown) {
+  switch ($drilldown) {
     case "desktop" :
       return "Pageviews";
       break;
@@ -57,8 +57,8 @@ function getDescriptor($device) {
   }
 }
 
-function getShortDescriptor($device) {
-  switch ($device) {
+function getShortDescriptor($drilldown) {
+  switch ($drilldown) {
     case "desktop" :
       return "Views";
       break;
@@ -74,19 +74,19 @@ function getShortDescriptor($device) {
     case "mobile-web-spider" :
       return "Views";
       break;
-    case "facebook-share" :
+    case "cumulative-facebook-shares" :
       return "Cumulative shares";
       break;
   }
 }
 
-function getPageviewsUrl($page,$month,$language,$device) {
-  if ($device == "facebook-share") {
+function getPageviewsUrl($page,$month,$language,$drilldown) {
+  if ($drilldown == "cumulative-facebook-shares") {
     return getFacebookShareCountUrl($page,$month,$language);
-  } else if ($month < 201601 and $device == "desktop") {
+  } else if ($month < 201601 and $drilldown == "desktop") {
     return getSgsPageviewsUrl($page,$month,$language);
   } else {
-    return getApiPageviewsUrl($page,$month,$language,$device);
+    return getApiPageviewsUrl($page,$month,$language,$drilldown);
   }
 }
 
@@ -103,7 +103,7 @@ function getSgsPageviewsUrl($page,$month,$language) {
   return "http://stats.grok.se/" . $language . "/" . $month . "/" . $page;
 }
 
-function getApiPageviewsUrl($page,$month,$language,$device) {
+function getApiPageviewsUrl($page,$month,$language,$drilldown) {
   $year = intval(substr($month, 0, 4));
   $justMonth = intval(substr($month, 4));
   switch (intval($justMonth)) {
@@ -135,28 +135,28 @@ function getApiPageviewsUrl($page,$month,$language,$device) {
     case 12: $endOfMonth = $year . '1231';
   }
   $userType = "user";
-  switch ($device) {
+  switch ($drilldown) {
     case "desktop-spider" :
-      $device = "desktop";
+      $drilldown = "desktop";
       $userType = "spider";
       break;
     case "mobile-web-spider":
-      $device = "mobile-web";
+      $drilldown = "mobile-web";
       $userType = "spider";
       break;
   }
-  return "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/" . $language . ".wikipedia/" . $device . "/" . $userType . "/" . str_replace("%2527", "%27", urlencode(str_replace(" ","_",$page))) . "/daily/" . $month . "01/" . $endOfMonth . "?purge" . strval(rand());
+  return "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/" . $language . ".wikipedia/" . $drilldown . "/" . $userType . "/" . str_replace("%2527", "%27", urlencode(str_replace(" ","_",$page))) . "/daily/" . $month . "01/" . $endOfMonth . "?purge" . strval(rand());
 }
-function getannualpageviewsurl($page,$year,$language,$device="desktop") {
-  return "http://wikipediaviews.org/displayviewsformultiplemonths.php?year=".$year."&page=".$page."&language=".$language."&device=".$device;
-}
-
-function gettagviewsurl($tag,$month,$language,$device="desktop") {
-  return "http://wikipediaviews.org/displayviewsforonemonth.php?month=".$month."&tag=".$tag."&language=".$language."&device=".$device;
+function getannualpageviewsurl($page,$year,$language,$drilldown="desktop") {
+  return "http://wikipediaviews.org/displayviewsformultiplemonths.php?year=".$year."&page=".$page."&language=".$language."&device=".$drilldown;
 }
 
-function getannualtagviewsurl($tag,$year,$language,$device="desktop") {
-  return "http://wikipediaviews.org/displayviewsformultipleyears.php?year=".$year."&tag=".$tag."&language=".$language."&device=".$device;
+function gettagviewsurl($tag,$month,$language,$drilldown="desktop") {
+  return "http://wikipediaviews.org/displayviewsforonemonth.php?month=".$month."&tag=".$tag."&language=".$language."&device=".$drilldown;
+}
+
+function getannualtagviewsurl($tag,$year,$language,$drilldown="desktop") {
+  return "http://wikipediaviews.org/displayviewsformultipleyears.php?year=".$year."&tag=".$tag."&language=".$language."&device=".$drilldown;
 }
 
 function getpageurl($page,$language) {

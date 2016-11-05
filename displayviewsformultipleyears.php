@@ -19,39 +19,39 @@ if ($pagespecificationerror == true or $yearspecificationerror == true) {
     case 'htmltableautomatic' :
       include("style/head.inc");
       if (count($pagelistasarray) >= count($yearlist)) {
-	printpageviewsformonthoryearlistashtmltable($pagelistasarray,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'page','year');
+	printpageviewsformonthoryearlistashtmltable($pagelistasarray,$yearlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'page','year');
       } else {
-	printpageviewsformonthoryearlistashtmltabletransposed($pagelistasarray,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'page','year');
+	printpageviewsformonthoryearlistashtmltabletransposed($pagelistasarray,$yearlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'page','year');
       }
       if (count($yearlist) > 1) {
-        generateGraph($pagelistasarray,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'page','year');
+        generateGraph($pagelistasarray,$yearlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'page','year');
       }
       include("inputdisplay/multipleyearsdataentry.inc");
       break;
     case 'htmltable':
       include("style/head.inc");  
-      printpageviewsformonthoryearlistashtmltable($pagelistasarray,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'page','year');
+      printpageviewsformonthoryearlistashtmltable($pagelistasarray,$yearlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'page','year');
       if (count($yearlist) > 1) {
-        generateGraph($pagelistasarray,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'page','year');
+        generateGraph($pagelistasarray,$yearlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'page','year');
       }
       include("inputdisplay/multipleyearsdataentry.inc");
       break;
     case 'htmltabletransposed':
       include("style/head.inc");
-      printpageviewsformonthoryearlistashtmltabletransposed($pagelistasarray,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'page','year');
+      printpageviewsformonthoryearlistashtmltabletransposed($pagelistasarray,$yearlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'page','year');
       if (count($yearlist) > 1) {
-        generateGraph($pagelistasarray,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'page','year');
+        generateGraph($pagelistasarray,$yearlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'page','year');
       }
       include("inputdisplay/multipleyearsdataentry.inc");
       break;
     case 'csv':
-      printpageviewsformonthoryearlistascsv($pagelistasarray,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,'','page','year');
+      printpageviewsformonthoryearlistascsv($pagelistasarray,$yearlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,'','page','year');
       break;
     case 'csvtransposed':
-      printpageviewsformonthoryearlistascsvtransposed($pagelistasarray,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,'','page','year');
+      printpageviewsformonthoryearlistascsvtransposed($pagelistasarray,$yearlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,'','page','year');
       break;
     case 'cpi':
-      printpageviewsformonthoryearlistascpi($pagelistasarray,$yearlist,$language,$device,$explanatoryheader,$includetotal,$numericdisplayformat,'','page','year');
+      printpageviewsformonthoryearlistascpi($pagelistasarray,$yearlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,'','page','year');
       break;
   }
 }

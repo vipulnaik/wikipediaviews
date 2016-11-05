@@ -1,4 +1,4 @@
-<tr><td>Enter the drilldown (filter) for which you are interested in pageviews: </td><td><select name="device">
+<tr><td>Enter the drilldown (filter) for which you are interested in pageviews: </td><td><select name="drilldown">
   <option value="desktop" <?php if ($formdata== true  and $drilldown=="desktop") {print 'selected="selected"';} ?>>Desktop</option>
   <option value="mobile-web" <?php if ($formdata==true and $drilldown=="mobile-web") {print 'selected="selected"';} ?>>Mobile web</option>
   <option value="mobile-app" <?php if ($formdata==true and $drilldown=="mobile-app") {print 'selected="selected"';} ?>>Mobile app</option>

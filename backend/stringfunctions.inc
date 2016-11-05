@@ -128,15 +128,15 @@ function getApiPageviewsUrl($page,$month,$language,$drilldown) {
   return "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/" . $language . ".wikipedia/" . $drilldown . "/" . $userType . "/" . str_replace("%2527", "%27", urlencode(str_replace(" ","_",$page))) . "/daily/" . $month . "01/" . $endOfMonth . "?purge" . strval(rand());
 }
 function getannualpageviewsurl($page,$year,$language,$drilldown="desktop") {
-  return "http://wikipediaviews.org/displayviewsformultiplemonths.php?year=".$year."&page=".$page."&language=".$language."&device=".$drilldown;
+  return "http://wikipediaviews.org/displayviewsformultiplemonths.php?year=".$year."&page=".$page."&language=".$language."&drilldown=".$drilldown;
 }
 
 function gettagviewsurl($tag,$month,$language,$drilldown="desktop") {
-  return "http://wikipediaviews.org/displayviewsforonemonth.php?month=".$month."&tag=".$tag."&language=".$language."&device=".$drilldown;
+  return "http://wikipediaviews.org/displayviewsforonemonth.php?month=".$month."&tag=".$tag."&language=".$language."&drilldown=".$drilldown;
 }
 
 function getannualtagviewsurl($tag,$year,$language,$drilldown="desktop") {
-  return "http://wikipediaviews.org/displayviewsformultipleyears.php?year=".$year."&tag=".$tag."&language=".$language."&device=".$drilldown;
+  return "http://wikipediaviews.org/displayviewsformultipleyears.php?year=".$year."&tag=".$tag."&language=".$language."&drilldown=".$drilldown;
 }
 
 function getpageurl($page,$language) {

@@ -149,11 +149,11 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
 	}
       elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month')
 	{
-	  $pageortag_rowstring = '<td><a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageortag.'&language='.$language.'&device='.$drilldown.'&allmonths=allmonths">'.$pageortag.'</a></td>';
+	  $pageortag_rowstring = '<td><a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageortag.'&language='.$language.'&drilldown='.$drilldown.'&allmonths=allmonths">'.$pageortag.'</a></td>';
 	}		       
       elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year')
 	{
-	  $pageortag_rowstring = '<td><a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageortag.'&language='.$language.'&device='.$drilldown.'&allyears=allyears">'.$pageortag.'</a></td>';
+	  $pageortag_rowstring = '<td><a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageortag.'&language='.$language.'&drilldown='.$drilldown.'&allyears=allyears">'.$pageortag.'</a></td>';
 	}
       foreach($monthoryearlist as $monthoryear) #Computes one cell entry
 	{
@@ -189,9 +189,9 @@ function printpageviewsformonthoryearlistashtmltable($pageortaglist,$monthoryear
 	  foreach ($taglistforpage as $tag)
 	    {
 	      if ($monthoryearadvice == 'month')
-		$pageortag_rowstring .= '<a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$tag.'&language='.$language.'&device='.$drilldown.'&allmonths=allmonths">'.$tag.'</a> ';
+		$pageortag_rowstring .= '<a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$tag.'&language='.$language.'&drilldown='.$drilldown.'&allmonths=allmonths">'.$tag.'</a> ';
 	      else
-		$pageortag_rowstring .= '<a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$tag.'&language='.$language.'&device='.$drilldown.'&allyears=allyears">'.$tag.'</a> ';
+		$pageortag_rowstring .= '<a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$tag.'&language='.$language.'&drilldown='.$drilldown.'&allyears=allyears">'.$tag.'</a> ';
 	    }
 	  $pageortag_rowstring .= '</td>';
 	}
@@ -281,9 +281,9 @@ function printpageviewsformonthoryearlistashtmltabletransposed($pageortaglist,$m
     if ($pageortagadvice=='page') {
       $headerstring .= '<th>'.$shortDescriptor.' of page <a href="'. getpageurl($pageortag,$language). '" title="'.$pageortag.' (read page on Wikipedia)">' . $pageortag.'</a></th>';
     } elseif ($pageortagadvice=='tag' and $monthoryearadvice=='month') {
-      $headerstring .= '<th>'.$shortDescriptor.' of pages with tag <a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageortag.'&language='.$language.'&device='.$drilldown.'&allmonths=allmonths">'.$pageortag.'</a></th>';
+      $headerstring .= '<th>'.$shortDescriptor.' of pages with tag <a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageortag.'&language='.$language.'&drilldown='.$drilldown.'&allmonths=allmonths">'.$pageortag.'</a></th>';
     } elseif ($pageortagadvice=='tag' and $monthoryearadvice=='year') {
-      $headerstring .= '<th>Views of pages with tag <a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageortag.'&language='.$language.'&device='.$drilldown.'&allyears=allyears">'.$pageortag.'</a></th>';
+      $headerstring .= '<th>Views of pages with tag <a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageortag.'&language='.$language.'&drilldown='.$drilldown.'&allyears=allyears">'.$pageortag.'</a></th>';
     }
   }
   if ($includetotal=='includetotal' and count($pageortaglist) > 1) {

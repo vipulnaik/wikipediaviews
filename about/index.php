@@ -18,10 +18,16 @@ to <a href="http://www.stackoverflow.com">Stack Overflow</a> for help
 with overcoming some of the coding hurdles that needed to be cleared
 to get to functioning code.</p>
 
-<p>For desktop data between December 2007 and December 2015 (inclusive) we rely on statistics
-from <a href="http://stats.grok.se">stats.grok.se</a>, which in turn uses the <a href="https://wikitech.wikimedia.org/wiki/Analytics/Data/Pagecounts-raw">pagecounts-raw dump</a> provided hourly by the Wikimedia Foundation. This dump includes all pageview data for the main domain but excludes mobile and Wikipedia Zero pageviews.</p>
+<p>For desktop data between December 2007 and June 2015 (inclusive) we
+rely on statistics
+from <a href="http://stats.grok.se">stats.grok.se</a>, which in turn
+uses
+the <a href="https://wikitech.wikimedia.org/wiki/Analytics/Data/Pagecounts-raw">pagecounts-raw
+dump</a> provided hourly by the Wikimedia Foundation. This dump
+includes all pageview data for the main domain but excludes mobile and
+Wikipedia Zero pageviews.</p>
 
-<p>Desktop data from January 2016 onward, as well as mobile web and
+<p>Desktop data from July 2015 onward, as well as mobile web and
 mobile app data as well as desktop spider and mobile web spider data
 from July 2015 onward, are from the Wikimedia REST API. Mobile web and
 app data before July 2015 is not available through any easily
@@ -29,8 +35,9 @@ accessible method, and we therefore do not include it. However, data
 starting September 2014 can in principle be reconstructed from logs
 released by the Wikimedia Foundation.</p>
 
-<p>The development was concentrated between April 30, 2014 and July 31,
-2014.</p>
+<p>The development of the first iteration was concentrated between
+April 30, 2014 and July 31, 2014. Subsequent changes were concentrated
+in late 2016.</p>
 
 <p>Code is available
 at <a href="http://github.com/vipulnaik/wikipediaviews">Github</a>.</p>

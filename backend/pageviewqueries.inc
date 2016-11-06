@@ -79,7 +79,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
     } else {
       return $cannotRetrieveMessage;
     }
-  } else if ($month < 201601 and $drilldown == "desktop") {
+  } else if ($month < 201507 and $drilldown == "desktop") {
     $html = file_get_contents($url);
     preg_match('/(?<=\bhas been viewed)\s+\K[^\s]+/',$html,$numberofpageviews);
     if (count($numberofpageviews) > 0) {

@@ -5,7 +5,7 @@
 ## through one of the alternate methods.
 
 ## Corresponding data entry files (in inputdisplay directory):
-## pageListentry.inc, alternatepagespecificationoptions.inc
+## pagelistentry.inc, alternatepagespecificationoptions.inc
 
 ## Included in all the display views files:
 ## displayviewsforonemonth.php, displayviewsformultiplemonths.php,
@@ -56,9 +56,9 @@ if (!empty($_REQUEST['linkingpage'])) {
     $linkingpage = $_REQUEST['linkingpage'];
 }
 
-$archivalstatus = '';
-if (!empty($_REQUEST['archivalstatus'])) {
-    $archivalstatus = $_REQUEST['archivalstatus'];
+$archivalStatus = '';
+if (!empty($_REQUEST['archivalStatus'])) {
+    $archivalStatus = $_REQUEST['archivalStatus'];
 }
 
 $viewbound = 0;
@@ -80,18 +80,18 @@ if (!empty($_REQUEST['yearfilter'])) {
 ##Figuring out if the page list has been specified in multiple
 ##ways, or not at all, and displaying the appropriate error message.
 
-if (strlen(trim($pageListAsString," \t\n\r\0\x0B"))==0 and $tag==='' and $category==='' and $user==='' and $linkingpage==='' and $archivalstatus==='' and $viewbound==0) {
+if (strlen(trim($pageListAsString," \t\n\r\0\x0B"))==0 and $tag==='' and $category==='' and $user==='' and $linkingpage==='' and $archivalStatus==='' and $viewbound==0) {
     include(__DIR__."/../style/head.inc");
     print "You didn't list any pages (either directly, or via one of the alternative methods).<br>";
     $pagespecificationerror = true;
 }
-elseif (strlen(trim($pageListAsString," \t\n\r\0\x0B"))>0 and ($tag!='' or $category!='' or $user != '' or $archivalstatus != '' or $viewbound > 0)) {
+elseif (strlen(trim($pageListAsString," \t\n\r\0\x0B"))>0 and ($tag!='' or $category!='' or $user != '' or $archivalStatus != '' or $viewbound > 0)) {
     include(__DIR__."/../style/head.inc");
     print "You listed page(s) directly <em>and</em> selected an alternative method to list pages. You can only use one of the two methods at a time.";
     $pagespecificationerror = true;
 }
 
-elseif (($tag != '' and ($category != '' or $user != '' or $linkingpage != '' or $archivalstatus != '' or $viewbound > 0)) or ($category != '' and ($user != '' or $linkingpage != '' or $archivalstatus != '' or $viewbound > 0)) or ($user != '' and ($linkingpage != '' or $archivalstatus != '' or $viewbound > 0)) or ($linkingpage != '' and ($archivalstatus != '' or $viewbound > 0)) or ($archivalstatus != '' and $viewbound > 0)) {
+elseif (($tag != '' and ($category != '' or $user != '' or $linkingpage != '' or $archivalStatus != '' or $viewbound > 0)) or ($category != '' and ($user != '' or $linkingpage != '' or $archivalStatus != '' or $viewbound > 0)) or ($user != '' and ($linkingpage != '' or $archivalStatus != '' or $viewbound > 0)) or ($linkingpage != '' and ($archivalStatus != '' or $viewbound > 0)) or ($archivalStatus != '' and $viewbound > 0)) {
     include(__DIR__."/../style/head.inc");
     print "You selected multiple alternate methods. Please modify the form below appropriately.<br>";
     $pagespecificationerror = true;
@@ -152,9 +152,9 @@ if ($pagespecificationerror == false) {
       }
     sort($pageListAsArray);
       }
-    elseif ($archivalstatus!='')
+    elseif ($archivalStatus!='')
       {
-	$pageListAsArray = getpageListbyarchivalstatus($archivalstatus,$language);
+	$pageListAsArray = getpageListbyarchivalStatus($archivalStatus,$language);
 	if (sizeof($pageListAsArray) == 0)
 	  {
 	    include(__DIR__."/../style/head.inc");

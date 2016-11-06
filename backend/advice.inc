@@ -1,6 +1,6 @@
 <?php
 
-function pagemonthadvice($pageList,$monthlist,$camefromtag=false)
+function pagemonthadvice($pageList,$monthList,$camefromtag=false)
 {
   global $unavailablecount;
   global $weightedexternalquerylimit;
@@ -12,24 +12,24 @@ function pagemonthadvice($pageList,$monthlist,$camefromtag=false)
   global $hardquerylimit;
   global $pagedisplaylimit;
   global $celldisplaylimit;
-  if (count($pageList) == 0 or count($monthlist) == 0 or count($pageList) > $pagedisplaylimit or count($pageList) * count ($monthlist) > $celldisplaylimit)
+  if (count($pageList) == 0 or count($monthList) == 0 or count($pageList) > $pagedisplaylimit or count($pageList) * count ($monthList) > $celldisplaylimit)
     {
       return true;
     }
   print "<br>";
-  if (max(count($pageList),count($monthlist)) > 10)
+  if (max(count($pageList),count($monthList)) > 10)
     {
       print "Printed data for ".count($pageList)." page";
       if (count($pageList) > 1) print "s";
-      print " and ".count($monthlist)." month";
-      if (count($monthlist) > 1) print "s";
+      print " and ".count($monthList)." month";
+      if (count($monthList) > 1) print "s";
       print "<br>";
-      print "The table has a total of ".(count($pageList) * count($monthlist))." entries<br>";
+      print "The table has a total of ".(count($pageList) * count($monthList))." entries<br>";
     }
   if (0 < $unavailablecount)
     {
       print "We made ".$externalquerycount." total queries to external sources (stats.grok.se, Wikimedia API, Facebook API), treated as ".$weightedexternalquerycount." weighted queries<br>";
-      print "We used ".(count($pageList) * count($monthlist) - $externalquerycount - $unavailablecount)." entries from within the database<br>";
+      print "We used ".(count($pageList) * count($monthList) - $externalquerycount - $unavailablecount)." entries from within the database<br>";
       print "We were unable to compute ".$unavailablecount." of the entries<br>";
       if ($unavailablecount <= $weightedexternalquerylimit)
 	{
@@ -44,16 +44,16 @@ function pagemonthadvice($pageList,$monthlist,$camefromtag=false)
 	  print "<strong>TIP</strong>: You're trying to compute too many entries. Reduce the product of the number of pages and the number of months (by reducing whichever is less critical to your needs), or come back after a few hours while we fill in the data for these pages in the background.<br>";
 	}
     }
-  if ($unavailablecount == 0 and count($pageList) == 1 and count($monthlist) == 1)
+  if ($unavailablecount == 0 and count($pageList) == 1 and count($monthList) == 1)
     { 
       
       print "<strong>TIP</strong>: The power of this interface is that you can easily compare multiple pages across multiple months or years. So consider adding more pages or more months to your query.<br>";
     }
-  if ($unavailablecount == 0 and count($monthlist) <= 4 and count($pageList) > 1)
+  if ($unavailablecount == 0 and count($monthList) <= 4 and count($pageList) > 1)
     {
       print "<strong>TIP</strong>: Select more months to compare the magnitudes and trends in views of the pages more reliably.<br>";
     }
-  if ($unavailablecount == 0 and count($monthlist) >= 3 and count($monthlist) <= 12)
+  if ($unavailablecount == 0 and count($monthList) >= 3 and count($monthList) <= 12)
     {
       print "<strong>TIP</strong>: There's an option below to select <em>all</em> months, and also a drop down option (among alternative month specification methods) to select all months <em>in a given year</em>. These can be useful alternatives to manually checking the boxes for several months.<br>";
       $alternatemonthspecs_recommended = true;

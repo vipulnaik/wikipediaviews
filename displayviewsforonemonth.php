@@ -13,28 +13,28 @@ $month = $mostrecentmonth;
 if (!empty($_REQUEST['month'])) {
     $month = $_REQUEST['month'];
   }
-$monthlist = array($month);
+$monthList = array($month);
 
 if ($pagespecificationerror == true or $monthspecificationerror == true) {
   include("inputdisplay/".$pagetypeadvice."dataentry.inc");
 } else {
   switch ($displayformat) {
     case 'csv' :
-      printpageviewsformonthoryearListascsv($pageListAsArray,array($month),$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat);
+      printPageviewsForMonthOrYearListAsCsv($pageListAsArray,array($month),$language,$drilldownList,$explanatoryheader,$includetotal,$numericdisplayformat);
       break;
     case 'htmltable' : 
       include("style/head.inc"); 
-      printpageviewsformonthoryearListashtmltable($pageListAsArray,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
-      $originalmonthlist = $monthlist;
+      printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
+      $originalmonthList = $monthList;
       $displayformat='htmltableautomatic';
       $carryoverfromonemonth=true;
       include("inputdisplay/multiplemonthsdataentry.inc");
       break;
     case 'csvtransposed' :
-      printpageviewsformonthoryearListascsvtransposed($pageListAsArray,array($month),$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat);
+      printPageviewsForMonthOrYearListAsCsvTransposed($pageListAsArray,array($month),$language,$drilldownList,$explanatoryheader,$includetotal,$numericdisplayformat);
       break;
     case 'countsonlyseparatelines' :
-      printpageviewsascountsonlyseparatelines($pageListAsArray,$month,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat);
+      printPageviewsAsCountsOnlySeparateLines($pageListAsArray,$month,$language,$drilldownList,$explanatoryheader,$includetotal,$numericdisplayformat);
       break;
   }
 }

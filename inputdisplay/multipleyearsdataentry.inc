@@ -6,13 +6,13 @@
 
 ##Sends form to: displayviewsformultipleyears.php
 
-##Includes: pageListentry.inc, languagedropdown.inc, 
+##Includes: pagelistentry.inc, languagedropdown.inc, 
 ##alternatepagespecificationmethods.inc, advancedoptions.inc, 
 ## yearcheckboxlist.inc
    
 $pagetypeadvice = "multipleyears";
 print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pagetypeadvice.'.php">';
-include("pageListentry.inc");
+include("pagelistentry.inc");
 
 print '<table><col width=600/><col width=500/>';
 include("languagedropdown.inc");

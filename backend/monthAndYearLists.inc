@@ -45,28 +45,28 @@ function presentandpastyears_yearList()
   return $yearList;
 }
 
-function presentandpastmonths_monthlist()
+function presentandpastmonths_monthList()
 {
   $sql_result = presentandpastmonths_sql();
-  $monthlist = array();
+  $monthList = array();
   for ($i = 0;$i < $sql_result->num_rows;$i++)
     {
       $row = $sql_result->fetch_assoc();
-      array_push($monthlist,$row['monthfull']);
+      array_push($monthList,$row['monthfull']);
     }
-  return $monthlist;
+  return $monthList;
 }
 
-function pastmonths_monthlist()
+function pastmonths_monthList()
 {
   $sql_result = pastmonths_sql();
-  $monthlist = array();
+  $monthList = array();
   for ($i = 0;$i < $sql_result->num_rows;$i++)
     {
       $row = $sql_result->fetch_assoc();
-      array_push($monthlist,$row['monthfull']);
+      array_push($monthList,$row['monthfull']);
     }
-  return $monthlist;
+  return $monthList;
 }
 
 function pastmonthsinyear($year)
@@ -78,13 +78,13 @@ function pastmonthsinyear($year)
     }
   $select_query = "select monthfull,month,year,status from months where status!='future' and status!='present' and year='".$year."';";
   $sql_result = $mysqli->query($select_query);
-  $monthlist = array();
+  $monthList = array();
   for ($i = 0;$i < $sql_result->num_rows;$i++)
     {
       $row = $sql_result->fetch_assoc();
-      array_push($monthlist,$row['monthfull']);
+      array_push($monthList,$row['monthfull']);
     }
-  return $monthlist;
+  return $monthList;
 }	
 
 function monthswithoutyears()
@@ -101,13 +101,13 @@ function monthacrossallyears($month)
     }
   $select_query = "select monthfull,month from months where status!='future' and status!='present' and month='".$month."';";
   $sql_result = $mysqli->query($select_query);
-  $monthlist = array();
+  $monthList = array();
   for ($i = 0;$i < $sql_result->num_rows;$i++)
     {
       $row = $sql_result->fetch_assoc();
-      array_push($monthlist,$row['monthfull']);
+      array_push($monthList,$row['monthfull']);
     }
-  return $monthlist;
+  return $monthList;
 }
 
 ?>

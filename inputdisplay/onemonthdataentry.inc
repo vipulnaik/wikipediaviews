@@ -7,14 +7,14 @@
 
 ##Sends form to: displayviewsforonemonth.php
 
-##Includes: pageListentry.inc, monthdropdown.inc,
+##Includes: pagelistentry.inc, monthdropdown.inc,
 ##languagedropdown.inc, alternatepagespecificationmethods.inc,
 ##advancedoptions.inc
 
 $pagetypeadvice = "onemonth";
 print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pagetypeadvice.'.php">';
 
-include("pageListentry.inc");
+include("pagelistentry.inc");
 
 print '<table><col width=600/><col width=500/>';
 include("monthdropdown.inc");

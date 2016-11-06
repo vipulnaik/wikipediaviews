@@ -26,23 +26,23 @@ if (!empty($_REQUEST['allmonths']))
     $allmonths = $_REQUEST['allmonths'];
   }
 
-$originalmonthlist = array($mostrecentmonth);
-if (!empty($_REQUEST['monthlist']))
+$originalmonthList = array($mostrecentmonth);
+if (!empty($_REQUEST['monthList']))
   {
-    $originalmonthlist = $_REQUEST['monthlist'];
+    $originalmonthList = $_REQUEST['monthList'];
   }
 
-if ($allmonths == "allmonths" and in_array($thismonth,$originalmonthlist))
+if ($allmonths == "allmonths" and in_array($thismonth,$originalmonthList))
   {
-    $monthlist = presentandpastmonths_monthlist();
+    $monthList = presentandpastmonths_monthList();
   }
 elseif ($allmonths == "allmonths")
   {
-    $monthlist = pastmonths_monthlist();
+    $monthList = pastmonths_monthList();
   }
 else
   {
-    $monthlist = $originalmonthlist;
+    $monthList = $originalmonthList;
   }
 
 if ($year != "" and $monthacrossyears != "")
@@ -54,15 +54,15 @@ if ($year != "" and $monthacrossyears != "")
 
 elseif ($year != "")
   {
-    $monthlist = pastmonthsinyear($year);
+    $monthList = pastmonthsinyear($year);
   }
 
 elseif ($monthacrossyears != "")
   {
-    $monthlist = monthacrossallyears($monthacrossyears);
+    $monthList = monthacrossallyears($monthacrossyears);
   }
 
-if (count($monthlist) == 0)
+if (count($monthList) == 0)
   {
     include(__DIR__."/../style/head.inc");
     print "You didn't select any months. Please do so below.";

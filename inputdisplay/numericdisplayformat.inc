@@ -8,7 +8,7 @@
 
 ##Associated retrieval file: retrieval/advancedOptionRetrieval.inc
 
-##Relevant execution code in backend/stringfunctions.inc
+##Relevant execution code in backend/stringFunctions.inc
 
 print '<tr><td>Enter the format in which you want the numbers displayed (<strong>ONLY HTML DISPLAYS</strong>)</td><td>';
 print '<select name="numericdisplayformat">';

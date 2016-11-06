@@ -6,18 +6,18 @@
 
 ##Sends form to: displayviewsformultiplemonths.php
 
-##Includes: pageListentry.inc, languagedropdown.inc, 
+##Includes: pagelistentry.inc, languagedropdown.inc, 
 ##alternatepagespecificationmethods.inc, alternatemonthspecificationmethods.inc,
 ##advancedoptions.inc, monthcheckboxlist.inc
 
 if ($formdata == true and ($pagespecificationerror == false and $monthspecificationerror == false))
   {
-    pagemonthadvice($pageListAsArray,$monthlist,($tag !== ''));
+    pagemonthadvice($pageListAsArray,$monthList,($tag !== ''));
   }
    
 $pagetypeadvice = "multiplemonths";
 print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pagetypeadvice.'.php">';
-include("pageListentry.inc");
+include("pagelistentry.inc");
 
 print '<table><col width=600/><col width=500/>';
 include("languagedropdown.inc");

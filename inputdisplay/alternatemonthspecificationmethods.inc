@@ -5,7 +5,7 @@
 
 ## Included in: multiplemonthsdataentry.inc
 
-## Associated retrieval file: retrieval/monthlistretrieval.inc
+## Associated retrieval file: retrieval/monthListretrieval.inc
 
 if (($formdata == false or $carryoverfromonemonth==true) and $alternatemonthspecs_recommended==false)
   {

@@ -8,7 +8,7 @@
 
 ##Associated retrieval file: retrieval/advancedOptionRetrieval.inc
 
-##Relevant execution code in backend/displayfunctions.inc
+##Relevant execution code in backend/displayFunctions.inc
 
 print '<tr><td>Enter the format in which you want statistics to be displayed: </td><td>';
 print '<select name="displayformat">';

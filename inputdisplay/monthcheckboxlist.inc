@@ -6,7 +6,7 @@
 
 ##Included in: multiplemonthsdataentry.inc
 
-##Associated retrieval file: retrieval/monthlistretrieval.inc
+##Associated retrieval file: retrieval/monthListretrieval.inc
 
 ##Note that the month status (present, mostrecent, past) needs to be updated every month manually
 ##using the database
@@ -26,14 +26,14 @@ print '>Check this to simultaneously select all months excluding the current mon
 for($i=0;$i<$result->num_rows;$i++)
   {
     $row = $result->fetch_assoc();
-    print '<input type="checkbox" name="monthlist[]" value="'.$row['monthfull'].'"';
+    print '<input type="checkbox" name="monthList[]" value="'.$row['monthfull'].'"';
     if ($formdata == false and $row['status']=='mostrecent')
       {
 	print ' checked';
       }
     if ($formdata == true)
       {
-	if (in_array($row['monthfull'],$originalmonthlist) or (sizeof($monthlist) == 0 and $row['status']=='mostrecent'))
+	if (in_array($row['monthfull'],$originalmonthList) or (sizeof($monthList) == 0 and $row['status']=='mostrecent'))
 	  {
 	    print ' checked';
 	  }

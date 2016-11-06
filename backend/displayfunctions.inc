@@ -574,9 +574,11 @@ function generateGraph($pageortaglist,$monthoryearlist,$language,$drilldown,$exp
   foreach($monthoryearlist as $monthoryear) {
     $stringtoprint = $monthoryear;
     $total = 0;
+    $numericViewCount = 0;
+    $numericViewCount = $numericViewCount + $viewcount
     foreach($pageortaglist as $pageortag) {
       $viewcount = $viewcountarray[$pageortag][$monthoryear];
-      $stringtoprint .= "|".$viewcount;
+      $stringtoprint .= "|".$numericViewCount;
     }
     if ($includetotal=='includetotal' and count($pageortaglist) > 1) {
       $stringtoprint .="|".$monthoryear_total[$monthoryear];

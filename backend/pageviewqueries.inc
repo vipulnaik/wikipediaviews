@@ -111,7 +111,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
     return $sum;
   } else {
     $weightedexternalquerycount = $weightedexternalquerycount - $recentmonthslowdownfactor;
-    return 0;
+    return $cannotRetrieveMessage;
   }
 }
 

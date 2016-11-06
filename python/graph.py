@@ -78,14 +78,8 @@ def do_a_plot(df, fname, kind, show_wm_api_switch=False,
     # If we want rolling averages, we would set n to whatever the window length
     # is, but for now we don't, so just hard-code it to 1
     # n = 1
-    if show_wm_api_switch:
-        plt.axvline(pd.to_datetime('2016-01-01'), color='r', lw=2)
-        # plt.axvline(pd.to_datetime('2016-01-01')+relativedelta(months=n-1),
-        #         color='y', lw=2)
-    if show_mobile_onset:
-        plt.axvline(pd.to_datetime('2015-07-01'), color='b', lw=2)
-        # plt.axvline(pd.to_datetime('2015-07-01')+relativedelta(months=n-1),
-        #         color='g', lw=2)
+    if show_wm_api_switch or show_mobile_onset:
+        plt.axvline(pd.to_datetime('2015-07-01'), color='r', lw=2)
     plt.savefig(fname)
     plt.clf()
     plt.close()

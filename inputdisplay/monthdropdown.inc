@@ -1,4 +1,3 @@
-
 <?php
 
 print '<tr><td>Enter the month for which you want to view statistics:</td><td><select name="month">';

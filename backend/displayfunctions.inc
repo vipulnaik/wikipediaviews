@@ -575,7 +575,7 @@ function generateGraph($pageortaglist,$monthoryearlist,$language,$drilldown,$exp
     $stringtoprint = $monthoryear;
     $total = 0;
     $numericViewCount = 0;
-    $numericViewCount = $numericViewCount + $viewcount
+    $numericViewCount = $numericViewCount + $viewcount;
     foreach($pageortaglist as $pageortag) {
       $viewcount = $viewcountarray[$pageortag][$monthoryear];
       $stringtoprint .= "|".$numericViewCount;

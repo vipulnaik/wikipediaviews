@@ -134,6 +134,7 @@ function getpageviewsfromdb($page,$month,$language,$drilldown, $online) {
   #First looks for existing entries in the database
 
   $select_query = "select viewcount,querytime from viewcountsbymonth_all where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."' and drilldown='".$drilldown."' limit 1;";
+  # print $select_query;
 
   $result = $mysqli->query($select_query);
   
@@ -259,7 +260,7 @@ function viewcountarraybymonth_raw($pagelist,$monthlist,$language,$drilldown,$on
   $pagelistasquotedcsvstring = convertlisttoquotedcsvstring($pagelist);
   $monthlistasquotedcsvstring = convertlisttoquotedcsvstring($monthlist);
   $select_query = "select pagename,monthfull,viewcount,querytime from viewcountsbymonth_all where pagename in (".$pagelistasquotedcsvstring.") and monthfull in (".$monthlistasquotedcsvstring.") and language='".$language."' and drilldown='".$drilldown."';";
-
+  # print $select_query;
   $result = $mysqli->query($select_query);
   for ($i = 0;$i < $result->num_rows;$i++) {
     $row = $result->fetch_assoc();
@@ -376,7 +377,7 @@ function fillinwantedviewcounts($querylimit, $online) {
   if ($mysqli->connect_errno) 
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   $select_query = "select * from wantedviewcountsbymonth where status='wanted' limit ".$querylimit.";";
-  #print $select_query;
+  # print $select_query;
   $result = $mysqli->query($select_query);
   if ($result ->num_rows == 0) return true;
   $working_query = "update wantedviewcountsbymonth set status='working' where row_id in (";

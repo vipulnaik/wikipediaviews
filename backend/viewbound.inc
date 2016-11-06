@@ -1,6 +1,6 @@
 <?php
 
-function getpagelistbyviewbound($viewbound,$monthoryearfilter,$language='en',$monthoryearadvice='month')
+function getpageListbyviewbound($viewbound,$monthoryearfilter,$language='en',$monthoryearadvice='month')
 {
   global $mysqli;
   global $pagedisplaylimit;
@@ -13,14 +13,14 @@ function getpagelistbyviewbound($viewbound,$monthoryearfilter,$language='en',$mo
     $select_query = "select distinct pagename from viewcountsbyyear where language='".$language."' and viewcount >=".$viewbound." and year='".$monthoryearfilter."' limit ".$pagedisplaylimit.";";
   #print $select_query;
   $result = $mysqli->query($select_query);
-  $pagelist = array();
+  $pageList = array();
   for ($i = 0; $i < $result->num_rows;$i++)
     {
       $row = $result->fetch_assoc();
       $pagename = $row['pagename'];
-      array_push($pagelist,$pagename);
+      array_push($pageList,$pagename);
     }
-  return $pagelist;
+  return $pageList;
 }
 
 ?>

@@ -6,7 +6,7 @@
 
 ##Default value handcoded in HTML printing, not stored as a separate variable ##BAD PROGRAMMING
 
-##Associated retrieval file: retrieval/advancedoptionretrieval.inc
+##Associated retrieval file: retrieval/advancedOptionRetrieval.inc
 
 ##Relevant execution code in backend/displayfunctions.inc
 

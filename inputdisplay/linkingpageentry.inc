@@ -6,9 +6,9 @@
 
 ## Included in: alternatepagespecificationmethods.inc
 
-## Associated retrieval file: retrieval/pagelistretrieval.inc
+## Associated retrieval file: retrieval/pageListRetrieval.inc
 
-## Important note: the selection here makes a query to the Wikipedia API, see backend/apibasedpagelistgeneration.inc
+## Important note: the selection here makes a query to the Wikipedia API, see backend/apibasedpageListgeneration.inc
 
 print '<tr><td>Alternatively, enter the name of a Wikipedia page (such as <a href="http://en.wikipedia.org/wiki/Potential_predictability">Potential predictability</a>) to get all main namespace pages linked from that page</td>';
 print '<td><input type="text" name="linkingpage" placeholder="Linking page"';

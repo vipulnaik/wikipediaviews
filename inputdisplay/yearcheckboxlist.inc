@@ -22,8 +22,8 @@ print '>Check this to simultaneously select all years (although the year boxes w
 for($i=0;$i<$result->num_rows;$i++)
   {
     $row = $result->fetch_assoc();
-    print '<input type="checkbox" name="yearlist[]" value="'.$row['year'].'"';
-    if (($formdata==true and in_array($row['year'],$originalyearlist)) or ($formdata == false and $row['status']=='mostrecent') or ($formdata == true and sizeof($yearlist) == 0 and $row['status']=='mostrecent')) 
+    print '<input type="checkbox" name="yearList[]" value="'.$row['year'].'"';
+    if (($formdata==true and in_array($row['year'],$originalyearList)) or ($formdata == false and $row['status']=='mostrecent') or ($formdata == true and sizeof($yearList) == 0 and $row['status']=='mostrecent')) 
       {
 	print ' checked';
       }

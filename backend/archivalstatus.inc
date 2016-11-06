@@ -1,6 +1,6 @@
 <?php
 
-function getpagelistbyarchivalstatus($archivalstatus,$language)
+function getpageListbyarchivalstatus($archivalstatus,$language)
 {
   global $mysqli;
   global $pagedisplaylimit;
@@ -10,14 +10,14 @@ function getpagelistbyarchivalstatus($archivalstatus,$language)
   $select_query = "select distinct pagename from queriedpages where archivalstatus='".$archivalstatus."' and language='".$language."' limit ".$pagedisplaylimit.";";
   #print $select_query;
   $result = $mysqli->query($select_query);
-  $pagelist = array();
+  $pageList = array();
   for ($i = 0; $i < $result->num_rows;$i++)
     {
       $row = $result->fetch_assoc();
       $pagename = $row['pagename'];
-      array_push($pagelist,$pagename);
+      array_push($pageList,$pagename);
     }
-  return $pagelist;
+  return $pageList;
 }
 
 ?>

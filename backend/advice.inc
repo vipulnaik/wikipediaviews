@@ -1,6 +1,6 @@
 <?php
 
-function pagemonthadvice($pagelist,$monthlist,$camefromtag=false)
+function pagemonthadvice($pageList,$monthlist,$camefromtag=false)
 {
   global $unavailablecount;
   global $weightedexternalquerylimit;
@@ -12,24 +12,24 @@ function pagemonthadvice($pagelist,$monthlist,$camefromtag=false)
   global $hardquerylimit;
   global $pagedisplaylimit;
   global $celldisplaylimit;
-  if (count($pagelist) == 0 or count($monthlist) == 0 or count($pagelist) > $pagedisplaylimit or count($pagelist) * count ($monthlist) > $celldisplaylimit)
+  if (count($pageList) == 0 or count($monthlist) == 0 or count($pageList) > $pagedisplaylimit or count($pageList) * count ($monthlist) > $celldisplaylimit)
     {
       return true;
     }
   print "<br>";
-  if (max(count($pagelist),count($monthlist)) > 10)
+  if (max(count($pageList),count($monthlist)) > 10)
     {
-      print "Printed data for ".count($pagelist)." page";
-      if (count($pagelist) > 1) print "s";
+      print "Printed data for ".count($pageList)." page";
+      if (count($pageList) > 1) print "s";
       print " and ".count($monthlist)." month";
       if (count($monthlist) > 1) print "s";
       print "<br>";
-      print "The table has a total of ".(count($pagelist) * count($monthlist))." entries<br>";
+      print "The table has a total of ".(count($pageList) * count($monthlist))." entries<br>";
     }
   if (0 < $unavailablecount)
     {
       print "We made ".$externalquerycount." total queries to external sources (stats.grok.se, Wikimedia API, Facebook API), treated as ".$weightedexternalquerycount." weighted queries<br>";
-      print "We used ".(count($pagelist) * count($monthlist) - $externalquerycount - $unavailablecount)." entries from within the database<br>";
+      print "We used ".(count($pageList) * count($monthlist) - $externalquerycount - $unavailablecount)." entries from within the database<br>";
       print "We were unable to compute ".$unavailablecount." of the entries<br>";
       if ($unavailablecount <= $weightedexternalquerylimit)
 	{
@@ -44,12 +44,12 @@ function pagemonthadvice($pagelist,$monthlist,$camefromtag=false)
 	  print "<strong>TIP</strong>: You're trying to compute too many entries. Reduce the product of the number of pages and the number of months (by reducing whichever is less critical to your needs), or come back after a few hours while we fill in the data for these pages in the background.<br>";
 	}
     }
-  if ($unavailablecount == 0 and count($pagelist) == 1 and count($monthlist) == 1)
+  if ($unavailablecount == 0 and count($pageList) == 1 and count($monthlist) == 1)
     { 
       
       print "<strong>TIP</strong>: The power of this interface is that you can easily compare multiple pages across multiple months or years. So consider adding more pages or more months to your query.<br>";
     }
-  if ($unavailablecount == 0 and count($monthlist) <= 4 and count($pagelist) > 1)
+  if ($unavailablecount == 0 and count($monthlist) <= 4 and count($pageList) > 1)
     {
       print "<strong>TIP</strong>: Select more months to compare the magnitudes and trends in views of the pages more reliably.<br>";
     }
@@ -60,7 +60,7 @@ function pagemonthadvice($pagelist,$monthlist,$camefromtag=false)
     }
   if ($camefromtag == false)
     {
-      $findtags_query = "select tag, count(pagename) from pagetags where pagename in (".convertlisttoquotedcsvstring($pagelist).") group by tag order by count(pagename) desc;";
+      $findtags_query = "select tag, count(pagename) from pagetags where pagename in (".convertlisttoquotedcsvstring($pageList).") group by tag order by count(pagename) desc;";
       $tags_result = $mysqli->query($findtags_query);
       if ($tags_result->num_rows > 0)
 	{
@@ -70,7 +70,7 @@ function pagemonthadvice($pagelist,$monthlist,$camefromtag=false)
 	    {
 	      $row = $tags_result->fetch_assoc();
 	      print $row['tag']." (contains ";
-	      if ($row['count(pagename)'] == count($pagelist) and count($pagelist) > 1)
+	      if ($row['count(pagename)'] == count($pageList) and count($pageList) > 1)
 		{
 		  print "<strong>all</strong> ";
 		}

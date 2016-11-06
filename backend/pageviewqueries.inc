@@ -1,9 +1,9 @@
 <?php
 
-function wantedviewcountsquery($pagelist,$monthlist,$language,$drilldown,$viewcountarray) {
+function wantedviewcountsquery($pageList,$monthlist,$language,$drilldown,$viewcountarray) {
   $numberofwantedviewcounts = 0;
   $insert_query = "insert into wantedviewcountsbymonth(pagename,monthfull,language,status) values ";
-  foreach ($pagelist as $page) {
+  foreach ($pageList as $page) {
     foreach ($monthlist as $month) {
       if ($viewcountarray[$page][$month] == 'unavailable') {
 	if ($numberofwantedviewcounts > 0) {
@@ -240,7 +240,7 @@ function getannualpageviews($page,$year,$language,$drilldown) {
   return getannualpageviewsfromdb($page,$year,$language,$drilldown,true);
 }
 
-function viewcountarraybymonth_raw($pagelist,$monthlist,$language,$drilldown,$online=true,$normalization='') {
+function viewcountarraybymonth_raw($pageList,$monthlist,$language,$drilldown,$online=true,$normalization='') {
   global $mysqli;
   global $weightedexternalquerycount;
   global $weightedexternalquerylimit;
@@ -251,15 +251,15 @@ function viewcountarraybymonth_raw($pagelist,$monthlist,$language,$drilldown,$on
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
-  if (sizeof($pagelist) == 0 or sizeof($monthlist) == 0) return false;
-  foreach($pagelist as $page) {
+  if (sizeof($pageList) == 0 or sizeof($monthlist) == 0) return false;
+  foreach($pageList as $page) {
     foreach($monthlist as $month) {
       $viewcountarray[$page][$month] = 'unavailable';
     }
   }
-  $pagelistasquotedcsvstring = convertlisttoquotedcsvstring($pagelist);
+  $pageListasquotedcsvstring = convertlisttoquotedcsvstring($pageList);
   $monthlistasquotedcsvstring = convertlisttoquotedcsvstring($monthlist);
-  $select_query = "select pagename,monthfull,viewcount,querytime from viewcountsbymonth_all where pagename in (".$pagelistasquotedcsvstring.") and monthfull in (".$monthlistasquotedcsvstring.") and language='".$language."' and drilldown='".$drilldown."';";
+  $select_query = "select pagename,monthfull,viewcount,querytime from viewcountsbymonth_all where pagename in (".$pageListasquotedcsvstring.") and monthfull in (".$monthlistasquotedcsvstring.") and language='".$language."' and drilldown='".$drilldown."';";
   # print $select_query;
   $result = $mysqli->query($select_query);
   for ($i = 0;$i < $result->num_rows;$i++) {
@@ -279,11 +279,11 @@ function viewcountarraybymonth_raw($pagelist,$monthlist,$language,$drilldown,$on
       }
     }		
   }
-  wantedviewcountsquery($pagelist,$monthlist,$language,$drilldown,$viewcountarray);	
-  foreach(array_reverse($pagelist) as $page) {
+  wantedviewcountsquery($pageList,$monthlist,$language,$drilldown,$viewcountarray);	
+  foreach(array_reverse($pageList) as $page) {
     queriedpagelog($page,$language,'partial');
   }
-  foreach($pagelist as $page) {
+  foreach($pageList as $page) {
     foreach($monthlist as $month) {
       if ($viewcountarray[$page][$month] == 'unavailable' and $online == true) {
         $viewcountarray[$page][$month] = getpageviewsfromdb($page,$month,$language,$drilldown,true);
@@ -294,14 +294,14 @@ function viewcountarraybymonth_raw($pagelist,$monthlist,$language,$drilldown,$on
     #print "Successfully completed without timing out :)<br>";
     return $viewcountarray;
   }
-  foreach($pagelist as $page) {
+  foreach($pageList as $page) {
     foreach($monthlist as $month) {
       if ($viewcountarray[$page][$month] == $exceededquerylimitmessage) {
 	$viewcountarray[$page][$month] = getpageviewsfromdb($page,$month,$language,$drilldown,true);
       }
     }
   }  
-  foreach($pagelist as $page) {
+  foreach($pageList as $page) {
     foreach($monthlist as $month) {
       if ($viewcountarray[$page][$month] == $exceededquerylimitmessage) {
         $unavailablecount = $unavailablecount + 1;
@@ -312,14 +312,14 @@ function viewcountarraybymonth_raw($pagelist,$monthlist,$language,$drilldown,$on
   return $viewcountarray;
 }
 
-function viewcountarraybymonth($pagelist,$monthlist,$language,$drilldown,$online,$normalization='') {
+function viewcountarraybymonth($pageList,$monthlist,$language,$drilldown,$online,$normalization='') {
   global $exceededquerylimitmessage;
   global $numberofdays_allmonths;
-  $viewcountarray = viewcountarraybymonth_raw($pagelist,$monthlist,$language,$drilldown,$online,$normalization);
+  $viewcountarray = viewcountarraybymonth_raw($pageList,$monthlist,$language,$drilldown,$online,$normalization);
   if ($normalization == '')
     return $viewcountarray;
   elseif ($normalization == 'dailyaverage') {
-    foreach ($pagelist as $page) {
+    foreach ($pageList as $page) {
       foreach ($monthlist as $month) {
 	if ($viewcountarray[$page][$month] != $exceededquerylimitmesage) {
 	  $viewcountarray[$page][$month] = round($viewcountarray[$page][$month]/intval($numberofdays_allmonths[$month]),1);
@@ -330,7 +330,7 @@ function viewcountarraybymonth($pagelist,$monthlist,$language,$drilldown,$online
   return $viewcountarray;
 }
 
-function viewcountarraybyyear($pagelist,$yearlist,$language,$drilldown,$online,$normalization='') {
+function viewcountarraybyyear($pageList,$yearList,$language,$drilldown,$online,$normalization='') {
   global $mysqli;
   global $weightedexternalquerycount;
   global $weightedexternalquerylimit;
@@ -338,23 +338,23 @@ function viewcountarraybyyear($pagelist,$yearlist,$language,$drilldown,$online,$
     {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
-  if (sizeof($pagelist) == 0 or sizeof($yearlist) == 0) return false;
-  foreach($pagelist as $page)
-      foreach($yearlist as $year)
+  if (sizeof($pageList) == 0 or sizeof($yearList) == 0) return false;
+  foreach($pageList as $page)
+      foreach($yearList as $year)
 	$viewcountarray[$page][$year] = 'unavailable';
-  $pagelistasquotedcsvstring = convertlisttoquotedcsvstring($pagelist);
-  $yearlistasquotedcsvstring = convertlisttoquotedcsvstring($yearlist);	
-  $select_query = "select pagename,year,viewcount from viewcountsbyyear_all where pagename in (".$pagelistasquotedcsvstring.") and year in (".$yearlistasquotedcsvstring.") and language='".$language."' and drilldown='".$drilldown."';";
+  $pageListasquotedcsvstring = convertlisttoquotedcsvstring($pageList);
+  $yearListasquotedcsvstring = convertlisttoquotedcsvstring($yearList);	
+  $select_query = "select pagename,year,viewcount from viewcountsbyyear_all where pagename in (".$pageListasquotedcsvstring.") and year in (".$yearListasquotedcsvstring.") and language='".$language."' and drilldown='".$drilldown."';";
   $result = $mysqli->query($select_query);
   for ($i = 0;$i < $result->num_rows;$i++)
     {
       $row = $result->fetch_assoc();
       $viewcountarray[$row['pagename']][$row['year']] = $row['viewcount'];
     }
-  foreach(array_reverse($pagelist) as $page)
+  foreach(array_reverse($pageList) as $page)
       queriedpagelog($page,$language,'partial');
-  foreach($pagelist as $page)
-    foreach($yearlist as $year)
+  foreach($pageList as $page)
+    foreach($yearList as $year)
       if ($viewcountarray[$page][$year] == 'unavailable' and $online = true)
 	$viewcountarray[$page][$year] = getannualpageviewsfromdb($page,$year,$language,$drilldown,true);
 
@@ -362,8 +362,8 @@ function viewcountarraybyyear($pagelist,$yearlist,$language,$drilldown,$online,$
     #print "Successfully completed without timing out :)<br>";
     return $viewcountarray;
   }
-  foreach($pagelist as $page)
-    foreach($yearlist as $year)
+  foreach($pageList as $page)
+    foreach($yearList as $year)
       if ($viewcountarray[$page][$year] == $exceededquerylimitmessage)
 	$viewcountarray[$page][$year] = getannualpageviewsfromdb($page,$year,$language,$drilldown,true);    
   return $viewcountarray;	

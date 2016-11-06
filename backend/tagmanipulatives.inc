@@ -29,7 +29,7 @@ function addpagetotag($page,$language,$tag)
     }
 }
 
-function getpagelistbytag($tag,$language)
+function getpageListbytag($tag,$language)
 {
   global $mysqli;
   if ($mysqli->connect_errno) 
@@ -39,14 +39,14 @@ function getpagelistbytag($tag,$language)
   $tagselect_query = "select distinct pagetags.pagename from pagetags join queriedpages where pagetags.pagename = queriedpages.pagename and pagetags.language = queriedpages.language and pagetags.language='".$language."' and pagetags.tag='".$tag."' order by pagetags.pagename asc;";
 #print $tagselect_query;
   $result = $mysqli->query($tagselect_query);
-  $pagelist = array();
+  $pageList = array();
   for ($i = 0; $i < $result->num_rows;$i++)
     {
       $row = $result->fetch_assoc();
       $pagename = $row['pagename'];
-      array_push($pagelist,$pagename);
+      array_push($pageList,$pagename);
     }
-  return $pagelist;
+  return $pageList;
 }
 
 function gettagtotal($tag,$monthlist,$language='en',$drilldown='desktop',$online=true,$normalization='')
@@ -56,28 +56,28 @@ function gettagtotal($tag,$monthlist,$language='en',$drilldown='desktop',$online
     {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
-  $pagelist = getpagelistbytag($tag,$language);
-  $viewcountarray = viewcountarraybymonth($pagelist,$monthlist,$language,$drilldown,$online,$normalization);
-  $totalsandpercentages_array = totalsandpercentages($pagelist,$monthlist,$viewcountarray);
+  $pageList = getpageListbytag($tag,$language);
+  $viewcountarray = viewcountarraybymonth($pageList,$monthlist,$language,$drilldown,$online,$normalization);
+  $totalsandpercentages_array = totalsandpercentages($pageList,$monthlist,$viewcountarray);
   return $totalsandpercentages_array[2];
 }
 
-function gettagtotalbyyear($tag,$yearlist,$language='en',$drilldown='desktop',$online=true,$normalization='')
+function gettagtotalbyyear($tag,$yearList,$language='en',$drilldown='desktop',$online=true,$normalization='')
 {
   global $mysqli;
   if ($mysqli->connect_errno) 
     {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
-  $pagelist = getpagelistbytag($tag,$language);
-  $viewcountarray = viewcountarraybyyear($pagelist,$yearlist,$language,$drilldown,$online,$normalization);
-  $totalsandpercentages_array = totalsandpercentages($pagelist,$yearlist,$viewcountarray);
+  $pageList = getpageListbytag($tag,$language);
+  $viewcountarray = viewcountarraybyyear($pageList,$yearList,$language,$drilldown,$online,$normalization);
+  $totalsandpercentages_array = totalsandpercentages($pageList,$yearList,$viewcountarray);
   return $totalsandpercentages_array[2];
 }
 
-function viewcountarraybytagandmonth_raw($taglist,$monthlist,$language,$drilldown,$online=true,$normalization='')
+function viewcountarraybytagandmonth_raw($tagList,$monthlist,$language,$drilldown,$online=true,$normalization='')
 {
-  foreach ($taglist as $tag)
+  foreach ($tagList as $tag)
     {
       $tagtotal = gettagtotal($tag,$monthlist,$language,$drilldown,$online,$normalization);
       foreach ($monthlist as $month)
@@ -88,18 +88,18 @@ function viewcountarraybytagandmonth_raw($taglist,$monthlist,$language,$drilldow
   return $viewcountarray;
 }
 
-function viewcountarraybytagandmonth($taglist,$monthlist,$language='en',$drilldown='desktop',$online=true,$normalization='')
+function viewcountarraybytagandmonth($tagList,$monthlist,$language='en',$drilldown='desktop',$online=true,$normalization='')
 {
   global $exceededquerylimitmessage;
   global $numberofdays_allmonths;
-  $viewcountarray = viewcountarraybytagandmonth_raw($taglist,$monthlist,$language,$drilldown,$online,$normalization);
+  $viewcountarray = viewcountarraybytagandmonth_raw($tagList,$monthlist,$language,$drilldown,$online,$normalization);
   if ($normalization == '')
     {
       return $viewcountarray;
     }
   elseif ($normalization == 'dailyaverage')
     {
-      foreach ($taglist as $tag)
+      foreach ($tagList as $tag)
 	{
 	  foreach ($monthlist as $month)
 	    {
@@ -113,12 +113,12 @@ function viewcountarraybytagandmonth($taglist,$monthlist,$language='en',$drilldo
   return $viewcountarray;
 }
 
-function viewcountarraybytagandyear($taglist,$yearlist,$language,$drilldown,$online=true,$normalization='')
+function viewcountarraybytagandyear($tagList,$yearList,$language,$drilldown,$online=true,$normalization='')
 {
-  foreach ($taglist as $tag)
+  foreach ($tagList as $tag)
     {
-      $tagtotal = gettagtotalbyyear($tag,$yearlist,$language,$drilldown,$online,$normalization);
-      foreach ($yearlist as $year)
+      $tagtotal = gettagtotalbyyear($tag,$yearList,$language,$drilldown,$online,$normalization);
+      foreach ($yearList as $year)
 	{
 	  $viewcountarray[$tag][$year] = $tagtotal[$year];
 	}
@@ -126,7 +126,7 @@ function viewcountarraybytagandyear($taglist,$yearlist,$language,$drilldown,$onl
   return $viewcountarray;
 }
 
-function getpagelistbytaglist($taglist,$language,$connective='or')
+function getpageListbytagList($tagList,$language,$connective='or')
 {
   global $mysqli;
   if ($mysqli->connect_errno) 
@@ -136,50 +136,50 @@ function getpagelistbytaglist($taglist,$language,$connective='or')
   $tagselect_query = "select distinct pagetags.pagename from pagetags join queriedpages where pagetags.pagename = queriedpages.pagename and pagetags.language = queriedpages.language and pagetags.language='".$language."' and queriedpages.archivalstatus='complete'";
   if ($connective=='or')
     {
-      $taglistasquotedcsvstring = convertlisttoquotedcsvstring($taglist);
-      $tagselect_query .= "and pagetags.tag in (".$taglistasquotedcsvstring.")";
+      $tagListasquotedcsvstring = convertlisttoquotedcsvstring($tagList);
+      $tagselect_query .= "and pagetags.tag in (".$tagListasquotedcsvstring.")";
     }
   $tagselect_query .= "order by pagetags.pagename asc;";
   $result = $mysqli->query($tagselect_query);
-  $pagelist = array();
+  $pageList = array();
   for ($i = 0; $i < $result->num_rows;$i++)
     {
       $row = $result->fetch_assoc();
       $pagename = $row['pagename'];
-      array_push($pagelist,$pagename);
+      array_push($pageList,$pagename);
     }
-  return $pagelist;
+  return $pageList;
 }
 
-function gettaglistbypagelist($pagelist,$language)
+function gettagListbypageList($pageList,$language)
 {
   global $mysqli;
   if ($mysqli->connect_errno) 
     {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
-  foreach ($pagelist as $page)
-    $taglist[$page] = array();
-  $pagelistasquotedcsvstring = convertlisttoquotedcsvstring($pagelist);
-  $tagselect_query = "select distinct pagename,tag from pagetags where pagename in (".$pagelistasquotedcsvstring.") and language='".$language."';";
+  foreach ($pageList as $page)
+    $tagList[$page] = array();
+  $pageListasquotedcsvstring = convertlisttoquotedcsvstring($pageList);
+  $tagselect_query = "select distinct pagename,tag from pagetags where pagename in (".$pageListasquotedcsvstring.") and language='".$language."';";
   $result = $mysqli->query($tagselect_query);
   for ($i = 0;$i < $result -> num_rows; $i++)
     {
       $row = $result -> fetch_assoc();
-      array_push($taglist[$row['pagename']],$row['tag']);      
+      array_push($tagList[$row['pagename']],$row['tag']);      
     }
-  return $taglist;
+  return $tagList;
 }
 
-function gettagindices($pagelist,$language)
+function gettagindices($pageList,$language)
 {
   global $mysqli;
   if ($mysqli->connect_errno) 
     {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
-  $pagelistasquotedcsvstring = convertlisttoquotedcsvstring($pagelist);
-  $tagselect_query = "select distinct tag from pagetags where pagename in (".$pagelistasquotedcsvstring.") and language='".$language."';";
+  $pageListasquotedcsvstring = convertlisttoquotedcsvstring($pageList);
+  $tagselect_query = "select distinct tag from pagetags where pagename in (".$pageListasquotedcsvstring.") and language='".$language."';";
   $result = $mysqli->query($tagselect_query);
   for ($i = 0;$i < $result -> num_rows; $i++)
     {

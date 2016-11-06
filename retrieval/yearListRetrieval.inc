@@ -7,15 +7,15 @@
 
 ## Only included in displayviewsformultipleyears.php
 
-$originalyearlist=array($mostrecentyear);
+$originalyearList=array($mostrecentyear);
 
 if (!empty($_REQUEST['year']))
   {  
-    $originalyearlist = array($_REQUEST['year']);
+    $originalyearList = array($_REQUEST['year']);
   }
-elseif (!empty($_REQUEST['yearlist']))
+elseif (!empty($_REQUEST['yearList']))
   {
-    $originalyearlist = $_REQUEST['yearlist'];
+    $originalyearList = $_REQUEST['yearList'];
   }
 
 $allyears='allyears';
@@ -23,20 +23,20 @@ if (!empty($_REQUEST['allyears']))
   {
     $allyears = $_REQUEST['allyears'];
   }
-elseif (!empty($_REQUEST['yearlist']) or !empty($_REQUEST['year']))
+elseif (!empty($_REQUEST['yearList']) or !empty($_REQUEST['year']))
   {
     $allyears = '';
   }
 
 if ($allyears == "allyears")
   {
-    $yearlist = presentandpastyears_yearlist();
+    $yearList = presentandpastyears_yearList();
   }
  else
    {
-     $yearlist = $originalyearlist;
+     $yearList = $originalyearList;
    }
-if (sizeof($yearlist) == 0)
+if (sizeof($yearList) == 0)
   {
     include("style/head.inc");
     print "You didn't select any years. Please do so below.";

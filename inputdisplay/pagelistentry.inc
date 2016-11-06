@@ -9,9 +9,9 @@
 
 ## Included in: onemonthdataentry.inc, multiplemonthsdataentry.inc, multipleyearsdataentry.inc
 
-## Associated retrieval file: retrieval/pagelistretrieval.inc
+## Associated retrieval file: retrieval/pageListRetrieval.inc
 
-if ($formdata == true and strlen(trim($pagelistasstring," \t\n\r\0\x0B"))==0 and count($pagelistasarray) > 0)
+if ($formdata == true and strlen(trim($pageListAsString," \t\n\r\0\x0B"))==0 and count($pageListAsArray) > 0)
   {
     print '<br><a id="displayText5" href="javascript:toggle5();">Show text area for manual page entry</a><br><br>';
     print '<div id="toggleText5" style="display: none">';
@@ -32,16 +32,16 @@ else
 more background at the <a href="/about">about page</a>)</p>';
   }
 
-print '<textarea name="pagelistasstring" rows="5" cols="100" placeholder="Enter page names here. Each page name should be on a separate line. Remember, enter page names, not URLs. You may also leave this blank and use an alternative method below for specifying lists of pages.">';
+print '<textarea name="pageListAsString" rows="5" cols="100" placeholder="Enter page names here. Each page name should be on a separate line. Remember, enter page names, not URLs. You may also leave this blank and use an alternative method below for specifying lists of pages.">';
 
 if ($formdata == true) 
   {
-    print $pagelistasstring;
+    print $pageListAsString;
   }
 
 print '</textarea>';
 
-if ($formdata == true and strlen(trim($pagelistasstring," \t\n\r\0\x0B"))==0 and count($pagelistasarray) > 0)
+if ($formdata == true and strlen(trim($pageListAsString," \t\n\r\0\x0B"))==0 and count($pageListAsArray) > 0)
   {
     print '</div>';
   }

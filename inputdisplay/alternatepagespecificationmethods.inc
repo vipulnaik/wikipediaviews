@@ -7,7 +7,7 @@
 
 ## Included in: onemonthdataentry.inc, multiplemonthsdataentry.inc, multipleyearsdataentry.inc
 
-## Associated retrieval file: retrieval/pagelistretrieval.inc
+## Associated retrieval file: retrieval/pageListRetrieval.inc
 
 ## For the decision to control and collapse, see backend/advice.inc
 

@@ -4,7 +4,7 @@
 
 ## Included in: alternatepagespecificationmethods.inc
 
-## Associated retrieval file: retrieval/pagelistretrieval.inc
+## Associated retrieval file: retrieval/pageListRetrieval.inc
 
 ## Important caveat: As you can see in the retrieval file, only pages
 ## that have been completely archived and have the given tag are

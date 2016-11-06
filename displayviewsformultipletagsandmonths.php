@@ -7,9 +7,9 @@ print '</head>';
 include_once("backend/corecode.inc");
 $formdata = true;
 $pagetypeadvice = "multipletagsandmonths";
-include("retrieval/taglistretrieval.inc");
-include("retrieval/monthlistretrieval.inc");
-include("retrieval/advancedoptionretrieval.inc");
+include("retrieval/tagListRetrieval.inc");
+include("retrieval/monthListRetrieval.inc");
+include("retrieval/advancedOptionRetrieval.inc");
 
 if ($pagespecificationerror == true or $monthspecificationerror == true) {
   include("inputdisplay/".$pagetypeadvice."dataentry.inc");
@@ -17,40 +17,40 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
   switch ($displayformat) {
     case 'htmltableautomatic' :
       include("style/head.inc");
-      if (count($taglist) >= count($monthlist)) {
-	printpageviewsformonthoryearlistashtmltable($taglist,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
+      if (count($tagList) >= count($monthlist)) {
+	printpageviewsformonthoryearListashtmltable($tagList,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
       } else {
-	printpageviewsformonthoryearlistashtmltabletransposed($taglist,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
+	printpageviewsformonthoryearListashtmltabletransposed($tagList,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
       }
       if (count($monthlist) > 1) {
-        generateGraph($taglist,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
+        generateGraph($tagList,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
       }
       include("inputdisplay/multipletagsandmonthsdataentry.inc");
       break;
     case 'htmltable' :
       include("style/head.inc"); 
-      printpageviewsformonthoryearlistashtmltable($taglist,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
+      printpageviewsformonthoryearListashtmltable($tagList,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
       if (count($monthlist) > 1) {
-        generateGraph($taglist,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
+        generateGraph($tagList,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
       }
       include("inputdisplay/multipletagsandmonthsdataentry.inc");
       break;
     case 'htmltabletransposed':
       include("style/head.inc");
-      printpageviewsformonthoryearlistashtmltabletransposed($taglist,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
+      printpageviewsformonthoryearListashtmltabletransposed($tagList,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
       if (count($monthlist) > 1) {
-        generateGraph($taglist,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
+        generateGraph($tagList,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization,'tag','month');
       }
       include("inputdisplay/multipletagsandmonthsdataentry.inc");
       break;
     case 'csv':
-      printpageviewsformonthoryearlistascsv($taglist,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,'','tag','month');
+      printpageviewsformonthoryearListascsv($tagList,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,'','tag','month');
       break;
     case 'csvtransposed':
-      printpageviewsformonthoryearlistascsvtransposed($taglist,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,'','tag','month');
+      printpageviewsformonthoryearListascsvtransposed($tagList,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,'','tag','month');
       break;
     case 'cpi':
-      printpageviewsformonthoryearlistascpi($taglist,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,'','tag','month');
+      printpageviewsformonthoryearListascpi($tagList,$monthlist,$language,$drilldown,$explanatoryheader,$includetotal,$numericdisplayformat,'','tag','month');
       break;
   }
 }

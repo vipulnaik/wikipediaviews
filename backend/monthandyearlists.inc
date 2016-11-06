@@ -33,16 +33,16 @@ function presentandpastyears_sql()
   return $mysqli->query($select_query);
 }	
 
-function presentandpastyears_yearlist()
+function presentandpastyears_yearList()
 {
   $sql_result = presentandpastyears_sql();
-  $yearlist = array();
+  $yearList = array();
   for ($i = 0;$i < $sql_result->num_rows;$i++)
     {
       $row = $sql_result->fetch_assoc();
-      array_push($yearlist,$row['year']);
+      array_push($yearList,$row['year']);
     }
-  return $yearlist;
+  return $yearList;
 }
 
 function presentandpastmonths_monthlist()

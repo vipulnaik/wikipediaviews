@@ -1,9 +1,9 @@
 <?php
 include("globalvariables/globalvariables.inc");
-include("monthandyearlists.inc");
+include("monthandyearLists.inc");
 include("languagelist.inc");
 include("stringfunctions.inc");
-include("apibasedpagelistgeneration.inc");
+include("apibasedpageListgeneration.inc");
 include("pageviewqueries.inc");
 include("tagmanipulatives.inc");
 include("displayfunctions.inc");

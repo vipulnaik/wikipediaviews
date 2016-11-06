@@ -1,17 +1,17 @@
 <?php
 
-function convertpagelisttoarray($pagelistasstring) {
-  $pagelistasinput = isset($pagelistasstring)?$pagelistasstring:"";
-  $pagelistasarray = array_unique(explode("\n", str_replace("\r", "", $pagelistasinput)));
-  foreach (array_keys($pagelistasarray, "") as $key) 
+function convertpageListtoarray($pageListAsString) {
+  $pageListasinput = isset($pageListAsString)?$pageListAsString:"";
+  $pageListAsArray = array_unique(explode("\n", str_replace("\r", "", $pageListasinput)));
+  foreach (array_keys($pageListAsArray, "") as $key) 
     {
-      unset($pagelistasarray[$key]);
+      unset($pageListAsArray[$key]);
     }
-  foreach($pagelistasarray as &$page)
+  foreach($pageListAsArray as &$page)
     {
       $page = trim($page," \t\n\r\0\x0B");
     }     
-  return $pagelistasarray;
+  return $pageListAsArray;
 }
 
 function getDescriptor($drilldown) {

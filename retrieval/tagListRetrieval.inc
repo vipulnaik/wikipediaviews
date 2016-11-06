@@ -19,13 +19,13 @@ if (!empty($_REQUEST['drilldown'])) {
   $drilldown = $_REQUEST['drilldown'];
 }
 
-$taglist = array();
-if (!empty($_REQUEST['taglist']))
+$tagList = array();
+if (!empty($_REQUEST['tagList']))
   {
-    $taglist = $_REQUEST['taglist'];
+    $tagList = $_REQUEST['tagList'];
   }
 
-if (count($taglist) == 0)
+if (count($tagList) == 0)
   {
     include(__DIR__."/../style/head.inc");
     print "You didn't select any tags. Please do so below.";

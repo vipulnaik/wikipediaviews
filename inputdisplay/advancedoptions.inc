@@ -6,7 +6,7 @@
 
 ## Included in: onemonthdataentry.inc, multiplemonthsdataentry.inc, multipleyearsdataentry.inc
 
-## Associated retrieval file: retrieval/advancedoptionretrieval.inc
+## Associated retrieval file: retrieval/advancedOptionRetrieval.inc
 
 ## File with default values for the advanced option variables (if
 ## specified separately): backend/globalvariables/advancedoptionvariables.inc

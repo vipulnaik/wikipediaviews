@@ -23,7 +23,12 @@ if (!empty($_REQUEST['drilldownList'])) {
   $drilldownList = $_REQUEST['drilldownList'];
 }
 if (!empty($_REQUEST['drilldown'])) {
-  $drilldownList = array($_REQUEST['drilldown']);
+  $sentDrilldown = $_REQUEST['drilldown'];
+  if ($sentDrilldown == "all") {
+    $drilldownList = array("desktop", "mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider");
+  } else {
+    $drilldownList = array($sentDrilldown);
+  }
 }
 
 

@@ -564,7 +564,7 @@ function generateGraph($pageOrTagList,$monthOrYearList,$language,$drilldownList,
       $headerstring .= "|".$pageOrTag." on drilldown ".$drilldown;
     }
   }
-  if ($includetotal=='includetotal' and count($pageOrTagList) > 1) {
+  if ($includetotal=='includetotal' and count($pageOrTagList) * count($drilldownList) > 1) {
     $headerstring .="|Total";
   }
   if (count($monthOrYearList) > 1) {
@@ -583,7 +583,7 @@ function generateGraph($pageOrTagList,$monthOrYearList,$language,$drilldownList,
         $stringtoprint .= "|".$numericViewCount;
       }
     }
-    if ($includetotal=='includetotal' and count($pageOrTagList) > 1) {
+    if ($includetotal=='includetotal' and count($pageOrTagList) * count($drilldownList) > 1) {
       $stringtoprint .="|".$monthOrYearTotal[$monthOrYear];
     }
     if (count($monthOrYearList) > 1) {
@@ -599,7 +599,7 @@ function generateGraph($pageOrTagList,$monthOrYearList,$language,$drilldownList,
         $totalsRowString .= "|".$pageOrTagCumDrilldownTotal[$pageOrTag][$drilldown];
       }
     }
-    if (count($pageOrTagList) > 1) {
+    if (count($pageOrTagList) * count($drilldownList) > 1) {
       $totalsRowString .= "|".$grandTotal;
     }
     $totalsRowString .="|100";

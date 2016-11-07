@@ -34,29 +34,29 @@ if ($formdata == true and $displayformat=="htmltabletransposed")
 print '>';
 print 'HTML table with rows corresponding to years and columns corresponding to tags (best if few tags, many years)</option>';
 
-print '<option value="csv"';
-if ($formdata == true and $displayformat=="csv") 
-  {
-    print ' selected="selected"';
-  }
-print '>';
-print 'CSV: Tag name and number of views separated by pipe delimiter (|); each line for a different page</option>';
+# print '<option value="csv"';
+# if ($formdata == true and $displayformat=="csv") 
+#   {
+#     print ' selected="selected"';
+#   }
+# print '>';
+# print 'CSV: Tag name and number of views separated by pipe delimiter (|); each line for a different page</option>';
 
-print '<option value="csvtransposed"';
-if ($formdata == true and $displayformat=="csvtransposed") 
-  {
-    print ' selected="selected"';
-  }
-print '>';
-print 'CSV: Year and number of views separated by pipe delimiter (|); each line for a different year</option>';
+# print '<option value="csvtransposed"';
+# if ($formdata == true and $displayformat=="csvtransposed") 
+#   {
+#     print ' selected="selected"';
+#   }
+# print '>';
+# print 'CSV: Year and number of views separated by pipe delimiter (|); each line for a different year</option>';
 
-print '<option value="cpi"';
-if ($formdata == true and $displayformat=="cpi") 
-  {
-    print ' selected="selected"';
-  }
-print '>';
-print 'CPI: Special format (documentation pending)</option>';
+# print '<option value="cpi"';
+# if ($formdata == true and $displayformat=="cpi") 
+#   {
+#     print ' selected="selected"';
+#   }
+# print '>';
+# print 'CPI: Special format (documentation pending)</option>';
 
 print '</select></td></tr>';
 ?>

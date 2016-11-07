@@ -110,7 +110,7 @@ if ($pagespecificationerror == false) {
 	$pageListAsString_mod = str_replace("https://","",$pageListAsString_mod);
 	$pageListAsString_mod = str_replace("en.wikipedia.org/wiki/","",$pageListAsString_mod);
 	$pageListAsString_mod = str_replace("_"," ",$pageListAsString_mod);
-	$pageListAsArray = convertpageListtoarray($pageListAsString_mod);
+	$pageListAsArray = convertPageListToArray($pageListAsString_mod);
       }
     elseif ($tag!='')
       {
@@ -124,7 +124,7 @@ if ($pagespecificationerror == false) {
       }
     elseif ($category!='')
       {
-	$pageListAsArray = getpageListbywikipediacategory($category,$language);
+	$pageListAsArray = getPageListByWikipediaCategory($category,$language);
     if (sizeof($pageListAsArray) == 0)
       {
 	include(__DIR__."/../style/head.inc");
@@ -135,7 +135,7 @@ if ($pagespecificationerror == false) {
       }
     elseif ($user!='')
       {
-	$pageListAsArray = getpageListbycreatinguser($user,$language);
+	$pageListAsArray = getPageListByCreatingUser($user,$language);
 	if (sizeof($pageListAsArray) == 0)
 	  {
 	    include(__DIR__."/../style/head.inc");
@@ -146,7 +146,7 @@ if ($pagespecificationerror == false) {
       }
     elseif ($linkingpage!='')
       {
-	$pageListAsArray = getpageListbylinkingpage($linkingpage,$language);
+	$pageListAsArray = getPageListByLinkingPage($linkingpage,$language);
     if (sizeof($pageListAsArray) == 0)
       {
 	include(__DIR__."/../style/head.inc");
@@ -157,7 +157,7 @@ if ($pagespecificationerror == false) {
       }
     elseif ($archivalStatus!='')
       {
-	$pageListAsArray = getpageListbyarchivalStatus($archivalStatus,$language);
+	$pageListAsArray = getPageListByArchivalStatus($archivalStatus,$language);
 	if (sizeof($pageListAsArray) == 0)
 	  {
 	    include(__DIR__."/../style/head.inc");
@@ -169,9 +169,9 @@ if ($pagespecificationerror == false) {
     elseif ($viewbound > 0)
       {
 	if (strlen($yearfilter) == 0)
-	  $pageListAsArray = getpageListbyviewbound($viewbound,$monthfilter,$language,'month');
+	  $pageListAsArray = getPageListByViewBound($viewbound,$monthfilter,$language,'month');
 	else
-	  $pageListAsArray = getpageListbyviewbound($viewbound,$yearfilter,$language,'year');
+	  $pageListAsArray = getPageListByViewBound($viewbound,$yearfilter,$language,'year');
 	if (sizeof($pageListAsArray) == 0)
 	  {
 	    include(__DIR__."/../style/head.inc");

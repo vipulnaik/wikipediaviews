@@ -1,6 +1,6 @@
 <?php
 
-function getpageListbyarchivalStatus($archivalStatus,$language)
+function getPageListByArchivalStatus($archivalStatus,$language)
 {
   global $mysqli;
   global $pageDisplayLimit;

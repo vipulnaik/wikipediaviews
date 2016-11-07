@@ -1,6 +1,6 @@
 <?php
 
-function convertpageListtoarray($pageListAsString) {
+function convertPageListToArray($pageListAsString) {
   $pageListasinput = isset($pageListAsString)?$pageListAsString:"";
   $pageListAsArray = array_unique(explode("\n", str_replace("\r", "", $pageListasinput)));
   foreach (array_keys($pageListAsArray, "") as $key) 

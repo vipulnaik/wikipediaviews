@@ -126,6 +126,7 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online) {
   global $mostRecentMonth;
   global $purgeperiod;
   global $recentMonthSlowdownFactor;
+  global $tokenExpiredMessage;
   $page = str_replace('"','\"',$page);
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;

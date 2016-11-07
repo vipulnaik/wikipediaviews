@@ -1,6 +1,6 @@
 <?php
 
-function getpageListbyviewbound($viewbound,$monthOrYearfilter,$language='en',$monthOrYearAdvice='month')
+function getPageListByViewBound($viewbound,$monthOrYearfilter,$language='en',$monthOrYearAdvice='month')
 {
   global $mysqli;
   global $pageDisplayLimit;

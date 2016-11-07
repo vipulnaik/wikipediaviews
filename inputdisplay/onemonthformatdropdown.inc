@@ -19,19 +19,19 @@ if ($formdata == true and $displayformat=="htmltable")
   }
 print '>';
 print 'HTML table (best for online viewing)</option>';
-print '<option value="csv"';
-if ($formdata == true and $displayformat=="csv") 
-  {
-    print 'selected="selected"';
-  }
-print '>';
-print 'CSV: Page name and number of views separated by comma; different pages in different lines (easiest to export to Excel)</option>';
-print '<option value="csvtransposed"';
-if ($formdata == true and $displayformat=="csvtransposed") 
-  {
-    print ' selected="selected"';
-  }
-print '>';
-print 'CSV: All views in one line, separated by commas</option>';
+# print '<option value="csv"';
+# if ($formdata == true and $displayformat=="csv") 
+#   {
+#     print 'selected="selected"';
+#   }
+# print '>';
+# print 'CSV: Page name and number of views separated by comma; different pages in different lines (easiest to export to Excel)</option>';
+# print '<option value="csvtransposed"';
+# if ($formdata == true and $displayformat=="csvtransposed") 
+#   {
+#     print ' selected="selected"';
+#   }
+# print '>';
+# print 'CSV: All views in one line, separated by commas</option>';
 print '</select></td></tr>';
 ?>

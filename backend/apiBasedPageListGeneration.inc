@@ -1,7 +1,6 @@
 <?php
 
-function getpageListbywikipediacategory($category,$language)
-{
+function getPageListByWikipediaCategory($category,$language) {
   $category_underscored = str_replace(" ","_",$category);
   $apiquery_url = 'http://'.$language.'.wikipedia.org/w/api.php?action=query&format=json&list=categorymembers&cmlimit=500&cmtitle=Category:'.$category_underscored;
   #print '<a href="'.$apiquery_url.'">'.$apiquery_url.'</a>';
@@ -16,8 +15,7 @@ function getpageListbywikipediacategory($category,$language)
   return $pageList[0];
 }
 
-function getpageListbycreatinguser($user,$language)
-{
+function getPageListbyCreatingUser($user,$language) {
   $user_underscored = str_replace(" ","_",$user);
   $apiquery_url = 'http://'.$language.'.wikipedia.org/w/api.php?action=query&format=json&list=usercontribs&ucshow=new&uclimit=500&ucuser='.$user_underscored;
   #print '<a href="'.$apiquery_url.'">'.$apiquery_url.'</a>';
@@ -31,7 +29,7 @@ function getpageListbycreatinguser($user,$language)
   return $pageList[0];
 }
 
-function getpageListbylinkingpage($linkingpage,$language)
+function getPageListByLinkingPage($linkingpage,$language)
 {
   $linkingpage_underscored = str_replace(" ","_",$linkingpage);
   $apiquery_url = 'http://'.$language.'.wikipedia.org/w/api.php?action=query&format=json&prop=links&pllimit=500&titles='.$linkingpage_underscored;

@@ -7,11 +7,10 @@ function checkSizes($pageOrTagList,$monthOrYearList, $drilldownList) {
   global $cellDisplayLimit;
   $numberOfPagesOrTags = count($pageOrTagList);
   $numberOfMonthsOrYears = count($monthOrYearList);
-  if ($numberofpagesortags > $pageDisplayLimit)
-    {
-      print "The number of pages or tags, namely ".$numberofpagesortags.", exceeds ".$pageDisplayLimit.", our hard limit on the number of pages that can be displayed.";
-      return 1;
-    }
+  if ($numberOfPagesOrTags > $pageDisplayLimit) {
+    print "The number of pages or tags, namely ".$numberOfPagesOrTags.", exceeds ".$pageDisplayLimit.", our hard limit on the number of pages that can be displayed.";
+    return 1;
+  }
   $numberOfCells = $numberOfPagesOrTags * $numberOfMonthsOrYears * count($drilldownList);
   if ($numberOfCells > $cellDisplayLimit) {
     print "The total number of cells to display, namely ".$numberofcells.", exceeds ".$cellDisplayLimit.", our hard limit on the number of cells that can be displayed.";
@@ -79,7 +78,7 @@ function printtagviewcountbyyear($tag,$year,$language,$drilldown,$viewcount,$num
 function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$monthOrYearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month') {
   flush();
   #Check that sizes are workable
-  $sizeOverflow = checkSizes($pageOrTagList,$monthOrYearList);
+  $sizeOverflow = checkSizes($pageOrTagList,$monthOrYearList,$drilldownList);
   if ($sizeOverflow > 0) {
     return false;
   }
@@ -113,8 +112,12 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$monthOrYear
   ##Table header row
     
   print '<table border="1">';
-  $headerstring = "<tr><th>".ucfirst($pageOrTagAdvice)." name</th>";
+  $headerstring = "<tr><th>".ucfirst($pageOrTagAdvice)." name";
 
+  if (count($drilldownList) > 1) {
+    $headerstring .= " and drilldown";
+  }
+  $headerstring .= "</th>";
   foreach($monthOrYearList as $monthOrYear) {
     $headerstring .= "<th>Count in ".$monthOrYearAdvice." ".$monthOrYear."</th>";
   }
@@ -223,8 +226,8 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$monthOrYear
 function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$monthOrYearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month') {
   flush();
   #Check that sizes are workable
-  $sizeoverflow = checksizes($pageOrTagList,$monthOrYearList);
-  if ($sizeoverflow > 0)
+  $sizeOverflow = checkSizes($pageOrTagList,$monthOrYearList,$drilldownList);
+  if ($sizeOverflow > 0)
     return false;
 
   #Collect all the numbers that need to be printed first
@@ -533,8 +536,8 @@ function generateGraph($pageOrTagList,$monthOrYearList,$language,$drilldownList,
   global $imagesPath;
   global $generateGraphCmdBase;
   #Check that sizes are workable
-  $sizeoverflow = checksizes($pageOrTagList,$monthOrYearList);
-  if ($sizeoverflow > 0)
+  $sizeOverflow = checkSizes($pageOrTagList,$monthOrYearList,$drilldownList);
+  if ($sizeOverflow > 0)
     return false;
   #Collect all the numbers that need to be printed first
   if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month')

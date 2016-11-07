@@ -12,10 +12,9 @@ function pagemonthadvice($pageList,$monthList,$drilldownList,$camefromtag=false)
   global $hardquerylimit;
   global $pageDisplayLimit;
   global $cellDisplayLimit;
-  if (count($pageList) == 0 or count($monthList) == 0 or count($pageList) > $pageDisplayLimit or count($pageList) * count ($monthList) > $cellDisplayLimit)
-    {
-      return true;
-    }
+  if (count($pageList) == 0 or count($monthList) == 0 or count($pageList) > $pageDisplayLimit or count($pageList) * count ($monthList) > $cellDisplayLimit) {
+    return true;
+  }
   print "<br>";
   if (max(count($pageList),count($drilldownList),count($monthList)) > 10) {
     print "Printed data for ".count($pageList)." page";

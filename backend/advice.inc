@@ -1,6 +1,6 @@
 <?php
 
-function pagemonthadvice($pageList,$monthList,$camefromtag=false)
+function pagemonthadvice($pageList,$monthList,$drilldownList,$camefromtag=false)
 {
   global $unavailableCount;
   global $weightedExternalQueryLimit;
@@ -17,14 +17,17 @@ function pagemonthadvice($pageList,$monthList,$camefromtag=false)
       return true;
     }
   print "<br>";
-  if (max(count($pageList),count($monthList)) > 10)
+  if (max(count($pageList),count($drilldownList),count($monthList)) > 10)
     {
       print "Printed data for ".count($pageList)." page";
       if (count($pageList) > 1) print "s";
+      if (count($drilldownList) > 1) {
+        print ", ".count($drilldownList)." drilldowns,";
+      }
       print " and ".count($monthList)." month";
       if (count($monthList) > 1) print "s";
       print "<br>";
-      print "The table has a total of ".(count($pageList) * count($monthList))." entries<br>";
+      print "The table has a total of ".(count($pageList) * count($drilldownList) * count($monthList))." entries<br>";
     }
   if (0 < $unavailableCount)
     {

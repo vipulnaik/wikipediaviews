@@ -12,7 +12,7 @@
 
 if ($formdata == true and ($pagespecificationerror == false and $monthspecificationerror == false))
   {
-    pagemonthadvice($pageListAsArray,$monthList,($tag !== ''));
+    pagemonthadvice($pageListAsArray,$monthList,$drilldownList,($tag !== ''));
   }
    
 $pagetypeadvice = "multiplemonths";

@@ -4,5 +4,5 @@
   <option value="mobile-app" <?php if ($formdata==true and in_array("mobile-app", $drilldownList)) {print 'selected="selected"';} ?>>Mobile app (data from July 2015)</option>
   <option value="desktop-spider" <?php if ($formdata==true and in_array("desktop-spider", $drilldownList)) {print 'selected="selected"';} ?>>Desktop spider (data from July 2015)</option>
   <option value="mobile-web-spider" <?php if ($formdata==true and in_array("mobile-web-spider", $drilldownList)) {print 'selected="selected"';} ?>>Mobile web spider (data from July 2015)</option>
-  <option value="cumulative-facebook-shares" <?php if ($formdata==true and in_array("cumulative-facebook-shares", $drilldownList)) {print 'selected="selected"';} ?>>Cumulative Facebook share count (supported for month and not for year displays) (data from October 2016)</option>
+  <option value="cumulative-facebook-shares" <?php if ($formdata==true and in_array("cumulative-facebook-shares", $drilldownList)) {print 'selected="selected"';} ?>>Cumulative Facebook like+comment+share count (supported for month and not for year displays) (data from October 2016)</option>
 </select></td></tr>

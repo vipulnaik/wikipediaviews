@@ -77,14 +77,14 @@ function gettagtotalbyyear($tag,$yearList,$language='en',$drilldown='desktop',$o
 
 function viewcountarraybytagandmonth_raw($tagList,$monthList,$language,$drilldown,$online=true,$normalization='')
 {
-  foreach ($tagList as $tag)
-    {
+  foreach ($tagList as $tag) {
+    foreach ($drilldownList as $drilldown) {
       $tagtotal = gettagtotal($tag,$monthList,$language,$drilldown,$online,$normalization);
-      foreach ($monthList as $month)
-	{
-	  $viewcountarray[$tag][$month] = $tagtotal[$month];
-	}
+      foreach ($monthList as $month) {
+	$viewcountarray[$tag][$month][$drilldown] = $tagtotal[$month];
+      }
     }
+  }
   return $viewcountarray;
 }
 
@@ -97,32 +97,30 @@ function viewcountarraybytagandmonth($tagList,$monthList,$language='en',$drilldo
     {
       return $viewcountarray;
     }
-  elseif ($normalization == 'dailyaverage')
-    {
-      foreach ($tagList as $tag)
-	{
-	  foreach ($monthList as $month)
-	    {
-	      if ($viewcountarray[$tag][$month] != $exceededquerylimitmesage)
-		{
-		  $viewcountarray[$tag][$month] = round($viewcountarray[$tag][$month]/intval($numberofdays_allmonths[$month]),1);
-		}
-	    }
+  elseif ($normalization == 'dailyaverage') {
+    foreach ($tagList as $tag) {
+      foreach ($monthList as $month) {
+        foreach ($drilldownList as $drilldown) {
+	  if ($viewcountarray[$tag][$month][$drilldown] != $exceededquerylimitmesage) {
+            $viewcountarray[$tag][$month][$drilldown] = round($viewcountarray[$tag][$month][$drilldown]/intval($numberofdays_allmonths[$month]),1);
+          }
 	}
+      }
     }
+  }
   return $viewcountarray;
 }
 
 function viewcountarraybytagandyear($tagList,$yearList,$language,$drilldown,$online=true,$normalization='')
 {
-  foreach ($tagList as $tag)
-    {
+  foreach ($tagList as $tag) {
+    foreach ($drilldownList as $drilldown) {
       $tagtotal = gettagtotalbyyear($tag,$yearList,$language,$drilldown,$online,$normalization);
-      foreach ($yearList as $year)
-	{
-	  $viewcountarray[$tag][$year] = $tagtotal[$year];
-	}
+      foreach ($yearList as $year) {
+	$viewcountarray[$tag][$year][$drilldown] = $tagtotal[$year];
+      }
     }
+  }
   return $viewcountarray;
 }
 

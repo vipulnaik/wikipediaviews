@@ -162,7 +162,7 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$monthOrYear
       if ($includetotal=='includetotal' and count($monthOrYearList) > 1) {
 	$pageOrTagCumDrilldownRowString .='<td align="right"><strong><element title="'.$pageOrTagCumDrilldownTotal[$pageOrTag][$drilldown].'">'.numericDisplay($pageOrTagCumDrilldownTotal[$pageOrTag][$drilldown],$numericDisplayFormat).'</element></strong></td>';
       }
-      if (count($pageOrTagList) > 1) {
+      if (count($pageOrTagList) * count($drilldownList) > 1) {
 	$pageOrTagCumDrilldownRowString .= '<td align="right"><strong>'.$pageOrTagCumDrilldownPercentage[$pageOrTag][$drilldown].'</strong></td>';
       }
       if ($pageOrTagAdvice == 'page') {

@@ -18,11 +18,13 @@ if (!empty($_REQUEST['language'])) {
 }
 
 ## Retrieval of drilldown
-$drilldown='desktop';
-if (!empty($_REQUEST['drilldown'])) {
-  $drilldown = $_REQUEST['drilldown'];
+$drilldownList = array("desktop");
+if (!empty($_REQUEST['drilldownList'])) {
+  $drilldownList = $_REQUEST['drilldownList'];
 }
-
+if (!empty($_REQUEST['drilldown'])) {
+  $drilldownList = array($_REQUEST['drilldown']);
+}
 
 ##Retrieval of page list as entered directly
 

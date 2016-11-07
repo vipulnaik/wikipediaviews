@@ -331,7 +331,7 @@ function viewcountarraybymonth($pageList,$monthList,$language,$drilldownList,$on
     foreach ($pageList as $page) {
       foreach ($monthList as $month) {
         foreach ($drilldownList as $drilldown) {
-          if ($viewcountarray[$page][$month][$drilldown] != $exceededquerylimitmesage) {
+          if ($viewcountarray[$page][$month][$drilldown] != $exceededQueryLimitMessage) {
 	    $viewcountarray[$page][$month][$drilldown] = round($viewcountarray[$page][$month][$drilldown]/intval($numberofdays_allmonths[$month]),1);
           }
         }
@@ -341,7 +341,7 @@ function viewcountarraybymonth($pageList,$monthList,$language,$drilldownList,$on
   return $viewcountarray;
 }
 
-function viewcountarraybyyear($pageList,$yearList,$language,$drilldown,$online,$normalization='') {
+function viewcountarraybyyear($pageList,$yearList,$language,$drilldownList,$online,$normalization='') {
   global $mysqli;
   global $weightedExternalQueryCount;
   global $weightedExternalQueryLimit;
@@ -350,9 +350,13 @@ function viewcountarraybyyear($pageList,$yearList,$language,$drilldown,$online,$
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
   if (sizeof($pageList) == 0 or sizeof($yearList) == 0) return false;
-  foreach($pageList as $page)
-      foreach($yearList as $year)
-	$viewcountarray[$page][$year] = 'unavailable';
+  foreach($pageList as $page) {
+    foreach($yearList as $year) {
+      foreach($drilldownList as $drilldown) { 
+        $viewcountarray[$page][$year][$drilldown] = 'unavailable';
+      }
+    }
+  }
   $pageListAsQuotedCsvString = convertListToQuotedCsvString($pageList);
   $yearListAsQuotedCsvString = convertListToQuotedCsvString($yearList);
   $drilldownListAsQuotedCsvString = convertListToQuotedCsvString($drilldownList);
@@ -367,8 +371,10 @@ function viewcountarraybyyear($pageList,$yearList,$language,$drilldown,$online,$
       queriedpagelog($page,$language,'partial');
   foreach($pageList as $page) {
     foreach($yearList as $year) {
-      if ($viewcountarray[$page][$year][$drilldown] == 'unavailable' and $online = true) {
-	$viewcountarray[$page][$year][$drilldown] = getannualpageviewsfromdb($page,$year,$language,$drilldown,true);
+      foreach($drilldownList as $drilldown) {
+        if ($viewcountarray[$page][$year][$drilldown] == 'unavailable' and $online = true) {
+	  $viewcountarray[$page][$year][$drilldown] = getannualpageviewsfromdb($page,$year,$language,$drilldown,true);
+        }
       }
     }
   }
@@ -378,8 +384,10 @@ function viewcountarraybyyear($pageList,$yearList,$language,$drilldown,$online,$
   }
   foreach($pageList as $page) {
     foreach($yearList as $year) {
-      if ($viewcountarray[$page][$year][$drilldown] == $exceededQueryLimitMessage) {
-	$viewcountarray[$page][$year][$drilldown] = getannualpageviewsfromdb($page,$year,$language,$drilldown,true);
+      foreach($drilldownList as $drilldown) {
+        if ($viewcountarray[$page][$year][$drilldown] == $exceededQueryLimitMessage) {
+	  $viewcountarray[$page][$year][$drilldown] = getannualpageviewsfromdb($page,$year,$language,$drilldown,true);
+        }
       }
     }
   }

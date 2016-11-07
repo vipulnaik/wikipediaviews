@@ -12,7 +12,7 @@
 
 ##Associated retrieval file: retrieval/pageListRetrieval.inc
 
-print "<tr><td>Select <em>all</em> pages in our database for which we've archived all or most data (limit: ".$pagedisplaylimit.") (<strong>WARNING: CAN BE SLOW</strong>)</td><td>";
+print "<tr><td>Select <em>all</em> pages in our database for which we've archived all or most data (limit: ".$pageDisplayLimit.") (<strong>WARNING: CAN BE SLOW</strong>)</td><td>";
 print '<select name="archivalStatus">';
 print '<option value=""';
 if (($formdata == false) or ($formdata == true and $archivalStatus=='')) 
@@ -28,8 +28,8 @@ if ($formdata == true and $archivalStatus=='complete')
   }
 print '>';
 print "Pages for which we've archived all month view counts</option>";
-print '<option value="mostrecentmonthpending"';
-if ($formdata == true and $archivalStatus=='mostrecentmonthpending')
+print '<option value="mostRecentMonthpending"';
+if ($formdata == true and $archivalStatus=='mostRecentMonthpending')
   { 
     print ' selected="selected"';
   }

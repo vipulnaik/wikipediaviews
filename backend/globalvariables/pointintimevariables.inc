@@ -3,20 +3,20 @@
 ## Current month variable (note that the current month needs to be
 ## updated through the database once a month)
 
-global $thismonth;
+global $thisMonth;
 $select_query = "select monthfull from months where status='present' limit 1";
 $result = $mysqli->query($select_query);
 $row = $result->fetch_assoc();
-$thismonth = $row['monthfull'];
+$thisMonth = $row['monthfull'];
 
 ## Most recent month variable (note that the most recent month needs to be
 ## updated through the database once a month)
 
-global $mostrecentmonth;
+global $mostRecentMonth;
 $select_query = "select monthfull from months where status='mostrecent' limit 1";
 $result = $mysqli->query($select_query);
 $row = $result->fetch_assoc();
-$mostrecentmonth = $row['monthfull'];
+$mostRecentMonth = $row['monthfull'];
 
 ## Current year variable (note that the current year needs to be
 ## updated through the database once a year)

@@ -66,7 +66,7 @@ if (!empty($_REQUEST['viewbound'])) {
     $viewbound = intval($_REQUEST['viewbound']);
 }
 
-$monthfilter = $thismonth;
+$monthfilter = $thisMonth;
 if (!empty($_REQUEST['monthfilter'])) {
     $monthfilter = $_REQUEST['monthfilter'];
 }

@@ -26,12 +26,11 @@ if (!empty($_REQUEST['displayformat']))
   }
 
 ##Query limit
-$userspecifiedquerylimit = $weightedexternalquerylimit;
-if (!empty($_REQUEST['userspecifiedquerylimit']))
-  {
-    $userspecifiedquerylimit = $_REQUEST['userspecifiedquerylimit'];
-    $weightedexternalquerylimit = intval($userspecifiedquerylimit);
-  }
+$userSpecifiedQueryLimit = $weightedExternalQueryLimit;
+if (!empty($_REQUEST['userSpecifiedQueryLimit'])) {
+  $userSpecifiedQueryLimit = $_REQUEST['userSpecifiedQueryLimit'];
+  $weightedExternalQueryLimit = intval($userSpecifiedQueryLimit);
+}
 
 $explanatoryheader="explanatoryheader"; ##Not currently user-updatable
 $includetotal = "includetotal"; ##Not currently user-updatable
@@ -52,10 +51,10 @@ if (!empty($_REQUEST['normalization']))
   }
 
 ##Numeric display format
-$numericdisplayformat = 'kmb';
-if (!empty($_REQUEST['numericdisplayformat']))
+$numericDisplayFormat = 'kmb';
+if (!empty($_REQUEST['numericDisplayFormat']))
   {
-    $numericdisplayformat = $_REQUEST['numericdisplayformat'];
+    $numericDisplayFormat = $_REQUEST['numericDisplayFormat'];
   }
 
 ?>

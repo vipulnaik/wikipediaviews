@@ -11,23 +11,23 @@
 ##Relevant execution code in backend/stringFunctions.inc
 
 print '<tr><td>Enter the format in which you want the numbers displayed (<strong>ONLY HTML DISPLAYS</strong>)</td><td>';
-print '<select name="numericdisplayformat">';
+print '<select name="numericDisplayFormat">';
 print '<option value="kmb"';
-if (($formdata == false) or ($formdata == true and $numericdisplayformat=='kmb')) 
+if (($formdata == false) or ($formdata == true and $numericDisplayFormat=='kmb')) 
   { 
     print ' selected="selected"';
   }
 print '>';
 print 'Use K, M, B for numbers when they are bigger than a thousand, million, or billion respectively</option>';
 print '<option value="fullprecision"';
-if ($formdata == true and $numericdisplayformat=='fullprecision') 
+if ($formdata == true and $numericDisplayFormat=='fullprecision') 
   { 
     print ' selected="selected"';
   }
 print '>';
 print 'Full precision (exact integer values)</option>';
 print '<option value="log"';
-if ($formdata == true and $numericdisplayformat=='log') 
+if ($formdata == true and $numericDisplayFormat=='log') 
   { 
     print ' selected="selected"';
   }

@@ -19,6 +19,6 @@ include(__DIR__."/externalquerylimit.inc");
 include(__DIR__."/".$pagetypeadvice."formatdropdown.inc");
 include(__DIR__."/purgeperiod.inc");
 include(__DIR__."/normalization.inc");
-include(__DIR__."/numericdisplayformat.inc");
+include(__DIR__."/numericDisplayFormat.inc");
 print '</table></div><br>';
 ?>

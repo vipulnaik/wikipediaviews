@@ -90,7 +90,7 @@ function viewcountarraybytagandmonth_raw($tagList,$monthList,$language,$drilldow
 
 function viewcountarraybytagandmonth($tagList,$monthList,$language='en',$drilldown='desktop',$online=true,$normalization='')
 {
-  global $exceededquerylimitmessage;
+  global $exceededQueryLimitMessage;
   global $numberofdays_allmonths;
   $viewcountarray = viewcountarraybytagandmonth_raw($tagList,$monthList,$language,$drilldown,$online,$normalization);
   if ($normalization == '')
@@ -136,7 +136,7 @@ function getpageListbytagList($tagList,$language,$connective='or')
   $tagselect_query = "select distinct pagetags.pagename from pagetags join queriedpages where pagetags.pagename = queriedpages.pagename and pagetags.language = queriedpages.language and pagetags.language='".$language."' and queriedpages.archivalStatus='complete'";
   if ($connective=='or')
     {
-      $tagListasquotedcsvstring = convertlisttoquotedcsvstring($tagList);
+      $tagListasquotedcsvstring = convertListToQuotedCsvString($tagList);
       $tagselect_query .= "and pagetags.tag in (".$tagListasquotedcsvstring.")";
     }
   $tagselect_query .= "order by pagetags.pagename asc;";
@@ -151,7 +151,7 @@ function getpageListbytagList($tagList,$language,$connective='or')
   return $pageList;
 }
 
-function gettagListbypageList($pageList,$language)
+function gettagListByPageList($pageList,$language)
 {
   global $mysqli;
   if ($mysqli->connect_errno) 
@@ -160,7 +160,7 @@ function gettagListbypageList($pageList,$language)
     }
   foreach ($pageList as $page)
     $tagList[$page] = array();
-  $pageListasquotedcsvstring = convertlisttoquotedcsvstring($pageList);
+  $pageListasquotedcsvstring = convertListToQuotedCsvString($pageList);
   $tagselect_query = "select distinct pagename,tag from pagetags where pagename in (".$pageListasquotedcsvstring.") and language='".$language."';";
   $result = $mysqli->query($tagselect_query);
   for ($i = 0;$i < $result -> num_rows; $i++)
@@ -178,7 +178,7 @@ function gettagindices($pageList,$language)
     {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
-  $pageListasquotedcsvstring = convertlisttoquotedcsvstring($pageList);
+  $pageListasquotedcsvstring = convertListToQuotedCsvString($pageList);
   $tagselect_query = "select distinct tag from pagetags where pagename in (".$pageListasquotedcsvstring.") and language='".$language."';";
   $result = $mysqli->query($tagselect_query);
   for ($i = 0;$i < $result -> num_rows; $i++)

@@ -18,7 +18,7 @@ if ($mysqli->connect_errno)
 
 ## Current point in time variables (not subject to user modification,
 ## but require periodic manual modification, either in the database or
-## in the file). Variables include $thismonth, $mostrecentmonth,
+## in the file). Variables include $thisMonth, $mostRecentMonth,
 ## $thisyear, $transitionstatus
 
 include_once("pointintimevariables.inc");

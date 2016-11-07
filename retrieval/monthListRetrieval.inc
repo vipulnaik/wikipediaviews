@@ -26,13 +26,13 @@ if (!empty($_REQUEST['allmonths']))
     $allmonths = $_REQUEST['allmonths'];
   }
 
-$originalmonthList = array($mostrecentmonth);
+$originalmonthList = array($mostRecentMonth);
 if (!empty($_REQUEST['monthList']))
   {
     $originalmonthList = $_REQUEST['monthList'];
   }
 
-if ($allmonths == "allmonths" and in_array($thismonth,$originalmonthList))
+if ($allmonths == "allmonths" and in_array($thisMonth,$originalmonthList))
   {
     $monthList = presentandpastmonths_monthList();
   }

@@ -12,12 +12,12 @@ global $backgroundquerylimit;
 $backgroundquerylimit = 100;
 
 ## Number of ordinary queries that are equivalent to one recent-month query
-global $recentmonthslowdownfactor;
-$recentmonthslowdownfactor = 1;
+global $recentMonthSlowdownFactor;
+$recentMonthSlowdownFactor = 1;
 
 ## Message to display in a cell that could not be computed because the query limit was exceeded
-global $exceededquerylimitmessage;
-$exceededquerylimitmessage = 'exceeded query limit and timed out';
+global $exceededQueryLimitMessage;
+$exceededQueryLimitMessage = 'exceeded query limit and timed out';
 
 global $cannotRetrieveMessage;
 $cannotRetrieveMessage = 'cannot retrieve this data';
@@ -26,9 +26,9 @@ global $tokenExpiredMessage;
 $tokenExpiredMessage = 'authentication token expired';
 
 ## Maximum number of pages we are allowed to display
-global $pagedisplaylimit;
-$pagedisplaylimit = 15000;
+global $pageDisplayLimit;
+$pageDisplayLimit = 15000;
 
-global $celldisplaylimit;
-$celldisplaylimit = 1000000;
+global $cellDisplayLimit;
+$cellDisplayLimit = 1000000;
 ?>

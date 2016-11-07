@@ -44,26 +44,26 @@ function queriedpagelog($page,$language,$archivalStatus) {
 }
 
 function getPageviewsOnline($page, $month, $language, $drilldown) {
-  global $weightedexternalquerycount;
-  global $externalquerycount;
-  global $weightedexternalquerylimit;
-  global $thismonth;
-  global $mostrecentmonth;
-  global $recentmonthslowdownfactor;
-  global $exceededquerylimitmessage;
+  global $weightedExternalQueryCount;
+  global $externalQueryCount;
+  global $weightedExternalQueryLimit;
+  global $thisMonth;
+  global $mostRecentMonth;
+  global $recentMonthSlowdownFactor;
+  global $exceededQueryLimitMessage;
   global $cannotRetrieveMessage;
   global $fbToken;
   global $curlOutputDirectory;
   global $tokenExpiredMessage;
-  if ($weightedexternalquerycount >= $weightedexternalquerylimit)
-      return $exceededquerylimitmessage;
-  if ($month == $thismonth or $month == $mostrecentmonth)
-      $weightedexternalquerycount = $weightedexternalquerycount + $recentmonthslowdownfactor;
+  if ($weightedExternalQueryCount >= $weightedExternalQueryLimit)
+      return $exceededQueryLimitMessage;
+  if ($month == $thisMonth or $month == $mostRecentMonth)
+      $weightedExternalQueryCount = $weightedExternalQueryCount + $recentMonthSlowdownFactor;
   else
-      $weightedexternalquerycount++;
+      $weightedExternalQueryCount++;
   $url = getPageviewsUrl($page,$month,$language,$drilldown);
   if ($drilldown == "cumulative-facebook-shares") {
-    if ($month == $thismonth) {
+    if ($month == $thisMonth) {
       $tmpString = strval(rand());
       $jsonFileFullPath = $curlOutputDirectory.$tmpString.'.json';
       $curlCmd = 'curl -H "Authorization: Bearer '.$fbToken.'" '.$url.' > '.$jsonFileFullPath;
@@ -84,7 +84,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
     preg_match('/(?<=\bhas been viewed)\s+\K[^\s]+/',$html,$numberofpageviews);
     if (count($numberofpageviews) > 0) {
       if (strlen($numberofpageviews[0]) > 0) {
-        $externalquerycount++;
+        $externalQueryCount++;
         return $numberofpageviews[0];
       } else {
         return $cannotRetrieveMessage;
@@ -107,25 +107,25 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
     {
       $sum += intval($day["views"]);
     }
-    $externalquerycount++;
+    $externalQueryCount++;
     return $sum;
   } else {
-    $weightedexternalquerycount = $weightedexternalquerycount - $recentmonthslowdownfactor;
+    $weightedExternalQueryCount = $weightedExternalQueryCount - $recentMonthSlowdownFactor;
     return $cannotRetrieveMessage;
   }
 }
 
-function getpageviewsfromdb($page,$month,$language,$drilldown, $online) {
+function getPageviewsFromDb($page,$month,$language,$drilldown, $online) {
   global $mysqli;
-  global $weightedexternalquerycount;
-  global $weightedexternalquerylimit;
-  global $externalquerycount;
-  global $exceededquerylimitmessage;
+  global $weightedExternalQueryCount;
+  global $weightedExternalQueryLimit;
+  global $externalQueryCount;
+  global $exceededQueryLimitMessage;
   global $cannotRetrieveMessage;
-  global $thismonth;
-  global $mostrecentmonth;
+  global $thisMonth;
+  global $mostRecentMonth;
   global $purgeperiod;
-  global $recentmonthslowdownfactor;
+  global $recentMonthSlowdownFactor;
   $page = str_replace('"','\"',$page);
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
@@ -152,7 +152,7 @@ function getpageviewsfromdb($page,$month,$language,$drilldown, $online) {
       
     #But wait, now we must check that the value is not too outdated
 
-    if ($month == $thismonth) {
+    if ($month == $thisMonth) {
       $currentdate = new DateTime("now");
       $dateofretrieval = new DateTime($row['querytime']); 
       $dayspassedasdiff = date_diff($dateofretrieval,$currentdate);
@@ -160,7 +160,7 @@ function getpageviewsfromdb($page,$month,$language,$drilldown, $online) {
       if ($dayspassed > $purgeperiod) {
 	$viewcount = getPageviewsOnline($page,$month,$language,$drilldown);
 
-        if ($viewcount != $exceededquerylimitmessage and $viewcount != cannotRetrieveMessage) {
+        if ($viewcount != $exceededQueryLimitMessage and $viewcount != cannotRetrieveMessage) {
           $insert_query="insert into viewcountsbymonth_all(pagename,monthfull,language,drilldown,viewcount) values (\"".$page."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
           $delete_query = "delete from viewcountsbymonth_all where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."' and drilldown='".$drilldown."';";
           $success = $mysqli->query($delete_query);
@@ -170,7 +170,7 @@ function getpageviewsfromdb($page,$month,$language,$drilldown, $online) {
     }
   }
   #If a value has been successfully retrieved, removes it from the wanted query list
-  if ($viewcount != $exceededquerylimitmessage and $drilldown == "desktop") {
+  if ($viewcount != $exceededQueryLimitMessage and $drilldown == "desktop") {
     $delete_query = "delete from wantedviewcountsbymonth where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."';";
     $success = $mysqli->query($delete_query);
   }
@@ -178,7 +178,7 @@ function getpageviewsfromdb($page,$month,$language,$drilldown, $online) {
 }
 
 function getpageviews($page,$month,$language,$drilldown,$normalization='') {
-  global $thismonth;
+  global $thisMonth;
   global $mysqli;
   global $numberofdays_allmonths;
   if ($mysqli->connect_errno) 
@@ -188,7 +188,7 @@ function getpageviews($page,$month,$language,$drilldown,$normalization='') {
   $log_query = "insert into viewquerylog(pagename,monthfull,language) values (\"".$page."\",'".$month."','".$language."');";
   $result = $mysqli->query($log_query);
   queriedpagelog($page,$language,'partial');
-  $viewcount = getpageviewsfromdb($page,$month,$language,$drilldown,true);
+  $viewcount = getPageviewsFromDb($page,$month,$language,$drilldown,true);
   if ($normalization == '')
     return $viewcount;
   elseif ($normalization == 'dailyaverage')
@@ -197,7 +197,7 @@ function getpageviews($page,$month,$language,$drilldown,$normalization='') {
 
 function getannualpageviewsfromdb($page,$year,$language,$drilldown,$online) {
   global $mysqli;
-  global $exceededquerylimitmessage;
+  global $exceededQueryLimitMessage;
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
@@ -214,8 +214,8 @@ function getannualpageviewsfromdb($page,$year,$language,$drilldown,$online) {
   for($i=0;$i < $result->num_rows;$i++) {
     $row = $result->fetch_assoc();
     $monthfull = $row['monthfull'];
-    $increment = getpageviewsfromdb($page,$monthfull,$language,$drilldown,$online);
-    if ($increment == $exceededquerylimitmessage) {return $exceededquerylimitmessage;}
+    $increment = getPageviewsFromDb($page,$monthfull,$language,$drilldown,$online);
+    if ($increment == $exceededQueryLimitMessage) {return $exceededQueryLimitMessage;}
     $totalviews += intval($increment);
   }
   $select_query = "select status from years where year='".$year."';";
@@ -240,42 +240,45 @@ function getannualpageviews($page,$year,$language,$drilldown) {
   return getannualpageviewsfromdb($page,$year,$language,$drilldown,true);
 }
 
-function viewcountarraybymonth_raw($pageList,$monthList,$language,$drilldown,$online=true,$normalization='') {
+function viewcountarraybymonth_raw($pageList,$monthList,$language,$drilldownList,$online=true,$normalization='') {
   global $mysqli;
-  global $weightedexternalquerycount;
-  global $weightedexternalquerylimit;
-  global $exceededquerylimitmessage;
+  global $weightedExternalQueryCount;
+  global $weightedExternalQueryLimit;
+  global $exceededQueryLimitMessage;
   global $purgeperiod;
-  global $thismonth;
-  global $unavailablecount;
+  global $thisMonth;
+  global $unavailableCount;
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
   if (sizeof($pageList) == 0 or sizeof($monthList) == 0) return false;
   foreach($pageList as $page) {
     foreach($monthList as $month) {
-      $viewcountarray[$page][$month] = 'unavailable';
+      foreach($drilldownList as $drilldown) {
+        $viewcountarray[$page][$month][$drilldown] = 'unavailable';
+      }
     }
   }
-  $pageListasquotedcsvstring = convertlisttoquotedcsvstring($pageList);
-  $monthListasquotedcsvstring = convertlisttoquotedcsvstring($monthList);
-  $select_query = "select pagename,monthfull,viewcount,querytime from viewcountsbymonth_all where pagename in (".$pageListasquotedcsvstring.") and monthfull in (".$monthListasquotedcsvstring.") and language='".$language."' and drilldown='".$drilldown."';";
+  $pageListAsQuotedCsvString = convertListToQuotedCsvString($pageList);
+  $monthListAsQuotedCsvString = convertListToQuotedCsvString($monthList);
+  $drilldownListAsQuotedCsvString = convertListToQuotedCsvString($drilldownList);
+  $select_query = "select pagename,monthfull,language,drilldown,viewcount,querytime from viewcountsbymonth_all where pagename in (".$pageListAsQuotedCsvString.") and monthfull in (".$monthListAsQuotedCsvString.") and language='".$language."' and drilldown in (".$drilldownListAsQuotedCsvString.");";
   # print $select_query;
   $result = $mysqli->query($select_query);
   for ($i = 0;$i < $result->num_rows;$i++) {
     $row = $result->fetch_assoc();
-    if ($row['monthfull'] != $thismonth) {
-      $viewcountarray[$row['pagename']][$row['monthfull']] = $row['viewcount'];
+    if ($row['monthfull'] != $thisMonth) {
+      $viewcountarray[$row['pagename']][$row['monthfull']][$row['drilldown']] = $row['viewcount'];
     }
-    if ($row['monthfull'] == $thismonth) {
+    if ($row['monthfull'] == $thisMonth) {
       $currentdate = new DateTime("now");
       $dateofretrieval = new DateTime($row['querytime']); 
       $dayspassedasdiff = date_diff($dateofretrieval,$currentdate);
       $dayspassed = intval($dayspassedasdiff->d);
       if ($dayspassed > $purgeperiod) {
-	$viewcountarray[$row['pagename']][$row['monthfull']] = 'unavailable';
+	$viewcountarray[$row['pagename']][$row['monthfull']][$row['drilldown']] = 'unavailable';
       } else {
-	$viewcountarray[$row['pagename']][$row['monthfull']] = $row['viewcount'];
+	$viewcountarray[$row['pagename']][$row['monthfull']][$row['drilldown']] = $row['viewcount'];
       }
     }		
   }
@@ -285,26 +288,32 @@ function viewcountarraybymonth_raw($pageList,$monthList,$language,$drilldown,$on
   }
   foreach($pageList as $page) {
     foreach($monthList as $month) {
-      if ($viewcountarray[$page][$month] == 'unavailable' and $online == true) {
-        $viewcountarray[$page][$month] = getpageviewsfromdb($page,$month,$language,$drilldown,true);
+      foreach($drilldownList as $drilldown) {
+        if ($viewcountarray[$page][$month][$drilldown] == 'unavailable' and $online == true) {
+          $viewcountarray[$page][$month][$drilldown] = getPageviewsFromDb($page,$month,$language,$drilldown,true);
+        }
       }
     }
   }
-  if ($weightedexternalquerycount < $weightedexternalquerylimit) {
+  if ($weightedExternalQueryCount < $weightedExternalQueryLimit) {
     #print "Successfully completed without timing out :)<br>";
     return $viewcountarray;
   }
   foreach($pageList as $page) {
     foreach($monthList as $month) {
-      if ($viewcountarray[$page][$month] == $exceededquerylimitmessage) {
-	$viewcountarray[$page][$month] = getpageviewsfromdb($page,$month,$language,$drilldown,true);
+      foreach($drilldownList as $drilldown) {
+        if ($viewcountarray[$page][$month][$drilldown] == $exceededQueryLimitMessage) {
+	  $viewcountarray[$page][$month][$drilldown] = getPageviewsFromDb($page,$month,$language,$drilldown,true);
+        }
       }
     }
-  }  
+  }
   foreach($pageList as $page) {
     foreach($monthList as $month) {
-      if ($viewcountarray[$page][$month] == $exceededquerylimitmessage) {
-        $unavailablecount = $unavailablecount + 1;
+      foreach($drilldownList as $drilldown) {
+        if ($viewcountarray[$page][$month] == $exceededQueryLimitMessage) {
+          $unavailableCount = $unavailableCount + 1;
+        }
       }
     }
   }
@@ -312,17 +321,19 @@ function viewcountarraybymonth_raw($pageList,$monthList,$language,$drilldown,$on
   return $viewcountarray;
 }
 
-function viewcountarraybymonth($pageList,$monthList,$language,$drilldown,$online,$normalization='') {
-  global $exceededquerylimitmessage;
+function viewcountarraybymonth($pageList,$monthList,$language,$drilldownList,$online,$normalization='') {
+  global $exceededQueryLimitMessage;
   global $numberofdays_allmonths;
-  $viewcountarray = viewcountarraybymonth_raw($pageList,$monthList,$language,$drilldown,$online,$normalization);
+  $viewcountarray = viewcountarraybymonth_raw($pageList,$monthList,$language,$drilldownList,$online,$normalization);
   if ($normalization == '')
     return $viewcountarray;
   elseif ($normalization == 'dailyaverage') {
     foreach ($pageList as $page) {
       foreach ($monthList as $month) {
-	if ($viewcountarray[$page][$month] != $exceededquerylimitmesage) {
-	  $viewcountarray[$page][$month] = round($viewcountarray[$page][$month]/intval($numberofdays_allmonths[$month]),1);
+        foreach ($drilldownList as $drilldown) {
+          if ($viewcountarray[$page][$month][$drilldown] != $exceededquerylimitmesage) {
+	    $viewcountarray[$page][$month][$drilldown] = round($viewcountarray[$page][$month][$drilldown]/intval($numberofdays_allmonths[$month]),1);
+          }
         }
       }
     }
@@ -332,8 +343,8 @@ function viewcountarraybymonth($pageList,$monthList,$language,$drilldown,$online
 
 function viewcountarraybyyear($pageList,$yearList,$language,$drilldown,$online,$normalization='') {
   global $mysqli;
-  global $weightedexternalquerycount;
-  global $weightedexternalquerylimit;
+  global $weightedExternalQueryCount;
+  global $weightedExternalQueryLimit;
   if ($mysqli->connect_errno) 
     {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
@@ -342,38 +353,44 @@ function viewcountarraybyyear($pageList,$yearList,$language,$drilldown,$online,$
   foreach($pageList as $page)
       foreach($yearList as $year)
 	$viewcountarray[$page][$year] = 'unavailable';
-  $pageListasquotedcsvstring = convertlisttoquotedcsvstring($pageList);
-  $yearListasquotedcsvstring = convertlisttoquotedcsvstring($yearList);	
-  $select_query = "select pagename,year,viewcount from viewcountsbyyear_all where pagename in (".$pageListasquotedcsvstring.") and year in (".$yearListasquotedcsvstring.") and language='".$language."' and drilldown='".$drilldown."';";
+  $pageListAsQuotedCsvString = convertListToQuotedCsvString($pageList);
+  $yearListAsQuotedCsvString = convertListToQuotedCsvString($yearList);
+  $drilldownListAsQuotedCsvString = convertListToQuotedCsvString($drilldownList);
+  $select_query = "select pagename,year,language,drilldown,viewcount from viewcountsbyyear_all where pagename in (".$pageListAsQuotedCsvString.") and year in (".$yearListAsQuotedCsvString.") and language='".$language."' and drilldown in ('".$drilldownListAsQuotedCsvString.");";
   $result = $mysqli->query($select_query);
   for ($i = 0;$i < $result->num_rows;$i++)
     {
       $row = $result->fetch_assoc();
-      $viewcountarray[$row['pagename']][$row['year']] = $row['viewcount'];
+      $viewcountarray[$row['pagename']][$row['year']][$row['drilldown']] = $row['viewcount'];
     }
   foreach(array_reverse($pageList) as $page)
       queriedpagelog($page,$language,'partial');
-  foreach($pageList as $page)
-    foreach($yearList as $year)
-      if ($viewcountarray[$page][$year] == 'unavailable' and $online = true)
-	$viewcountarray[$page][$year] = getannualpageviewsfromdb($page,$year,$language,$drilldown,true);
-
-  if ($weightedexternalquerycount < $weightedexternalquerylimit) {
+  foreach($pageList as $page) {
+    foreach($yearList as $year) {
+      if ($viewcountarray[$page][$year][$drilldown] == 'unavailable' and $online = true) {
+	$viewcountarray[$page][$year][$drilldown] = getannualpageviewsfromdb($page,$year,$language,$drilldown,true);
+      }
+    }
+  }
+  if ($weightedExternalQueryCount < $weightedExternalQueryLimit) {
     #print "Successfully completed without timing out :)<br>";
     return $viewcountarray;
   }
-  foreach($pageList as $page)
-    foreach($yearList as $year)
-      if ($viewcountarray[$page][$year] == $exceededquerylimitmessage)
-	$viewcountarray[$page][$year] = getannualpageviewsfromdb($page,$year,$language,$drilldown,true);    
+  foreach($pageList as $page) {
+    foreach($yearList as $year) {
+      if ($viewcountarray[$page][$year][$drilldown] == $exceededQueryLimitMessage) {
+	$viewcountarray[$page][$year][$drilldown] = getannualpageviewsfromdb($page,$year,$language,$drilldown,true);
+      }
+    }
+  }
   return $viewcountarray;	
 }
 
 function fillinwantedviewcounts($querylimit, $online) {
   global $mysqli;
-  global $weightedexternalquerycount;
-  global $weightedexternalquerylimit;
-  global $exceededquerylimitmessage;
+  global $weightedExternalQueryCount;
+  global $weightedExternalQueryLimit;
+  global $exceededQueryLimitMessage;
   if ($mysqli->connect_errno) 
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   $select_query = "select * from wantedviewcountsbymonth where status='wanted' limit ".$querylimit.";";
@@ -399,11 +416,11 @@ function fillinwantedviewcounts($querylimit, $online) {
     {
       $currentLoad = sys_getloadavg();
       if ($currentLoad[0] < 0.75) {
-        $count = getpageviewsfromdb($page[$i],$month[$i],$language[$i],"desktop",$online);
-        print "Weighted external query count is ".$weightedexternalquerycount." and ";
-        print "weighted external query limit is ".$weightedexternalquerylimit."\n";
+        $count = getPageviewsFromDb($page[$i],$month[$i],$language[$i],"desktop",$online);
+        print "Weighted external query count is ".$weightedExternalQueryCount." and ";
+        print "weighted external query limit is ".$weightedExternalQueryLimit."\n";
         print "For page ".$page[$i].", month ".$month[$i].", and language ".$language[$i].", page view count is ".$count."\n";
-        if ($count != $exceededquerylimitmessage)
+        if ($count != $exceededQueryLimitMessage)
 	  {
 	    $deletion_query .= ",".$row_id[$i];
 	  }

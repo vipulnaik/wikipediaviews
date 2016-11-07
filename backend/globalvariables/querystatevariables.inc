@@ -3,14 +3,14 @@
 global $carryoverfromonemonth;
 $carryoverfromonemonth=false;
 
-global $externalquerycount;
-$externalquerycount = 0;
+global $externalQueryCount;
+$externalQueryCount = 0;
 
-global $weightedexternalquerycount;
-$weightedexternalquerycount = 0;
+global $weightedExternalQueryCount;
+$weightedExternalQueryCount = 0;
 
-global $unavailablecount;
-$unavailablecount = 0;
+global $unavailableCount;
+$unavailableCount = 0;
 
 global $pagespecificationerror;
 $pagespecificationerror = false;

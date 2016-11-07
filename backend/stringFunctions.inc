@@ -144,7 +144,7 @@ function getpageurl($page,$language) {
   return "http://" . $language . ".wikipedia.org/wiki/" . $page;
 }
 
-function convertlisttoquotedcsvstring($listasarray) {
+function convertListToQuotedCsvString($listasarray) {
   $listasquotedcsvstring = '"'.str_replace('"','\"',$listasarray[0]).'"';
   for($i = 1;$i < sizeof($listasarray);$i++)
     {
@@ -153,23 +153,23 @@ function convertlisttoquotedcsvstring($listasarray) {
   return $listasquotedcsvstring;
 }
 
-function numericdisplay($number,$numericdisplayformat) {
-  if ($numericdisplayformat=='fullprecision')
+function numericDisplay($number,$numericDisplayFormat) {
+  if ($numericDisplayFormat=='fullprecision')
     {
       return $number;
     }
-  if ($numericdisplayformat=='kmb')
+  if ($numericDisplayFormat=='kmb')
     {
-      return numericdisplaykmb($number);
+      return numericDisplaykmb($number);
     }
-  if ($numericdisplayformat=='log')
+  if ($numericDisplayFormat=='log')
     {
-      return numericdisplaylog($number);
+      return numericDisplaylog($number);
     }
   return $number;
 }
 
-function numericdisplaykmb($number) {
+function numericDisplaykmb($number) {
   $number_int = intval($number);
   if ($number_int < 1000)
     {
@@ -208,7 +208,7 @@ function numericdisplaykmb($number) {
   return $number;
 }
 
-function numericdisplaylog($number) {
+function numericDisplaylog($number) {
   if ($number == 0) return "-infinity";
   return round(log($number,10),1);
 }

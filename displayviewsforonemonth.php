@@ -9,7 +9,7 @@ $formdata = true;
 $pagetypeadvice="onemonth";
 include("retrieval/pageListRetrieval.inc");
 include("retrieval/advancedOptionRetrieval.inc");
-$month = $mostrecentmonth;
+$month = $mostRecentMonth;
 if (!empty($_REQUEST['month'])) {
     $month = $_REQUEST['month'];
   }
@@ -20,21 +20,21 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
 } else {
   switch ($displayformat) {
     case 'csv' :
-      printPageviewsForMonthOrYearListAsCsv($pageListAsArray,array($month),$language,$drilldownList,$explanatoryheader,$includetotal,$numericdisplayformat);
+      printPageviewsForMonthOrYearListAsCsv($pageListAsArray,array($month),$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat);
       break;
     case 'htmltable' : 
       include("style/head.inc"); 
-      printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericdisplayformat,$normalization);
+      printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
       $originalmonthList = $monthList;
       $displayformat='htmltableautomatic';
       $carryoverfromonemonth=true;
       include("inputdisplay/multiplemonthsdataentry.inc");
       break;
     case 'csvtransposed' :
-      printPageviewsForMonthOrYearListAsCsvTransposed($pageListAsArray,array($month),$language,$drilldownList,$explanatoryheader,$includetotal,$numericdisplayformat);
+      printPageviewsForMonthOrYearListAsCsvTransposed($pageListAsArray,array($month),$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat);
       break;
     case 'countsonlyseparatelines' :
-      printPageviewsAsCountsOnlySeparateLines($pageListAsArray,$month,$language,$drilldownList,$explanatoryheader,$includetotal,$numericdisplayformat);
+      printPageviewsAsCountsOnlySeparateLines($pageListAsArray,$month,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat);
       break;
   }
 }

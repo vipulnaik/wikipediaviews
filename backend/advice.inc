@@ -35,7 +35,7 @@ function pagemonthadvice($pageList,$monthList,$drilldownList,$camefromtag=false)
     print "<strong>TIP</strong>: If you run the query again, the remaining entries can be computed.<br>";
   } elseif ($unavailableCount < $hardquerylimit - 1 and $unavailableCount > 0) {
     print "<strong>TIP</strong>: Increase the upper bound on the number of external queries to ".($unavailableCount + 1)." (or higher) from the current value of ".$weightedExternalQueryLimit." in the technical settings and run again to complete.<br>";
-  } else {
+  } elseif ($unavailableCount > 0) {
     print "<strong>TIP</strong>: You're trying to compute too many entries. Reduce the product of the number of pages and the number of months (by reducing whichever is less critical to your needs), or come back after a few hours while we fill in the data for these pages in the background.<br>";
   }
   if ($unavailableCount == 0 and count($pageList) == 1 and count($monthList) == 1 and count($drilldownList) == 1) { 

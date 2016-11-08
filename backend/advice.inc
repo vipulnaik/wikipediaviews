@@ -27,7 +27,7 @@ function pagemonthadvice($pageList,$monthList,$drilldownList,$camefromtag=false)
     print "<br>";
     print "The table has a total of ".(count($pageList) * count($drilldownList) * count($monthList))." entries<br>";
   }
-  print "We made ".$externalQueryCount." total queries to external sources (stats.grok.se, Wikimedia API, Facebook API), treated as ".$weightedExternalQueryCount." weighted queries<br>";
+  print "We made ".$externalQueryCount." successful queries to external sources (stats.grok.se, Wikimedia API, Facebook API), and used up a quota of ".$weightedExternalQueryCount." (weighted) query attempts out of a limit of ".$weightedExternalQueryLimit."<br>";
   print "We used ".(count($pageList) * count($drilldownList) * count($monthList) - $externalQueryCount - $unavailableCount)." entries from within the database<br>";
   print "We were unable to compute ".$unavailableCount." of the entries<br>";
   if ($unavailableCount <= $weightedExternalQueryLimit and $unavailableCount > 0) {

@@ -27,12 +27,12 @@ dump</a> provided hourly by the Wikimedia Foundation. This dump
 includes all pageview data for the main domain but excludes mobile and
 Wikipedia Zero pageviews.</p>
 
-<p>Desktop data from July 2015 onward, as well as mobile web and
-mobile app data as well as desktop spider and mobile web spider data
-from July 2015 onward, are from the Wikimedia REST API. Mobile web and
-app data before July 2015 is not available through any easily
-accessible method, and we therefore do not include it. However, data
-starting September 2014 can in principle be reconstructed from logs
+<p>Desktop, mobile web, mobile app data, desktop spider and mobile web
+spider data from July 2015 onward, are from the Wikimedia REST
+API. Data before July 2015 for drilldowns other than desktop is not
+available through any easily accessible method, and we therefore do
+not include it. However, data starting September 2014 can in principle
+be reconstructed from the pagecounts-all-sites dump and pageviews dump
 released by the Wikimedia Foundation.</p>
 
 <p>The development of the first iteration was concentrated between
@@ -40,7 +40,7 @@ April 30, 2014 and July 31, 2014. Subsequent changes were concentrated
 in late 2016.</p>
 
 <p>Code is available
-at <a href="http://github.com/vipulnaik/wikipediaviews">Github</a>.</p>
+at <a href="http://github.com/vipulnaik/wikipediaviews">GitHub</a>.</p>
 
 <p>For more on how to interpret the pageview data, see <a href="pageviewstatsinterpretation.php">here</a>.
 

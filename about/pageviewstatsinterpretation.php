@@ -6,19 +6,14 @@
    include(__DIR__."/../style/head.inc");
 ?>
 
-<p>This page includes technical notes on how to interpret the pageview
-statistics for desktop data until December 2015. Mobile web and mobile
-app data, as well as desktop data starting Januray 2016, is fetched
-directly from the Wikimedia API and many of these remarks do not
-apply.</p>
-
 <p>Statistics are obtained
-from <a href="http://stats.grok.se">stats.grok.se</a>. For maximal
-speed and efficiency, we store the results of past queries in a local
-database, and we first check with our internal database before
-querying the stats.grok.se server. For more on our caching process,
-see our <a href="/cacheprocess.php">cache process page</a>. This page
-concentrates on what the statistics mean, building on information at
+from <a href="http://stats.grok.se">stats.grok.se</a> and the
+Wikimedia REST API. For maximal speed and efficiency, we store the
+results of past queries in a local database, and we first check with
+our internal database before querying the stats.grok.se server. For
+more on our caching process, see our <a href="/cacheprocess.php">cache
+process page</a>. This page concentrates on what the statistics mean,
+building on information at
 the <a href="http://stats.grok.se/about">stats.grok.se about
 page</a>.</p>
 
@@ -41,30 +36,40 @@ pageview counts by day. The justification is that our goal is to be a
 complementary service as far as possible: we hope to allow easier
 comparisons over longer timescales and larger numbers of pages rather
 than offer day-by-day comparisons.</p></li>
-<li><p><strong>We link to stats.grok.se for daily data</strong>: However,
-we <em>do</em> link (inline in our output tables) to the stats.grok.se
-page that provides the day-by-day information in graphical format. You
-can also get the information in a text-based format by clicking on the
-link to the JSON format from the graphical format page we link
-to.<p></li>
+<li><p><strong>We link to the original source (stats.grok.se or the
+Wikimedia REST API) for daily data</strong>: However, we <em>do</em>
+link (inline in our output tables) to the stats.grok.se page that
+provides the day-by-day information in graphical format. You can also
+get the information in a text-based format by clicking on the link to
+the JSON format from the graphical format page we link to.<p></li>
 <li><p><strong>It is possible to reconstruct hourly data from the raw
-dumps</strong>: Finally, it's worth noting that the stats.grok.se data
-itself comes
-from <a href="http://dumps.wikimedia.org/other/pagecounts-raw/">Wikimedia
-data dumps of access logs</a> (about 2 GB worth of dumps per
-day). These dumps are broken down on an hourly basis, so it should be
-possible to use those dumps to get hourly view data. However, this
-data is not available on stats.grok.se or on Wikipedia Views.</p></li>
+dumps</strong>: Finally, it's worth noting that underlying raw dumps
+(<a href="https://dumps.wikimedia.org/other/pagecounts-raw/">pagecounts-raw</a>,
+<a href="https://dumps.wikimedia.org/other/pagecounts-all-sites/">pagecounts-all-sites</a>,
+and <a href="https://dumps.wikimedia.org/other/pageviews/">pageviews</a>)
+would allow us to get the data at an hourly granularity, if we so
+desired. The sources we query do not serve this information in an
+easy-to-use manner, so you'll need to load up the dumps and process
+them yourself.</li>
 </ul>
+
+<p>For a full timeline of the various dumps and how they evolved,
+see <a href="https://meta.wikimedia.org/wiki/Research:Timeline_of_Wikimedia_analytics">timeline
+of Wikimedia analytics</a>. Although the page was primarily written by
+Issa Rice, its creation was assisted and financially supported by
+Vipul Naik, the creator of Wikipedia Views.</p>
 
 <h4>Concept of page and view</h4>
 
 <ul>
-<li><p>Pageviews are combined for pages that differ only in minor
-capitalization. So, all accesses of "Barack obama" and "Barack Obama" would be combined into a single view count.</p></li>
-<li><p>However, pageviews for pages that redirect to a given page
-are <em>not</em> combined with pageviews of the page redirected
-to. For instance, the
+<li><p>For stats.grok.se, pageviews are combined for pages that differ
+only in minor capitalization. So, all accesses of "Barack obama" and
+"Barack Obama" would be combined into a single view count. In
+contrast, the Wikimedia REST API is case-sensitive.</p></li>
+<li><p>Pageviews for pages that redirect to a given page
+are <em>not</em> combined with pageviews of the page redirected to
+(this behavior is consistent between stats.grok.se and the REST
+API). For instance, the
 pages <a href="http://en.wikipedia.org/wiki/Arnold_Foundation">Arnold
 Foundation</a>
 and <a href="http://en.wikipedia.org/wiki/Laura_and_John_Arnold_Foundation">Laura
@@ -74,7 +79,7 @@ dumps, stats.grok.se, and this website treat the data.</p></li>
 <li><p>Pages may accrue views even when they don't exist. For instance,
 if I visit the URL for the
 page <a href="https://en.wikipedia.org/wiki/Acefwemwieo">Acefwemwieo</a>,
-that is recorded as a pageview. Therefore, we cannot reliable infer
+that is recorded as a pageview. Therefore, we cannot reliably infer
 that non-existent pages would get 0 pageviews in a given month. In
 particular, non-existent pages that have links pointing to them, or
 pages that existed earlier and were then deleted, may record a few
@@ -82,7 +87,6 @@ pageviews.</p></li>
 <li><p>Internal navigation within a page, for instance, by clicking on
 section titles in the table of contents, does not count as additional
 views of the page.</p></li>
-<li><p>As discussed on the <a href="https://wikitech.wikimedia.org/wiki/Analytics/Data/Pagecounts-raw">page about pagecounts-raw</a>, the dumps exclude pageviews on mobile domains but include bot pageviews. This should be kept in mind when interpreting pageviews.</p></li>
 </ul>
 
 <h4>Investigating anomalous page view numbers</h4>
@@ -116,12 +120,12 @@ number of completed days in order to compare with other months.</p></li>
 <li><p>Visit the Wikipedia page and see if it's the correct one. It's
 highly unlikely, but still possible, that the page name you entered is a
 different and more popular one from the one you wanted to know about.</p></li>
-<li><p>Click through to stats.grok.se to see the day-by-day
-pageviews. You may be better able to identify whether the high traffic
-was uniform or whether it occurred on a particular day or few days in
-the month. You can then use other investigative tools to determine
-whether anything happened on those days that sparked interest in the
-topic.</p></li>
+<li><p>Click through to stats.grok.se or the Wikimedia REST API to see
+the day-by-day pageviews. You may be better able to identify whether
+the high traffic was uniform or whether it occurred on a particular
+day or few days in the month. You can then use other investigative
+tools to determine whether anything happened on those days that
+sparked interest in the topic.</p></li>
 </ul>
 
 <h4>Interested more in Wikipedia pageviews?</h4>

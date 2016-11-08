@@ -49,18 +49,18 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   global $weightedExternalQueryLimit;
   global $thisMonth;
   global $mostRecentMonth;
-  global $recentMonthSlowdownFactor;
   global $exceededQueryLimitMessage;
   global $cannotRetrieveMessage;
   global $fbToken;
   global $curlOutputDirectory;
   global $tokenExpiredMessage;
-  if ($weightedExternalQueryCount >= $weightedExternalQueryLimit)
-      return $exceededQueryLimitMessage;
-  if ($month == $thisMonth or $month == $mostRecentMonth)
-      $weightedExternalQueryCount = $weightedExternalQueryCount + $recentMonthSlowdownFactor;
-  else
-      $weightedExternalQueryCount++;
+  if ($month < 201507 and in_array($drilldown, array("mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider"))) {
+    return $cannotRetrieveMessage;
+  }
+  elseif ($weightedExternalQueryCount >= $weightedExternalQueryLimit) {
+    return $exceededQueryLimitMessage;
+  }
+  $weightedExternalQueryCount++;
   $url = getPageviewsUrl($page,$month,$language,$drilldown);
   if ($drilldown == "cumulative-facebook-shares") {
     if ($month == $thisMonth) {
@@ -110,7 +110,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
     $externalQueryCount++;
     return $sum;
   } else {
-    $weightedExternalQueryCount = $weightedExternalQueryCount - $recentMonthSlowdownFactor;
+    $weightedExternalQueryCount--;
     return $cannotRetrieveMessage;
   }
 }

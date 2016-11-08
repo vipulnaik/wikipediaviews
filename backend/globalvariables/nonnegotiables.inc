@@ -11,10 +11,6 @@ $hardquerylimit = 1000;
 global $backgroundquerylimit;
 $backgroundquerylimit = 100;
 
-## Number of ordinary queries that are equivalent to one recent-month query
-global $recentMonthSlowdownFactor;
-$recentMonthSlowdownFactor = 1;
-
 ## Message to display in a cell that could not be computed because the query limit was exceeded
 global $exceededQueryLimitMessage;
 $exceededQueryLimitMessage = 'exceeded query limit and timed out';

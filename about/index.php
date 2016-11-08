@@ -49,14 +49,14 @@ at <a href="http://github.com/vipulnaik/wikipediaviews">GitHub</a>.</p>
 <ul>
 
 <li><p><strong>How we retrieve and cache data</strong>: Here's how it
-works. When you send your list of (page, month, language) combinations
-for which you want statistics fetched, we check, for each combination,
-if we already have cached data for it in our internal MySQL
-database. If we do, we serve the cached data. Otherwise, we fetch the
-data by making a HTML page request
-to <a href="http://stats.grok.se">stats.grok.se</a> and parsing the
-HTML output to extract the number of pageviews, and then cache
-it.</p></li>
+works. When you send your list of (page, month, language, drilldown)
+combinations for which you want statistics fetched, we check, for each
+combination, if we already have cached data for it in our internal
+MySQL database. If we do, we serve the cached data. Otherwise, we
+fetch the data by making a HTTP page request
+to <a href="http://stats.grok.se">stats.grok.se</a> or the Wikimedia
+REST API and parsing the HTML or JSON output to extract the number of
+pageviews, and then cache it.</p></li>
 
 <li><p><strong>Current month</strong>: Values for the current month
 may be cached from earlier queries, but cached values may not be
@@ -65,12 +65,12 @@ you'd like to force a pruge of cached values for the current month
 data.</p>
 
 <li><p><strong>Timeout restrictions</strong>: For any individual page
-load, our timeout restrictions limit us to about 40 page requests to
-stats.grok.se (fetching the pageviews for a given page, month, and
-language requires 1 page request). However, it is possible to display
-more than 40 pieces of data if some of them have already been
-cached. You can specify your own bound on the number of external
-queries in your form.</p></li>
+load, our timeout restrictions limit us to about 330 page requests to
+stats.grok.se (fetching the pageviews for a given page, month,
+language, and drilldown requires 1 page request). However, it is
+possible to display more than 330 pieces of data if some of them have
+already been cached. You can specify your own bound on the number of
+external queries in your form.</p></li>
 
 </ul>
 

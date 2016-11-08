@@ -10,11 +10,9 @@
 from <a href="http://stats.grok.se">stats.grok.se</a> and the
 Wikimedia REST API. For maximal speed and efficiency, we store the
 results of past queries in a local database, and we first check with
-our internal database before querying the stats.grok.se server. For
-more on our caching process, see our <a href="/cacheprocess.php">cache
-process page</a>. This page concentrates on what the statistics mean,
-building on information at
-the <a href="http://stats.grok.se/about">stats.grok.se about
+our internal database before querying the stats.grok.se server. This
+page concentrates on what the statistics mean, building on information
+at the <a href="http://stats.grok.se/about">stats.grok.se about
 page</a>.</p>
 
 <h4>Time-granularity of data</h4>

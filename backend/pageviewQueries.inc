@@ -77,6 +77,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
       $shareCount = intval($shareJson["share_count"]);
       return $shareCount;
     } else {
+      $weightedExternalQueryCount--;
       return $cannotRetrieveMessage;
     }
   } else if ($month < 201507 and $drilldown == "desktop") {

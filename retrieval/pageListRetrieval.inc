@@ -186,4 +186,5 @@ if ($pagespecificationerror == false) {
 	sort($pageListAsArray);
       }
 }
+$pageListAsArray = array_map("ucfirst", $pageListAsArray);
 ?>

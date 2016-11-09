@@ -44,9 +44,9 @@ function queriedpagelog($page,$language,$archivalStatus) {
 }
 
 function getPageviewsOnline($page, $month, $language, $drilldown) {
-  global $weightedExternalQueryCount;
-  global $externalQueryCount;
-  global $weightedExternalQueryLimit;
+  global $attemptedExternalQueryCount;
+  global $successfulExternalQueryCount;
+  global $attemptedExternalQueryLimit;
   global $thisMonth;
   global $mostRecentMonth;
   global $exceededQueryLimitMessage;
@@ -54,16 +54,18 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   global $fbToken;
   global $curlOutputDirectory;
   global $tokenExpiredMessage;
+  global $irretrievableCount;
   if ($month < 201507 and in_array($drilldown, array("mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider"))) {
+    $irretrievableCount++;
     return $cannotRetrieveMessage;
   }
-  elseif ($weightedExternalQueryCount >= $weightedExternalQueryLimit) {
+  elseif ($attemptedExternalQueryCount >= $attemptedExternalQueryLimit) {
     return $exceededQueryLimitMessage;
   }
-  $weightedExternalQueryCount++;
   $url = getPageviewsUrl($page,$month,$language,$drilldown);
   if ($drilldown == "cumulative-facebook-shares") {
     if ($month == $thisMonth) {
+      $attemptedExternalQueryCount++;
       $tmpString = strval(rand());
       $jsonFileFullPath = $curlOutputDirectory.$tmpString.'.json';
       $curlCmd = 'curl -H "Authorization: Bearer '.$fbToken.'" '.$url.' > '.$jsonFileFullPath;
@@ -75,25 +77,28 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
       }
       $shareJson = $json["share"];
       $shareCount = intval($shareJson["share_count"]);
+      $successfulExternalQueryCount++;
       return $shareCount;
     } else {
-      $weightedExternalQueryCount--;
+      $irretrievableCount++;
       return $cannotRetrieveMessage;
     }
   } else if ($month < 201507 and $drilldown == "desktop") {
+    $attemptedExternalQueryCount++;
     $html = file_get_contents($url);
     preg_match('/(?<=\bhas been viewed)\s+\K[^\s]+/',$html,$numberofpageviews);
     if (count($numberofpageviews) > 0) {
       if (strlen($numberofpageviews[0]) > 0) {
-        $externalQueryCount++;
+        $successfulExternalQueryCount++;
         return $numberofpageviews[0];
       } else {
-        return $cannotRetrieveMessage;
+        return $exceededQueryLimitMessage;
       }
     } else {
-      return $cannotRetrieveMessage;
+      return $exceededQueryLimitMessage;
     }
   } else if ($month >= 201507) {
+    $attemptedExternalQueryCount++;
     # Calculate string of the first date of next month (used as upper limit of
     # query)
     ini_set('user_agent', 'Wikipedia Views (wikipediaviews.org); contact vipulnaik1@gmail.com in case of issues');
@@ -108,19 +113,19 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
     {
       $sum += intval($day["views"]);
     }
-    $externalQueryCount++;
+    $successfulExternalQueryCount++;
     return $sum;
   } else {
-    $weightedExternalQueryCount--;
+    $irretrievableCount++;
     return $cannotRetrieveMessage;
   }
 }
 
 function getPageviewsFromDb($page,$month,$language,$drilldown, $online) {
   global $mysqli;
-  global $weightedExternalQueryCount;
-  global $weightedExternalQueryLimit;
-  global $externalQueryCount;
+  global $attemptedExternalQueryCount;
+  global $attemptedExternalQueryLimit;
+  global $successfulExternalQueryCount;
   global $exceededQueryLimitMessage;
   global $cannotRetrieveMessage;
   global $thisMonth;
@@ -244,8 +249,8 @@ function getannualpageviews($page,$year,$language,$drilldown) {
 
 function viewcountarraybymonth_raw($pageList,$monthList,$language,$drilldownList,$online=true,$normalization='') {
   global $mysqli;
-  global $weightedExternalQueryCount;
-  global $weightedExternalQueryLimit;
+  global $attemptedExternalQueryCount;
+  global $attemptedExternalQueryLimit;
   global $exceededQueryLimitMessage;
   global $purgeperiod;
   global $thisMonth;
@@ -297,7 +302,7 @@ function viewcountarraybymonth_raw($pageList,$monthList,$language,$drilldownList
       }
     }
   }
-  if ($weightedExternalQueryCount < $weightedExternalQueryLimit) {
+  if ($attemptedExternalQueryCount < $attemptedExternalQueryLimit) {
     #print "Successfully completed without timing out :)<br>";
     return $viewcountarray;
   }
@@ -345,8 +350,8 @@ function viewcountarraybymonth($pageList,$monthList,$language,$drilldownList,$on
 
 function viewcountarraybyyear($pageList,$yearList,$language,$drilldownList,$online,$normalization='') {
   global $mysqli;
-  global $weightedExternalQueryCount;
-  global $weightedExternalQueryLimit;
+  global $attemptedExternalQueryCount;
+  global $attemptedExternalQueryLimit;
   if ($mysqli->connect_errno) 
     {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
@@ -380,7 +385,7 @@ function viewcountarraybyyear($pageList,$yearList,$language,$drilldownList,$onli
       }
     }
   }
-  if ($weightedExternalQueryCount < $weightedExternalQueryLimit) {
+  if ($attemptedExternalQueryCount < $attemptedExternalQueryLimit) {
     #print "Successfully completed without timing out :)<br>";
     return $viewcountarray;
   }
@@ -398,8 +403,8 @@ function viewcountarraybyyear($pageList,$yearList,$language,$drilldownList,$onli
 
 function fillinwantedviewcounts($querylimit, $online) {
   global $mysqli;
-  global $weightedExternalQueryCount;
-  global $weightedExternalQueryLimit;
+  global $attemptedExternalQueryCount;
+  global $attemptedExternalQueryLimit;
   global $exceededQueryLimitMessage;
   if ($mysqli->connect_errno) 
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
@@ -427,8 +432,8 @@ function fillinwantedviewcounts($querylimit, $online) {
       $currentLoad = sys_getloadavg();
       if ($currentLoad[0] < 0.75) {
         $count = getPageviewsFromDb($page[$i],$month[$i],$language[$i],"desktop",$online);
-        print "Weighted external query count is ".$weightedExternalQueryCount." and ";
-        print "weighted external query limit is ".$weightedExternalQueryLimit."\n";
+        print "Weighted external query count is ".$attemptedExternalQueryCount." and ";
+        print "weighted external query limit is ".$attemptedExternalQueryLimit."\n";
         print "For page ".$page[$i].", month ".$month[$i].", and language ".$language[$i].", page view count is ".$count."\n";
         if ($count != $exceededQueryLimitMessage)
 	  {

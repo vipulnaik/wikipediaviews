@@ -13,7 +13,7 @@ print '<td><input type="text" name="userSpecifiedQueryLimit" value = "';
 if ($formdata == true) {
   print $userSpecifiedQueryLimit;
 } else {
-  print $weightedExternalQueryLimit;
+  print $attemptedExternalQueryLimit;
 }
 print '" size="5"></input></td></tr>';
 ?>

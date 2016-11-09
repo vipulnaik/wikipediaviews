@@ -26,10 +26,10 @@ if (!empty($_REQUEST['displayformat']))
   }
 
 ##Query limit
-$userSpecifiedQueryLimit = $weightedExternalQueryLimit;
+$userSpecifiedQueryLimit = $attemptedExternalQueryLimit;
 if (!empty($_REQUEST['userSpecifiedQueryLimit'])) {
   $userSpecifiedQueryLimit = $_REQUEST['userSpecifiedQueryLimit'];
-  $weightedExternalQueryLimit = intval($userSpecifiedQueryLimit);
+  $attemptedExternalQueryLimit = intval($userSpecifiedQueryLimit);
 }
 
 $explanatoryheader="explanatoryheader"; ##Not currently user-updatable

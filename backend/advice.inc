@@ -3,9 +3,10 @@
 function pagemonthadvice($pageList,$monthList,$drilldownList,$camefromtag=false)
 {
   global $unavailableCount;
-  global $weightedExternalQueryLimit;
-  global $weightedExternalQueryCount;
-  global $externalQueryCount;
+  global $irretrievableCount;
+  global $attemptedExternalQueryLimit;
+  global $attemptedExternalQueryCount;
+  global $successfulExternalQueryCount;
   global $mysqli;
   global $tags_recommended;
   global $alternatemonthspecs_recommended;
@@ -16,7 +17,8 @@ function pagemonthadvice($pageList,$monthList,$drilldownList,$camefromtag=false)
     return true;
   }
   print "<br>";
-  if (max(count($pageList),count($drilldownList),count($monthList)) > 10) {
+  $numCells = count($pageList) * count($drilldownList) * count($monthList);
+  if (max(count($pageList),count($drilldownList),count($monthList)) > 1) {
     print "Printed data for ".count($pageList)." page";
     if (count($pageList) > 1) print "s";
     if (count($drilldownList) > 1) {
@@ -25,15 +27,16 @@ function pagemonthadvice($pageList,$monthList,$drilldownList,$camefromtag=false)
     print " and ".count($monthList)." month";
     if (count($monthList) > 1) print "s";
     print "<br>";
-    print "The table has a total of ".(count($pageList) * count($drilldownList) * count($monthList))." entries<br>";
+    print "The table has a total of ".$numCells." entries<br>";
   }
-  print "We made ".$externalQueryCount." successful queries to external sources (stats.grok.se, Wikimedia API, Facebook API), and used up a quota of ".$weightedExternalQueryCount." (weighted) query attempts out of a limit of ".$weightedExternalQueryLimit."<br>";
-  print "We used ".(count($pageList) * count($drilldownList) * count($monthList) - $externalQueryCount - $unavailableCount)." entries from within the database<br>";
-  print "We were unable to compute ".$unavailableCount." of the entries<br>";
-  if ($unavailableCount <= $weightedExternalQueryLimit and $unavailableCount > 0) {
+  print "We made ".$successfulExternalQueryCount." successful queries to external sources (stats.grok.se, Wikimedia API, Facebook API), and used up a quota of ".$attemptedExternalQueryCount." (weighted) query attempts out of a limit of ".$attemptedExternalQueryLimit."<br>";
+  print "We used ".($numCells - $successfulExternalQueryCount - $unavailableCount - $irretrievableCount)." entries from within the database<br>";
+  print "We were unable to compute ".$unavailableCount." of the entries and might succeed in computing them later<br>";
+  print "The number of entries that are irretrievable (i.e., cannot be computed, even if you retry) is ".$irretrievableCount."<br>";
+  if ($unavailableCount <= $attemptedExternalQueryLimit and $unavailableCount > 0) {
     print "<strong>TIP</strong>: If you run the query again, the remaining entries can be computed.<br>";
   } elseif ($unavailableCount < $hardquerylimit - 1 and $unavailableCount > 0) {
-    print "<strong>TIP</strong>: Increase the upper bound on the number of external queries to ".($unavailableCount + 1)." (or higher) from the current value of ".$weightedExternalQueryLimit." in the technical settings and run again to complete.<br>";
+    print "<strong>TIP</strong>: Increase the upper bound on the number of external queries to ".($unavailableCount + 1)." (or higher) from the current value of ".$attemptedExternalQueryLimit." in the technical settings and run again to complete.<br>";
   } elseif ($unavailableCount > 0) {
     print "<strong>TIP</strong>: You're trying to compute too many entries. Reduce the product of the number of pages and the number of months (by reducing whichever is less critical to your needs), or come back after a few hours while we fill in the data for these pages in the background.<br>";
   }

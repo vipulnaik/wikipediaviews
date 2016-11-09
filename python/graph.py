@@ -79,7 +79,7 @@ def do_a_plot(df, fname, kind, show_wm_api_switch=False,
     # is, but for now we don't, so just hard-code it to 1
     # n = 1
     if show_wm_api_switch or show_mobile_onset:
-        plt.axvline(pd.to_datetime('2015-07-01'), color='r', lw=2)
+        plt.axvline(pd.to_datetime('2015-06-01'), color='r', lw=2)
     plt.savefig(fname)
     plt.clf()
     plt.close()

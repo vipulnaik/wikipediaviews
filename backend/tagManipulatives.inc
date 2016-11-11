@@ -140,20 +140,20 @@ function getPageListByTagList($tagList,$language,$connective='or') {
 
 function getTagListByPageList($pageList,$language) {
   global $mysqli;
-  if ($mysqli->connect_errno) 
-    {
-      echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-    }
-  foreach ($pageList as $page)
+  if ($mysqli->connect_errno) {
+    echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+  }
+  foreach ($pageList as $page) {
     $tagList[$page] = array();
-  $pageListasquotedcsvstring = convertListToQuotedCsvString($pageList);
-  $tagselect_query = "select distinct pagename,tag from pagetags where pagename in (".$pageListasquotedcsvstring.") and language='".$language." order by pagename, tag';";
-  $result = $mysqli->query($tagselect_query);
-  for ($i = 0;$i < $result -> num_rows; $i++)
-    {
-      $row = $result -> fetch_assoc();
-      array_push($tagList[$row['pagename']],$row['tag']);      
-    }
+  }
+  $pageListAsQuotedCsvString = convertListToQuotedCsvString($pageList);
+  $tagSelectQuery = "select distinct pagename,tag from pagetags where pagename in (".$pageListAsQuotedCsvString.") and language='".$language."' order by pagename, tag;";
+  flush();
+  $result = $mysqli->query($tagSelectQuery);
+  for ($i = 0;$i < $result -> num_rows; $i++) {
+    $row = $result -> fetch_assoc();
+    array_push($tagList[$row['pagename']],$row['tag']);
+  }
   return $tagList;
 }
 

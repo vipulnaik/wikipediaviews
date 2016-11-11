@@ -22,24 +22,28 @@ function checkSizes($pageOrTagList,$monthOrYearList, $drilldownList) {
 function totalsAndPercentages($pageOrTagList,$monthOrYearList,$drilldownList,$viewcountarray) {
   $grandTotal = 0;
   foreach ($pageOrTagList as $pageOrTag) {
+    $pageOrTagTotal[$pageOrTag] = 0;
     foreach ($drilldownList as $drilldown) {
       $pageOrTagCumDrilldownTotal[$pageOrTag][$drilldown] = 0;
       foreach ($monthOrYearList as $monthOrYear) {
-        $pageOrTagCumDrilldownTotal[$pageOrTag][$drilldown] += intval($viewcountarray[$pageOrTag][$monthOrYear][$drilldown]);
-      }
-      $grandTotal += $pageOrTagCumDrilldownTotal[$pageOrTag][$drilldown];
-    }
-  }
-  foreach ($monthOrYearList as $monthOrYear) {
-    $monthOrYearTotal[$monthOrYear] = 0;
-    foreach ($pageOrTagList as $pageOrTag) {
-      foreach ($drilldownList as $drilldown) {
-        $monthOrYearTotal[$monthOrYear] += intval($viewcountarray[$pageOrTag][$monthOrYear][$drilldown]);
+        $increment = intval($viewcountarray[$pageOrTag][$monthOrYear][$drilldown]);
+        $pageOrTagCumDrilldownTotal[$pageOrTag][$drilldown] += $increment;
+        $pageOrTagCumMonthOrYearTotal[$pageOrTag][$monthOrYear] += $increment;
+        $drilldownCumMonthOrYearTotal[$drilldown][$monthOrYear] += $increment;
+        $pageOrTagTotal[$pageOrTag] += $increment;
+        $drilldownTotal[$drilldown] += $increment;
+        $monthOrYearTotal[$monthOrYear] += $increment;
+        $grandTotal += $increment;
       }
     }
   }
-  
+
   foreach ($pageOrTagList as $pageOrTag) {
+    if ($grandTotal == 0) {
+      $pageOrTagPercentage[$pageOrTag] = 'undefined';
+    } else {
+      $pageOrTagPercentage[$pageOrTag] = round(100 * floatval($pageOrTagTotal[$pageOrTag])/floatval($grandTotal),1);
+    }
     foreach ($drilldownList as $drilldown) {
       if ($grandTotal == 0) {
 	$pageOrTagCumDrilldownPercentage[$pageOrTag][$drilldown] = 'undefined';
@@ -54,17 +58,61 @@ function totalsAndPercentages($pageOrTagList,$monthOrYearList,$drilldownList,$vi
     } else {
       $monthOrYearPercentage[$monthOrYear] = round(100.0 * floatval($monthOrYearTotal[$monthOrYear])/floatval($grandTotal),1);
     }
+    foreach ($pageOrTagList as $pageOrTag) {
+      if ($grandTotal == 0) {
+	$pageOrTagCumMonthOrYearPercentage[$pageOrTag][$monthOrYear] = 'undefined';
+      } else {
+	$pageOrTagCumMonthOrYearPercentage[$pageOrTag][$monthOrYear] = round(100 * floatval($pageOrTagCumMonthOrYearTotal[$pageOrTag][$monthOrYear])/floatval($grandTotal),1);
+      }
+    }
+  }
+
+  foreach ($drilldownList as $drilldown) {
+    if ($grandTotal == 0) {
+      $drilldownPercentage[$drilldown] = 'undefined';
+    } else {
+      $drilldownPercentage[$drilldown] = round(100 * floatval($drilldownTotal[$drilldown])/floatval($grandTotal),1);
+    }
+    foreach ($monthOrYearList as $monthOrYear) {
+      if ($grandTotal == 0) {
+        $drilldownCumMonthOrYearPercentage[$drilldown][$monthOrYear] = 'undefined';
+      } else {
+        $drilldownCumMonthOrYearPercentage[$drilldown][$monthOrYear] = round(100 * floatval($drilldownCumMonthOrYearTotal[$drilldown][$monthOrYear])/floatval($grandTotal),1);
+      }
+    }
   }
   
-  return array($grandTotal,$pageOrTagCumDrilldownTotal,$monthOrYearTotal,$pageOrTagCumDrilldownPercentage,$monthOrYearPercentage);
+  $tap["grandTotal"] = $grandTotal;
+  $tap["pageOrTagCumDrilldownTotal"] = $pageOrTagCumDrilldownTotal;
+  $tap["pageOrTagCumMonthOrYearTotal"] = $pageOrTagCumMonthOrYearTotal;
+  $tap["drilldownCumMonthOrYearTotal"] = $drilldownCumMonthOrYearTotal;
+  $tap["pageOrTagTotal"] = $pageOrTagTotal;
+  $tap["drilldownTotal"] = $drilldownTotal;
+  $tap["monthOrYearTotal"] = $monthOrYearTotal;
+  $tap["pageOrTagCumDrilldownPercentage"] = $pageOrTagCumDrilldownPercentage;
+  $tap["pageOrTagCumMonthOrYearPercentage"] = $pageOrTagCumMonthOrYearPercentage;
+  $tap["drilldownCumMonthOrYearPercentage"] = $drilldownCumMonthOrYearPercentage;
+  $tap["pageOrTagPercentage"] = $pageOrTagPercentage;
+  $tap["drilldownPercentage"] = $drilldownPercentage;
+  $tap["monthOrYearPercentage"] = $monthOrYearPercentage;
+  
+  return $tap;
 }
 
 function printMonthViewCount($page,$month,$language,$drilldown,$viewcount,$numericDisplayFormat) {
-  return '<td align="right"><a href="'.getpageviewsurl($page,$month,$language,$drilldown).'" title="'.monthviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';
+  if ($drilldown == "all") {
+    return '<td align="right"><strong><a title="'.monthviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></strong></td>';
+  } else {
+    return '<td align="right"><a href="'.getpageviewsurl($page,$month,$language,$drilldown).'" title="'.monthviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';
+  }
 }
 
 function printYearViewCount($page,$year,$language,$drilldown,$viewcount,$numericDisplayFormat) {
-  return '<td align="right"><a href="'.getannualpageviewsurl($page,$year,$language,$drilldown).'" title="'.yearviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';
+  if ($drilldown == "all") {
+    return '<td align="right"><a title="'.yearviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';
+  } else {
+    return '<td align="right"><a href="'.getannualpageviewsurl($page,$year,$language,$drilldown).'" title="'.yearviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';
+  }
 }
 
 function printtagviewcount($tag,$month,$language,$drilldown,$viewcount,$numericDisplayFormat) {
@@ -92,12 +140,20 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$monthOrYear
   } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
     $viewcountarray = viewcountarraybytagandyear($pageOrTagList,$monthOrYearList,$language,$drilldownList,true,$normalization);
   }
-  $totalsAndPercentagesArray = totalsAndPercentages($pageOrTagList,$monthOrYearList,$drilldownList,$viewcountarray);
-  $grandTotal = $totalsAndPercentagesArray[0];
-  $pageOrTagCumDrilldownTotal = $totalsAndPercentagesArray[1];
-  $monthOrYearTotal = $totalsAndPercentagesArray[2];
-  $pageOrTagCumDrilldownPercentage = $totalsAndPercentagesArray[3];
-  $monthOrYearPercentage = $totalsAndPercentagesArray[4];
+  $tap = totalsAndPercentages($pageOrTagList,$monthOrYearList,$drilldownList,$viewcountarray);
+  $grandTotal = $tap["grandTotal"];
+  $pageOrTagCumDrilldownTotal = $tap["pageOrTagCumDrilldownTotal"];
+  $pageOrTagCumMonthOrYearTotal = $tap["pageOrTagCumMonthOrYearTotal"];
+  $drilldownCumMonthOrYearTotal = $tap["drilldownCumMonthOrYearTotal"];
+  $pageOrTagTotal = $tap["pageOrTagTotal"];
+  $drilldownTotal = $tap["drilldownTotal"];
+  $monthOrYearTotal = $tap["monthOrYearTotal"];
+  $pageOrTagCumDrilldownPercentage = $tap["pageOrTagCumDrilldownPercentage"];
+  $pageOrTagCumMonthOrYearPercentage = $tap["pageOrTagCumMonthOrYearPercentage"];
+  $drilldownCumMonthOrYearPercentage = $tap["drilldownCumMonthOrYearPercentage"];
+  $pageOrTagPercentage = $tap["pageOrTagPercentage"];
+  $drilldownPercentage = $tap["drilldownPercentage"];
+  $monthOrYearPercentage = $tap["monthOrYearPercentage"];
 
   #Tag list fetching
   if ($pageOrTagAdvice=='page') {
@@ -137,6 +193,7 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$monthOrYear
   
   ##Data rows
   foreach($pageOrTagList as $pageOrTag) {
+    $tagListForPage = $tagListByPages[$pageOrTag];
     foreach($drilldownList as $drilldown) {
       if ($pageOrTagAdvice=='page') {
         $pageOrTagCumDrilldownRowString = '<tr><td><a href="'.getpageurl($pageOrTag,$language).'" title = "'.$pageOrTag.' (read page on Wikipedia)">'.$pageOrTag.'</a>';
@@ -170,7 +227,6 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$monthOrYear
       }
       if ($pageOrTagAdvice == 'page') {
         $pageOrTagCumDrilldownRowString .= '<td>';
-	$tagListForPage = $tagListByPages[$pageOrTag];
 	if (count($tagListForPage)==0) {
 	  $pageOrTagCumDrilldownRowString .= "--";
         }
@@ -185,6 +241,68 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$monthOrYear
       }
       $pageOrTagCumDrilldownRowString .="</tr>";
       print $pageOrTagCumDrilldownRowString;
+    }
+    if (count($drilldownList) > 1 and count($pageOrTagList) > 1) {
+      if ($pageOrTagAdvice=='page') {
+        $pageOrTagSummaryString = '<tr><td><strong><a href="'.getpageurl($pageOrTag,$language).'" title = "'.$pageOrTag.' (read page on Wikipedia)">'.$pageOrTag.'</a>, sum over drilldowns</strong></td>';
+      } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
+        $pageOrTagSummaryString = '<td><a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageOrTag.'&language='.$language.'&drilldown='.$drilldown.'&allmonths=allmonths">'.$pageOrTag.'</a>, sum over drilldowns</td>';
+      } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
+        $pageOrTagSummaryString = '<td><a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageOrTag.'&language='.$language.'&drilldown='.$drilldown.'&allyears=allyears">'.$pageOrTag.'</a>, sum over drilldowns</td>';
+      }
+      foreach($monthOrYearList as $monthOrYear) {
+	$viewcount = $pageOrTagCumMonthOrYearTotal[$pageOrTag][$monthOrYear];
+	if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
+	  $pageOrTagSummaryString .= printMonthViewCount($pageOrTag,$monthOrYear,$language,"all",$viewcount,$numericDisplayFormat);
+	} elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year') {
+	  $pageOrTagSummaryString .= printYearViewCount($pageOrTag,$monthOrYear,$language,"all",$viewcount,$numericDisplayFormat);
+	} elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
+	  $pageOrTagSummaryString .= printtagviewcount($pageOrTag,$monthOrYear,$language,"all",$viewcount,$numericDisplayFormat);
+	} elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
+	  $pageOrTagSummaryString .= printtagviewcountbyyear($pageOrTag,$monthOrYear,$language,"all",$viewcount,$numericDisplayFormat);
+	}
+      }
+      if ($includetotal=='includetotal' and count($monthOrYearList) > 1) {
+	$pageOrTagSummaryString .='<td align="right"><strong><element title="'.$pageOrTagTotal[$drilldown].'">'.numericDisplay($pageOrTagTotal[$pageOrTag],$numericDisplayFormat).'</element></strong></td>';
+      }
+      $pageOrTagSummaryString .= '<td align="right"><strong>'.$pageOrTagPercentage[$pageOrTag].'</strong></td>';
+      if ($pageOrTagAdvice == 'page') {
+        $pageOrTagSummaryString .= '<td>';
+	if (count($tagListForPage)==0) {
+	  $pageOrTagSummaryString .= "--";
+        }
+	foreach ($tagListForPage as $tag) {
+          if ($monthOrYearAdvice == 'month') {
+            $pageOrTagSummaryString .= '<a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$tag.'&language='.$language.'&drilldown=all&allmonths=allmonths">'.$tag.'</a> ';
+	  } else {
+            $pageOrTagSummaryString .= '<a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$tag.'&language='.$language.'&drilldown=all&allyears=allyears">'.$tag.'</a> ';
+	  }
+        }
+        $pageOrTagSummaryString .= '</td>';
+      }
+      $pageOrTagSummaryString .="</tr>";
+      print $pageOrTagSummaryString;
+    }
+  }
+  if (includetotal=='includetotal' and count($pageOrTagList) > 1 and count($drilldownList > 1)) {
+    foreach($drilldownList as $drilldown) {
+      $drilldownTotalRowString  = "<tr><td><strong>Total, drilldown ".$drilldown."</strong></td>";
+      foreach($monthOrYearList as $monthOrYear) {
+        $drilldownTotalRowString .= '<td align="right"><strong><element title="'.$drilldownCumMonthOrYearTotal[$drilldown][$monthOrYear].'">'.numericDisplay($drilldownCumMonthOrYearTotal[$drilldown][$monthOrYear],$numericDisplayFormat).'</element></strong></td>';
+      }
+      $drilldownTotalRowString .= '<td align="right"><strong><element title="'.$drilldownTotal[$drilldown].'">'.numericDisplay($drilldownTotal[$drilldown],$numericDisplayFormat).'</element></strong></td>';
+      $drilldownTotalRowString .= '<td align="right"><strong>'.$drilldownPercentage[$drilldown].'</strong></td>';
+      $drilldownTotalRowString .= '<td>--</td></tr>';
+      print($drilldownTotalRowString);
+      if (count($monthOrYearList) > 1) {
+        $drilldownPercentageRowString = "<tr><td><strong>Percentage, drilldown ".$drilldown."</strong></td>";
+        foreach($monthOrYearList as $monthOrYear) {
+          $drilldownPercentageRowString .= '<td align="right"><strong>'.$drilldownCumMonthOrYearPercentage[$drilldown][$monthOrYear].'</strong></td>';
+        }
+        $drilldownPercentageRowString .= '<td align="right"><strong>'.$drilldownPercentage[$drilldown].'</strong></td>';
+        $drilldownPercentageRowString .= '<td></td><td>--</td></tr>';
+        print($drilldownPercentageRowString);
+      }
     }
   }
   if ($includetotal=='includetotal' and count($pageOrTagList) * count($drilldownList) > 1) {
@@ -240,12 +358,20 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$m
   } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
     $viewcountarray = viewcountarraybytagandyear($pageOrTagList,$monthOrYearList,$language,$drilldownList,true,$normalization);
   }
-  $totalsAndPercentagesArray = totalsAndPercentages($pageOrTagList,$monthOrYearList,$drilldownList,$viewcountarray);
-  $grandTotal = $totalsAndPercentagesArray[0];
-  $pageOrTagCumDrilldownTotal = $totalsAndPercentagesArray[1];
-  $monthOrYearTotal = $totalsAndPercentagesArray[2];
-  $pageOrTagCumDrilldownPercentage = $totalsAndPercentagesArray[3];
-  $monthOrYearPercentage = $totalsAndPercentagesArray[4];
+  $tap = totalsAndPercentages($pageOrTagList,$monthOrYearList,$drilldownList,$viewcountarray);
+  $grandTotal = $tap["grandTotal"];
+  $pageOrTagCumDrilldownTotal = $tap["pageOrTagCumDrilldownTotal"];
+  $pageOrTagCumMonthOrYearTotal = $tap["pageOrTagCumMonthOrYearTotal"];
+  $drilldownCumMonthOrYearTotal = $tap["drilldownCumMonthOrYearTotal"];
+  $pageOrTagTotal = $tap["pageOrTagTotal"];
+  $drilldownTotal = $tap["drilldownTotal"];
+  $monthOrYearTotal = $tap["monthOrYearTotal"];
+  $pageOrTagCumDrilldownPercentage = $tap["pageOrTagCumDrilldownPercentage"];
+  $pageOrTagCumMonthOrYearPercentage = $tap["pageOrTagCumMonthOrYearPercentage"];
+  $drilldownCumMonthOrYearPercentage = $tap["drilldownCumMonthOrYearPercentage"];
+  $pageOrTagPercentage = $tap["pageOrTagPercentage"];
+  $drilldownPercentage = $tap["drilldownPercentage"];
+  $monthOrYearPercentage = $tap["monthOrYearPercentage"];
 
   #Tag list fetching
   if ($pageOrTagAdvice=='page') {
@@ -399,13 +525,20 @@ function printPageviewsForMonthOrYearListAsCsv($pageOrTagList,$monthOrYearList,$
       $viewcountarray = viewcountarraybytagandyear($pageOrTagList,$monthOrYearList,$language,$drilldown,true,$normalization);
     }
 
-  $totalsAndPercentagesArray = totalsAndPercentages($pageOrTagList,$monthOrYearList,$viewcountarray);
-  $grandTotal = $totalsAndPercentagesArray[0];
-  $pageOrTagTotal = $totalsAndPercentagesArray[1];
-  $monthOrYearTotal = $totalsAndPercentagesArray[2];
-  $pageOrTagPercentage = $totalsAndPercentagesArray[3];
-  $monthOrYearPercentage = $totalsAndPercentagesArray[4];
-
+  $tap = totalsAndPercentages($pageOrTagList,$monthOrYearList,$drilldownList,$viewcountarray);
+  $grandTotal = $tap["grandTotal"];
+  $pageOrTagCumDrilldownTotal = $tap["pageOrTagCumDrilldownTotal"];
+  $pageOrTagCumMonthOrYearTotal = $tap["pageOrTagCumMonthOrYearTotal"];
+  $drilldownCumMonthOrYearTotal = $tap["drilldownCumMonthOrYearTotal"];
+  $pageOrTagTotal = $tap["pageOrTagTotal"];
+  $drilldownTotal = $tap["drilldownTotal"];
+  $monthOrYearTotal = $tap["monthOrYearTotal"];
+  $pageOrTagCumDrilldownPercentage = $tap["pageOrTagCumDrilldownPercentage"];
+  $pageOrTagCumMonthOrYearPercentage = $tap["pageOrTagCumMonthOrYearPercentage"];
+  $drilldownCumMonthOrYearPercentage = $tap["drilldownCumMonthOrYearPercentage"];
+  $pageOrTagPercentage = $tap["pageOrTagPercentage"];
+  $drilldownPercentage = $tap["drilldownPercentage"];
+  $monthOrYearPercentage = $tap["monthOrYearPercentage"];
 
   $headerstring = ucfirst($pageOrTagAdvice)." name";
   $descriptor = getDescriptor($drilldown);
@@ -473,13 +606,20 @@ function printPageviewsForMonthOrYearListAsCsvTransposed($pageOrTagList,$monthOr
   elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year')
     $viewcountarray = viewcountarraybytagandyear($pageOrTagList,$monthOrYearList,$language,$drilldown,true,$normalization);
 
-  $totalsAndPercentagesArray = totalsAndPercentages($pageOrTagList,$monthOrYearList,$viewcountarray);
-  $grandTotal = $totalsAndPercentagesArray[0];
-  $pageOrTagTotal = $totalsAndPercentagesArray[1];
-  $monthOrYearTotal = $totalsAndPercentagesArray[2];
-  $pageOrTagPercentage = $totalsAndPercentagesArray[3];
-  $monthOrYearPercentage = $totalsAndPercentagesArray[4];
-
+  $tap = totalsAndPercentages($pageOrTagList,$monthOrYearList,$drilldownList,$viewcountarray);
+  $grandTotal = $tap["grandTotal"];
+  $pageOrTagCumDrilldownTotal = $tap["pageOrTagCumDrilldownTotal"];
+  $pageOrTagCumMonthOrYearTotal = $tap["pageOrTagCumMonthOrYearTotal"];
+  $drilldownCumMonthOrYearTotal = $tap["drilldownCumMonthOrYearTotal"];
+  $pageOrTagTotal = $tap["pageOrTagTotal"];
+  $drilldownTotal = $tap["drilldownTotal"];
+  $monthOrYearTotal = $tap["monthOrYearTotal"];
+  $pageOrTagCumDrilldownPercentage = $tap["pageOrTagCumDrilldownPercentage"];
+  $pageOrTagCumMonthOrYearPercentage = $tap["pageOrTagCumMonthOrYearPercentage"];
+  $drilldownCumMonthOrYearPercentage = $tap["drilldownCumMonthOrYearPercentage"];
+  $pageOrTagPercentage = $tap["pageOrTagPercentage"];
+  $drilldownPercentage = $tap["drilldownPercentage"];
+  $monthOrYearPercentage = $tap["monthOrYearPercentage"];
 
   $headerstring = ucfirst($monthOrYearAdvice);
   foreach($pageOrTagList as $pageOrTag)
@@ -549,12 +689,20 @@ function generateGraph($pageOrTagList,$monthOrYearList,$language,$drilldownList,
   elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year')
     $viewcountarray = viewcountarraybytagandyear($pageOrTagList,$monthOrYearList,$language,$drilldownList,false,$normalization);
 
-  $totalsAndPercentagesArray = totalsAndPercentages($pageOrTagList,$monthOrYearList,$drilldownList,$viewcountarray);
-  $grandTotal = $totalsAndPercentagesArray[0];
-  $pageOrTagCumDrilldownTotal = $totalsAndPercentagesArray[1];
-  $monthOrYearTotal = $totalsAndPercentagesArray[2];
-  $pageOrTagCumDrilldownPercentage = $totalsAndPercentagesArray[3];
-  $monthOrYearPercentage = $totalsAndPercentagesArray[4];
+  $tap = totalsAndPercentages($pageOrTagList,$monthOrYearList,$drilldownList,$viewcountarray);
+  $grandTotal = $tap["grandTotal"];
+  $pageOrTagCumDrilldownTotal = $tap["pageOrTagCumDrilldownTotal"];
+  $pageOrTagCumMonthOrYearTotal = $tap["pageOrTagCumMonthOrYearTotal"];
+  $drilldownCumMonthOrYearTotal = $tap["drilldownCumMonthOrYearTotal"];
+  $pageOrTagTotal = $tap["pageOrTagTotal"];
+  $drilldownTotal = $tap["drilldownTotal"];
+  $monthOrYearTotal = $tap["monthOrYearTotal"];
+  $pageOrTagCumDrilldownPercentage = $tap["pageOrTagCumDrilldownPercentage"];
+  $pageOrTagCumMonthOrYearPercentage = $tap["pageOrTagCumMonthOrYearPercentage"];
+  $drilldownCumMonthOrYearPercentage = $tap["drilldownCumMonthOrYearPercentage"];
+  $pageOrTagPercentage = $tap["pageOrTagPercentage"];
+  $drilldownPercentage = $tap["drilldownPercentage"];
+  $monthOrYearPercentage = $tap["monthOrYearPercentage"];
 
   $fullOutput = "";
 

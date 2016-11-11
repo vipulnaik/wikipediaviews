@@ -18,7 +18,7 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
   switch ($displayformat) {
     case 'htmltableautomatic' :
       include("style/head.inc");
-      if (count($pageListAsArray) >= count($monthList)) {
+      if (count($pageListAsArray) * count($drilldownList) >= count($monthList)) {
         printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
       } else {
         printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageListAsArray,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);

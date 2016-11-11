@@ -541,13 +541,13 @@ function generateGraph($pageOrTagList,$monthOrYearList,$language,$drilldownList,
     return false;
   #Collect all the numbers that need to be printed first
   if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month')
-    $viewcountarray = viewcountarraybymonth($pageOrTagList,$monthOrYearList,$language,$drilldownList,true,$normalization);
+    $viewcountarray = viewcountarraybymonth($pageOrTagList,$monthOrYearList,$language,$drilldownList,false,$normalization);
   elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year')
-    $viewcountarray = viewcountarraybyyear($pageOrTagList,$monthOrYearList,$language,$drilldownList,true,$normalization);
+    $viewcountarray = viewcountarraybyyear($pageOrTagList,$monthOrYearList,$language,$drilldownList,false,$normalization);
   elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month')
-    $viewcountarray = viewcountarraybytagandmonth($pageOrTagList,$monthOrYearList,$language,$drilldownList,true,$normalization);
+    $viewcountarray = viewcountarraybytagandmonth($pageOrTagList,$monthOrYearList,$language,$drilldownList,false,$normalization);
   elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year')
-    $viewcountarray = viewcountarraybytagandyear($pageOrTagList,$monthOrYearList,$language,$drilldownList,true,$normalization);
+    $viewcountarray = viewcountarraybytagandyear($pageOrTagList,$monthOrYearList,$language,$drilldownList,false,$normalization);
 
   $totalsAndPercentagesArray = totalsAndPercentages($pageOrTagList,$monthOrYearList,$drilldownList,$viewcountarray);
   $grandTotal = $totalsAndPercentagesArray[0];

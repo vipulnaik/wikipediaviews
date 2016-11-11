@@ -58,66 +58,66 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   if ($month < 201507 and in_array($drilldown, array("mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider"))) {
     $irretrievableCount++;
     return $cannotRetrieveMessage;
-  }
-  elseif ($attemptedExternalQueryCount >= $attemptedExternalQueryLimit) {
+  } elseif ($attemptedExternalQueryCount >= $attemptedExternalQueryLimit) {
     return $exceededQueryLimitMessage;
-  }
-  $url = getPageviewsUrl($page,$month,$language,$drilldown);
-  if ($drilldown == "cumulative-facebook-shares") {
-    if ($month == $thisMonth) {
-      $attemptedExternalQueryCount++;
-      $tmpString = strval(rand());
-      $jsonFileFullPath = $curlOutputDirectory.$tmpString.'.json';
-      $curlCmd = 'curl -H "Authorization: Bearer '.$fbToken.'" '.$url.' > '.$jsonFileFullPath;
-      exec($curlCmd);
-      $contents = file_get_contents($jsonFileFullPath);
-      $json = json_decode($contents,true);
-      if ($json["error"]["type"] === "OAuthException") {
-        return $tokenExpiredMessage;
+  } else {
+    $url = getPageviewsUrl($page,$month,$language,$drilldown);
+    if ($drilldown == "cumulative-facebook-shares") {
+      if ($month == $thisMonth) {
+        $attemptedExternalQueryCount++;
+        $tmpString = strval(rand());
+        $jsonFileFullPath = $curlOutputDirectory.$tmpString.'.json';
+        $curlCmd = 'curl -H "Authorization: Bearer '.$fbToken.'" '.$url.' > '.$jsonFileFullPath;
+        exec($curlCmd);
+        $contents = file_get_contents($jsonFileFullPath);
+        $json = json_decode($contents,true);
+        if ($json["error"]["type"] === "OAuthException") {
+          return $tokenExpiredMessage;
+        }
+        $shareJson = $json["share"];
+        $shareCount = intval($shareJson["share_count"]);
+        $successfulExternalQueryCount++;
+        return $shareCount;
+      } else {
+        $irretrievableCount++;
+        return $cannotRetrieveMessage;
       }
-      $shareJson = $json["share"];
-      $shareCount = intval($shareJson["share_count"]);
+    } else if ($month < 201507 and $drilldown == "desktop") {
+      $attemptedExternalQueryCount++;
+      $html = file_get_contents($url);
+      preg_match('/(?<=\bhas been viewed)\s+\K[^\s]+/',$html,$numberofpageviews);
+      if (count($numberofpageviews) > 0) {
+        if (strlen($numberofpageviews[0]) > 0) {
+          $successfulExternalQueryCount++;
+          return $numberofpageviews[0];
+        } else {
+          return $exceededQueryLimitMessage;
+        }
+      } else {
+        return $exceededQueryLimitMessage;
+      }
+    } else if ($month >= 201507) {
+      $attemptedExternalQueryCount++;
+      # Calculate string of the first date of next month (used as upper limit of
+      # query)
+      ini_set('user_agent', 'Wikipedia Views (wikipediaviews.org); contact vipulnaik1@gmail.com in case of issues');
+      usleep(20000);
+      $html = file_get_contents($url);
+      if (!$html) {
+        $successfulExternalQueryCount++;
+        return 0;
+      }
+      $json = json_decode($html,true);
+      $sum = 0;
+      foreach ($json["items"] as $day) {
+        $sum += intval($day["views"]);
+      }
       $successfulExternalQueryCount++;
-      return $shareCount;
+      return $sum;
     } else {
       $irretrievableCount++;
       return $cannotRetrieveMessage;
     }
-  } else if ($month < 201507 and $drilldown == "desktop") {
-    $attemptedExternalQueryCount++;
-    $html = file_get_contents($url);
-    preg_match('/(?<=\bhas been viewed)\s+\K[^\s]+/',$html,$numberofpageviews);
-    if (count($numberofpageviews) > 0) {
-      if (strlen($numberofpageviews[0]) > 0) {
-        $successfulExternalQueryCount++;
-        return $numberofpageviews[0];
-      } else {
-        return $exceededQueryLimitMessage;
-      }
-    } else {
-      return $exceededQueryLimitMessage;
-    }
-  } else if ($month >= 201507) {
-    $attemptedExternalQueryCount++;
-    # Calculate string of the first date of next month (used as upper limit of
-    # query)
-    ini_set('user_agent', 'Wikipedia Views (wikipediaviews.org); contact vipulnaik1@gmail.com in case of issues');
-    usleep(20000);
-    $html = file_get_contents($url);
-    if (!$html) {
-      return 0;
-    }
-    $json = json_decode($html,true);
-    $sum = 0;
-    foreach ($json["items"] as $day)
-    {
-      $sum += intval($day["views"]);
-    }
-    $successfulExternalQueryCount++;
-    return $sum;
-  } else {
-    $irretrievableCount++;
-    return $cannotRetrieveMessage;
   }
 }
 
@@ -184,24 +184,6 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online) {
   return $viewcount;
 }
 
-function getpageviews($page,$month,$language,$drilldown,$normalization='') {
-  global $thisMonth;
-  global $mysqli;
-  global $numberofdays_allmonths;
-  if ($mysqli->connect_errno) 
-    {
-      echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-    }
-  $log_query = "insert into viewquerylog(pagename,monthfull,language) values (\"".$page."\",'".$month."','".$language."');";
-  $result = $mysqli->query($log_query);
-  queriedpagelog($page,$language,'partial');
-  $viewcount = getPageviewsFromDb($page,$month,$language,$drilldown,true);
-  if ($normalization == '')
-    return $viewcount;
-  elseif ($normalization == 'dailyaverage')
-    return intval($viewcount/intval($numberofdays_allmonths[$month]));
-}
-
 function getannualpageviewsfromdb($page,$year,$language,$drilldown,$online) {
   global $mysqli;
   global $exceededQueryLimitMessage;
@@ -221,6 +203,7 @@ function getannualpageviewsfromdb($page,$year,$language,$drilldown,$online) {
   for($i=0;$i < $result->num_rows;$i++) {
     $row = $result->fetch_assoc();
     $monthfull = $row['monthfull'];
+    flush();
     $increment = getPageviewsFromDb($page,$monthfull,$language,$drilldown,$online);
     if ($increment == $exceededQueryLimitMessage) {return $exceededQueryLimitMessage;}
     $totalviews += intval($increment);
@@ -303,23 +286,15 @@ function viewcountarraybymonth_raw($pageList,$monthList,$language,$drilldownList
     }
   }
   if ($attemptedExternalQueryCount < $attemptedExternalQueryLimit) {
-    #print "Successfully completed without timing out :)<br>";
+    # print "Successfully completed without timing out :)<br>";
     return $viewcountarray;
   }
+
   foreach($pageList as $page) {
     foreach($monthList as $month) {
       foreach($drilldownList as $drilldown) {
         if ($viewcountarray[$page][$month][$drilldown] == $exceededQueryLimitMessage) {
-	  $viewcountarray[$page][$month][$drilldown] = getPageviewsFromDb($page,$month,$language,$drilldown,true);
-        }
-      }
-    }
-  }
-  foreach($pageList as $page) {
-    foreach($monthList as $month) {
-      foreach($drilldownList as $drilldown) {
-        if ($viewcountarray[$page][$month][$drilldown] == $exceededQueryLimitMessage) {
-          $unavailableCount = $unavailableCount + 1;
+          $unavailableCount++;
         }
       }
     }

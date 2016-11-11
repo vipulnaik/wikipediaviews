@@ -29,10 +29,19 @@ function pagemonthadvice($pageList,$monthList,$drilldownList,$camefromtag=false)
     print "<br>";
     print "The table has a total of ".$numCells." entries<br>";
   }
-  print "We made ".$successfulExternalQueryCount." successful queries to external sources (stats.grok.se, Wikimedia API, Facebook API), and used up a quota of ".$attemptedExternalQueryCount." (weighted) query attempts out of a limit of ".$attemptedExternalQueryLimit."<br>";
-  print "We used ".($numCells - $successfulExternalQueryCount - $unavailableCount - $irretrievableCount)." entries from within the database<br>";
-  print "We were unable to compute ".$unavailableCount." of the entries and might succeed in computing them later<br>";
-  print "The number of entries that are irretrievable (i.e., cannot be computed, even if you retry) is ".$irretrievableCount."<br>";
+  if ($attemptedExternalQueryCount > 0) {
+    print "We attempted ".$attemptedExternalQueryCount." queries to external sources (stats.grok.se, Wikimedia API, Facebook API) out of a limit of ".$attemptedExternalQueryLimit.". Of these, ".$successfulExternalQueryCount." queries were successful<br>";
+  }
+  $dbEntryCount = $numCells - $successfulExternalQueryCount - $unavailableCount - $irretrievableCount;
+  if ($dbEntryCount > 0) {
+    print "We used ".$dbEntryCount." entries from within the database<br>";
+  }
+  if ($unavailableCount > 0) {
+    print "We were unable to compute ".$unavailableCount." of the entries and might succeed in computing them later<br>";
+  }
+  if ($irretrievableCount > 0) {
+    print "The number of entries that are irretrievable (i.e., cannot be computed, even if you retry) is ".$irretrievableCount."<br>";
+  }
   if ($unavailableCount <= $attemptedExternalQueryLimit and $unavailableCount > 0) {
     print "<strong>TIP</strong>: If you run the query again, the remaining entries can be computed.<br>";
   } elseif ($unavailableCount < $hardquerylimit - 1 and $unavailableCount > 0) {

@@ -124,6 +124,8 @@ function printtagviewcountbyyear($tag,$year,$language,$drilldown,$viewcount,$num
 }
 
 function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$monthOrYearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month') {
+  global $timeTaken;
+  $startTime = microtime(true);
   flush();
   #Check that sizes are workable
   $sizeOverflow = checkSizes($pageOrTagList,$monthOrYearList,$drilldownList);
@@ -292,7 +294,9 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$monthOrYear
       foreach($monthOrYearList as $monthOrYear) {
         $drilldownTotalRowString .= '<td align="right"><strong><element title="'.$drilldownCumMonthOrYearTotal[$drilldown][$monthOrYear].'">'.numericDisplay($drilldownCumMonthOrYearTotal[$drilldown][$monthOrYear],$numericDisplayFormat).'</element></strong></td>';
       }
-      $drilldownTotalRowString .= '<td align="right"><strong><element title="'.$drilldownTotal[$drilldown].'">'.numericDisplay($drilldownTotal[$drilldown],$numericDisplayFormat).'</element></strong></td>';
+      if (count($monthOrYearList) > 1) {
+        $drilldownTotalRowString .= '<td align="right"><strong><element title="'.$drilldownTotal[$drilldown].'">'.numericDisplay($drilldownTotal[$drilldown],$numericDisplayFormat).'</element></strong></td>';
+      }
       $drilldownTotalRowString .= '<td align="right"><strong>'.$drilldownPercentage[$drilldown].'</strong></td>';
       if ($pageOrTagAdvice == 'page') {
         $drilldownTotalRowString .= '<td>--</td>';
@@ -347,10 +351,14 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$monthOrYear
     print $percentagesRowString;
   }
   print "</table>";
+  $endTime = microtime(true);
+  $timeTaken = $endTime - $startTime;
   flush();
 }
 
 function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$monthOrYearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month') {
+  global $timeTaken;
+  $startTime = microtime(true);
   flush();
   #Check that sizes are workable
   $sizeOverflow = checkSizes($pageOrTagList,$monthOrYearList,$drilldownList);
@@ -508,6 +516,8 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$m
     print $tagsRowString;
   }	  
   print "</table>";
+  $endTime = microtime(true);
+  $timeTaken = $endTime - $startTime;
   flush();
 }
 
@@ -682,8 +692,10 @@ function printPageviewsForMonthOrYearListAsCsvTransposed($pageOrTagList,$monthOr
 }
 
 function generateGraphs($pageOrTagList,$monthOrYearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month') {
+  global $graphTimeTaken;
   global $imagesPath;
   global $generateGraphCmdBase;
+  $graphStartTime = microtime(true);
   #Check that sizes are workable
   $sizeOverflow = checkSizes($pageOrTagList,$monthOrYearList,$drilldownList);
   if ($sizeOverflow > 0)
@@ -944,6 +956,8 @@ function generateGraphs($pageOrTagList,$monthOrYearList,$language,$drilldownList
     print "<strong>Graph of data; one curve for total by each page, one curve for total".$addendum.", below:</strong><br/>";
     print '<img src="/images/'.$pageOrTagFileName.'.png" alt="Graph of pageviews should have loaded here"></img>';
   }
+  $graphEndTime = microtime(true);
+  $graphTimeTaken = $graphEndTime - $graphStartTime;
 }
 
 function printPageviewsForMonthOrYearListAsCpi($pageOrTagList,$monthOrYearList,$language,$drilldown,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month') {

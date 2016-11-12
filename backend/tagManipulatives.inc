@@ -23,7 +23,7 @@ function addPageToTag($page,$language,$tag) {
     {
       $insert_query = "insert into pagetags(pagename,language,tag) values (\"".$page."\",'".$language."','".$tag."');";
       $insert_result = $mysqli->query($insert_query);
-      queriedpagelog($page,$language,'empty');
+      queriedPageLog($page,$language,'empty');
     }
 }
 
@@ -48,13 +48,27 @@ function getPageListByTag($tag,$language) {
 
 function getTagTotal($tag,$monthList,$language='en',$drilldown,$online=true,$normalization='') {
   global $mysqli;
+  global $cannotRetrieveMessage;
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
   $pageList = getPageListByTag($tag,$language);
-  $viewcountarray = viewcountarraybymonth($pageList,$monthList,$language,array($drilldown),$online,$normalization);
+  $retrievableMonthList = [];
+  $irretrievableMonthList = [];
+  foreach($monthList as $month) {
+    if ($drilldown == "desktop" or ($month >= '201507' and $drilldown != "cumulative-facebook-shares") or ($month >= '201610')) {
+      array_push($retrievableMonthList, $month);
+    } else {
+      array_push($irretrievableMonthList, $month);
+    }
+  }
+  $viewcountarray = viewcountarraybymonth($pageList,$retrievableMonthList,$language,array($drilldown),$online,$normalization);
   $tap = totalsAndPercentages($pageList,$monthList,array($drilldown),$viewcountarray);
-  return $tap["monthOrYearTotal"];
+  $monthTotal = $tap["monthOrYearTotal"];
+  foreach($irretrievableMonthList as $month) {
+    $monthTotal[$month] = $cannotRetrieveMessage;
+  }
+  return $monthTotal;
 }
 
 function getTagTotalByYear($tag,$yearList,$language='en',$drilldown='desktop',$online=true,$normalization='') {

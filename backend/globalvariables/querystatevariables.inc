@@ -15,6 +15,11 @@ $unavailableCount = 0;
 global $irretrievableCount;
 $irretrievableCount = 0;
 
+# Time taken for overall data generation
+global $timeTaken;
+global $bulkRetrievalTimeTaken;
+global $graphTimeTaken;
+
 global $pagespecificationerror;
 $pagespecificationerror = false;
 

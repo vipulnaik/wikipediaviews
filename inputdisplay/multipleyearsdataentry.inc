@@ -9,7 +9,11 @@
 ##Includes: pagelistentry.inc, languagedropdown.inc, 
 ##alternatepagespecificationmethods.inc, advancedoptions.inc, 
 ## yearcheckboxlist.inc
-   
+
+if ($formdata == true and ($pagespecificationerror == false and $monthspecificationerror == false)) {
+  pageYearAdvice($pageListAsArray,$yearList,$drilldownList,($tag !== ''));
+}
+
 $pagetypeadvice = "multipleyears";
 print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pagetypeadvice.'.php">';
 include("pagelistentry.inc");

@@ -120,14 +120,14 @@ function getPageListByTagList($tagList,$language,$connective='or') {
     {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
-  $tagselect_query = "select distinct pagetags.pagename from pagetags join queriedpages where pagetags.pagename = queriedpages.pagename and pagetags.language = queriedpages.language and pagetags.language='".$language."' and queriedpages.archivalStatus='complete'";
+  $tagSelectQuery = "select distinct pagetags.pagename from pagetags join queriedpages where pagetags.pagename = queriedpages.pagename and pagetags.language = queriedpages.language and pagetags.language='".$language."' and queriedpages.archivalStatus='complete'";
   if ($connective=='or')
     {
-      $tagListasquotedcsvstring = convertListToQuotedCsvString($tagList);
-      $tagselect_query .= "and pagetags.tag in (".$tagListasquotedcsvstring.")";
+      $tagListAsQuotedCsvString = convertListToQuotedCsvString($tagList);
+      $tagselect_query .= "and pagetags.tag in (".$tagListAsQuotedCsvString.")";
     }
-  $tagselect_query .= "order by pagetags.pagename asc;";
-  $result = $mysqli->query($tagselect_query);
+  $tagSelectQuery .= "order by pagetags.pagename asc;";
+  $result = $mysqli->query($tagSelectQuery);
   $pageList = array();
   for ($i = 0; $i < $result->num_rows;$i++)
     {

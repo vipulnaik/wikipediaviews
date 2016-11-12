@@ -286,7 +286,7 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$monthOrYear
       print $pageOrTagSummaryString;
     }
   }
-  if (includetotal=='includetotal' and count($pageOrTagList) > 1 and count($drilldownList > 1)) {
+  if (includetotal=='includetotal' and count($pageOrTagList) > 1 and count($drilldownList) > 1) {
     foreach($drilldownList as $drilldown) {
       $drilldownTotalRowString  = "<tr><td><strong>Total, drilldown ".$drilldown."</strong></td>";
       foreach($monthOrYearList as $monthOrYear) {

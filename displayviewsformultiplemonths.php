@@ -24,7 +24,7 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
         printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageListAsArray,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
       }
       if (count($monthList) > 1) {
-        generateGraph($pageListAsArray,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
+        generateGraphs($pageListAsArray,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
       }
       include("inputdisplay/multiplemonthsdataentry.inc");
       break;
@@ -32,7 +32,7 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
       include("style/head.inc"); 
       printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
       if (count($monthList) > 1) {
-        generateGraph($pageListAsArray,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
+        generateGraphs($pageListAsArray,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
       }
       include("inputdisplay/multiplemonthsdataentry.inc");
       break;
@@ -40,7 +40,7 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
       include("style/head.inc");
       printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageListAsArray,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
       if (count($monthList) > 1) {
-        generateGraph($pageListAsArray,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
+        generateGraphs($pageListAsArray,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
       }
       include("inputdisplay/multiplemonthsdataentry.inc");
       break;

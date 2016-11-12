@@ -23,7 +23,7 @@ if ($pagespecificationerror == true) {
 	printpageviewsformonthOrYearListashtmltabletransposed($tagList,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
       }
       if (count($yearList) > 1) {
-        generateGraph($tagList,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
+        generateGraphs($tagList,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
       }
       include("inputdisplay/multipletagsandyearsdataentry.inc");
       break;
@@ -31,7 +31,7 @@ if ($pagespecificationerror == true) {
       include("style/head.inc"); 
       printpageviewsformonthOrYearListashtmltable($tagList,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
       if (count($yearList) > 1) {
-        generateGraph($tagList,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
+        generateGraphs($tagList,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
       }
       include("inputdisplay/multipletagsandyearsdataentry.inc");
       break;
@@ -39,7 +39,7 @@ if ($pagespecificationerror == true) {
       include("style/head.inc");
       printpageviewsformonthOrYearListashtmltabletransposed($tagList,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
       if (count($yearList) > 1) {
-        generateGraph($tagList,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
+        generateGraphs($tagList,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
       }
       include("inputdisplay/multipletagsandyearsdataentry.inc");
       break;

@@ -24,7 +24,7 @@ if ($pagespecificationerror == true or $yearspecificationerror == true) {
 	printPageviewsFormonthOrYearListAsHtmlTableTransposed($pageListAsArray,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'page','year');
       }
       if (count($yearList) > 1) {
-        generateGraph($pageListAsArray,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'page','year');
+        generateGraphs($pageListAsArray,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'page','year');
       }
       include("inputdisplay/multipleyearsdataentry.inc");
       break;
@@ -32,7 +32,7 @@ if ($pagespecificationerror == true or $yearspecificationerror == true) {
       include("style/head.inc");  
       printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'page','year');
       if (count($yearList) > 1) {
-        generateGraph($pageListAsArray,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'page','year');
+        generateGraphs($pageListAsArray,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'page','year');
       }
       include("inputdisplay/multipleyearsdataentry.inc");
       break;
@@ -40,7 +40,7 @@ if ($pagespecificationerror == true or $yearspecificationerror == true) {
       include("style/head.inc");
       printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageListAsArray,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'page','year');
       if (count($yearList) > 1) {
-        generateGraph($pageListAsArray,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'page','year');
+        generateGraphs($pageListAsArray,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'page','year');
       }
       include("inputdisplay/multipleyearsdataentry.inc");
       break;

@@ -51,10 +51,10 @@ function getTagTotal($tag,$monthList,$language='en',$drilldown,$online=true,$nor
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
-  $pageList = getpageListByTag($tag,$language);
+  $pageList = getPageListByTag($tag,$language);
   $viewcountarray = viewcountarraybymonth($pageList,$monthList,$language,array($drilldown),$online,$normalization);
-  $totalsAndPercentagesArray = totalsAndPercentages($pageList,$monthList,array($drilldown),$viewcountarray);
-  return $totalsAndPercentagesArray[2];
+  $tap = totalsAndPercentages($pageList,$monthList,array($drilldown),$viewcountarray);
+  return $tap["monthOrYearTotal"];
 }
 
 function getTagTotalByYear($tag,$yearList,$language='en',$drilldown='desktop',$online=true,$normalization='') {
@@ -64,8 +64,8 @@ function getTagTotalByYear($tag,$yearList,$language='en',$drilldown='desktop',$o
   }
   $pageList = getPageListByTag($tag,$language);
   $viewcountarray = viewcountarraybyyear($pageList,$yearList,$language,array($drilldown),$online,$normalization);
-  $totalsAndPercentagesArray = totalsAndPercentages($pageList,$yearList,array($drilldown),$viewcountarray);
-  return $totalsAndPercentagesArray[2];
+  $tap = totalsAndPercentages($pageList,$yearList,array($drilldown),$viewcountarray);
+  return $tap["monthOrYearTotal"];
 }
 
 function viewcountarraybytagandmonth_raw($tagList,$monthList,$language,$drilldownList,$online=true,$normalization='') {

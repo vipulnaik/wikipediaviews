@@ -17,13 +17,13 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
   switch ($displayformat) {
     case 'htmltableautomatic' :
       include("style/head.inc");
-      if (count($tagList) >= count($monthList)) {
+      if (count($tagList) * count($drilldownList) >= count($monthList)) {
 	printPageviewsForMonthOrYearListAsHtmlTable($tagList,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','month');
       } else {
 	printPageviewsForMonthOrYearListAsHtmlTableTransposed($tagList,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','month');
       }
       if (count($monthList) > 1) {
-        generateGraph($tagList,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','month');
+        generateGraphs($tagList,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','month');
       }
       include("inputdisplay/multipletagsandmonthsdataentry.inc");
       break;
@@ -31,7 +31,7 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
       include("style/head.inc"); 
       printPageviewsForMonthOrYearListAsHtmlTable($tagList,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','month');
       if (count($monthList) > 1) {
-        generateGraph($tagList,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','month');
+        generateGraphs($tagList,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','month');
       }
       include("inputdisplay/multipletagsandmonthsdataentry.inc");
       break;
@@ -39,7 +39,7 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
       include("style/head.inc");
       printPageviewsForMonthOrYearListAsHtmlTableTransposed($tagList,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','month');
       if (count($monthList) > 1) {
-        generateGraph($tagList,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','month');
+        generateGraphs($tagList,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','month');
       }
       include("inputdisplay/multipletagsandmonthsdataentry.inc");
       break;

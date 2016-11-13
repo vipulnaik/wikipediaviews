@@ -8,8 +8,8 @@ global $hardquerylimit;
 $hardquerylimit = 1000;
 
 ## Background query limit (applicable to archival queries)
-global $backgroundquerylimit;
-$backgroundquerylimit = 100;
+global $backgroundQueryLimit;
+$backgroundQueryLimit = 100;
 
 ## Message to display in a cell that could not be computed because the query limit was exceeded
 global $exceededQueryLimitMessage;

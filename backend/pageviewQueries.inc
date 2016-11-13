@@ -1,29 +1,29 @@
 <?php
 
-function wantedviewcountsquery($pageList,$monthList,$language,$drilldown,$viewcountarray) {
-  $numberofwantedviewcounts = 0;
-  $insert_query = "insert into wantedviewcountsbymonth(pagename,monthfull,language,status) values ";
+function wantedViewCountsQuery($pageList,$monthList,$language,$drilldownList,$viewcountarray) {
+  $numberOfWantedViewCounts = 0;
+  $insertQuery = "insert into wantedviewcountsbymonth(pagename,monthfull,language,drilldown,status) values ";
   foreach ($pageList as $page) {
     foreach ($monthList as $month) {
-      if ($viewcountarray[$page][$month] == 'unavailable') {
-	if ($numberofwantedviewcounts > 0) {
-          $insert_query .= ", ";
-	}
-	$numberofwantedviewcounts++;
-	$insert_query .= "(\"".$page."\",'".$month."','".$language."','wanted')";
+      foreach ($drilldownList as $drilldown) {
+        if ($viewcountarray[$page][$month][$drilldown] == 'unavailable' and ($drilldown == "desktop" or $month >= "201507")) {
+	  if ($numberOfWantedViewCounts > 0) {
+            $insertQuery .= ", ";
+	  }
+	  $numberOfWantedViewCounts++;
+	  $insertQuery .= '("'.$page.'"'.",'".$month."','".$language."','".$drilldown."','wanted')";
+        }
       }
     }
   }
-  $insert_query .= ";";
-  if ($numberofwantedviewcounts > 0)
-    {
-      global $mysqli;
-      if ($mysqli->connect_errno) 
-	{
-	  echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-	}
-      $result = $mysqli->query($insert_query);
+  $insertQuery .= ";";
+  if ($numberOfWantedViewCounts > 0) {
+    global $mysqli;
+    if ($mysqli->connect_errno) {
+      echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
+    $result = $mysqli->query($insertQuery);
+  }
 }
 
 
@@ -37,8 +37,8 @@ function queriedPageLog($page,$language,$archivalStatus) {
   $result = $mysqli->query($select_query);
   $page = str_replace('"','\"',$page);
   if ($result->num_rows == 0) {
-    $insert_query = "insert into queriedpages(pagename,language,archivalStatus) values (\"".$page."\",'".$language."','".$archivalStatus."');";
-    $result = $mysqli->query($insert_query);
+    $insertQuery = "insert into queriedpages(pagename,language,archivalStatus) values (\"".$page."\",'".$language."','".$archivalStatus."');";
+    $result = $mysqli->query($insertQuery);
   }
   return $result;
 }
@@ -174,10 +174,10 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online) {
 	$viewcount = getPageviewsOnline($page,$month,$language,$drilldown);
 
         if ($viewcount != $exceededQueryLimitMessage and $viewcount != cannotRetrieveMessage) {
-          $insert_query="insert into viewcountsbymonth_all(pagename,monthfull,language,drilldown,viewcount) values (\"".$page."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
+          $insertQuery="insert into viewcountsbymonth_all(pagename,monthfull,language,drilldown,viewcount) values (\"".$page."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
           $delete_query = "delete from viewcountsbymonth_all where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."' and drilldown='".$drilldown."';";
           $success = $mysqli->query($delete_query);
-          $success = $mysqli->query($insert_query);
+          $success = $mysqli->query($insertQuery);
         }
       }
     }
@@ -218,8 +218,8 @@ function getAnnualPageviewsFromDb($page,$year,$language,$drilldown,$online) {
   $result = $mysqli->query($select_query);
   $row = $result->fetch_assoc();
   if ($row['status'] != 'future') {
-    $insert_query = "insert into viewcountsbyyear_all(pagename,year,language,drilldown,viewcount) values(\"".$page."\",'".$year."','".$language."','".$drilldown."',".$totalviews.");";
-    $success = $mysqli->query($insert_query);
+    $insertQuery = "insert into viewcountsbyyear_all(pagename,year,language,drilldown,viewcount) values(\"".$page."\",'".$year."','".$language."','".$drilldown."',".$totalviews.");";
+    $success = $mysqli->query($insertQuery);
   }
   return $totalviews;
 }
@@ -282,7 +282,7 @@ function viewcountarraybymonth_raw($pageList,$monthList,$language,$drilldownList
   if ($online == true) {
     $bulkRetrievalTimeTaken = $bulkRetrievalEndTime - $bulkRetrievalStartTime;
   }
-  wantedviewcountsquery($pageList,$monthList,$language,$drilldown,$viewcountarray);	
+  wantedViewCountsQuery($pageList,$monthList,$language,$drilldownList,$viewcountarray);	
   foreach(array_reverse($pageList) as $page) {
     queriedPageLog($page,$language,'partial');
   }
@@ -392,52 +392,54 @@ function viewcountarraybyyear($pageList,$yearList,$language,$drilldownList,$onli
   return $viewcountarray;	
 }
 
-function fillinwantedviewcounts($querylimit, $online) {
+function fillinWantedViewCounts($queryLimit, $online) {
   global $mysqli;
   global $attemptedExternalQueryCount;
   global $attemptedExternalQueryLimit;
   global $exceededQueryLimitMessage;
-  if ($mysqli->connect_errno) 
+  if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-  $select_query = "select * from wantedviewcountsbymonth where status='wanted' limit ".$querylimit.";";
-  # print $select_query;
-  $result = $mysqli->query($select_query);
-  if ($result ->num_rows == 0) return true;
-  $working_query = "update wantedviewcountsbymonth set status='working' where row_id in (";
-  $deletion_query = "delete from wantedviewcountsbymonth where row_id in (0";
-  for($i=0;$i < $result->num_rows;$i++)
-    {
-      if ($i > 0) $working_query .= ",";
-      $row = $result->fetch_assoc();
-      $working_query .= $row['row_id'];
-      $page[$i] = $row['pagename'];
-      $month[$i] = $row['monthfull'];
-      $language[$i] = $row['language'];
-      $row_id[$i] = $row['row_id'];
-    }
-  $working_query .= ");";
-  print "Going to execute query to reserve a few pages for lookup: ".$working_query."\n";
-  $update_result = $mysqli->query($working_query);
-  for($i=0;$i < $result->num_rows;$i++)
-    {
-      $currentLoad = sys_getloadavg();
-      if ($currentLoad[0] < 0.75) {
-        $count = getPageviewsFromDb($page[$i],$month[$i],$language[$i],"desktop",$online);
-        print "Weighted external query count is ".$attemptedExternalQueryCount." and ";
-        print "weighted external query limit is ".$attemptedExternalQueryLimit."\n";
-        print "For page ".$page[$i].", month ".$month[$i].", and language ".$language[$i].", page view count is ".$count."\n";
-        if ($count != $exceededQueryLimitMessage)
-	  {
-	    $deletion_query .= ",".$row_id[$i];
-	  }
-      } else {
-      	exit;
+  }
+  $selectQuery = "select * from wantedviewcountsbymonth where status='wanted' limit ".$queryLimit.";";
+  # print $selectQuery;
+  $result = $mysqli->query($selectQuery);
+  if ($result ->num_rows == 0) {
+    return true;
+  }
+  $workingQuery = "update wantedviewcountsbymonth set status='working' where row_id in (";
+  $deletionQuery = "delete from wantedviewcountsbymonth where row_id in (0";
+  for($i=0;$i < $result->num_rows;$i++) {
+    if ($i > 0) $workingQuery .= ",";
+    $row = $result->fetch_assoc();
+    $workingQuery .= $row['row_id'];
+    $page[$i] = $row['pagename'];
+    $month[$i] = $row['monthfull'];
+    $language[$i] = $row['language'];
+    $drilldown[$i] = $row['drilldown']; 
+    $row_id[$i] = $row['row_id'];
+  }
+  $workingQuery .= ");";
+  print "Going to execute query to reserve a few pages for lookup: ".$workingQuery."\n";
+  $updateResult = $mysqli->query($workingQuery);
+  for($i=0;$i < $result->num_rows;$i++) {
+    $currentLoad = sys_getloadavg();
+    if ($currentLoad[0] < 0.75) {
+      $count = getPageviewsFromDb($page[$i],$month[$i],$language[$i],"desktop",$online);
+      print "Weighted external query count is ".$attemptedExternalQueryCount." and ";
+      print "weighted external query limit is ".$attemptedExternalQueryLimit."\n";
+      print "For page ".$page[$i].", month ".$month[$i].", and language ".$language[$i].", page view count is ".$count."\n";
+      if ($count != $exceededQueryLimitMessage) {
+	 $deletionQuery .= ",".$row_id[$i];
       }
+    } else {
+      print "Exiting because system appears overloaded!";
+      exit;
     }
-  $deletion_query .= ");";
-  print "Running deletion query: ".$deletion_query."\n";
-  $deletion_result = $mysqli->query($deletion_query);
-  print "Succeeded in running deletion query: ".$deletion_query."\n";
+  }
+  $deletionQuery .= ");";
+  print "Running deletion query: ".$deletionQuery."\n";
+  $deletionResult = $mysqli->query($deletionQuery);
+  print "Succeeded in running deletion query: ".$deletionQuery."\n";
   return false;
 }	
 

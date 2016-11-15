@@ -145,12 +145,12 @@ function getpageurl($page,$language) {
 }
 
 function convertListToQuotedCsvString($listasarray) {
-  $listasquotedcsvstring = '"'.str_replace('"','\"',$listasarray[0]).'"';
+  $listAsQuotedCsvString = '"'.str_replace('"','\"',$listasarray[0]).'"';
   for($i = 1;$i < sizeof($listasarray);$i++)
     {
-      $listasquotedcsvstring .= ',"'.str_replace('"', '\"',$listasarray[$i]).'"';
+      $listAsQuotedCsvString .= ',"'.str_replace('"', '\"',$listasarray[$i]).'"';
     }
-  return $listasquotedcsvstring;
+  return $listAsQuotedCsvString;
 }
 
 function numericDisplay($number,$numericDisplayFormat) {

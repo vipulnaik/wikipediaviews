@@ -139,14 +139,14 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online) {
     $irretrievableCount++;
     return $cannotRetrieveMessage;
   }
-  $page = str_replace('"','\"',$page);
+  $lookupPage = str_replace('"','\"',$page);
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
 
   #First looks for existing entries in the database
 
-  $selectQuery = "select viewcount,querytime from viewcountsbymonth_all where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."' and drilldown='".$drilldown."' limit 1;";
+  $selectQuery = "select viewcount,querytime from viewcountsbymonth_all where pagename=\"".$lookupPage."\" and monthfull='".$month."' and language='".$language."' and drilldown='".$drilldown."' limit 1;";
   # print $selectQuery;
 
   $result = $mysqli->query($selectQuery);
@@ -156,7 +156,7 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online) {
   if ($result->num_rows == 0) {
     $viewcount = getPageviewsOnline($page,$month,$language,$drilldown);
     if ($viewcount !== $cannotRetrieveMessage and $viewcount !== $tokenExpiredMessage) {
-      $insertQuery="insert into viewcountsbymonth_all(pagename,monthfull,language,drilldown,viewcount) values (\"".$page."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
+      $insertQuery="insert into viewcountsbymonth_all(pagename,monthfull,language,drilldown,viewcount) values (\"".$lookupPage."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
       $success = $mysqli->query($insertQuery);
     }
   } else {
@@ -174,9 +174,9 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online) {
 	$viewcount = getPageviewsOnline($page,$month,$language,$drilldown);
 
         if ($viewcount != $exceededQueryLimitMessage and $viewcount != cannotRetrieveMessage) {
-          $insertQuery="insert into viewcountsbymonth_all(pagename,monthfull,language,drilldown,viewcount) values (\"".$page."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
-          $delete_query = "delete from viewcountsbymonth_all where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."' and drilldown='".$drilldown."';";
-          $success = $mysqli->query($delete_query);
+          $deleteQuery = "delete from viewcountsbymonth_all where pagename=\"".$lookupPage."\" and monthfull='".$month."' and language='".$language."' and drilldown='".$drilldown."';";
+          $insertQuery="insert into viewcountsbymonth_all(pagename,monthfull,language,drilldown,viewcount) values (\"".$lookupPage."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
+          $success = $mysqli->query($deleteQuery);
           $success = $mysqli->query($insertQuery);
         }
       }

@@ -33,7 +33,7 @@ if (!empty($_REQUEST['monthList'])) {
   $originalmonthList = $_REQUEST['monthList'];
 }
 
-if ($allmonths == "allmonths" and in_array($thisMonth,$originalmonthList) or (!empty($_REQUEST['months']) and in_array($thisMonth, $monthList)))) {
+if ($allmonths == "allmonths" and (in_array($thisMonth,$originalmonthList) or (!empty($_REQUEST['months']) and in_array($thisMonth, $monthList)))) {
   $monthList = presentandpastmonths_monthList();
 } elseif ($allmonths == "allmonths-present") {
   $monthList = presentandpastmonths_monthList();

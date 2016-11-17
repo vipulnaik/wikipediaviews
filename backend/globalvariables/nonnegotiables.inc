@@ -3,10 +3,6 @@
 ##These are variables that set parameters for the query execution process, but they 
 ##are non-negotiable, i.e., users can neither see nor change them.
 
-## Hard (non-negotiable) upper bound on number of external queries
-global $hardquerylimit;
-$hardquerylimit = 1000;
-
 ## Background query limit (applicable to archival queries)
 global $backgroundQueryLimit;
 $backgroundQueryLimit = 100;

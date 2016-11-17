@@ -50,8 +50,8 @@ function pageMonthAdvice($pageList,$monthList,$drilldownList,$camefromtag=false)
   }
   if ($unavailableCount <= $attemptedExternalQueryLimit and $unavailableCount > 0) {
     print "<strong>TIP</strong>: If you run the query again, the remaining entries can be computed.<br>";
-  } elseif ($unavailableCount < $hardquerylimit - 1 and $unavailableCount > 0) {
-    print "<strong>TIP</strong>: Increase the upper bound on the number of external queries to ".($unavailableCount + 1)." (or higher) from the current value of ".$attemptedExternalQueryLimit." in the technical settings and run again to complete.<br>";
+  } elseif ($unavailableCount > 0) {
+    print "<strong>TIP</strong>: Increase the upper bound on the number of external queries to ".($unavailableCount)." (or higher) from the current value of ".$attemptedExternalQueryLimit." in the technical settings and run again to complete.<br>";
   } elseif ($unavailableCount > 0) {
     print "<strong>TIP</strong>: You're trying to compute too many entries. Reduce the product of the number of pages and the number of months (by reducing whichever is less critical to your needs), or come back after a few hours while we fill in the data for these pages in the background.<br>";
   }
@@ -102,7 +102,6 @@ function pageYearAdvice($pageList,$yearList,$drilldownList,$camefromtag=false) {
   global $mysqli;
   global $tags_recommended;
   global $alternatemonthspecs_recommended;
-  global $hardquerylimit;
   global $pageDisplayLimit;
   global $cellDisplayLimit;
   global $timeTaken;

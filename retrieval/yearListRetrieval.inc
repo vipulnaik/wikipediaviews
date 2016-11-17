@@ -8,6 +8,10 @@
 ## Only included in displayviewsformultipleyears.php
 
 $originalyearList=array($mostrecentyear);
+if (!empty($_REQUEST['years'])) {
+  $monthList = $_REQUEST['years'];
+}
+
 
 if (!empty($_REQUEST['year']))
   {  

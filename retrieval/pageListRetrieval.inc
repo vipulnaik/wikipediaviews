@@ -19,6 +19,9 @@ if (!empty($_REQUEST['language'])) {
 
 ## Retrieval of drilldown
 $drilldownList = array("desktop");
+if (!empty($_REQUEST['drilldowns'])) {
+  $drilldownList = $_REQUEST['drilldowns'];
+}
 if (!empty($_REQUEST['drilldownList'])) {
   $drilldownList = $_REQUEST['drilldownList'];
 }
@@ -36,11 +39,15 @@ if (!empty($_REQUEST['drilldown'])) {
 
 $pageListAsString='';
 $pageListAsArray = array();
+if (!empty($_REQUEST['pages'])) {
+  $pageListAsArray = $_REQUEST['pages'];
+}
+
 if (!empty($_REQUEST['pageListAsString'])) {
-    $pageListAsString = $_REQUEST['pageListAsString'];
+  $pageListAsString = $_REQUEST['pageListAsString'];
 }
 if (!empty($_REQUEST['page'])) {
-    $pageListAsString = $_REQUEST['page'];
+  $pageListAsString = $_REQUEST['page'];
 }
 
 ##Retrieval of alternate page specification formats
@@ -88,7 +95,7 @@ if (!empty($_REQUEST['yearfilter'])) {
 ##Figuring out if the page list has been specified in multiple
 ##ways, or not at all, and displaying the appropriate error message.
 
-if (strlen(trim($pageListAsString," \t\n\r\0\x0B"))==0 and $tag==='' and $category==='' and $user==='' and $linkingpage==='' and $archivalStatus==='' and $viewbound==0) {
+if (strlen(trim($pageListAsString," \t\n\r\0\x0B"))==0 and $tag==='' and $category==='' and $user==='' and $linkingpage==='' and $archivalStatus==='' and $viewbound==0 and empty($_REQUEST['pages'])) {
     include(__DIR__."/../style/head.inc");
     print "You didn't list any pages (either directly, or via one of the alternative methods).<br>";
     $pagespecificationerror = true;

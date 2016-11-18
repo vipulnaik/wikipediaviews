@@ -12,7 +12,7 @@
 ## 'begun', many of the tagged pages are missing because the most
 ## recent month has not been filled in for them.
 
-print '<tr><td>Enter the language Wikipedia that you are interested in: </td><td><select multiple name="languageList[]" size="6">';
+print '<tr><td>Enter the language Wikipedia(s) that you are interested in: </td><td><select multiple name="languageList[]" size="6">';
 include_once(__DIR__."/../backend/corecode.inc");
 $result = languages_sql();
 $numrows = $result->num_rows;
@@ -20,7 +20,7 @@ for ($i=0;$i < $numrows; $i++) {
   $row = $result->fetch_assoc();
   $currentLanguage = $row['code'];
   print '<option value="'.$currentLanguage.'"';
-  if (($formdata == true and in_array($currentLanguage,$languageList)) or ($formdata == false and $currentLanguage = 'en')) {
+  if (($formdata == true and in_array($currentLanguage,$languageList)) or ($formdata == false and $currentLanguage == 'en')) {
     print ' selected="selected"';
   }
   print '>'.$row['name']." (".$row['code'].")</option>"; 

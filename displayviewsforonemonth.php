@@ -24,7 +24,7 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
       break;
     case 'htmltable' : 
       include("style/head.inc"); 
-      printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$monthList,$languageLust,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
+      printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$monthList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
       $originalmonthList = $monthList;
       $displayformat='htmltableautomatic';
       $carryoverfromonemonth=true;

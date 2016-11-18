@@ -78,9 +78,9 @@ function getFacebookShareCountUrl($page, $month, $language) {
 }
 
 function getSgsPageviewsUrl($page,$month,$language) {
-  $page = str_replace(" ","_",$page);
-  $page = str_replace("'","%27",$page);
-  return "http://stats.grok.se/" . $language . "/" . $month . "/" . $page;
+  $preEncodingPage = str_replace(" ","_",$page);
+  $urlEncodedPage = urlencode($preEncodingPage);
+  return "http://stats.grok.se/" . $language . "/" . $month . "/" . $urlEncodedPage;
 }
 
 function getApiPageviewsUrl($page,$month,$language,$drilldown) {

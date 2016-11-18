@@ -18,7 +18,7 @@ include("pagelistentry.inc");
 
 print '<table><col width=600/><col width=500/>';
 include("monthdropdown.inc");
-include("languagedropdown.inc");
+include("languagedropdownselectmultiple.inc");
 include("drilldowndropdown.inc");
 print '<tr><td><input type="submit" value="Submit"></td></tr>';
 print '</table>';

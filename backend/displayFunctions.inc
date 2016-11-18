@@ -123,7 +123,7 @@ function printtagviewcountbyyear($tag,$year,$language,$drilldown,$viewcount,$num
   return '<td align="right"><a href="'.getannualtagviewsurl($tag,$year,$language,$drilldown).'" title="'.$viewcount.' (click for data on individual pages)">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';
 }
 
-function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$monthOrYearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month') {
+function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$monthOrYearList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month') {
   global $timeTaken;
   $startTime = microtime(true);
   flush();
@@ -132,6 +132,7 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$monthOrYear
   if ($sizeOverflow > 0) {
     return false;
   }
+  $language = $languageList[0];
   #Collect all the numbers that need to be printed first
   if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
     $viewcountarray = viewcountarraybymonth($pageOrTagList,$monthOrYearList,$language,$drilldownList,true,$normalization);
@@ -197,7 +198,7 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$monthOrYear
   foreach($pageOrTagList as $pageOrTag) {
     if ($pageOrTagAdvice == 'page') {
       $tagListForPage = $tagListByPages[$pageOrTag];
-    }      
+    }
     foreach($drilldownList as $drilldown) {
       if ($pageOrTagAdvice=='page') {
         $pageOrTagCumDrilldownRowString = '<tr><td><a href="'.getpageurl($pageOrTag,$language).'" title = "'.$pageOrTag.' (read page on Wikipedia)">'.$pageOrTag.'</a>';
@@ -356,7 +357,7 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$monthOrYear
   flush();
 }
 
-function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$monthOrYearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month') {
+function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$monthOrYearList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month') {
   global $timeTaken;
   $startTime = microtime(true);
   flush();
@@ -364,7 +365,7 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$m
   $sizeOverflow = checkSizes($pageOrTagList,$monthOrYearList,$drilldownList);
   if ($sizeOverflow > 0)
     return false;
-
+  $language = $languageList[0];
   #Collect all the numbers that need to be printed first
   if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
     $viewcountarray = viewcountarraybymonth($pageOrTagList,$monthOrYearList,$language,$drilldownList,true,$normalization);
@@ -741,7 +742,7 @@ function printPageviewsForMonthOrYearListAsCsvTransposed($pageOrTagList,$monthOr
     }
 }
 
-function generateGraphs($pageOrTagList,$monthOrYearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month') {
+function generateGraphs($pageOrTagList,$monthOrYearList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month') {
   global $graphTimeTaken;
   global $imagesPath;
   global $generateGraphCmdBase;
@@ -750,6 +751,7 @@ function generateGraphs($pageOrTagList,$monthOrYearList,$language,$drilldownList
   $sizeOverflow = checkSizes($pageOrTagList,$monthOrYearList,$drilldownList);
   if ($sizeOverflow > 0)
     return false;
+  $language = $languageList[0];
   #Collect all the numbers that need to be printed first
   if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month')
     $viewcountarray = viewcountarraybymonth($pageOrTagList,$monthOrYearList,$language,$drilldownList,false,$normalization);

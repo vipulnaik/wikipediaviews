@@ -18,39 +18,39 @@ if ($pagespecificationerror == true) {
     case 'htmltableautomatic' :
       include("style/head.inc");
       if (count($tagList) >= count($yearList)) {
-	printpageviewsformonthOrYearListashtmltable($tagList,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
+	printpageviewsformonthOrYearListashtmltable($tagList,$yearList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
       } else {
-	printpageviewsformonthOrYearListashtmltabletransposed($tagList,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
+	printpageviewsformonthOrYearListashtmltabletransposed($tagList,$yearList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
       }
       if (count($yearList) > 1) {
-        generateGraphs($tagList,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
+        generateGraphs($tagList,$yearList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
       }
       include("inputdisplay/multipletagsandyearsdataentry.inc");
       break;
     case 'htmltable' :
       include("style/head.inc"); 
-      printpageviewsformonthOrYearListashtmltable($tagList,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
+      printpageviewsformonthOrYearListashtmltable($tagList,$yearList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
       if (count($yearList) > 1) {
-        generateGraphs($tagList,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
+        generateGraphs($tagList,$yearList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
       }
       include("inputdisplay/multipletagsandyearsdataentry.inc");
       break;
     case 'htmltabletransposed' :
       include("style/head.inc");
-      printpageviewsformonthOrYearListashtmltabletransposed($tagList,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
+      printpageviewsformonthOrYearListashtmltabletransposed($tagList,$yearList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
       if (count($yearList) > 1) {
-        generateGraphs($tagList,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
+        generateGraphs($tagList,$yearList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'tag','year');
       }
       include("inputdisplay/multipletagsandyearsdataentry.inc");
       break;
     case 'csv' :
-      printpageviewsformonthOrYearListascsv($tagList,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,'','tag','year');
+      printpageviewsformonthOrYearListascsv($tagList,$yearList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,'','tag','year');
       break;
     case 'csvtransposed' :
-      printpageviewsformonthOrYearListascsvtransposed($tagList,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,'','tag','year');
+      printpageviewsformonthOrYearListascsvtransposed($tagList,$yearList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,'','tag','year');
       break;
     case 'cpi' :
-      printpageviewsformonthOrYearListascpi($tagList,$yearList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,'','tag','year');
+      printpageviewsformonthOrYearListascpi($tagList,$yearList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,'','tag','year');
       break;
   }
 }

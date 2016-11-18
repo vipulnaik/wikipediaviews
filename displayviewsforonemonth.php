@@ -20,21 +20,21 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
 } else {
   switch ($displayformat) {
     case 'csv' :
-      printPageviewsForMonthOrYearListAsCsv($pageListAsArray,array($month),$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat);
+      printPageviewsForMonthOrYearListAsCsv($pageListAsArray,array($month),$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat);
       break;
     case 'htmltable' : 
       include("style/head.inc"); 
-      printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
+      printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$monthList,$languageLust,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
       $originalmonthList = $monthList;
       $displayformat='htmltableautomatic';
       $carryoverfromonemonth=true;
       include("inputdisplay/multiplemonthsdataentry.inc");
       break;
     case 'csvtransposed' :
-      printPageviewsForMonthOrYearListAsCsvTransposed($pageListAsArray,array($month),$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat);
+      printPageviewsForMonthOrYearListAsCsvTransposed($pageListAsArray,array($month),$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat);
       break;
     case 'countsonlyseparatelines' :
-      printPageviewsAsCountsOnlySeparateLines($pageListAsArray,$month,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat);
+      printPageviewsAsCountsOnlySeparateLines($pageListAsArray,$month,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat);
       break;
   }
 }

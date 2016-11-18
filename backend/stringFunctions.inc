@@ -79,7 +79,7 @@ function getFacebookShareCountUrl($page, $month, $language) {
 
 function getSgsPageviewsUrl($page,$month,$language) {
   $preEncodingPage = str_replace(" ","_",$page);
-  $urlEncodedPage = str_repliace("%2F", "/", urlencode($preEncodingPage)); # Don't encode /
+  $urlEncodedPage = str_replace("%2F", "/", urlencode($preEncodingPage)); # Don't encode /
   return "http://stats.grok.se/" . $language . "/" . $month . "/" . $urlEncodedPage;
 }
 

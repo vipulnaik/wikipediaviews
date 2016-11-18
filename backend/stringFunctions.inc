@@ -72,7 +72,7 @@ function getPageviewsUrl($page,$month,$language,$drilldown) {
 
 function getFacebookShareCountUrl($page, $month, $language) {
   $preEncodingPage = "https://".$language.".wikipedia.org/wiki/".str_replace(" ","_",$page);
-  $urlEncodedPage = urlencode($preEncodingPage);
+  $urlEncodedPage = str_replace("%2F", "/", urlencode($preEncodingPage)); # Don't encode /
   $fbUrl = "https://graph.facebook.com/v2.8/?id=" . $urlEncodedPage;
   return $fbUrl;
 }

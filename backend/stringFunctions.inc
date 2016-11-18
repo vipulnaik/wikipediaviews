@@ -72,14 +72,14 @@ function getPageviewsUrl($page,$month,$language,$drilldown) {
 
 function getFacebookShareCountUrl($page, $month, $language) {
   $preEncodingPage = "https://".$language.".wikipedia.org/wiki/".str_replace(" ","_",$page);
-  $urlEncodedPage = str_replace("%2F", "/", urlencode($preEncodingPage)); # Don't encode /
+  $urlEncodedPage = urlencode($preEncodingPage);
   $fbUrl = "https://graph.facebook.com/v2.8/?id=" . $urlEncodedPage;
   return $fbUrl;
 }
 
 function getSgsPageviewsUrl($page,$month,$language) {
   $preEncodingPage = str_replace(" ","_",$page);
-  $urlEncodedPage = urlencode($preEncodingPage);
+  $urlEncodedPage = str_repliace("%2F", "/", urlencode($preEncodingPage)); # Don't encode /
   return "http://stats.grok.se/" . $language . "/" . $month . "/" . $urlEncodedPage;
 }
 

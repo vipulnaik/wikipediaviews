@@ -423,11 +423,11 @@ function fillinWantedViewCounts($queryLimit, $online) {
   $updateResult = $mysqli->query($workingQuery);
   for($i=0;$i < $result->num_rows;$i++) {
     $currentLoad = sys_getloadavg();
-    if ($currentLoad[0] < 1.25) {
-      $count = getPageviewsFromDb($page[$i],$month[$i],$language[$i],"desktop",$online);
+    if ($currentLoad[0] < 1.75) {
+      $count = getPageviewsFromDb($page[$i],$month[$i],$language[$i],$drilldown[$i],$online);
       print "Weighted external query count is ".$attemptedExternalQueryCount." and ";
       print "weighted external query limit is ".$attemptedExternalQueryLimit."\n";
-      print "For page ".$page[$i].", month ".$month[$i].", and language ".$language[$i].", page view count is ".$count."\n";
+      print "For page ".$page[$i].", language ".$language[$i].", drilldown ".$drilldown[$i].", and month ".$month[$i].", page view count is ".$count."\n";
       if ($count != $exceededQueryLimitMessage) {
 	 $deletionQuery .= ",".$row_id[$i];
       }

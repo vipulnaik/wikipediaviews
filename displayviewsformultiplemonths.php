@@ -19,39 +19,39 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
     case 'htmltableautomatic' :
       include("style/head.inc");
       if (count($pageListAsArray) * count($drilldownList) >= count($monthList)) {
-        printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$monthList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
+        printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$languageList,$drilldownList,$monthList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
       } else {
-        printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageListAsArray,$monthList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
+        printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageListAsArray,$languageList,$drilldownList,$monthList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
       }
       if (count($monthList) > 1) {
-        generateGraphs($pageListAsArray,$monthList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
+        generateGraphs($pageListAsArray,$languageList,$drilldownList,$monthList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
       }
       include("inputdisplay/multiplemonthsdataentry.inc");
       break;
     case 'htmltable' :
       include("style/head.inc"); 
-      printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$monthList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
+      printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$languageList,$drilldownList,$monthList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
       if (count($monthList) > 1) {
-        generateGraphs($pageListAsArray,$monthList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
+        generateGraphs($pageListAsArray,$languageList,$drilldownList,$monthList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
       }
       include("inputdisplay/multiplemonthsdataentry.inc");
       break;
     case 'htmltabletransposed' :
       include("style/head.inc");
-      printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageListAsArray,$monthList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
+      printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageListAsArray,$languageList,$drilldownList,$monthList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
       if (count($monthList) > 1) {
-        generateGraphs($pageListAsArray,$monthList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
+        generateGraphs($pageListAsArray,$languageList,$drilldownList,$monthList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization);
       }
       include("inputdisplay/multiplemonthsdataentry.inc");
       break;
     case 'csv' :
-      printPageviewsForMonthOrYearListAsCsv($pageListAsArray,$monthList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,'','page','month');
+      printPageviewsForMonthOrYearListAsCsv($pageListAsArray,$languageList,$drilldownList,$monthList,$explanatoryheader,$includetotal,$numericDisplayFormat,'','page','month');
       break;
     case 'csvtransposed' :
       printPageviewsForMonthOrYearListAsCsvTransposed($pageListAsArray,$monthList,$language,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,'','page','month');
       break;
     case 'cpi' :
-      printPageviewsForMonthOrYearListAsCpi($pageListAsArray,$monthList,$languageList,$drilldownList,$explanatoryheader,$includetotal,$numericDisplayFormat,'','page','month');
+      printPageviewsForMonthOrYearListAsCpi($pageListAsArray,$languageList,$drilldownList,$monthList,$explanatoryheader,$includetotal,$numericDisplayFormat,'','page','month');
       break;
   }
 }

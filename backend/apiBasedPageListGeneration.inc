@@ -9,7 +9,7 @@ function getPageListByWikipediaCategory($category,$language) {
   $apiquery_txt = html_entity_decode($apiquery_html);
   #print $apiquery_txt;
   #preg_match_all('/(?<=\bns=&quot;0&quot; title=&quot;)\K[^&]+/',$apiquery_html,$pageList);
-  preg_match_all('/"ns":0,"title":"\K[^"]+/',$apiquery_txt,$pageList);
+  preg_match_all('/"ns":[0-9]+,"title":"\K[^"]+/',$apiquery_txt,$pageList);
   #print_r($pageList[0]);
   #$pageList[0] = str_replace($pageList[0],"#039&","%27");
   return $pageList[0];

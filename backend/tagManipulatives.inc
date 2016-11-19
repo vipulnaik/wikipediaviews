@@ -46,7 +46,7 @@ function getPageListByTag($tag,$language) {
   return $pageList;
 }
 
-function getTagTotal($tag,$monthList,$language='en',$drilldown,$online=true,$normalization='') {
+function getTagTotal($tag,$language,$drilldown,$monthList,$online=true,$normalization='') {
   global $mysqli;
   global $cannotRetrieveMessage;
   if ($mysqli->connect_errno) {
@@ -63,7 +63,7 @@ function getTagTotal($tag,$monthList,$language='en',$drilldown,$online=true,$nor
     }
   }
   $viewcountarray = viewcountarraybymonth($pageList,$retrievableMonthList,$language,array($drilldown),$online,$normalization);
-  $tap = totalsAndPercentages($pageList,$monthList,array($drilldown),$viewcountarray);
+  $tap = totalsAndPercentages($pageList,array($language),array($drilldown),$monthList,$viewcountarray);
   $monthTotal = $tap["monthOrYearTotal"];
   foreach($irretrievableMonthList as $month) {
     $monthTotal[$month] = $cannotRetrieveMessage;
@@ -71,23 +71,25 @@ function getTagTotal($tag,$monthList,$language='en',$drilldown,$online=true,$nor
   return $monthTotal;
 }
 
-function getTagTotalByYear($tag,$yearList,$language='en',$drilldown='desktop',$online=true,$normalization='') {
+function getTagTotalByYear($tag,$language,$drilldown,$yearList,$online=true,$normalization='') {
   global $mysqli;
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
   $pageList = getPageListByTag($tag,$language);
-  $viewcountarray = viewcountarraybyyear($pageList,$yearList,$language,array($drilldown),$online,$normalization);
-  $tap = totalsAndPercentages($pageList,$yearList,array($drilldown),$viewcountarray);
+  $viewcountarray = viewcountarraybyyear($pageList,array($language),array($drilldown),$yearList,$online,$normalization);
+  $tap = totalsAndPercentages($pageList,array($language),array($drilldown),$yearList,$viewcountarray);
   return $tap["monthOrYearTotal"];
 }
 
-function viewcountarraybytagandmonth_raw($tagList,$monthList,$language,$drilldownList,$online=true,$normalization='') {
+function viewcountarraybytagandmonth_raw($tagList,languageList,$drilldownList,$monthList,$online=true,$normalization='') {
   foreach ($tagList as $tag) {
-    foreach ($drilldownList as $drilldown) {
-      $tagTotal = getTagTotal($tag,$monthList,$language,$drilldown,$online,$normalization);
-      foreach ($monthList as $month) {
-        $viewcountarray[$tag][$month][$drilldown] = $tagTotal[$month];
+    foreach ($languageList as $language) {
+      foreach ($drilldownList as $drilldown) {    
+        $tagTotal = getTagTotal($tag,$language,$drilldown,$monthList,$online,$normalization);
+        foreach ($monthList as $month) {
+          $viewcountarray[$tag][$language][$drilldown][$month] = $tagTotal[$month];
+        }
       }
     }
   }
@@ -152,21 +154,24 @@ function getPageListByTagList($tagList,$language,$connective='or') {
   return $pageList;
 }
 
-function getTagListByPageList($pageList,$language) {
+function getTagListByPageList($pageList,$languageList) {
   global $mysqli;
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
   foreach ($pageList as $page) {
-    $tagList[$page] = array();
+    foreach ($languageList as $language) {
+      $tagList[$page][$language] = array();
+    }
   }
   $pageListAsQuotedCsvString = convertListToQuotedCsvString($pageList);
-  $tagSelectQuery = "select distinct pagename,tag from pagetags where pagename in (".$pageListAsQuotedCsvString.") and language='".$language."' order by pagename, tag;";
+  $languageListAsQuotedCsvString = convertListToQuotedCsvString($languageList);
+  $tagSelectQuery = "select distinct pagename,tag from pagetags where pagename in (".$pageListAsQuotedCsvString.") and language in (".$languageListAsQuotedCsvString.") order by pagename, tag;";
   flush();
   $result = $mysqli->query($tagSelectQuery);
   for ($i = 0;$i < $result -> num_rows; $i++) {
     $row = $result -> fetch_assoc();
-    array_push($tagList[$row['pagename']],$row['tag']);
+    array_push($tagList[$row['pagename']][$row['language']],$row['tag']);
   }
   return $tagList;
 }

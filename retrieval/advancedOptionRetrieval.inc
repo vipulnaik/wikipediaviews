@@ -32,9 +32,6 @@ if (!empty($_REQUEST['userSpecifiedQueryLimit'])) {
   $attemptedExternalQueryLimit = intval($userSpecifiedQueryLimit);
 }
 
-$explanatoryheader="explanatoryheader"; ##Not currently user-updatable
-$includetotal = "includetotal"; ##Not currently user-updatable
-
 ##Purge period
 $userspecifiedpurgeperiod = $purgeperiod;
 if (!empty($_REQUEST['userspecifiedpurgeperiod']))

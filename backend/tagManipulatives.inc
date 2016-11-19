@@ -82,7 +82,7 @@ function getTagTotalByYear($tag,$language,$drilldown,$yearList,$online=true,$nor
   return $tap["monthOrYearTotal"];
 }
 
-function viewcountarraybytagandmonth_raw($tagList,languageList,$drilldownList,$monthList,$online=true,$normalization='') {
+function viewcountarraybytagandmonth_raw($tagList,$languageList,$drilldownList,$monthList,$online=true,$normalization='') {
   foreach ($tagList as $tag) {
     foreach ($languageList as $language) {
       foreach ($drilldownList as $drilldown) {    

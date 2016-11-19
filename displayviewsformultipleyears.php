@@ -19,39 +19,39 @@ if ($pagespecificationerror == true or $yearspecificationerror == true) {
     case 'htmltableautomatic' :
       include("style/head.inc");
       if (count($pageListAsArray) >= count($yearList)) {
-	printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$languageList,$drilldownList,$yearList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'page','year');
+	printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
       } else {
-	printPageviewsFormonthOrYearListAsHtmlTableTransposed($pageListAsArray,$languageList,$drilldownList,$yearList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'page','year');
+	printPageviewsFormonthOrYearListAsHtmlTableTransposed($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
       }
       if (count($yearList) > 1) {
-        generateGraphs($pageListAsArray,$languageList,$drilldownList,$yearList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'page','year');
+        generateGraphs($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
       }
       include("inputdisplay/multipleyearsdataentry.inc");
       break;
     case 'htmltable':
       include("style/head.inc");  
-      printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$languageList,$drilldownList,$yearList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'page','year');
+      printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
       if (count($yearList) > 1) {
-        generateGraphs($pageListAsArray,$languageList,$drilldownList,$yearList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'page','year');
+        generateGraphs($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
       }
       include("inputdisplay/multipleyearsdataentry.inc");
       break;
     case 'htmltabletransposed':
       include("style/head.inc");
-      printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageListAsArray,$languageList,$drilldownList,$yearList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'page','year');
+      printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
       if (count($yearList) > 1) {
-        generateGraphs($pageListAsArray,$languageList,$drilldownList,$yearList,$explanatoryheader,$includetotal,$numericDisplayFormat,$normalization,'page','year');
+        generateGraphs($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
       }
       include("inputdisplay/multipleyearsdataentry.inc");
       break;
     case 'csv':
-      printPageviewsForMonthOrYearListAsCsv($pageListAsArray,$languageList,$drilldownList,$yearList,$explanatoryheader,$includetotal,$numericDisplayFormat,'','page','year');
+      printPageviewsForMonthOrYearListAsCsv($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,'','page','year');
       break;
     case 'csvtransposed':
-      printPageviewsForMonthoryearListAsCsvTransposed($pageListAsArray,$languageList,$drilldownList,$yearList,$explanatoryheader,$includetotal,$numericDisplayFormat,'','page','year');
+      printPageviewsForMonthoryearListAsCsvTransposed($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,'','page','year');
       break;
     case 'cpi':
-      printPageviewsForMonthOrYearListAsCpi($pageListAsArray,$languageList,$drilldownList,$yearList,$explanatoryheader,$includetotal,$numericDisplayFormat,'','page','year');
+      printPageviewsForMonthOrYearListAsCpi($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,'','page','year');
       break;
   }
 }

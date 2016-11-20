@@ -22,5 +22,5 @@ global $pageDisplayLimit;
 $pageDisplayLimit = 25000;
 
 global $cellDisplayLimit;
-$cellDisplayLimit = 5000000;
+$cellDisplayLimit = 1000000;
 ?>

@@ -107,7 +107,7 @@ function viewcountarraybytagandmonth($tagList,$monthList,$language='en',$drilldo
     foreach ($tagList as $tag) {
       foreach ($monthList as $month) {
         foreach ($drilldownList as $drilldown) {
-	  if ($viewcountarray[$tag][$month][$drilldown] != $exceededquerylimitmesage) {
+	  if ($viewcountarray[$tag][$month][$drilldown] != $exceededQueryLimitMessage) {
             $viewcountarray[$tag][$month][$drilldown] = round($viewcountarray[$tag][$month][$drilldown]/intval($numberofdays_allmonths[$month]),1);
           }
 	}
@@ -117,12 +117,14 @@ function viewcountarraybytagandmonth($tagList,$monthList,$language='en',$drilldo
   return $viewcountarray;
 }
 
-function viewcountarraybytagandyear($tagList,$yearList,$language,$drilldownList,$online=true,$normalization='') {
+function viewcountarraybytagandyear($tagList,$languageList,$drilldownList,$yearList,$online=true,$normalization='') {
   foreach ($tagList as $tag) {
-    foreach ($drilldownList as $drilldown) {
-      $tagTotal = getTagTotalByYear($tag,$yearList,$language,$drilldown,$online,$normalization);
-      foreach ($yearList as $year) {
-	$viewcountarray[$tag][$year][$drilldown] = $tagTotal[$year];
+    foreach ($languageList as $language) {
+      foreach ($drilldownList as $drilldown) {
+        $tagTotal = getTagTotalByYear($tag,$language,$drilldown,$yearList,$online,$normalization);
+        foreach ($yearList as $year) {
+	  $viewcountarray[$tag][$language][$drilldown][$year] = $tagTotal[$year];
+        }
       }
     }
   }

@@ -29,7 +29,9 @@ function totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$month
           $pageOrTagCumLanguageCumMonthOrYearTotal[$pageOrTag][$language][$monthOrYear] += $increment;
           $drilldownCumMonthOrYearTotal[$drilldown][$monthOrYear] += $increment;
           $pageOrTagCumLanguageTotal[$pageOrTag][$language] += $increment;
+          $pageOrTagCumDrilldownTotal[$pageOrTag][$drilldown] += $increment;
           $pageOrTagTotal[$pageOrTag] += $increment;
+          $languageTotal[$language] += $increment;
           $drilldownTotal[$drilldown] += $increment;
           $monthOrYearTotal[$monthOrYear] += $increment;
           $grandTotal += $increment;
@@ -39,6 +41,11 @@ function totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$month
   }
 
   foreach ($pageOrTagList as $pageOrTag) {
+    if ($grandTotal == 0) {
+      $pageOrTagPercentage[$pageOrTag] = 'undefined';
+    } else {
+      $pageOrTagPercentage[$pageOrTag] = round(100.0 * floatval($pageOrTagTotal[$pageOrTag])/floatval($grandTotal),1);
+    }
     foreach($languageList as $language) {
       if ($grandTotal == 0) {
         $pageOrTagCumLanguagePercentage[$pageOrTag][$language] = 'undefined';
@@ -96,6 +103,7 @@ function totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$month
   $tap["pageOrTagCumLanguageCumMonthOrYearPercentage"] = $pageOrTagCumLanguageCumMonthOrYearPercentage;
   $tap["drilldownCumMonthOrYearPercentage"] = $drilldownCumMonthOrYearPercentage;
   $tap["pageOrTagCumLanguagePercentage"] = $pageOrTagCumLanguagePercentage;
+  $tap["pageOrTagPercentage"] = $pageOrTagPercentage;
   $tap["drilldownPercentage"] = $drilldownPercentage;
   $tap["monthOrYearPercentage"] = $monthOrYearPercentage;
   
@@ -988,7 +996,12 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
   if (count($drilldownList) > 1 and count($pageOrTagList) * count($languageList) > 1) {
     $headerstring = ucfirst($monthOrYearAdvice);
     foreach ($pageOrTagList as $pageOrTag) {
-      $headerstring .= "|".$pageOrTag;
+      foreach ($languageList as $language) {
+        $headerstring .= "|".$pageOrTag;
+        if (count($languageList) > 1) {
+          $headerstring .= " ".$language;
+        }
+      }
     }
     $headerstring .="|Total";
     if (count($monthOrYearList) > 1) {

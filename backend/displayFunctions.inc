@@ -813,7 +813,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
   foreach($pageOrTagList as $pageOrTag) {
     foreach($languageList as $language) {
       foreach ($drilldownList as $drilldown) {
-        $headerstring .= "|".$pageOrTag."on language ".$language." and drilldown ".$drilldown;
+        $headerstring .= "|".$pageOrTag." ".$language." ".$drilldown;
       }
     }
   }
@@ -990,28 +990,42 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
   $fileName = strval(rand());
   $filePathBase = $imagesPath . $fileName;
   file_put_contents($filePathBase . ".csv", $fullOutput);
-  $cmdToExecute = $generateGraphCmdBase . " " . $filePathBase . ".csv " . $filePathBase . ".png ";
-  if ($numericDisplayFormat == "log") {
-    $cmdToExecute = $cmdToExecute . " --log10";
+  if (count($pageOrTagList) * count($languageList) * count($drilldownList) > 1) {
+    $cmdToExecute = $generateDistribCmdBase . " " . $filePathBase . ".csv " . $filePathBase . "-distrib.png ";
+    if ($numericDisplayFormat == "log") {
+      $cmdToExecute = $cmdToExecute . " --log10";
+    }
+    # print("Going to try executing ".$cmdToExecute."<br>");
+    exec($cmdToExecute);
+    print "<br/><br/>";
+    print "<strong>Distribution of pageviews by page</strong>";
+    print '<img src="/images/'.$fileName.'-distrib.png" alt="Image of pageviews distribution should have loaded here"></img>';
   }
-  # print("Going to try executing ".$cmdToExecute."<br>");
-  exec($cmdToExecute);
-  print "<br/><br/>";
-  if (count($pageOrTagList) * count($drilldownList) > 30) {
+  if (count($monthOrYearList) > 1) {
+    $cmdToExecute = $generateGraphCmdBase . " " . $filePathBase . ".csv " . $filePathBase . ".png ";
+    if ($numericDisplayFormat == "log") {
+      $cmdToExecute = $cmdToExecute . " --log10";
+    }
+    # print("Going to try executing ".$cmdToExecute."<br>");
+    exec($cmdToExecute);
+    print "<br/><br/>";
+    if (count($pageOrTagList) * count($languageList) * count($drilldownList) > 30) {
     $addendum = ", restricted to the top 30 by total across months";
-  } else {
-    $addendum = "";
+    } else {
+      $addendum = "";
+    }
+    if (count($pageOrTagList) * count($languageList) > 1 and count($drilldownList) > 1) {
+      print "<strong>Time series of data; includes overall total and a separate curve for each combination of ".$pageOrTagAdvice.", language, and drilldown".$addendum." below:</strong><br/>"; 
+    } else if (count($drilldownList) > 1) {
+      print "<strong>Time series of data; includes overall total and a separate curve for each drilldown".$addendum." below:</strong><br/>";
+    } else if (count($pageOrTagList) * count($languageList) > 1) {
+      print "<strong>Time series of data; includes overall total and a separate curve for each combination of ".$pageOrTagAdvice."and language ".$addendum." below:</strong><br/>";
+    } else {
+      print "<strong>Time series of data below:</strong><br/>";
+    }
+    print '<img src="/images/'.$fileName.'.png" alt="Graph of pageviews should have loaded here"></img>';
   }
-  if (count($pageOrTagList) * count($languageList) > 1 and count($drilldownList) > 1) {
-    print "<strong>Graph of data; includes overall total and a separate curve for each combination of ".$pageOrTagAdvice." and drilldown".$addendum." below:</strong><br/>"; 
-  } else if (count($drilldownList) > 1) {
-    print "<strong>Graph of data; includes overall total and a separate curve for each drilldown".$addendum." below:</strong><br/>";
-  } else if (count($pageOrTagList) * count($languageList) > 1) {
-    print "<strong>Graph of data; includes overall total and a separate curve for each ".$pageOrTagAdvice.$addendum." below:</strong><br/>";
-  } else {
-    print "<strong>Graph of data below:</strong><br/>";
-  }
-  print '<img src="/images/'.$fileName.'.png" alt="Graph of pageviews should have loaded here"></img>';
+
   if (count($pageOrTagList) * count($languageList) > 1 and count($drilldownList) > 1) {
     # Construct drilldown-grouped data
     $drilldownFileName = $fileName."-drilldown";

@@ -19,9 +19,9 @@ if ($pagespecificationerror == true or $yearspecificationerror == true) {
     case 'htmltableautomatic' :
       include("style/head.inc");
       if (count($pageListAsArray) >= count($yearList)) {
-	printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
+	printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year',$sort);
       } else {
-	printPageviewsFormonthOrYearListAsHtmlTableTransposed($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
+	printPageviewsFormonthOrYearListAsHtmlTableTransposed($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year',$sort);
       }
       if (count($yearList) > 1 or count($pageListAsArray) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
@@ -30,7 +30,7 @@ if ($pagespecificationerror == true or $yearspecificationerror == true) {
       break;
     case 'htmltable':
       include("style/head.inc");  
-      printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
+      printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year',$sort);
       if (count($yearList) > 1 or count($pageListAsArray) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
       }
@@ -38,7 +38,7 @@ if ($pagespecificationerror == true or $yearspecificationerror == true) {
       break;
     case 'htmltabletransposed':
       include("style/head.inc");
-      printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
+      printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year',$sort);
       if (count($yearList) > 1 or count($pageListAsArray) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
       }

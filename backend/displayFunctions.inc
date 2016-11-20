@@ -126,7 +126,7 @@ function printtagviewcountbyyear($tag,$year,$language,$drilldown,$viewcount,$num
   return '<td align="right"><a href="'.getannualtagviewsurl($tag,$year,$language,$drilldown).'" title="'.$viewcount.' (click for data on individual pages)">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';
 }
 
-function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month') {
+function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month',$sort='desc') {
   global $pageOrTagTotal;
   global $timeTaken;
   $startTime = microtime(true);
@@ -162,7 +162,6 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
   $drilldownPercentage = $tap["drilldownPercentage"];
   $monthOrYearPercentage = $tap["monthOrYearPercentage"];
 
-
   function cmp($firstPage, $secondPage) {
     global $pageOrTagTotal;
     if (intval($pageOrTagTotal[$firstPage]) == intval($pageOrTagTotal[$secondPage])) {
@@ -171,7 +170,17 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
     return (intval($pageOrTagTotal[$firstPage]) > intval($pageOrTagTotal[$secondPage])) ? -1 : 1;
   }
 
-  usort($pageOrTagList, "cmp");
+  switch($sort) {
+    case "desc" :
+      usort($pageOrTagList, "cmp");
+      break;
+    case "asc" :
+      $pageOrTagList = array_reverse($pageOrTagList, "cmp");
+      break;
+    case "alphabetical" :
+      $pageOrTagList = sort($pageOrTagList);
+      break;
+  }
   
   #Tag list fetching
   if ($pageOrTagAdvice=='page') {
@@ -380,7 +389,7 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
   flush();
 }
 
-function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month') {
+function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month',$sort='desc') {
   global $timeTaken;
   global $pageOrTagTotal;
   $startTime = microtime(true);

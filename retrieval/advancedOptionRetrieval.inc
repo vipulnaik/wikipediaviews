@@ -42,10 +42,9 @@ if (!empty($_REQUEST['userspecifiedpurgeperiod']))
 
 ##Normalization
 $normalization = 'none';
-if (!empty($_REQUEST['normalization']))
-  {
-    $normalization = $_REQUEST['normalization'];
-  }
+if (!empty($_REQUEST['normalization'])) {
+  $normalization = $_REQUEST['normalization'];
+}
 
 ##Numeric display format
 $numericDisplayFormat = 'kmb';
@@ -53,5 +52,11 @@ if (!empty($_REQUEST['numericDisplayFormat']))
   {
     $numericDisplayFormat = $_REQUEST['numericDisplayFormat'];
   }
+
+##Sort
+$sort = 'desc';
+if (!empty($_REQUEST['sort'])) {
+  $normalization = $_REQUEST['sort'];
+}
 
 ?>

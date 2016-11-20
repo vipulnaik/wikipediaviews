@@ -18,9 +18,9 @@ if ($pagespecificationerror == true) {
     case 'htmltableautomatic' :
       include("style/head.inc");
       if (count($tagList) >= count($yearList)) {
-	printpageviewsformonthOrYearListashtmltable($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year');
+	printpageviewsformonthOrYearListashtmltable($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year',$sort);
       } else {
-	printpageviewsformonthOrYearListashtmltabletransposed($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year');
+	printpageviewsformonthOrYearListashtmltabletransposed($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year',$sort);
       }
       if (count($yearList) > 1 or count($tagList) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year');
@@ -29,7 +29,7 @@ if ($pagespecificationerror == true) {
       break;
     case 'htmltable' :
       include("style/head.inc"); 
-      printpageviewsformonthOrYearListashtmltable($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year');
+      printpageviewsformonthOrYearListashtmltable($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year',$sort);
       if (count($yearList) > 1 or count($tagList) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year');
       }
@@ -37,7 +37,7 @@ if ($pagespecificationerror == true) {
       break;
     case 'htmltabletransposed' :
       include("style/head.inc");
-      printpageviewsformonthOrYearListashtmltabletransposed($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year');
+      printpageviewsformonthOrYearListashtmltabletransposed($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year',$sort);
       if (count($yearList) > 1 or count($tagList) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year');
       }

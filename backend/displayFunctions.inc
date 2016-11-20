@@ -2,16 +2,16 @@
 
 include_once("globalvariables/passwordfile.inc");
 
-function checkSizes($pageOrTagList,$monthOrYearList, $drilldownList) {
+function checkSizes($pageOrTagList,$languageList, $drilldownList, $monthOrYearList) {
   global $pageDisplayLimit;
   global $cellDisplayLimit;
   $numberOfPagesOrTags = count($pageOrTagList);
   $numberOfMonthsOrYears = count($monthOrYearList);
   if ($numberOfPagesOrTags > $pageDisplayLimit) {
-    print "The number of pages or tags, namely ".$numberOfPagesOrTags.", exceeds ".$pageDisplayLimit.", our hard limit on the number of pages that can be displayed.";
+    print "The number of pages or tags, namely ".$numberOfPagesOrTags.", exceeds ".$pageDisplayLimit.", our hard limit on the number of pages that can be displayed.<br/>";
     return 1;
   }
-  $numberOfCells = $numberOfPagesOrTags * $numberOfMonthsOrYears * count($drilldownList);
+  $numberOfCells = $numberOfPagesOrTags * $numberOfMonthsOrYears * count($languageList) * count($drilldownList);
   if ($numberOfCells > $cellDisplayLimit) {
     print "The total number of cells to display, namely ".$numberOfCells.", exceeds ".$cellDisplayLimit.", our hard limit on the number of cells that can be displayed.";
     return 2;
@@ -142,8 +142,9 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
   $startTime = microtime(true);
   flush();
   #Check that sizes are workable
-  $sizeOverflow = checkSizes($pageOrTagList,$monthOrYearList,$drilldownList);
+  $sizeOverflow = checkSizes($pageOrTagList,$languageList,$drilldownList,$monthOrYearList);
   if ($sizeOverflow > 0) {
+    print " Therefore, we are not printing the table.<br/>";
     return false;
   }
   #Collect all the numbers that need to be printed first
@@ -437,10 +438,11 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
   $startTime = microtime(true);
   flush();
   #Check that sizes are workable
-  $sizeOverflow = checkSizes($pageOrTagList,$monthOrYearList,$drilldownList);
-  if ($sizeOverflow > 0)
+  $sizeOverflow = checkSizes($pageOrTagList,$languageList,$drilldownList,$monthOrYearList);
+  if ($sizeOverflow > 0) {
+    print " Therefore, we are not printing the table<br/>";
     return false;
-  # $language = $languageList[0];
+  }
   #Collect all the numbers that need to be printed first
   if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
     $viewcountarray = viewcountarraybymonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
@@ -867,10 +869,11 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
   global $generateDistribCmdBase;
   $graphStartTime = microtime(true);
   #Check that sizes are workable
-  $sizeOverflow = checkSizes($pageOrTagList,$monthOrYearList,$drilldownList);
-  if ($sizeOverflow > 0)
+  $sizeOverflow = checkSizes($pageOrTagList,$languageList,$drilldownList,$monthOrYearList);
+  if ($sizeOverflow > 0) {
+    print " Therefore, we are not constructing graphs.<br/>";
     return false;
-  $language = $languageList[0];
+  }
   #Collect all the numbers that need to be printed first
   if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month')
     $viewcountarray = viewcountarraybymonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);

@@ -19,8 +19,8 @@ $tokenExpiredMessage = 'authentication token expired';
 
 ## Maximum number of pages we are allowed to display
 global $pageDisplayLimit;
-$pageDisplayLimit = 15000;
+$pageDisplayLimit = 25000;
 
 global $cellDisplayLimit;
-$cellDisplayLimit = 1000000;
+$cellDisplayLimit = 5000000;
 ?>

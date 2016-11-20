@@ -13,7 +13,7 @@ function checkSizes($pageOrTagList,$monthOrYearList, $drilldownList) {
   }
   $numberOfCells = $numberOfPagesOrTags * $numberOfMonthsOrYears * count($drilldownList);
   if ($numberOfCells > $cellDisplayLimit) {
-    print "The total number of cells to display, namely ".$numberofcells.", exceeds ".$cellDisplayLimit.", our hard limit on the number of cells that can be displayed.";
+    print "The total number of cells to display, namely ".$numberOfCells.", exceeds ".$cellDisplayLimit.", our hard limit on the number of cells that can be displayed.";
     return 2;
   }
   return 0;

@@ -311,7 +311,7 @@ function viewcountarraybymonth_raw($pageList,$languageList,$drilldownList,$month
     foreach($languageList as $language) {
       foreach($drilldownList as $drilldown) {
         foreach($monthList as $month) {
-          if ($viewcountarray[$page][$language][$drilldown][$drilldown] == $exceededQueryLimitMessage) {
+          if ($viewcountarray[$page][$language][$drilldown][$month] == $exceededQueryLimitMessage) {
             $unavailableCount++;
           }
         }

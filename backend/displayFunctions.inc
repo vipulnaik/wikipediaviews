@@ -430,6 +430,7 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
   $endTime = microtime(true);
   $timeTaken = $endTime - $startTime;
   flush();
+  return true;
 }
 
 function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month',$sort='desc') {
@@ -692,6 +693,7 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
   $endTime = microtime(true);
   $timeTaken = $endTime - $startTime;
   flush();
+  return true;
 }
 
 function printPageviewsForMonthOrYearListAsCsv($pageOrTagList,$monthOrYearList,$language,$drilldown,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month') {

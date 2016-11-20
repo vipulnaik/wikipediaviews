@@ -1,6 +1,6 @@
 <?php
 
-function pageMonthAdvice($pageList,$languageList,$drilldownList,$monthList,$camefromtag=false) {
+function pageMonthAdvice($pageList,$languageList,$drilldownList,$monthList,$cameFromTag=false,$printStatus = true) {
   global $unavailableCount;
   global $irretrievableCount;
   global $attemptedExternalQueryLimit;
@@ -15,17 +15,21 @@ function pageMonthAdvice($pageList,$languageList,$drilldownList,$monthList,$came
   global $timeTaken;
   global $graphTimeTaken;
   global $bulkRetrievalTimeTaken;
-  if (count($pageList) == 0 or count($monthList) == 0 or count($pageList) > $pageDisplayLimit or count($pageList) * count ($monthList) > $cellDisplayLimit) {
-    return true;
-  }
   print "<br>";
-  print "Time taken for generating the data: ".round($timeTaken,3)." seconds, of which ".round($bulkRetrievalTimeTaken,3)." seconds was for bulk retrieval from the database<br>";
-  if (count($monthList) > 1 or count($pageList) > 1 or count($languageList) > 1 or count($drilldownList) > 1) {
-    print "Time taken for generating the graphs: ".round($graphTimeTaken,3)." seconds<br>";
+  if ($printStatus == true) {
+    print "Time taken for generating the data: ".round($timeTaken,3)." seconds, of which ".round($bulkRetrievalTimeTaken,3)." seconds was for bulk retrieval from the database<br>";
+    if (count($monthList) > 1 or count($pageList) > 1 or count($languageList) > 1 or count($drilldownList) > 1) {
+      print "Time taken for generating the graphs: ".round($graphTimeTaken,3)." seconds<br>";
+    }
   }
   $numCells = count($pageList) * count($languageList) * count($drilldownList) * count($monthList);
   if (max(count($pageList),count($languageList),count($drilldownList),count($monthList)) > 1) {
-    print "Printed data for ".count($pageList)." page";
+    if ($printStatus == true) {
+      print "Printed";
+    } else {
+      print "You asked us to print ";
+    }
+    print " data for ".count($pageList)." page";
     if (count($pageList) > 1) print "s";
     if (count($languageList) > 1) {
       print ", ".count($languageList)." languages,";
@@ -36,7 +40,14 @@ function pageMonthAdvice($pageList,$languageList,$drilldownList,$monthList,$came
     print " and ".count($monthList)." month";
     if (count($monthList) > 1) print "s";
     print "<br>";
-    print "The table has a total of ".$numCells." entries<br>";
+    $verb = "has";
+    if ($printStatus == false) {
+      $verb = "would have had";
+    }
+    print "The table ".$verb." a total of ".$numCells." entries<br>";
+  }
+  if ($printStatus == false) {
+    return;
   }
   if ($attemptedExternalQueryCount > 0) {
     print "We attempted ".$attemptedExternalQueryCount." queries to external sources (stats.grok.se, Wikimedia API, Facebook API) out of a limit of ".$attemptedExternalQueryLimit.". Of these, ".$successfulExternalQueryCount." queries were successful<br>";
@@ -68,7 +79,7 @@ function pageMonthAdvice($pageList,$languageList,$drilldownList,$monthList,$came
       print "<strong>TIP</strong>: There's an option below to select <em>all</em> months, and also a drop down option (among alternative month specification methods) to select all months <em>in a given year</em>. These can be useful alternatives to manually checking the boxes for several months.<br>";
       $alternatemonthspecs_recommended = true;
   }
-  if ($camefromtag == false)
+  if ($cameFromTag == false)
     {
       $findtags_query = "select tag, count(pagename) from pagetags where pagename in (".convertListToQuotedCsvString($pageList).") group by tag order by count(pagename) desc;";
       $tags_result = $mysqli->query($findtags_query);
@@ -96,7 +107,7 @@ function pageMonthAdvice($pageList,$languageList,$drilldownList,$monthList,$came
     }
 }
 
-function pageYearAdvice($pageList,$yearList,$drilldownList,$camefromtag=false) {
+function pageYearAdvice($pageList,$yearList,$drilldownList,$cameFromTag=false) {
   global $unavailableCount;
   global $irretrievableCount;
   global $attemptedExternalQueryLimit;
@@ -133,7 +144,7 @@ function pageYearAdvice($pageList,$yearList,$drilldownList,$camefromtag=false) {
   if ($attemptedExternalQueryCount > 0) {
     print "We attempted ".$attemptedExternalQueryCount." queries to external sources (stats.grok.se, Wikimedia API, Facebook API) out of a limit of ".$attemptedExternalQueryLimit.". Of these, ".$successfulExternalQueryCount." queries were successful<br>";
   }
-  if ($camefromtag == false)
+  if ($cameFromTag == false)
     {
       $findtags_query = "select tag, count(pagename) from pagetags where pagename in (".convertListToQuotedCsvString($pageList).") group by tag order by count(pagename) desc;";
       $tags_result = $mysqli->query($findtags_query);

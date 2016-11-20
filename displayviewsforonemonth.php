@@ -24,7 +24,7 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
       break;
     case 'htmltable' : 
       include("style/head.inc"); 
-      printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort);
+      $printStatus = printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort);
       if (count($monthList) > 1 or count($pageListAsArray) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month');
       }   

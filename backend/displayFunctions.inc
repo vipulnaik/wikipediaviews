@@ -175,10 +175,11 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
       usort($pageOrTagList, "cmp");
       break;
     case "asc" :
-      $pageOrTagList = array_reverse($pageOrTagList, "cmp");
+      usort($pageOrTagList, "cmp");
+      $pageOrTagList = array_reverse($pageOrTagList);
       break;
     case "alphabetical" :
-      $pageOrTagList = sort($pageOrTagList);
+      sort($pageOrTagList);
       break;
   }
   
@@ -433,7 +434,18 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
     return (intval($pageOrTagTotal[$firstPage]) > intval($pageOrTagTotal[$secondPage])) ? -1 : 1;
   }
 
-  usort($pageOrTagList, "cmp");
+  switch($sort) {
+    case "desc" :
+      usort($pageOrTagList, "cmp");
+      break;
+    case "asc" :
+      usort($pageOrTagList, "cmp");
+      $pageOrTagList = array_reverse($pageOrTagList);
+      break;
+    case "alphabetical" :
+      sort($pageOrTagList);
+      break;
+  }
 
   #Tag list fetching
   if ($pageOrTagAdvice=='page') {

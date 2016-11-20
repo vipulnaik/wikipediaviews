@@ -56,7 +56,7 @@ if (!empty($_REQUEST['numericDisplayFormat']))
 ##Sort
 $sort = 'desc';
 if (!empty($_REQUEST['sort'])) {
-  $normalization = $_REQUEST['sort'];
+  $sort = $_REQUEST['sort'];
 }
 
 ?>

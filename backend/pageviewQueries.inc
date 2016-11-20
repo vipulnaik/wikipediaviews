@@ -7,7 +7,7 @@ function wantedViewCountsQuery($pageList,$languageList,$drilldownList,$monthList
     foreach ($languageList as $language) {
       foreach ($drilldownList as $drilldown) {
         foreach ($monthList as $month) {
-          if ($viewcountarray[$page][language][$drilldown][$month] == 'unavailable' and ($drilldown == "desktop" or $month >= "201507")) {
+          if ($viewcountarray[$page][$language][$drilldown][$month] == 'unavailable' and ($drilldown == "desktop" or $month >= "201507")) {
 	    if ($numberOfWantedViewCounts > 0) {
               $insertQuery .= ", ";
 	    }
@@ -238,7 +238,7 @@ function getannualpageviews($page,$year,$language,$drilldown) {
   return getAnnualPageviewsFromDb($page,$year,$language,$drilldown,true);
 }
 
-function viewcountarraybymonth_raw($pageList,$drilldownList,$languageList,$monthOrYearList,$online=true,$normalization='') {
+function viewcountarraybymonth_raw($pageList,$languageList,$drilldownList,$monthList,$online=true,$normalization='') {
   global $mysqli;
   global $attemptedExternalQueryCount;
   global $attemptedExternalQueryLimit;
@@ -265,7 +265,7 @@ function viewcountarraybymonth_raw($pageList,$drilldownList,$languageList,$month
   $monthListAsQuotedCsvString = convertListToQuotedCsvString($monthList);
   $languageListAsQuotedCsvString = convertListToQuotedCsvString($languageList);
   $drilldownListAsQuotedCsvString = convertListToQuotedCsvString($drilldownList);
-  $selectQuery = "select pagename,monthfull,language,drilldown,viewcount,querytime from viewcountsbymonth_all where pagename in (".$pageListAsQuotedCsvString.") and monthfull in (".$monthListAsQuotedCsvString.") and language in ('".$languageListAsQuotedCSvString."') and drilldown in (".$drilldownListAsQuotedCsvString.");";
+  $selectQuery = "select pagename,monthfull,language,drilldown,viewcount,querytime from viewcountsbymonth_all where pagename in (".$pageListAsQuotedCsvString.") and monthfull in (".$monthListAsQuotedCsvString.") and language in (".$languageListAsQuotedCsvString.") and drilldown in (".$drilldownListAsQuotedCsvString.");";
   $result = $mysqli->query($selectQuery);
   for ($i = 0;$i < $result->num_rows;$i++) {
     $row = $result->fetch_assoc();
@@ -292,10 +292,12 @@ function viewcountarraybymonth_raw($pageList,$drilldownList,$languageList,$month
     queriedPageLog($page,$language,'partial');
   }
   foreach($pageList as $page) {
-    foreach($monthList as $month) {
-      foreach($drilldownList as $drilldown) {
-        if ($viewcountarray[$page][$language][$drilldown][$month] == 'unavailable' and $online == true) {
-          $viewcountarray[$page][$language][$drilldown][$month] = getPageviewsFromDb($page,$month,$language,$drilldown,true);
+    foreach($languageList as $language) {
+      foreach($monthList as $month) {
+        foreach($drilldownList as $drilldown) {
+          if ($viewcountarray[$page][$language][$drilldown][$month] == 'unavailable' and $online == true) {
+            $viewcountarray[$page][$language][$drilldown][$month] = getPageviewsFromDb($page,$month,$language,$drilldown,true);
+          }
         }
       }
     }
@@ -380,10 +382,12 @@ function viewcountarraybyyear($pageList,$languageList,$drilldownList,$yearList,$
       queriedPageLog($page,$language,'partial');
   }
   foreach($pageList as $page) {
-    foreach($yearList as $year) {
+    foreach($languageList as $language) {
       foreach($drilldownList as $drilldown) {
-        if ($viewcountarray[$page][$language][$drilldown][$year] == 'unavailable' and $online = true) {
-	  $viewcountarray[$page][$language][$drilldown][$year] = getAnnualPageviewsFromDb($page,$year,$language,$drilldown,true);
+        foreach($yearList as $year) { 
+          if ($viewcountarray[$page][$language][$drilldown][$year] == 'unavailable' and $online = true) {
+	    $viewcountarray[$page][$language][$drilldown][$year] = getAnnualPageviewsFromDb($page,$year,$language,$drilldown,true);
+          }
         }
       }
     }

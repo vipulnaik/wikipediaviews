@@ -33,16 +33,15 @@ function getPageListByTag($tag,$language) {
     {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
-  $tagselect_query = "select distinct pagetags.pagename from pagetags where pagetags.language='".$language."' and pagetags.tag='".$tag."' order by pagetags.pagename asc;";
-#print $tagselect_query;
-  $result = $mysqli->query($tagselect_query);
+  $tagSelectQuery = "select distinct pagetags.pagename from pagetags where pagetags.language='".$language."' and pagetags.tag='".$tag."' order by pagetags.pagename asc;";
+  $result = $mysqli->query($tagSelectQuery);
+  # print "tagSelectQuery = ".$tagSelectQuery."<br>";
   $pageList = array();
-  for ($i = 0; $i < $result->num_rows;$i++)
-    {
-      $row = $result->fetch_assoc();
-      $pagename = $row['pagename'];
-      array_push($pageList,$pagename);
-    }
+  for ($i = 0; $i < $result->num_rows;$i++) {
+    $row = $result->fetch_assoc();
+    $pagename = $row['pagename'];
+    array_push($pageList,$pagename);
+  }
   return $pageList;
 }
 
@@ -62,7 +61,7 @@ function getTagTotal($tag,$language,$drilldown,$monthList,$online=true,$normaliz
       array_push($irretrievableMonthList, $month);
     }
   }
-  $viewcountarray = viewcountarraybymonth($pageList,$retrievableMonthList,$language,array($drilldown),$online,$normalization);
+  $viewcountarray = viewcountarraybymonth($pageList,array($language),array($drilldown),$retrievableMonthList,$online,$normalization);
   $tap = totalsAndPercentages($pageList,array($language),array($drilldown),$monthList,$viewcountarray);
   $monthTotal = $tap["monthOrYearTotal"];
   foreach($irretrievableMonthList as $month) {
@@ -132,17 +131,15 @@ function viewcountarraybytagandyear($tagList,$yearList,$language,$drilldownList,
 
 function getPageListByTagList($tagList,$language,$connective='or') {
   global $mysqli;
-  if ($mysqli->connect_errno) 
-    {
-      echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-    }
+  if ($mysqli->connect_errno) {
+    echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+  }
   $tagSelectQuery = "select distinct pagetags.pagename from pagetags where pagetags.language='".$language."' ";
-  if ($connective=='or')
-    {
-      $tagListAsQuotedCsvString = convertListToQuotedCsvString($tagList);
-      $tagselect_query .= "and pagetags.tag in (".$tagListAsQuotedCsvString.")";
-    }
-  $tagSelectQuery .= "order by pagetags.pagename asc;";
+  if ($connective=='or') {
+    $tagListAsQuotedCsvString = convertListToQuotedCsvString($tagList);
+    $tagSelectQuery .= "and pagetags.tag in (".$tagListAsQuotedCsvString.")";
+  }
+  $tagSelectQuery .= " order by pagetags.pagename asc;";
   $result = $mysqli->query($tagSelectQuery);
   $pageList = array();
   for ($i = 0; $i < $result->num_rows;$i++)
@@ -166,7 +163,7 @@ function getTagListByPageList($pageList,$languageList) {
   }
   $pageListAsQuotedCsvString = convertListToQuotedCsvString($pageList);
   $languageListAsQuotedCsvString = convertListToQuotedCsvString($languageList);
-  $tagSelectQuery = "select distinct pagename,tag from pagetags where pagename in (".$pageListAsQuotedCsvString.") and language in (".$languageListAsQuotedCsvString.") order by pagename, tag;";
+  $tagSelectQuery = "select distinct pagename,language,tag from pagetags where pagename in (".$pageListAsQuotedCsvString.") and language in (".$languageListAsQuotedCsvString.") order by pagename, tag;";
   flush();
   $result = $mysqli->query($tagSelectQuery);
   for ($i = 0;$i < $result -> num_rows; $i++) {

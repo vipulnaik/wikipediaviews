@@ -11,7 +11,6 @@
 ## displayviewsforonemonth.php, displayviewsformultiplemonths.php,
 ## displayviewsformultipleyears.php
 
-##Retrieval of language
 ## Retrieval of language
 $languageList = array("en");
 if (!empty($_REQUEST['languages'])) {
@@ -125,82 +124,68 @@ elseif (($tag != '' and ($category != '' or $user != '' or $linkingpage != '' or
 ##named $pageListAsArray
 
 if ($pagespecificationerror == false) {
-    if (strlen(trim($pageListAsString," \t\n\r\0\x0B"))>0)
-      {
-	$pageListAsString_mod = str_replace("http://","",$pageListAsString);
-	$pageListAsString_mod = str_replace("https://","",$pageListAsString_mod);
-	$pageListAsString_mod = str_replace("en.wikipedia.org/wiki/","",$pageListAsString_mod);
-	$pageListAsString_mod = str_replace("_"," ",$pageListAsString_mod);
-	$pageListAsArray = convertPageListToArray($pageListAsString_mod);
-      }
-    elseif ($tag!='')
-      {
-	$pageListAsArray = getpageListbytag($tag,$language);
-	if (sizeof($pageListAsArray) == 0)
-	  {
-	    include(__DIR__."/../style/head.inc");
-	    print "Although the tag is valid, there are no pages for the tag-language <em>combination</em>.<br>";
-	    $pagespecificationerror = true;
-	  }
-      }
-    elseif ($category!='')
-      {
-	$pageListAsArray = getPageListByWikipediaCategory($category,$language);
-    if (sizeof($pageListAsArray) == 0)
-      {
-	include(__DIR__."/../style/head.inc");
-	print "There are no pages for the category-language <em>combination</em>.<br>";
+  if (strlen(trim($pageListAsString," \t\n\r\0\x0B"))>0) {
+    $pageListAsString_mod = str_replace("http://","",$pageListAsString);
+    $pageListAsString_mod = str_replace("https://","",$pageListAsString_mod);
+    $pageListAsString_mod = str_replace("en.wikipedia.org/wiki/","",$pageListAsString_mod);
+    $pageListAsString_mod = str_replace("_"," ",$pageListAsString_mod);
+    $pageListAsArray = convertPageListToArray($pageListAsString_mod);
+  } elseif ($tag!='' and count($languageList) == 1) {
+    $pageListAsArray = getPageListByTag($tag,$languageList[0]);
+    if (sizeof($pageListAsArray) == 0) {
+      include(__DIR__."/../style/head.inc");
+      print "Although the tag is valid, there are no pages for the tag-language <em>combination</em>.<br>";
+      $pagespecificationerror = true;
+    }
+  } elseif ($tag!='' and count($languageList) > 1) {
+    include(__DIR__."/../style/head.inc");
+    print "We do not support multiple pages view for a single tag and multiple languages";
+    $pagespecificationerror = true;
+  } elseif ($category!='') {
+    $pageListAsArray = getPageListByWikipediaCategory($category,$language);
+    if (sizeof($pageListAsArray) == 0) {
+      include(__DIR__."/../style/head.inc");
+      print "There are no pages for the category-language <em>combination</em>.<br>";
+      $pagespecificationerror = true;
+    }
+    sort($pageListAsArray);
+  } elseif ($user!='') {
+    $pageListAsArray = getPageListByCreatingUser($user,$language);
+    if (sizeof($pageListAsArray) == 0) {
+      include(__DIR__."/../style/head.inc");
+      print "There are no pages for the user-language <em>combination</em>.<br>";
+      $pagespecificationerror = true;
+    }
+    sort($pageListAsArray);
+  } elseif ($linkingpage!='') {
+    $pageListAsArray = getPageListByLinkingPage($linkingpage,$language);
+    if (sizeof($pageListAsArray) == 0) {
+      include(__DIR__."/../style/head.inc");
+      print "There are no pages for the linking page-language <em>combination</em>.<br>";
+      $pagespecificationerror = true;
+    }
+    sort($pageListAsArray);
+  } elseif ($archivalStatus!='') {
+    $pageListAsArray = getPageListByArchivalStatus($archivalStatus,$language);
+    if (sizeof($pageListAsArray) == 0) {
+      include(__DIR__."/../style/head.inc");
+      print "There are no pages for the archival status-language <em>combination</em>.<br>";
+      $pagespecificationerror = true;
+    }
+    sort($pageListAsArray);
+  } elseif ($viewbound > 0) {
+    if (strlen($yearfilter) == 0) {
+      $pageListAsArray = getPageListByViewBound($viewbound,$monthfilter,$language,'month');
+    } else {
+      $pageListAsArray = getPageListByViewBound($viewbound,$yearfilter,$language,'year');
+      if (sizeof($pageListAsArray) == 0) {
+        include(__DIR__."/../style/head.inc");
+	print "There are no pages for the view bound-filter-language <em>combination</em>.<br>";
 	$pagespecificationerror = true;
       }
-    sort($pageListAsArray);
-      }
-    elseif ($user!='')
-      {
-	$pageListAsArray = getPageListByCreatingUser($user,$language);
-	if (sizeof($pageListAsArray) == 0)
-	  {
-	    include(__DIR__."/../style/head.inc");
-	    print "There are no pages for the user-language <em>combination</em>.<br>";
-	    $pagespecificationerror = true;
-	  }
-	sort($pageListAsArray);
-      }
-    elseif ($linkingpage!='')
-      {
-	$pageListAsArray = getPageListByLinkingPage($linkingpage,$language);
-    if (sizeof($pageListAsArray) == 0)
-      {
-	include(__DIR__."/../style/head.inc");
-	print "There are no pages for the linking page-language <em>combination</em>.<br>";
-	$pagespecificationerror = true;
-      }
-    sort($pageListAsArray);
-      }
-    elseif ($archivalStatus!='')
-      {
-	$pageListAsArray = getPageListByArchivalStatus($archivalStatus,$language);
-	if (sizeof($pageListAsArray) == 0)
-	  {
-	    include(__DIR__."/../style/head.inc");
-	    print "There are no pages for the archival status-language <em>combination</em>.<br>";
-	    $pagespecificationerror = true;
-	  }
-	sort($pageListAsArray);
-      } 
-    elseif ($viewbound > 0)
-      {
-	if (strlen($yearfilter) == 0)
-	  $pageListAsArray = getPageListByViewBound($viewbound,$monthfilter,$language,'month');
-	else
-	  $pageListAsArray = getPageListByViewBound($viewbound,$yearfilter,$language,'year');
-	if (sizeof($pageListAsArray) == 0)
-	  {
-	    include(__DIR__."/../style/head.inc");
-	    print "There are no pages for the view bound-filter-language <em>combination</em>.<br>";
-	    $pagespecificationerror = true;
-	  }
-	sort($pageListAsArray);
-      }
+      sort($pageListAsArray);
+    }
+  }
 }
 $pageListAsArray = array_map("ucfirst", $pageListAsArray);
 ?>

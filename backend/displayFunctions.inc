@@ -42,7 +42,7 @@ function totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$month
       if ($grandTotal == 0) {
         $pageOrTagCumLanguagePercentage[$pageOrTag][$language] = 'undefined';
       } else {
-        $pageOrTagCumLanguagePercentage[$pageOrTag] = round(100 * floatval($pageOrTagCumLanguageTotal[$pageOrTag][$language])/floatval($grandTotal),1);
+        $pageOrTagCumLanguagePercentage[$pageOrTag][$language] = round(100 * floatval($pageOrTagCumLanguageTotal[$pageOrTag][$language])/floatval($grandTotal),1);
       }
       foreach ($drilldownList as $drilldown) {
         if ($grandTotal == 0) {
@@ -61,9 +61,9 @@ function totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$month
     }
     foreach ($pageOrTagList as $pageOrTag) {
       if ($grandTotal == 0) {
-	$pageOrTagCumLanguageCumMonthOrYearPercentage[$pageOrTag][$monthOrYear] = 'undefined';
+	$pageOrTagCumLanguageCumMonthOrYearPercentage[$pageOrTag][$language][$monthOrYear] = 'undefined';
       } else {
-	$pageOrTagCumLanguageCumMonthOrYearPercentage[$pageOrTag][$monthOrYear] = round(100 * floatval($pageOrTagCumLanguageCumMonthOrYearTotal[$pageOrTag][$monthOrYear])/floatval($grandTotal),1);
+	$pageOrTagCumLanguageCumMonthOrYearPercentage[$pageOrTag][$language][$monthOrYear] = round(100 * floatval($pageOrTagCumLanguageCumMonthOrYearTotal[$pageOrTag][$language][$monthOrYear])/floatval($grandTotal),1);
       }
     }
   }
@@ -184,7 +184,7 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
   if (count($monthOrYearList) > 1) {
     $headerstring .="<th>Total</th>";
   }
-  if (count($pageOrTagList) * count($drilldownList) > 1) {
+  if (count($pageOrTagList) * count($languageList) * count($drilldownList) > 1) {
     $headerstring.="<th>Percentage</th>";
   }
 
@@ -211,7 +211,7 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
           $pageOrTagCumLanguageCumDrilldownRowString = '<td><a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageOrTag.'&language='.$language.'&drilldown='.$drilldown.'&allyears=allyears">'.$pageOrTag.'</a>';
         }
         if (count($languageList) > 1) {
-          $pageOrTagCumLanguageDrilldownRowString .= ', language '.$language;
+          $pageOrTagCumLanguageCumDrilldownRowString .= ', language '.$language;
         }
         if (count($drilldownList) > 1) {
           $pageOrTagCumLanguageCumDrilldownRowString .= ', drilldown '.$drilldown;
@@ -266,7 +266,7 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
         }
         $pageOrTagCumLanguageSummaryString .= ', sum over drilldowns</strong></td>';
         foreach($monthOrYearList as $monthOrYear) {
-          $viewcount = $pageOrTagCumLanguageCumMonthOrYearTotal[$pageOrTag][$monthOrYear];
+          $viewcount = $pageOrTagCumLanguageCumMonthOrYearTotal[$pageOrTag][$language][$monthOrYear];
   	  if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
   	    $pageOrTagCumLanguageSummaryString .= printMonthViewCount($pageOrTag,$monthOrYear,$language,"all",$viewcount,$numericDisplayFormat);
   	  } elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year') {
@@ -278,7 +278,7 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
           }
         }
         if (count($monthOrYearList) > 1) {
-          $pageOrTagCumLanguageSummaryString .='<td align="right"><strong><element title="'.$pageOrTagCumLanguageTotal[$pageOrTag].'">'.numericDisplay($pageOrTagCumLanguageTotal[$pageOrTag],$numericDisplayFormat).'</element></strong></td>';
+          $pageOrTagCumLanguageSummaryString .='<td align="right"><strong><element title="'.$pageOrTagCumLanguageTotal[$pageOrTag][$language].'">'.numericDisplay($pageOrTagCumLanguageTotal[$pageOrTag][$language],$numericDisplayFormat).'</element></strong></td>';
         }
         $pageOrTagCumLanguageSummaryString .= '<td align="right"><strong>'.$pageOrTagCumLanguagePercentage[$pageOrTag][$language].'</strong></td>';
         if ($pageOrTagAdvice == 'page') {
@@ -330,7 +330,7 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
       }
     }
   }
-  if (count($pageOrTagList) * count($drilldownList) > 1) {
+  if (count($pageOrTagList) * count($languageList) * count($drilldownList) > 1) {
     $totalsRowString="<tr><td><strong>Total</strong></td>";
     foreach($monthOrYearList as $monthOrYear) {
       $totalsRowString .= '<td align="right"><strong><element title="'.$monthOrYearTotal[$monthOrYear].'">'.numericDisplay($monthOrYearTotal[$monthOrYear],$numericDisplayFormat).'</element></strong></td>';
@@ -351,7 +351,7 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
       $percentagesRowString .= '<td align="right"><strong>'.$monthOrYearPercentage[$monthOrYear].'</strong></td>';
     }
     $percentagesRowString .= '<td align="right"><strong>100</strong></td>';
-    if (count($pageOrTagList) * count($drilldownList) > 1) {
+    if (count($pageOrTagList) * count($languageList) * count($drilldownList) > 1) {
       $percentagesRowString .= '<td align="right">--</td>';
     }
     if ($pageOrTagAdvice == 'page') {
@@ -414,42 +414,44 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
   print '<table border="1">';
   $headerstring = "<tr><th>".ucfirst($monthOrYearAdvice)."</th>";
   foreach($pageOrTagList as $pageOrTag) {
-    foreach($drilldownList as $drilldown) {
-      $shortDescriptor = getShortDescriptor($drilldown);
-      if ($pageOrTagAdvice=='page') {
-        $headerstring .= '<th>'.$shortDescriptor.' of page <a href="'. getpageurl($pageOrTag,$language). '" title="'.$pageOrTag.' (read page on Wikipedia)">' . $pageOrTag.'</a>';
-      } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
-        $headerstring .= '<th>'.$shortDescriptor.' of pages with tag <a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageOrTag.'&language='.$language.'&drilldown='.$drilldown.'&allmonths=allmonths">'.$pageOrTag.'</a>';
-      } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
-        $headerstring .= '<th>'.$shortDescriptor.' of pages with tag <a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageOrTag.'&language='.$language.'&drilldown='.$drilldown.'&allyears=allyears">'.$pageOrTag.'</a>';
-      }
-      if (count($languageList) > 1) {
-        $headerstring .= ", language ".$language;
-      }
-      if (count($drilldownList) > 1) {
-        $headerstring .= ", drilldown ".$drilldown;
-      }
-      $headerstring .= '</th>';
-    }
-    if (count($drilldownList) > 1 and count($pageOrTagList) * count($languageList) > 1) {
-      if ($pageOrTagAdvice=='page') {
-        $headerstring .= '<th>'.$shortDescriptor.' of page <a href="'. getpageurl($pageOrTag,$language). '" title="'.$pageOrTag.' (read page on Wikipedia)">' . $pageOrTag.'</a>';
-        if (count($languageList) > 1) {
-          $headerstring .= ', language '.$language;
+    foreach($languageList as $language) {
+      foreach($drilldownList as $drilldown) {
+        $shortDescriptor = getShortDescriptor($drilldown);
+        if ($pageOrTagAdvice=='page') {
+          $headerstring .= '<th>'.$shortDescriptor.' of page <a href="'. getpageurl($pageOrTag,$language). '" title="'.$pageOrTag.' (read page on Wikipedia)">' . $pageOrTag.'</a>';
+        } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
+          $headerstring .= '<th>'.$shortDescriptor.' of pages with tag <a href="http://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageOrTag.'&language='.$language.'&drilldown='.$drilldown.'&allmonths=allmonths">'.$pageOrTag.'</a>';
+        } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
+          $headerstring .= '<th>'.$shortDescriptor.' of pages with tag <a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageOrTag.'&language='.$language.'&drilldown='.$drilldown.'&allyears=allyears">'.$pageOrTag.'</a>';
         }
-        $headerstring .= ', sum over drilldowns</th>';
-      } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice='month') {
-        $headerstring .= '<th>'.$shortDescriptor.' of pages with tag <a href="'. getpageurl($pageOrTag,$language). '" title="'.$pageOrTag.' (read page on Wikipedia)">' . $pageOrTag.'</a>';
         if (count($languageList) > 1) {
-          $headerstring .= ', language '.$language;
+          $headerstring .= ", language ".$language;
         }
-        $headerstring .= ', sum over drilldowns</th>';
-      } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
-        $headerstring .= '<th>'.$shortDescriptor.' of pages with tag <a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageOrTag.'&language='.$language.'&drilldown='.$drilldown.'&allyears=allyears">'.$pageOrTag.'</a>';
-        if (count($languageList) > 1) {
-          $headerstring .= ', language '.$language;
+        if (count($drilldownList) > 1) {
+          $headerstring .= ", drilldown ".$drilldown;
         }
-        $headerstring .= ', sum over drilldowns</th>';
+        $headerstring .= '</th>';
+      }
+      if (count($drilldownList) > 1 and count($pageOrTagList) * count($languageList) > 1) {
+        if ($pageOrTagAdvice=='page') {
+          $headerstring .= '<th>'.$shortDescriptor.' of page <a href="'. getpageurl($pageOrTag,$language). '" title="'.$pageOrTag.' (read page on Wikipedia)">' . $pageOrTag.'</a>';
+          if (count($languageList) > 1) {
+            $headerstring .= ', language '.$language;
+          }
+          $headerstring .= ', sum over drilldowns</th>';
+        } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice='month') {
+          $headerstring .= '<th>'.$shortDescriptor.' of pages with tag <a href="'. getpageurl($pageOrTag,$language). '" title="'.$pageOrTag.' (read page on Wikipedia)">' . $pageOrTag.'</a>';
+          if (count($languageList) > 1) {
+            $headerstring .= ', language '.$language;
+          }
+          $headerstring .= ', sum over drilldowns</th>';
+        } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
+          $headerstring .= '<th>'.$shortDescriptor.' of pages with tag <a href="http://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageOrTag.'&language='.$language.'&drilldown='.$drilldown.'&allyears=allyears">'.$pageOrTag.'</a>';
+          if (count($languageList) > 1) {
+            $headerstring .= ', language '.$language;
+          }
+          $headerstring .= ', sum over drilldowns</th>';
+        }
       }
     }
   }
@@ -474,7 +476,7 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
     foreach($pageOrTagList as $pageOrTag) { #Computes one cell entry
       foreach($languageList as $language) {
         foreach($drilldownList as $drilldown) {
-          $viewcount = $viewcountarray[$pageOrTag][$monthOrYear][$drilldown];
+          $viewcount = $viewcountarray[$pageOrTag][$language][$drilldown][$monthOrYear];
           if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
             $monthOrYearRowString .= printMonthViewCount($pageOrTag,$monthOrYear,$language,$drilldown,$viewcount,$numericDisplayFormat);
           } elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year') {
@@ -540,7 +542,7 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
     foreach($pageOrTagList as $pageOrTag) {
       foreach($languageList as $language) {
         foreach($drilldownList as $drilldown) {
-	  $percentagesRowString .= '<td align="right"><strong>'.$pageOrTagCumLanguageCumDrilldownPercentage[$pageOrTag][$drilldown].'</strong></td>';
+	  $percentagesRowString .= '<td align="right"><strong>'.$pageOrTagCumLanguageCumDrilldownPercentage[$pageOrTag][$language][$drilldown].'</strong></td>';
         }
         if (count($pageOrTagList) * count($languageList) > 1 and count($drilldownList) > 1) {
           $percentagesRowString .= '<td align="right"><strong>'.$pageOrTagCumLanguagePercentage[$pageOrTag][$language].'</strong></td>';
@@ -678,17 +680,15 @@ function printPageviewsForMonthOrYearListAsCsv($pageOrTagList,$monthOrYearList,$
       $totalsRowString .= "<br>";
       print $totalsRowString;
     }
-  if (count($monthOrYearList) > 1)
-    {
-      $percentagesRowString = "Percentage";
-      foreach($monthOrYearList as $monthOrYear)
-	{
-	  $percentagesRowString .= "|".$monthOrYearPercentage[$monthOrYear];
-	}
-      $percentagesRowString .= "|100";
-      $percentagesRowString .= "<br>";
-      print $percentagesRowString;
+  if (count($monthOrYearList) > 1) {
+    $percentagesRowString = "Percentage";
+    foreach($monthOrYearList as $monthOrYear){
+       $percentagesRowString .= "|".$monthOrYearPercentage[$monthOrYear];
     }
+    $percentagesRowString .= "|100";
+    $percentagesRowString .= "<br>";
+    print $percentagesRowString;
+  }
 }
 
 function printPageviewsForMonthOrYearListAsCsvTransposed($pageOrTagList,$monthOrYearList,$language,$drilldown,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month') {
@@ -752,7 +752,7 @@ function printPageviewsForMonthOrYearListAsCsvTransposed($pageOrTagList,$monthOr
     {
       $totalsRowString = "Total";
       foreach($pageOrTagList as $pageOrTag)
-	$totalsRowString .= "|".$pageOrTagCumLanguageTotal[$pageOrTag];
+	$totalsRowString .= "|".$pageOrTagCumLanguageTotal[$pageOrTag][$language];
       if (count($pageOrTagList) > 1)
 	$totalsRowString .= "|".$grandTotal;
       $totalsRowString .="|100";
@@ -954,7 +954,6 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
         }
       }
       $stringtoprint .="|".$monthOrYearTotal[$monthOrYear];
-      }
       if (count($monthOrYearList) > 1) {
         $stringtoprint .="|".$monthOrYearPercentage[$monthOrYear];
       }
@@ -1043,7 +1042,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     }
     print "<br><br>";
     print "<strong>Graph of data; one curve for total by each page, one curve for total".$addendum.", below:</strong><br/>";
-    print '<img src="/images/'.$pageOrTagFileName.'.png" alt="Graph of pageviews should have loaded here"></img>';
+    print '<img src="/images/' . $pageOrTagFileName . '.png" alt="Graph of pageviews should have loaded here"></img>';
   }
   $graphEndTime = microtime(true);
   $graphTimeTaken = $graphEndTime - $graphStartTime;

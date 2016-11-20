@@ -7,10 +7,17 @@
 
 ## Only included in displayviewsformultipletagsandmonths.php
 
-##Retrieval of language
-$language='en';
+## Retrieval of language
+$languageList = array("en");
+if (!empty($_REQUEST['languages'])) {
+  $languageList = $_REQUEST['languages'];
+}
+if (!empty($_REQUEST['languageList'])) {
+  $languageList = $_REQUEST['languageList'];
+}
 if (!empty($_REQUEST['language'])) {
-  $language = $_REQUEST['language'];
+  $sentLanguage = $_REQUEST['language'];
+  $languageList = array($sentLanguage);
 }
 
 ## Retrieval of drilldown

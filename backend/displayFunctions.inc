@@ -856,7 +856,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
         }
       }
     }
-    if (count($pageOrTagList) * count($langugeList) * count($drilldownList) > 1) {
+    if (count($pageOrTagList) * count($languageList) * count($drilldownList) > 1) {
       $totalsRowString .= "|".$grandTotal;
     }
     $totalsRowString .="|100";

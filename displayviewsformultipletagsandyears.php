@@ -22,7 +22,7 @@ if ($pagespecificationerror == true) {
       } else {
 	printpageviewsformonthOrYearListashtmltabletransposed($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year');
       }
-      if (count($yearList) > 1) {
+      if (count($yearList) > 1 or count($tagList) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year');
       }
       include("inputdisplay/multipletagsandyearsdataentry.inc");
@@ -30,7 +30,7 @@ if ($pagespecificationerror == true) {
     case 'htmltable' :
       include("style/head.inc"); 
       printpageviewsformonthOrYearListashtmltable($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year');
-      if (count($yearList) > 1) {
+      if (count($yearList) > 1 or count($tagList) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year');
       }
       include("inputdisplay/multipletagsandyearsdataentry.inc");
@@ -38,7 +38,7 @@ if ($pagespecificationerror == true) {
     case 'htmltabletransposed' :
       include("style/head.inc");
       printpageviewsformonthOrYearListashtmltabletransposed($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year');
-      if (count($yearList) > 1) {
+      if (count($yearList) > 1 or count($tagList) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year');
       }
       include("inputdisplay/multipletagsandyearsdataentry.inc");

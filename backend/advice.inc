@@ -1,6 +1,6 @@
 <?php
 
-function pageMonthAdvice($pageList,$monthList,$drilldownList,$camefromtag=false) {
+function pageMonthAdvice($pageList,$languageList,$drilldownList,$monthList,$camefromtag=false) {
   global $unavailableCount;
   global $irretrievableCount;
   global $attemptedExternalQueryLimit;
@@ -20,13 +20,16 @@ function pageMonthAdvice($pageList,$monthList,$drilldownList,$camefromtag=false)
   }
   print "<br>";
   print "Time taken for generating the data: ".round($timeTaken,3)." seconds, of which ".round($bulkRetrievalTimeTaken,3)." seconds was for bulk retrieval from the database<br>";
-  if (count($monthList) > 1) {
+  if (count($monthList) > 1 or count($pageList) > 1 or count($languageList) > 1 or count($drilldownList) > 1) {
     print "Time taken for generating the graphs: ".round($graphTimeTaken,3)." seconds<br>";
   }
-  $numCells = count($pageList) * count($drilldownList) * count($monthList);
-  if (max(count($pageList),count($drilldownList),count($monthList)) > 1) {
+  $numCells = count($pageList) * count($languageList) * count($drilldownList) * count($monthList);
+  if (max(count($pageList),count($languageList),count($drilldownList),count($monthList)) > 1) {
     print "Printed data for ".count($pageList)." page";
     if (count($pageList) > 1) print "s";
+    if (count($languageList) > 1) {
+      print ", ".count($languageList)." languages,";
+    }
     if (count($drilldownList) > 1) {
       print ", ".count($drilldownList)." drilldowns,";
     }

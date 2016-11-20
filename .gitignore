@@ -2,3 +2,4 @@ sensitive-xqr179/
 backend/globalvariables/passwordfile.inc
 logs/
 images/
+python/__pycache__/

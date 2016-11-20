@@ -3,6 +3,9 @@
 import argparse
 import pandas as pd
 import numpy as np
+import matplotlib
+# Force matplotlib to not use any Xwindows backend.
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 from graph import get_df

@@ -23,7 +23,7 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
       } else {
         printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization);
       }
-      if (count($monthList) > 1) {
+      if (count($monthList) > 1 or count($pageListAsArray) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization);
       }
       include("inputdisplay/multiplemonthsdataentry.inc");
@@ -31,7 +31,7 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
     case 'htmltable' :
       include("style/head.inc"); 
       printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization);
-      if (count($monthList) > 1) {
+      if (count($monthList) > 1 or count($pageListAsArray) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization);
       }
       include("inputdisplay/multiplemonthsdataentry.inc");
@@ -39,7 +39,7 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
     case 'htmltabletransposed' :
       include("style/head.inc");
       printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization);
-      if (count($monthList) > 1) {
+      if (count($monthList) > 1 or count($pageListAsArray) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization);
       }
       include("inputdisplay/multiplemonthsdataentry.inc");

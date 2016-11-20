@@ -11,7 +11,7 @@
 ##advancedoptions.inc, monthcheckboxlist.inc
 
 if ($formdata == true and ($pagespecificationerror == false and $monthspecificationerror == false)) {
-  pageMonthAdvice($pageListAsArray,$monthList,$drilldownList,($tag !== ''));
+  pageMonthAdvice($pageListAsArray,$languageList,$drilldownList,$monthList,($tag !== ''));
 }
    
 $pagetypeadvice = "multiplemonths";

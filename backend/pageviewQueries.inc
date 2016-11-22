@@ -103,7 +103,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
       # Calculate string of the first date of next month (used as upper limit of
       # query)
       ini_set('user_agent', 'Wikipedia Views (wikipediaviews.org); contact vipulnaik1@gmail.com in case of issues');
-      usleep(20000);
+      # usleep(20000); ## No need to sleep, the API takes 100 ms to respond so we are anyway safe at 10 req/s
       $html = file_get_contents($url);
       if (!$html) {
         $successfulExternalQueryCount++;
@@ -123,7 +123,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   }
 }
 
-function getPageviewsFromDb($page,$month,$language,$drilldown, $online) {
+function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose='false') {
   global $mysqli;
   global $attemptedExternalQueryCount;
   global $attemptedExternalQueryLimit;
@@ -137,7 +137,7 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online) {
   global $tokenExpiredMessage;
   global $irretrievableCount;
   # Short circuit computation if we know we cannot retrieve anything
-  if (($month < 201507 and in_array($drilldown, array("mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider"))) or ($month < 201610 and $drilldown == 'cumulative-facebook-shares')) {
+  if (($month < '201507' and in_array($drilldown, array("mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider"))) or ($month < 201610 and $drilldown == 'cumulative-facebook-shares')) {
     $irretrievableCount++;
     return $cannotRetrieveMessage;
   }
@@ -148,17 +148,35 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online) {
 
   #First looks for existing entries in the database
 
+  $selectionStartTime = microtime(true);
   $selectQuery = "select viewcount,querytime from viewcountsbymonth_all where pagename=\"".$lookupPage."\" and monthfull='".$month."' and language='".$language."' and drilldown='".$drilldown."' limit 1;";
   # print $selectQuery;
 
   $result = $mysqli->query($selectQuery);
-  
+  $selectionEndTime = microtime(true);
+
+  if ($verbose == 'true') {
+    $selectionTimeTaken = $selectionEndTime - $selectionStartTime;
+    print date("Y-m-d h:i:sa").": Time taken for selection for page $page, month $month, language $language, drilldown $drilldown: ".$selectionTimeTaken."\n";
+  }
   #If there is no entry, fetches it online
 
   if ($result->num_rows == 0) {
+    $onlineQueryStartTime = microtime(true);
     $viewcount = getPageviewsOnline($page,$month,$language,$drilldown);
+    $onlineQueryEndTime = microtime(true);
+    if ($verbose == 'true') {
+      $onlineQueryTimeTaken = $onlineQueryEndTime - $onlineQueryStartTime;
+      print date("Y-m-d h:i:sa").": Time taken for online query for page $page, month $month, language $language, drilldown $drilldown: ".$onlineQueryTimeTaken."\n";
+    }
     if ($viewcount !== $cannotRetrieveMessage and $viewcount !== $tokenExpiredMessage) {
+      $insertQueryStartTime = microtime(true);
       $insertQuery="insert into viewcountsbymonth_all(pagename,monthfull,language,drilldown,viewcount) values (\"".$lookupPage."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
+      $insertQueryEndTime = microtime(true);
+      if ($verbose == 'true') {
+        $insertQueryTimeTaken = $insertQueryEndTime - $insertQueryStartTime;
+        print date("Y-m-d h:i:sa").": Time taken for insert query for page $page, month $month, language $language, drilldown $drilldown: ".$insertQueryTimeTaken."\n";
+      }
       $success = $mysqli->query($insertQuery);
     }
   } else {
@@ -185,9 +203,15 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online) {
     }
   }
   #If a value has been successfully retrieved, removes it from the wanted query list
-  if ($viewcount != $exceededQueryLimitMessage and $drilldown == "desktop") {
-    $delete_query = "delete from wantedviewcountsbymonth where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."';";
+  if ($viewcount != $exceededQueryLimitMessage) {
+    $deletionStartTime = microtime(true);
+    $delete_query = "delete from wantedviewcountsbymonth where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."' and drilldown='$drilldown';";
     $success = $mysqli->query($delete_query);
+    $deletionEndTime = microtime(true);
+    if ($verbose == 'true') {
+      $deletionTimeTaken = $deletionEndTime - $deletionStartTime;
+      print date("Y-m-d h:i:sa").": Time taken for deletion query $delete_query for page $page, month $month, language $language, drilldown $drilldown: ".$deletionTimeTaken."\n";
+    }
   }
   return $viewcount;
 }
@@ -442,10 +466,13 @@ function fillinWantedViewCounts($queryLimit, $online) {
   for($i=0;$i < $result->num_rows;$i++) {
     $currentLoad = sys_getloadavg();
     if ($currentLoad[0] < 1.75) {
+      $queryStartTime = microtime(true);
       $count = getPageviewsFromDb($page[$i],$month[$i],$language[$i],$drilldown[$i],$online);
       print "Weighted external query count is ".$attemptedExternalQueryCount." and ";
       print "weighted external query limit is ".$attemptedExternalQueryLimit."\n";
-      print "For page ".$page[$i].", language ".$language[$i].", drilldown ".$drilldown[$i].", and month ".$month[$i].", page view count is ".$count."\n";
+      $queryEndTime = microtime(true);
+      $queryTimeTaken = $queryEndTime - $queryStartTime;
+      print date("Y-m-d h:i:sa").": For page ".$page[$i].", language ".$language[$i].", drilldown ".$drilldown[$i].", and month ".$month[$i].", page view count is ".$count.", time taken is ".$queryTimeTaken." seconds\n";
       if ($count != $exceededQueryLimitMessage) {
 	 $deletionQuery .= ",".$row_id[$i];
       }

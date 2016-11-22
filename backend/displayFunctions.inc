@@ -1007,27 +1007,20 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       $stringtoprint .="\n";
       $drilldownOutput .= $stringtoprint;
     }
-    if (count($monthOrYearList) > 1) {
-      $totalsRowString = "Total";
-      foreach($drilldownList as $drilldown) {
-        $totalsRowString .= "|".$drilldownTotal[$drilldown];
-      }
+    $totalsRowString = "Total";
+    foreach($drilldownList as $drilldown) {
+      $totalsRowString .= "|".$drilldownTotal[$drilldown];
     }
-    if (count($drilldownList) > 1) {
-      $totalsRowString .= "|".$grandTotal;
-    }
-    $totalsRowString .="|100";
+    $totalsRowString .= "|".$grandTotal;
     $totalsRowString .= "\n";
     $drilldownOutput .= $totalsRowString;
-    if (count($pageOrTagList) > 0) {
-      $percentagesRowString = "Percentage";
-      foreach($drilldownList as $drilldown) {
-        $percentagesRowString .= "|".$drilldownPercentage[$drilldown];
-      }
-      $percentagesRowString .= "|100";
-      $percentagesRowString .= "\n";
-      $drilldownOutput .= $percentagesRowString;
+    $percentagesRowString = "Percentage";
+    foreach($drilldownList as $drilldown) {
+      $percentagesRowString .= "|".$drilldownPercentage[$drilldown];
     }
+    $percentagesRowString .= "|100";
+    $percentagesRowString .= "\n";
+    $drilldownOutput .= $percentagesRowString;
   }
 
   # pageOrTag output
@@ -1147,24 +1140,30 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
   $filePathBase = $imagesPath . $fileName;
   file_put_contents($filePathBase . ".csv", $fullOutput);
   if (count($pageOrTagList) * count($languageList) * count($drilldownList) > 1) {
+    $addendum = "";
     $cmdToExecute = $generateDistribCmdBase . " " . $filePathBase . ".csv " . $filePathBase . "-distrib.png ";
     if ($numericDisplayFormat == "log") {
       $cmdToExecute = $cmdToExecute . " --log10 ";
+      $addendum .= ", taking logs";
     }
     if (count($pageOrTagList) * count($languageList) * count($drilldownList) <= 30) {
       $cmdToExecute = $cmdToExecute . " --label --label_max_len 40 ";
+      $addendum .= ", showing labels as there are 30 or fewer items";
+    } else {
+      $addendum .= ", not showing labels as there are more than 30 items";
     }
     if (count($pageOrTagList) * count($languageList) * count($drilldownList) <= 50) {
       $entityDescriptor = "bar";
       $cmdToExecute = $cmdToExecute . " --plot_kind bar ";
+      $addendum .= ", using bars as there are 50 or fewer items";
     } else {
       $entityDescriptor = "point in the line graph";
       $cmdToExecute = $cmdToExecute . " --plot_kind line ";
+      $addendum .= ", using lines (not bars) as there are more than 50 items";
     }
-    # print("Going to try executing ".$cmdToExecute."<br>");
     exec($cmdToExecute);
     print "<br/><br/>";
-    print "<strong>Distribution of pageviews; each ".$entityDescriptor." represents a combination of page, language, and drilldown</strong><br/>";
+    print "<strong>Distribution of pageviews; each ".$entityDescriptor." represents a combination of page, language, and drilldown$addendum</strong><br/>";
     print '<img src="/images/'.$fileName.'-distrib.png" alt="Image of pageviews distribution should have loaded here"></img>';
   }
   if (count($monthOrYearList) > 1) {
@@ -1172,11 +1171,10 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     if ($numericDisplayFormat == "log") {
       $cmdToExecute = $cmdToExecute . " --log10";
     }
-    # print("Going to try executing ".$cmdToExecute."<br>");
     exec($cmdToExecute);
     print "<br/><br/>";
     if (count($pageOrTagList) * count($languageList) * count($drilldownList) > 30) {
-    $addendum = ", restricted to the top 30 by total across months";
+      $addendum = ", restricted to the top 30 by total across months";
     } else {
       $addendum = "";
     }
@@ -1194,6 +1192,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
 
   if (count($pageOrTagList) * count($languageList) > 1 and count($drilldownList) > 1) {
     # Construct drilldown-grouped data
+    $addendum = "";
     $drilldownFileName = $fileName."-drilldown";
     $drilldownFilePathBase = $imagesPath . $drilldownFileName;
     file_put_contents($drilldownFilePathBase . ".csv", $drilldownOutput);
@@ -1205,18 +1204,23 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     }
     if (count($drilldownList) <= 30) {
       $cmdToExecute = $cmdToExecute . " --label --label_max_len 40 ";
+      $addendum .= ", showing labels as there are 30 or fewer items";
+    } else {
+      $addendum .= ", not showing labels as there are more than 30 items";
     }
     if (count($drilldownList) <= 50) {
       $entityDescriptor = "bar";
       $cmdToExecute = $cmdToExecute . " --plot_kind bar ";
+      $addendum .= ", using bars as there are 50 or fewer items";
     } else {
       $entityDescriptor = "point in the line graph";
       $cmdToExecute = $cmdToExecute . " --plot_kind line ";
+      $addendum .= ", using lines (not bars) as there are more than 50 items";
     }
     # print("Going to try executing ".$cmdToExecute."<br>");
     exec($cmdToExecute);
     print "<br/><br/>";
-    print "<strong>Distribution of pageviews; each ".$entityDescriptor." represents a drilldown, summed over the over dimensions</strong><br/>";
+    print "<strong>Distribution of pageviews; each ".$entityDescriptor." represents a drilldown, summed over the other dimensions$addendum</strong><br/>";
     print '<img src="/images/'.$drilldownFileName.'-distrib.png" alt="Image of pageviews distribution should have loaded here"></img>';
 
     if (count($monthOrYearList) > 1) {
@@ -1232,6 +1236,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
   }
 
   if (count($languageList) > 1 and count($drilldownList) > 1) {
+    $addendum = "";
     $pageOrTagCumLanguageFileName = $fileName."-".$pageOrTagAdvice."lang";
     $pageOrTagCumLanguageFilePathBase = $imagesPath . $pageOrTagCumLanguageFileName;
     file_put_contents($pageOrTagCumLanguageFilePathBase . ".csv", $pageOrTagCumLanguageOutput);
@@ -1241,18 +1246,23 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     }
     if (count($pageOrTagList) * count($languageList) <= 30) {
       $cmdToExecute = $cmdToExecute . " --label --label_max_len 40 ";
+      $addendum .= ", showing labels as there are 30 or fewer items";
+    } else {
+      $addendum .= ", not showing labels as there are more than 30 items";
     }
     if (count($pageOrTagList) * count($languageList) <= 50) {
       $entityDescriptor = "bar";
       $cmdToExecute = $cmdToExecute . " --plot_kind bar ";
+      $addendum .= ", using bars as there are 50 or fewer items";
     } else {
       $entityDescriptor = "point in the line graph";
       $cmdToExecute = $cmdToExecute . " --plot_kind line ";
+      $addendum .= ", using lines (not bars) as there are more than 50 items";
     }
     # print("Going to try executing ".$cmdToExecute."<br>");
     exec($cmdToExecute);
     print "<br/><br/>";
-    print "<strong>Distribution of pageviews; each ".$entityDescriptor." represents a combination of ".$pageOrTagAdvice." and language, summed up over drilldowns</strong><br/>";
+    print "<strong>Distribution of pageviews; each ".$entityDescriptor." represents a combination of ".$pageOrTagAdvice." and language, summed up over drilldowns$addendum</strong><br/>";
     print '<img src="/images/'.$pageOrTagCumLanguageFileName.'-distrib.png" alt="Image of pageviews distribution should have loaded here"></img>';
 
     if (count($monthOrYearList) > 1) {
@@ -1273,27 +1283,34 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
   }
   if (count($languageList) * count($drilldownList) > 1 and count($pageOrTagList) > 1) {
     # Construct page or tag
+    $addendum = ""; 
     $pageOrTagFileName = $fileName."-".$pageOrTagAdvice;
     $pageOrTagFilePathBase = $imagesPath . $pageOrTagFileName;
     file_put_contents($pageOrTagFilePathBase . ".csv", $pageOrTagOutput);
     $cmdToExecute = $generateDistribCmdBase . " " . $pageOrTagFilePathBase . ".csv " . $pageOrTagFilePathBase . "-distrib.png ";
     if ($numericDisplayFormat == "log") {
       $cmdToExecute = $cmdToExecute . " --log10 ";
+      $addendum .= ", taking logs";
     }
     if (count($pageOrTagList) <= 30) {
       $cmdToExecute = $cmdToExecute . " --label --label_max_len 40 ";
+      $addendum .= ", showing labels as there are 30 or fewer items";
+    } else {
+      $addendum .= ", not showing labels as there are more than 30 items";
     }
     if (count($pageOrTagList) <= 50) {
       $entityDescriptor = "bar";
       $cmdToExecute = $cmdToExecute . " --plot_kind bar ";
+      $addendum .= ", using bars as there are 50 or fewer items";      
     } else {
       $entityDescriptor = "point in the line graph";
       $cmdToExecute = $cmdToExecute . " --plot_kind line ";
+      $addendum .= ", using lines (not bars) as there are more than 50 items";      
     }
     # print("Going to try executing ".$cmdToExecute."<br>");
     exec($cmdToExecute);
     print "<br/><br/>";
-    print "<strong>Distribution of pageviews; each ".$entityDescriptor." represents a ".$pageOrTagAdvice." summed up over the selected languages and drilldowns</strong><br/>";
+    print "<strong>Distribution of pageviews; each ".$entityDescriptor." represents a ".$pageOrTagAdvice." summed up over the selected languages and drilldowns$addendum</strong><br/>";
     print '<img src="/images/'.$pageOrTagFileName.'-distrib.png" alt="Image of pageviews distribution should have loaded here"></img>';
 
     if (count($monthOrYearList) > 1) {

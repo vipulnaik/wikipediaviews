@@ -968,19 +968,17 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
   }
   $totalsRowString .= "\n";
   $fullOutput .= $totalsRowString;
-  if (count($pageOrTagList) * count($languageList) * count($drilldownList) > 1) {
-    $percentagesRowString = "Percentage";
-    foreach($pageOrTagList as $pageOrTag) {
-      foreach($languageList as $language) {
-        foreach($drilldownList as $drilldown) {
-          $percentagesRowString .= "|".$pageOrTagCumLanguageCumDrilldownPercentage[$pageOrTag][$language][$drilldown];
-        }
+  $percentagesRowString = "Percentage";
+  foreach($pageOrTagList as $pageOrTag) {
+    foreach($languageList as $language) {
+      foreach($drilldownList as $drilldown) {
+        $percentagesRowString .= "|".$pageOrTagCumLanguageCumDrilldownPercentage[$pageOrTag][$language][$drilldown];
       }
     }
-    $percentagesRowString .= "|100";
-    $percentagesRowString .= "\n";
-    $fullOutput .= $percentagesRowString;
   }
+  $percentagesRowString .= "|100";
+  $percentagesRowString .= "\n";
+  $fullOutput .= $percentagesRowString;
 
   # Drilldown output
   $drilldownOutput = "";
@@ -1066,15 +1064,13 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     }
     $totalsRowString .= "\n";
     $pageOrTagOutput .= $totalsRowString;
-    if (count($pageOrTagList) > 0) {
-      $percentagesRowString = "Percentage";
-      foreach($pageOrTagList as $pageOrTag) {
-        $percentagesRowString .= "|".$pageOrTagPercentage[$pageOrTag];
-      }
-      $percentagesRowString .= "|100";
-      $percentagesRowString .= "\n";
-      $pageOrTagOutput .= $percentagesRowString;
+    $percentagesRowString = "Percentage";
+    foreach($pageOrTagList as $pageOrTag) {
+      $percentagesRowString .= "|".$pageOrTagPercentage[$pageOrTag];
     }
+    $percentagesRowString .= "|100";
+    $percentagesRowString .= "\n";
+    $pageOrTagOutput .= $percentagesRowString;
   }
 
   # pageOrTag cum language output

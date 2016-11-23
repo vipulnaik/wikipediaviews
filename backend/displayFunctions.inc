@@ -869,6 +869,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
   global $imagesPath;
   global $generateGraphCmdBase;
   global $generateDistribCmdBase;
+  global $unifontLocation;
   $graphStartTime = microtime(true);
   #Check that sizes are workable
   $sizeOverflow = checkSizes($pageOrTagList,$languageList,$drilldownList,$monthOrYearList);
@@ -902,6 +903,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
   $drilldownPercentage = $tap["drilldownPercentage"];
   $monthOrYearPercentage = $tap["monthOrYearPercentage"];
 
+  if (count($languageList) > 1 or $languageList[0] != 'en') {
+    $fontParam = " --font ".$unifontLocation. " ";
+  }
   $fullOutput = "";
 
   $headerstring = ucfirst($monthOrYearAdvice);
@@ -1141,7 +1145,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
   file_put_contents($filePathBase . ".csv", $fullOutput);
   if (count($pageOrTagList) * count($languageList) * count($drilldownList) > 1) {
     $addendum = "";
-    $cmdToExecute = $generateDistribCmdBase . " " . $filePathBase . ".csv " . $filePathBase . "-distrib.png ";
+    $cmdToExecute = $generateDistribCmdBase . $fontParam . " " . $filePathBase . ".csv " . $filePathBase . "-distrib.png ";
     if ($numericDisplayFormat == "log") {
       $cmdToExecute = $cmdToExecute . " --log10 ";
       $addendum .= ", taking logs";
@@ -1240,7 +1244,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     $pageOrTagCumLanguageFileName = $fileName."-".$pageOrTagAdvice."lang";
     $pageOrTagCumLanguageFilePathBase = $imagesPath . $pageOrTagCumLanguageFileName;
     file_put_contents($pageOrTagCumLanguageFilePathBase . ".csv", $pageOrTagCumLanguageOutput);
-    $cmdToExecute = $generateDistribCmdBase . " " . $pageOrTagCumLanguageFilePathBase . ".csv " . $pageOrTagCumLanguageFilePathBase . "-distrib.png ";
+    $cmdToExecute = $generateDistribCmdBase . $fontParam . " " . $pageOrTagCumLanguageFilePathBase . ".csv " . $pageOrTagCumLanguageFilePathBase . "-distrib.png ";
     if ($numericDisplayFormat == "log") {
       $cmdToExecute = $cmdToExecute . " --log10 ";
     }
@@ -1287,7 +1291,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     $pageOrTagFileName = $fileName."-".$pageOrTagAdvice;
     $pageOrTagFilePathBase = $imagesPath . $pageOrTagFileName;
     file_put_contents($pageOrTagFilePathBase . ".csv", $pageOrTagOutput);
-    $cmdToExecute = $generateDistribCmdBase . " " . $pageOrTagFilePathBase . ".csv " . $pageOrTagFilePathBase . "-distrib.png ";
+    $cmdToExecute = $generateDistribCmdBase . $fontParam . " " . $pageOrTagFilePathBase . ".csv " . $pageOrTagFilePathBase . "-distrib.png ";
     if ($numericDisplayFormat == "log") {
       $cmdToExecute = $cmdToExecute . " --log10 ";
       $addendum .= ", taking logs";

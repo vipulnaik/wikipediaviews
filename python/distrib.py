@@ -7,6 +7,7 @@ import matplotlib
 # Force matplotlib to not use any Xwindows backend.
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import matplotlib.font_manager as font_manager
 
 from graph import get_df
 
@@ -26,6 +27,8 @@ def main():
     parser.add_argument("--label_max_len", type=int, default=10,
             metavar="N", help="maximum length in characters of each " +
             "label; only used if --label is given; default N=10")
+    parser.add_argument("--font", type=str, help="optional font " +
+            "path to use; only in effect when --label is given")
     args = parser.parse_args()
 
     if args.top > 0:
@@ -42,7 +45,11 @@ def main():
     df.plot(kind=args.plot_kind)
     if args.label:
         labels = trim_labels(df.index, max_len=args.label_max_len)
-        plt.xticks(np.arange(len(df)), labels, rotation='vertical')
+        if args.font:
+            plt.xticks(np.arange(len(df)), labels, rotation='vertical',
+                    fontproperties=font_manager.FontProperties(fname=args.font))
+        else:
+            plt.xticks(np.arange(len(df)), labels, rotation='vertical')
         plt.tight_layout()
     else:
         plt.xticks([])
@@ -76,8 +83,9 @@ def trim_labels(labels, max_len=10):
             => "JohF.Ken"
         '''
         s_lst = s.split()
-        t_lst = map(lambda x: trim(x, max_len=max_len//len(s_lst), trail=""),
-                s_lst)
+        u_lst = list(map(lambda x: x[:1].upper() + x[1:], s_lst))
+        t_lst = map(lambda x: trim(x, max_len=max_len//len(u_lst), trail=""),
+                u_lst)
         return "".join(t_lst)
     return list(map(lambda x: multi_trim(rm_views_of_page(x)),
         labels))

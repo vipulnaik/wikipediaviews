@@ -18,9 +18,9 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
     case 'htmltableautomatic' :
       include("style/head.inc");
       if (count($tagList) * count($drilldownList) >= count($monthList)) {
-	printPageviewsForMonthOrYearListAsHtmlTable($tagList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'tag','month',$sort);
+        $printStatus = printPageviewsForMonthOrYearListAsHtmlTable($tagList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'tag','month',$sort);
       } else {
-	printPageviewsForMonthOrYearListAsHtmlTableTransposed($tagList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'tag','month',$sort);
+        $printStatus = printPageviewsForMonthOrYearListAsHtmlTableTransposed($tagList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'tag','month',$sort);
       }
       if (count($monthList) > 1 or count($tagList) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($tagList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'tag','month');
@@ -29,7 +29,7 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
       break;
     case 'htmltable' :
       include("style/head.inc"); 
-      printPageviewsForMonthOrYearListAsHtmlTable($tagList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'tag','month',$sort);
+      $printStatus = printPageviewsForMonthOrYearListAsHtmlTable($tagList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'tag','month',$sort);
       if (count($monthList) > 1 or count($tagList) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($tagList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'tag','month');
       }
@@ -37,7 +37,7 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
       break;
     case 'htmltabletransposed':
       include("style/head.inc");
-      printPageviewsForMonthOrYearListAsHtmlTableTransposed($tagList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'tag','month',$sort);
+      $printStatus = printPageviewsForMonthOrYearListAsHtmlTableTransposed($tagList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'tag','month',$sort);
       if (count($monthList) > 1 or count($tagList) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($tagList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'tag','month');
       }

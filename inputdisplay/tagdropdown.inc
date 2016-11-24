@@ -14,22 +14,26 @@
 
 print '<tr><td>Select the tag that you want to work with (the page-tag relationships are defined locally on this site and do not correspond to any relationships on Wikipedia):</td><td><select name="tag">';
 include_once(__DIR__."/../backend/corecode.inc");
-$select_query = "select distinct tag from pagetags order by tag;";
+$select_query = "select tag,count(distinct pagename) as numPages,count(distinct language) as numLanguages from pagetags group by tag order by tag;";
 $result = $mysqli->query($select_query);
 $numrows = $result->num_rows;
 print '<option value="" selected="selected">-- (none selected) --</option>';
 
-for ($i=0;$i < $numrows; $i++)
-  {
-    $row = $result->fetch_assoc();
-    $tag_current = $row['tag'];
-    print '<option value="'.$tag_current.'"';
-    if ($formdata == true and $tag == $tag_current) 
-      {
-	print ' selected="selected"';
-      }
-    print '>'.$tag_current.'</option>';
+for ($i=0;$i < $numrows; $i++) {
+  $row = $result->fetch_assoc();
+  $currentTag = $row['tag'];
+  $numPages = $row['numPages'];
+  $numLanguages = $row['numLanguages'];
+  print '<option value="'.$currentTag.'"';
+  if ($formdata == true and $tag == $currentTag) {
+    print ' selected="selected"';
   }
+  print ">$currentTag ($numPages pages across $numLanguages language";
+  if ($numLanguages > 1) {
+    print "s";
+  }
+  print ")</option>";
+}
 
 print '</select></td></tr>';
 ?>

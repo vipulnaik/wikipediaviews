@@ -48,6 +48,10 @@ function getPageListByTag($tag,$language) {
 function getTagTotal($tag,$language,$drilldown,$monthList,$online=true,$normalization='') {
   global $mysqli;
   global $cannotRetrieveMessage;
+  global $exceededQueryLimitMessage;
+  global $attemptedExternalQueryCount;
+  global $attemptedExternalQueryLimit;
+  global $tagProperQueryLimit;
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
@@ -61,13 +65,28 @@ function getTagTotal($tag,$language,$drilldown,$monthList,$online=true,$normaliz
       array_push($irretrievableMonthList, $month);
     }
   }
-  $viewcountarray = viewcountarraybymonth($pageList,array($language),array($drilldown),$retrievableMonthList,$online,$normalization);
-  $tap = totalsAndPercentages($pageList,array($language),array($drilldown),$monthList,$viewcountarray);
-  $monthTotal = $tap["monthOrYearTotal"];
-  foreach($irretrievableMonthList as $month) {
-    $monthTotal[$month] = $cannotRetrieveMessage;
+  if ($online == true and $attemptedExternalQueryCount < $attemptedExternalQueryLimit and count($pageList) * count($monthList) < $tagProperQueryLimit) {
+    $viewcountarray = viewcountarraybymonth($pageList,array($language),array($drilldown),$retrievableMonthList,$online,$normalization);
+    $tap = totalsAndPercentages($pageList,array($language),array($drilldown),$monthList,$viewcountarray);
+    $monthTotal = $tap["monthOrYearTotal"];
+    foreach($irretrievableMonthList as $month) {
+      $monthTotal[$month] = $cannotRetrieveMessage;
+    }
+    return $monthTotal;
+  } else {
+    $pageListAsQuotedCsvString = convertListToQuotedCsvString($pageList);
+    $monthListAsQuotedCsvString = convertListToQuotedCsvString($monthList);
+    foreach($retrievableMonthList as $month) {
+      $monthTotal[$month] = $exceededQueryLimitMessage;
+    }
+    $tagTotalQuery = "select monthfull,coalesce(sum(viewcount),0) as total from viewcountsbymonth_all where pagename in (".$pageListAsQuotedCsvString.") and monthfull in (".$monthListAsQuotedCsvString.") and drilldown='$drilldown' group by monthfull;";
+    $tagTotalResult = $mysqli->query($tagTotalQuery);
+    for($i = 0; $i < $tagTotalResult -> num_rows; $i++) {
+      $row = $tagTotalResult -> fetch_assoc();
+      $monthTotal[$row['monthfull']] = $row['total'];
+    }
+    return $monthTotal;
   }
-  return $monthTotal;
 }
 
 function getTagTotalByYear($tag,$language,$drilldown,$yearList,$online=true,$normalization='') {
@@ -84,7 +103,7 @@ function getTagTotalByYear($tag,$language,$drilldown,$yearList,$online=true,$nor
 function viewcountarraybytagandmonth_raw($tagList,$languageList,$drilldownList,$monthList,$online=true,$normalization='') {
   foreach ($tagList as $tag) {
     foreach ($languageList as $language) {
-      foreach ($drilldownList as $drilldown) {    
+      foreach ($drilldownList as $drilldown) {
         $tagTotal = getTagTotal($tag,$language,$drilldown,$monthList,$online,$normalization);
         foreach ($monthList as $month) {
           $viewcountarray[$tag][$language][$drilldown][$month] = $tagTotal[$month];

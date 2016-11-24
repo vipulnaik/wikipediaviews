@@ -171,3 +171,56 @@ function pageYearAdvice($pageList,$yearList,$drilldownList,$cameFromTag=false) {
 	}
     }
 }
+
+function tagMonthAdvice($tagList,$languageList,$drilldownList,$monthList,$printStatus = true) {
+  global $unavailableCount;
+  global $irretrievableCount;
+  global $attemptedExternalQueryLimit;
+  global $attemptedExternalQueryCount;
+  global $successfulExternalQueryCount;
+  global $mysqli;
+  global $pageDisplayLimit;
+  global $cellDisplayLimit;
+  global $timeTaken;
+  global $graphTimeTaken;
+  global $bulkRetrievalTimeTaken;
+  print "<br>";
+  if ($printStatus == true) {
+    print "Time taken for generating the data: ".round($timeTaken,3)." seconds<br>";
+    if (count($monthList) > 1 or count($tagList) > 1 or count($languageList) > 1 or count($drilldownList) > 1) {
+      print "Time taken for generating the graphs: ".round($graphTimeTaken,3)." seconds<br>";
+    }
+  }
+  $numCells = count($tagList) * count($languageList) * count($drilldownList) * count($monthList);
+  if (max(count($tagList),count($languageList),count($drilldownList),count($monthList)) > 1) {
+    if ($printStatus == true) {
+      print "Printed";
+    } else {
+      print "You asked us to print ";
+    }
+    print " data for ".count($tagList)." page";
+    if (count($tagList) > 1) print "s";
+    if (count($languageList) > 1) {
+      print ", ".count($languageList)." languages,";
+    }
+    if (count($drilldownList) > 1) {
+      print ", ".count($drilldownList)." drilldowns,";
+    }
+    print " and ".count($monthList)." month";
+    if (count($monthList) > 1) print "s";
+    print "<br>";
+    $verb = "has";
+    if ($printStatus == false) {
+      $verb = "would have had";
+    }
+    print "The table ".$verb." a total of ".$numCells." entries<br>";
+  }
+  if ($printStatus == false) {
+    return;
+  }
+  if ($attemptedExternalQueryCount > 0) {
+    print "We attempted ".$attemptedExternalQueryCount." queries to external sources (stats.grok.se, Wikimedia API, Facebook API) out of a limit of ".$attemptedExternalQueryLimit.". Of these, ".$successfulExternalQueryCount." queries were successful<br>";
+  }
+}
+
+?>

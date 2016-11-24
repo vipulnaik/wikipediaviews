@@ -14,23 +14,26 @@
 
 print '<p>Select the tags that you want to see data for. You can select multiple tags using the Shift and Ctrl keys (the page-tag relationships are defined locally on this site and do not correspond to any relationships on Wikipedia):</p><br><select multiple name="tagList[]" size="10">';
 include_once(__DIR__."/../backend/corecode.inc");
-$select_query = "select distinct tag from pagetags order by tag;";
+$select_query = "select tag,count(distinct pagename) as numPages,count(distinct language) as numLanguages from pagetags group by tag order by tag;";
 $result = $mysqli->query($select_query);
 $numrows = $result->num_rows;
-for ($i=0;$i < $numrows; $i++)
-  {
-    $row = $result->fetch_assoc();
-    $tag_current = $row['tag'];
-    print '<option value="'.$tag_current.'"';
-    if ($formdata == true)
-      {
-	if (in_array($tag_current,$tagList))
-	  {
-	    print ' selected="selected"';
-	  }
-      }
-    print '>'.$tag_current.'</option>';
+for ($i=0;$i < $numrows; $i++) {
+  $row = $result->fetch_assoc();
+  $currentTag = $row['tag'];
+  $numPages = $row['numPages'];
+  $numLanguages = $row['numLanguages'];
+  print '<option value="'.$currentTag.'"';
+  if ($formdata == true) {
+    if (in_array($currentTag,$tagList)) {
+      print ' selected="selected"';
+    }
   }
+  print ">$currentTag ($numPages pages across $numLanguages language";
+  if ($numLanguages > 1) {
+    print "s";
+  }
+  print ")</option>";
+}
 
 print '</select><br>';
 ?>

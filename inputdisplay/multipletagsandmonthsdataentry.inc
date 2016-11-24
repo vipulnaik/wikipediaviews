@@ -12,14 +12,10 @@
 
 $pagetypeadvice = "multipletagsandmonths";
 print "<br>";
-if ($formdata == true)
-  {
-    print "You may continue editing the list below<br>";
-  }
-else
-  {
-    print '<strong>Multiple tags and months: this feature has been added recently, and may run into more problems than other features on the site.</strong><br>';
-  }
+if ($formdata == true and $monthspecificationerror == false) {
+  tagMonthAdvice($tagList,$languageList,$drilldownList,$monthList,$printStatus);
+}
+
 print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pagetypeadvice.'.php">';
 
 include("tagdropdownselectmultiple.inc");

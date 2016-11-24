@@ -23,4 +23,7 @@ $pageDisplayLimit = 25000;
 
 global $cellDisplayLimit;
 $cellDisplayLimit = 1000000;
+
+global $tagProperQueryLimit;
+$tagProperQueryLimit = 5000;
 ?>

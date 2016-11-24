@@ -456,6 +456,7 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
   }
   $tap = totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$viewcountarray);
   $grandTotal = $tap["grandTotal"];
+  $pageOrTagCumMonthOrYearTotal = $tap["pageOrTagCumMonthOrYearTotal"];
   $pageOrTagCumLanguageCumDrilldownTotal = $tap["pageOrTagCumLanguageCumDrilldownTotal"];
   $pageOrTagCumLanguageCumMonthOrYearTotal = $tap["pageOrTagCumLanguageCumMonthOrYearTotal"];
   $drilldownCumMonthOrYearTotal = $tap["drilldownCumMonthOrYearTotal"];
@@ -467,6 +468,7 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
   $pageOrTagCumLanguageCumMonthOrYearPercentage = $tap["pageOrTagCumLanguageCumMonthOrYearPercentage"];
   $drilldownCumMonthOrYearPercentage = $tap["drilldownCumMonthOrYearPercentage"];
   $pageOrTagCumLanguagePercentage = $tap["pageOrTagCumLanguagePercentage"];
+  $pageOrTagPercentage = $tap["pageOrTagPercentage"];
   $drilldownPercentage = $tap["drilldownPercentage"];
   $monthOrYearPercentage = $tap["monthOrYearPercentage"];
 
@@ -545,6 +547,14 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
         }
       }
     }
+    if (count($pageOrTagList) > 1 and count($languageList) > 1) { ## Summary column across languages and drilldowns, for a given page or tag
+      $headerstring .= '<th><strong>'.$pageOrTag.', sum over languages';
+      if (count($drilldownList) > 1) {
+        $headerstring .= ' and  drilldowns</strong></th>';
+      } else {
+        $headerstring .= '</strong></th>';
+      }
+    }
   }
   if (count($pageOrTagList) * count($languageList) > 1 and count($drilldownList) > 1) {
     foreach ($drilldownList as $drilldown) {
@@ -583,6 +593,18 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
           $monthOrYearRowString .= '<td align="right"><strong><element title="'.numericDisplay($viewcount, $numericDisplayFormat).'">'.numericDisplay($viewcount, $numericDisplayFormat).'</element></strong></td>';
         }
       }
+      if (count($pageOrTagList) > 1 and count($languageList) > 1) { ## Summary column across languages and drilldowns, for a given page or tag
+        $viewcount = $pageOrTagCumMonthOrYearTotal[$pageOrTag][$monthOrYear];
+  	if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
+  	  $monthOrYearRowString .= printMonthViewCount($pageOrTag,$monthOrYear,"all","all",$viewcount,$numericDisplayFormat);
+  	} elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year') {
+  	  $monthOrYearRowtring .= printYearViewCount($pageOrTag,$monthOrYear,"all","all",$viewcount,$numericDisplayFormat);
+  	} elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
+  	  $monthOrYearRowString .= printtagviewcount($pageOrTag,$monthOrYear,"all","all",$viewcount,$numericDisplayFormat);
+  	} elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
+  	  $monthOrYearRowString .= printtagviewcountbyyear($pageOrTag,$monthOrYear,"all","all",$viewcount,$numericDisplayFormat);
+        }
+      }
     }
     if (count($pageOrTagList) * count($languageList) > 1 and count($drilldownList) > 1) {
       foreach ($drilldownList as $drilldown) {
@@ -613,6 +635,9 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
           $totalsRowString .= '<td align="right"><strong><element title="'.$drilldownTotal[$drilldown].'">'.numericDisplay($drilldownTotal[$drilldown],$numericDisplayFormat).'</element></strong></td>';
         }
       }
+      if (count($pageOrTagList) > 1 and count($languageList) > 1) { ## Summary column across languages and drilldowns, for a given page or tag
+         $totalsRowString .='<td align="right"><strong><element title="'.$pageOrTagTotal[$pageOrTag].'">'.numericDisplay($pageOrTagTotal[$pageOrTag],$numericDisplayFormat).'</element></strong></td>';
+      }
     }
     if (count($pageOrTagList) > 1 and count($drilldownList) > 1) {
       foreach($drilldownList as $drilldown) {
@@ -638,6 +663,9 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
         if (count($pageOrTagList) * count($languageList) > 1 and count($drilldownList) > 1) {
           $percentagesRowString .= '<td align="right"><strong>'.$pageOrTagCumLanguagePercentage[$pageOrTag][$language].'</strong></td>';
         }
+      }
+      if (count($pageOrTagList) > 1 and count($languageList) > 1) { ## Summary column across languages and drilldowns, for a given page or tag
+        $percentagesRowString .= '<td align="right"><strong>'.$pageOrTagPercentage[$pageOrTag].'</strong></td>';
       }
     }
     if (count($pageOrTagList) * count($languageList) > 1 and count($drilldownList) > 1) {

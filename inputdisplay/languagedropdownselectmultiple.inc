@@ -23,7 +23,7 @@ for ($i=0;$i < $numrows; $i++) {
   if (($formdata == true and in_array($currentLanguage,$languageList)) or ($formdata == false and $currentLanguage == 'en')) {
     print ' selected="selected"';
   }
-  print '>'.$row['name']." (".$row['code'].")</option>"; 
+  print '>'.$row['name']." (".$row['code'].") (desktop data since ".$row['datastart'].")</option>"; 
 }
 
 print '</select><br>';

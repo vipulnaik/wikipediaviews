@@ -57,7 +57,14 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   global $curlOutputDirectory;
   global $tokenExpiredMessage;
   global $irretrievableCount;
-  if ($month < 201507 and in_array($drilldown, array("mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider"))) {
+  global $dataStartMap;
+  if (count($dataStartMap) == 0) {
+    $dataStartMap = dataStartMap();
+  }
+  if ($month < '201507' and in_array($drilldown, array("mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider"))) {
+    $irretrievableCount++;
+    return $cannotRetrieveMessage;
+  } elseif ($month.'31' < $dataStartMap[$language]) {
     $irretrievableCount++;
     return $cannotRetrieveMessage;
   } elseif ($attemptedExternalQueryCount >= $attemptedExternalQueryLimit) {
@@ -136,11 +143,18 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
   global $recentMonthSlowdownFactor;
   global $tokenExpiredMessage;
   global $irretrievableCount;
+  global $dataStartMap;
+  if (count($dataStartMap) == 0) {
+    $dataStartMap = dataStartMap();
+  }
   # Short circuit computation if we know we cannot retrieve anything
   if (($month < '201507' and in_array($drilldown, array("mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider"))) or ($month < 201610 and $drilldown == 'cumulative-facebook-shares')) {
     $irretrievableCount++;
     return $cannotRetrieveMessage;
-  }
+  } elseif ($month.'31' < $dataStartMap[$language]) {
+    $irretrievableCount++;
+    return $cannotRetrieveMessage;
+  } 
   $lookupPage = str_replace('"','\"',$page);
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
@@ -271,6 +285,8 @@ function viewcountarraybymonth_raw($pageList,$languageList,$drilldownList,$month
   global $thisMonth;
   global $unavailableCount;
   global $bulkRetrievalTimeTaken;
+  global $dataStartMap;
+  $dataStartMap = dataStartMap();
   $bulkRetrievalStartTime = microtime(true);
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;

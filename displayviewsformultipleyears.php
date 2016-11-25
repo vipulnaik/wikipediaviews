@@ -6,13 +6,13 @@ include("style/toggler.inc");
 print '</head>';
 include_once("backend/corecode.inc");
 $formdata = true;
-$pagetypeadvice = "multipleyears";
+$pageTypeAdvice = "multipleyears";
 include("retrieval/pageListRetrieval.inc");
 include("retrieval/yearListRetrieval.inc");
 include("retrieval/advancedOptionRetrieval.inc");
 
 ##Clumsy hack below, needs refactoring
-if ($pagespecificationerror == true or $yearspecificationerror == true) {
+if ($pageSpecificationError == true or $yearspecificationerror == true) {
     include("inputdisplay/multipleyearsdataentry.inc");
 } else {
   switch ($displayformat) {

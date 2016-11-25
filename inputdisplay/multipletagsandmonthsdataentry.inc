@@ -10,13 +10,13 @@
 ## alternatemonthspecificationmethods.inc, advancedoptions.inc
 ## monthcheckboxlist.inc
 
-$pagetypeadvice = "multipletagsandmonths";
+$pageTypeAdvice = "multipletagsandmonths";
 print "<br>";
 if ($formdata == true and $monthspecificationerror == false) {
   tagMonthAdvice($tagList,$languageList,$drilldownList,$monthList,$printStatus);
 }
 
-print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pagetypeadvice.'.php">';
+print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pageTypeAdvice.'.php">';
 
 include("tagdropdownselectmultiple.inc");
 

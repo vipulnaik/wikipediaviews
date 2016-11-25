@@ -46,6 +46,6 @@ if (count($tagList) == 0)
   {
     include(__DIR__."/../style/head.inc");
     print "You didn't select any tags. Please do so below.";
-    $pagespecificationerror = true;
+    $pageSpecificationError = true;
   }
 ?>

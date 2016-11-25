@@ -41,12 +41,23 @@ if (!empty($_REQUEST['allmonths'])) {
 
 if ($allmonths == "allmonths" and (in_array($thisMonth,$originalMonthList))) {
   $monthList = presentandpastmonths_monthList();
+  $monthUrlComponent = "&allmonths=allmonths-present";
 } elseif ($allmonths == "allmonths-present") {
   $monthList = presentandpastmonths_monthList();
+  $monthUrlComponent = "&allmonths=allmonths-present";
 } elseif ($allmonths == "allmonths") {
-    $monthList = pastmonths_monthList();
+  $monthList = pastmonths_monthList();
+  $monthUrlComponent = "&allmonths=allmonths";
 } else {
-    $monthList = $originalMonthList;
+  $monthList = $originalMonthList;
+  if (count($monthList) == 1) {
+    $monthUrlComponent = "&month=".$monthList[0];
+  } else {
+    $monthUrlComponent = "";
+    for ($i = 0; $i < count($monthList); $i++) {
+      $monthUrlComponent .= "&months[$i]=".$monthList[$i];
+    }
+  }
 }
 
 

@@ -24,6 +24,14 @@ if (!empty($_REQUEST['language'])) {
   $languageList = array($sentLanguage);
 }
 
+if (count($languageList) == 1) {
+  $languageUrlComponent = "&language=".$languageList[0];
+} else {
+  $languageUrlComponent = "";
+  for ($i = 0; $i < count($languageList); $i++) {
+    $languageUrlComponent .= "&languages[$i]=".$languageList[$i];
+  }
+}
 
 ## Retrieval of drilldown
 $drilldownList = array("desktop");
@@ -35,6 +43,7 @@ if (!empty($_REQUEST['drilldownList'])) {
 }
 if (!empty($_REQUEST['drilldown'])) {
   $sentDrilldown = $_REQUEST['drilldown'];
+  $drilldownUrlComponent = "&drilldown=".$sentDrilldown;
   if ($sentDrilldown == "all") {
     $drilldownList = array("desktop", "mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider");
   } elseif ($sentDrilldown == "referrers") {
@@ -46,7 +55,20 @@ if (!empty($_REQUEST['drilldown'])) {
   } else {
     $drilldownList = array($sentDrilldown);
   }
+} else {
+  if (count($drilldownList) == 1) {
+    $drilldownUrlComponent = "&drilldown=".$drilldownList[0];
+  } elseif ($drilldownList == array("desktop", "mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider")) {
+    $drilldownUrlComponent = "&drilldown=all";
+  } else {
+    $drilldownUrlComponent = "";
+    for ($i = 0; $i < count($drilldownList); $i++) {
+      $drilldownUrlComponent .= "&drilldowns[$i]=".$drilldownList[$i];
+    }
+  }
 }
+
+
 
 
 ##Retrieval of page list as entered directly
@@ -112,24 +134,24 @@ if (!empty($_REQUEST['yearfilter'])) {
 if (strlen(trim($pageListAsString," \t\n\r\0\x0B"))==0 and $tag==='' and $category==='' and $user==='' and $linkingpage==='' and $archivalStatus==='' and $viewbound==0 and empty($_REQUEST['pages'])) {
     include(__DIR__."/../style/head.inc");
     print "You didn't list any pages (either directly, or via one of the alternative methods).<br>";
-    $pagespecificationerror = true;
+    $pageSpecificationError = true;
 }
 elseif (strlen(trim($pageListAsString," \t\n\r\0\x0B"))>0 and ($tag!='' or $category!='' or $user != '' or $archivalStatus != '' or $viewbound > 0)) {
     include(__DIR__."/../style/head.inc");
     print "You listed page(s) directly <em>and</em> selected an alternative method to list pages. You can only use one of the two methods at a time.";
-    $pagespecificationerror = true;
+    $pageSpecificationError = true;
 }
 
 elseif (($tag != '' and ($category != '' or $user != '' or $linkingpage != '' or $archivalStatus != '' or $viewbound > 0)) or ($category != '' and ($user != '' or $linkingpage != '' or $archivalStatus != '' or $viewbound > 0)) or ($user != '' and ($linkingpage != '' or $archivalStatus != '' or $viewbound > 0)) or ($linkingpage != '' and ($archivalStatus != '' or $viewbound > 0)) or ($archivalStatus != '' and $viewbound > 0)) {
     include(__DIR__."/../style/head.inc");
     print "You selected multiple alternate methods. Please modify the form below appropriately.<br>";
-    $pagespecificationerror = true;
+    $pageSpecificationError = true;
 }
 
 ##Now that we're sure that the page list is specified uniquely, we convert it to an array
 ##named $pageListAsArray
 
-if ($pagespecificationerror == false) {
+if ($pageSpecificationError == false) {
   if (strlen(trim($pageListAsString," \t\n\r\0\x0B"))>0) {
     $pageListAsString_mod = str_replace("http://","",$pageListAsString);
     $pageListAsString_mod = str_replace("https://","",$pageListAsString_mod);
@@ -138,60 +160,78 @@ if ($pagespecificationerror == false) {
     $pageListAsArray = convertPageListToArray($pageListAsString_mod);
   } elseif ($tag!='' and count($languageList) == 1) {
     $pageListAsArray = getPageListByTag($tag,$languageList[0]);
+    $pageUrlComponent = "&tag=".urlencode($tag);
     if (sizeof($pageListAsArray) == 0) {
       include(__DIR__."/../style/head.inc");
       print "Although the tag is valid, there are no pages for the tag-language <em>combination</em>.<br>";
-      $pagespecificationerror = true;
+      $pageSpecificationError = true;
     }
   } elseif ($tag!='' and count($languageList) > 1) {
     include(__DIR__."/../style/head.inc");
     print "We do not support multiple pages view for a single tag and multiple languages";
-    $pagespecificationerror = true;
-  } elseif ($category!='') {
-    $pageListAsArray = getPageListByWikipediaCategory($category,$language);
+    $pageSpecificationError = true;
+  } elseif ($category!='' and count($languageList) == 1) {
+    $pageListAsArray = getPageListByWikipediaCategory($category,$languageList[0]);
+    $pageUrlComponent = "&category=".$urlencode(category);
     if (sizeof($pageListAsArray) == 0) {
       include(__DIR__."/../style/head.inc");
       print "There are no pages for the category-language <em>combination</em>.<br>";
-      $pagespecificationerror = true;
+      $pageSpecificationError = true;
     }
     sort($pageListAsArray);
-  } elseif ($user!='') {
-    $pageListAsArray = getPageListByCreatingUser($user,$language);
+  } elseif ($user!='' and count($languageList) == 1) {
+    $pageListAsArray = getPageListByCreatingUser($user,$languageList[0]);
+    $pageUrlComponent = "&user=".urlencode($user);
     if (sizeof($pageListAsArray) == 0) {
       include(__DIR__."/../style/head.inc");
       print "There are no pages for the user-language <em>combination</em>.<br>";
-      $pagespecificationerror = true;
+      $pageSpecificationError = true;
     }
     sort($pageListAsArray);
-  } elseif ($linkingpage!='') {
-    $pageListAsArray = getPageListByLinkingPage($linkingpage,$language);
+  } elseif ($linkingpage!='' and count($languageList) == 1) {
+    $pageListAsArray = getPageListByLinkingPage($linkingpage,$languageList[0]);
+    $pageUrlComponent = "&linkingpage=".$linkingpage;
     if (sizeof($pageListAsArray) == 0) {
       include(__DIR__."/../style/head.inc");
       print "There are no pages for the linking page-language <em>combination</em>.<br>";
-      $pagespecificationerror = true;
+      $pageSpecificationError = true;
     }
     sort($pageListAsArray);
   } elseif ($archivalStatus!='') {
     $pageListAsArray = getPageListByArchivalStatus($archivalStatus,$language);
+    $pageUrlComponent = "&archivalStatus=".$archivalStatus;
     if (sizeof($pageListAsArray) == 0) {
       include(__DIR__."/../style/head.inc");
       print "There are no pages for the archival status-language <em>combination</em>.<br>";
-      $pagespecificationerror = true;
+      $pageSpecificationError = true;
     }
     sort($pageListAsArray);
   } elseif ($viewbound > 0) {
     if (strlen($yearfilter) == 0) {
       $pageListAsArray = getPageListByViewBound($viewbound,$monthfilter,$language,'month');
+      $pageUrlComponent = "&viewbound=".$viewbound;
     } else {
       $pageListAsArray = getPageListByViewBound($viewbound,$yearfilter,$language,'year');
+      # Need to add pageUrlComponent
       if (sizeof($pageListAsArray) == 0) {
         include(__DIR__."/../style/head.inc");
 	print "There are no pages for the view bound-filter-language <em>combination</em>.<br>";
-	$pagespecificationerror = true;
+	$pageSpecificationError = true;
       }
       sort($pageListAsArray);
     }
   }
 }
 $pageListAsArray = array_map("ucfirst", $pageListAsArray);
+if ($tag == '' and $category == '' and $user == '' and $linkingpage == '' and $archivalStatus == '' and $viewbound == 0) {
+  if (count($pageListAsArray) == 1) {
+    $pageUrlComponent = "&page=".urlencode($pageListAsArray[0]);
+  } else {
+    $pageUrlComponent = "";
+    for ($i = 0; $i < count($pageListAsArray); $i++) {
+      $pageUrlComponent .= "&pages[$i]=".$pageListAsArray[$i];
+    }
+  }
+}
+
 ?>

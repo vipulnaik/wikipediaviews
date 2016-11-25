@@ -6,18 +6,21 @@ include("style/toggler.inc");
 print '</head>';
 include_once("backend/corecode.inc");
 $formdata = true;
-$pagetypeadvice = "multiplemonths";
+$pageTypeAdvice = "multiplemonths";
 include("retrieval/pageListRetrieval.inc");
 include("retrieval/monthListRetrieval.inc");
 include("retrieval/advancedOptionRetrieval.inc");
 
 
-if ($pagespecificationerror == true or $monthspecificationerror == true) {
-  include("inputdisplay/".$pagetypeadvice."dataentry.inc");
+if ($pageSpecificationError == true or $monthspecificationerror == true) {
+   include("inputdisplay/".$pageTypeAdvice."dataentry.inc");
 } else {
   switch ($displayformat) {
     case 'htmltableautomatic' :
       include("style/head.inc");
+      $permalinkUrl = "http://wikipediaviews.org/displayviewsfor".$pageTypeAdvice.".php?".$pageUrlComponent.$monthUrlComponent.$languageUrlComponent.$drilldownUrlComponent;
+      $cleanPermalinkUrl = str_replace("?&", "?", $permalinkUrl);
+      print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';
       if (count($pageListAsArray) * count($languageList) * count($drilldownList) >= count($monthList)) {
         $printStatus = printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort);
       } else {
@@ -29,7 +32,10 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
       include("inputdisplay/multiplemonthsdataentry.inc");
       break;
     case 'htmltable' :
-      include("style/head.inc"); 
+      include("style/head.inc");
+      $permalinkUrl = "http://wikipediaviews.org/displayviewsfor".$pageTypeAdvice.".php?".$pageUrlComponent.$monthUrlComponent.$languageUrlComponent.$drilldownUrlComponent;
+      $cleanPermalinkUrl = str_replace("?&", "?", $permalinkUrl);
+      print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';
       $printStatus = printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort);
       if (count($monthList) > 1 or count($pageListAsArray) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization);
@@ -38,6 +44,9 @@ if ($pagespecificationerror == true or $monthspecificationerror == true) {
       break;
     case 'htmltabletransposed' :
       include("style/head.inc");
+      $permalinkUrl = "http://wikipediaviews.org/displayviewsfor".$pageTypeAdvice.".php?".$pageUrlComponent.$monthUrlComponent.$languageUrlComponent.$drilldownUrlComponent;
+      $cleanPermalinkUrl = str_replace("?&", "?", $permalinkUrl);
+      print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';
       $printStatus = printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort);
       if (count($monthList) > 1 or count($pageListAsArray) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization);

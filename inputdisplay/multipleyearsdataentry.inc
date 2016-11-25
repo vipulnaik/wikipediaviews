@@ -10,12 +10,12 @@
 ##alternatepagespecificationmethods.inc, advancedoptions.inc, 
 ## yearcheckboxlist.inc
 
-if ($formdata == true and ($pagespecificationerror == false and $monthspecificationerror == false)) {
+if ($formdata == true and ($pageSpecificationError == false and $monthspecificationerror == false)) {
   pageYearAdvice($pageListAsArray,$yearList,$drilldownList,($tag !== ''));
 }
 
-$pagetypeadvice = "multipleyears";
-print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pagetypeadvice.'.php">';
+$pageTypeAdvice = "multipleyears";
+print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pageTypeAdvice.'.php">';
 include("pagelistentry.inc");
 
 print '<table><col width=600/><col width=500/>';

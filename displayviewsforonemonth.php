@@ -6,7 +6,7 @@ include("style/toggler.inc");
 print '</head>';
 include_once("backend/corecode.inc");
 $formdata = true;
-$pagetypeadvice="onemonth";
+$pageTypeAdvice="onemonth";
 include("retrieval/pageListRetrieval.inc");
 include("retrieval/advancedOptionRetrieval.inc");
 $month = $mostRecentMonth;
@@ -15,20 +15,23 @@ if (!empty($_REQUEST['month'])) {
   }
 $monthList = array($month);
 
-if ($pagespecificationerror == true or $monthspecificationerror == true) {
-  include("inputdisplay/".$pagetypeadvice."dataentry.inc");
+if ($pageSpecificationError == true or $monthspecificationerror == true) {
+  include("inputdisplay/".$pageTypeAdvice."dataentry.inc");
 } else {
   switch ($displayformat) {
     case 'csv' :
       printPageviewsForMonthOrYearListAsCsv($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat);
       break;
     case 'htmltable' : 
-      include("style/head.inc"); 
+      include("style/head.inc");
+      $permalinkUrl = "http://wikipediaviews.org/displayviewsfor".$pageTypeAdvice.".php?".$pageUrlComponent."&month=".$monthList[0].$languageUrlComponent.$drilldownUrlComponent;
+      $cleanPermalinkUrl = str_replace("?&", "?", $permalinkUrl);
+      print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';
       $printStatus = printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort);
       if (count($monthList) > 1 or count($pageListAsArray) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month');
       }   
-      $originalmonthList = $monthList;
+      $originalMonthList = $monthList;
       $displayformat='htmltableautomatic';
       $carryoverfromonemonth=true;
       include("inputdisplay/multiplemonthsdataentry.inc");

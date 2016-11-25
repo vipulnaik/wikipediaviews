@@ -11,8 +11,8 @@
 ##languagedropdown.inc, alternatepagespecificationmethods.inc,
 ##advancedoptions.inc
 
-$pagetypeadvice = "onemonth";
-print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pagetypeadvice.'.php">';
+$pageTypeAdvice = "onemonth";
+print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pageTypeAdvice.'.php">';
 
 include("pagelistentry.inc");
 

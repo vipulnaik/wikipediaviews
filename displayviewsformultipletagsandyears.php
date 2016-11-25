@@ -6,13 +6,13 @@ include("style/toggler.inc");
 print '</head>';
 include_once("backend/corecode.inc");
 $formdata = true;
-$pagetypeadvice = "multipletagsandyears";
+$pageTypeAdvice = "multipletagsandyears";
 include("retrieval/tagListRetrieval.inc");
 include("retrieval/yearListRetrieval.inc");
 include("retrieval/advancedOptionRetrieval.inc");
 
-if ($pagespecificationerror == true) {
-    include("inputdisplay/".$pagetypeadvice."dataentry.inc");
+if ($pageSpecificationError == true) {
+    include("inputdisplay/".$pageTypeAdvice."dataentry.inc");
 } else {
   switch ($displayformat) {   
     case 'htmltableautomatic' :

@@ -10,12 +10,12 @@
 ##alternatepagespecificationmethods.inc, alternatemonthspecificationmethods.inc,
 ##advancedoptions.inc, monthcheckboxlist.inc
 
-if ($formdata == true and ($pagespecificationerror == false and $monthspecificationerror == false)) {
+if ($formdata == true and ($pageSpecificationError == false and $monthspecificationerror == false)) {
   pageMonthAdvice($pageListAsArray,$languageList,$drilldownList,$monthList,($tag !== ''),$printStatus);
 }
    
-$pagetypeadvice = "multiplemonths";
-print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pagetypeadvice.'.php">';
+$pageTypeAdvice = "multiplemonths";
+print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pageTypeAdvice.'.php">';
 include("pagelistentry.inc");
 
 print '<table><col width=600/><col width=500/>';

@@ -70,24 +70,24 @@ if (!empty($_REQUEST['yearfilter'])) {
 if (strlen(trim($pageListAsString," \t\n\r\0\x0B"))==0 and $category==='' and $user==='' and $linkingPage==='' and $archivalStatus==='' and $viewbound==0) {
     include(__DIR__."/../style/head.inc");
     print "You didn't list any pages (either directly, or via one of the alternative methods).<br>";
-    $pagespecificationerror = true;
+    $pageSpecificationError = true;
 }
 elseif (strlen(trim($pageListAsString," \t\n\r\0\x0B"))>0 and ($category!='' or $user != '' or $archivalStatus != '' or $viewbound > 0)) {
     include(__DIR__."/../style/head.inc");
     print "You listed page(s) directly <em>and</em> selected an alternative method to list pages. You can only use one of the two methods at a time.";
-    $pagespecificationerror = true;
+    $pageSpecificationError = true;
 }
 
 elseif (($category != '' and ($user != '' or $linkingPage != '' or $archivalStatus != '' or $viewbound > 0)) or ($user != '' and ($linkingPage != '' or $archivalStatus != '' or $viewbound > 0)) or ($linkingPage != '' and ($archivalStatus != '' or $viewbound > 0)) or ($archivalStatus != '' and $viewbound > 0)) {
     include(__DIR__."/../style/head.inc");
     print "You selected multiple alternate methods. Please modify the form below appropriately.<br>";
-    $pagespecificationerror = true;
+    $pageSpecificationError = true;
 }
 
 ##Now that we're sure that the page list is specified uniquely, we convert it to an array
 ##named $pageListAsArray
 
-if ($pagespecificationerror == false) {
+if ($pageSpecificationError == false) {
   if (strlen(trim($pageListAsString," \t\n\r\0\x0B"))>0) {
     $pageListAsString_mod = str_replace("http://","",$pageListAsString);
     $pageListAsString_mod = str_replace("https://","",$pageListAsString_mod);
@@ -100,7 +100,7 @@ if ($pagespecificationerror == false) {
     if (sizeof($pageListAsArray) == 0) {
       include(__DIR__."/../style/head.inc");
       print "There are no pages for the category-language <em>combination</em>.<br>";
-      $pagespecificationerror = true;
+      $pageSpecificationError = true;
     }
     sort($pageListAsArray);
   } elseif ($user!='') {
@@ -108,7 +108,7 @@ if ($pagespecificationerror == false) {
     if (sizeof($pageListAsArray) == 0) {
       include(__DIR__."/../style/head.inc");
       print "There are no pages for the user-language <em>combination</em>.<br>";
-      $pagespecificationerror = true;
+      $pageSpecificationError = true;
     }
     sort($pageListAsArray);
   } elseif ($linkingPage!='') {
@@ -116,7 +116,7 @@ if ($pagespecificationerror == false) {
     if (sizeof($pageListAsArray) == 0) {
       include(__DIR__."/../style/head.inc");
       print "There are no pages for the linking page-language <em>combination</em>.<br>";
-      $pagespecificationerror = true;
+      $pageSpecificationError = true;
     }
     sort($pageListAsArray);
   } elseif ($archivalStatus!='') {
@@ -124,7 +124,7 @@ if ($pagespecificationerror == false) {
     if (sizeof($pageListAsArray) == 0) {
       include(__DIR__."/../style/head.inc");
       print "There are no pages for the archival status-language <em>combination</em>.<br>";
-      $pagespecificationerror = true;
+      $pageSpecificationError = true;
     }
     sort($pageListAsArray);
   } elseif ($viewbound > 0) {
@@ -135,7 +135,7 @@ if ($pagespecificationerror == false) {
       if (sizeof($pageListAsArray) == 0) {
         include(__DIR__."/../style/head.inc");
 	print "There are no pages for the view bound-filter-language <em>combination</em>.<br>";
-	$pagespecificationerror = true;
+	$pageSpecificationError = true;
       }
     }
     sort($pageListAsArray);

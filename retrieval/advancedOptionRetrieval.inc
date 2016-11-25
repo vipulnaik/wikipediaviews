@@ -10,12 +10,12 @@
 ## displayviewsformultipleyears.php
 
 ##Display format
-if ($pagetypeadvice == 'multiplemonths' or $pagetypeadvice == 'multipleyears' or $pagetypeadvice == 'multipletagsandmonths' or $pagetypeadvice == 'multipletagsandyears')
+if ($pageTypeAdvice == 'multiplemonths' or $pageTypeAdvice == 'multipleyears' or $pageTypeAdvice == 'multipletagsandmonths' or $pageTypeAdvice == 'multipletagsandyears')
   {
     $displayformat = 'htmltableautomatic';
   }
 
-if ($pagetypeadvice == 'onemonth')
+if ($pageTypeAdvice == 'onemonth')
   {
     $displayformat = 'htmltable';
   }

@@ -20,8 +20,8 @@ global $timeTaken;
 global $bulkRetrievalTimeTaken;
 global $graphTimeTaken;
 
-global $pagespecificationerror;
-$pagespecificationerror = false;
+global $pageSpecificationError;
+$pageSpecificationError = false;
 
 global $monthspecificationerror;
 $monthspecificationerror = false;

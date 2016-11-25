@@ -29,11 +29,11 @@ $thisyear = $row['year'];
 
 ## Most recent year variable (needs to be updated through the database once a year)
 
-global $mostrecentyear;
+global $mostRecentYear;
 $select_query = "select year from years where status='mostrecent' limit 1";
 $result = $mysqli->query($select_query);
 $row = $result->fetch_assoc();
-$mostrecentyear = $row['year'];
+$mostRecentYear = $row['year'];
 
 ## List of number of days for all months
 

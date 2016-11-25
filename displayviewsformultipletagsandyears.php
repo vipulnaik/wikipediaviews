@@ -7,6 +7,8 @@ print '</head>';
 include_once("backend/corecode.inc");
 $formdata = true;
 $pageTypeAdvice = "multipletagsandyears";
+include("retrieval/languageListRetrieval.inc");
+include("retrieval/drilldownListRetrieval.inc");
 include("retrieval/tagListRetrieval.inc");
 include("retrieval/yearListRetrieval.inc");
 include("retrieval/advancedOptionRetrieval.inc");
@@ -14,10 +16,13 @@ include("retrieval/advancedOptionRetrieval.inc");
 if ($pageSpecificationError == true) {
     include("inputdisplay/".$pageTypeAdvice."dataentry.inc");
 } else {
-  switch ($displayformat) {   
+  switch ($displayFormat) {   
     case 'htmltableautomatic' :
       include("style/head.inc");
-      if (count($tagList) >= count($yearList)) {
+      $permalinkUrl = "http://wikipediaviews.org/displayviewsfor".$pageTypeAdvice.".php?".$tagUrlComponent.$yearUrlComponent.$languageUrlComponent.$drilldownUrlComponent.$advancedOptionUrlComponent;
+      $cleanPermalinkUrl = str_replace("?&", "?", $permalinkUrl);
+      print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';
+      if (count($tagList) * count($languageList) * count($drilldownList) >= count($yearList)) {
 	printpageviewsformonthOrYearListashtmltable($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year',$sort);
       } else {
 	printpageviewsformonthOrYearListashtmltabletransposed($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year',$sort);
@@ -28,7 +33,10 @@ if ($pageSpecificationError == true) {
       include("inputdisplay/multipletagsandyearsdataentry.inc");
       break;
     case 'htmltable' :
-      include("style/head.inc"); 
+      include("style/head.inc");
+      $permalinkUrl = "http://wikipediaviews.org/displayviewsfor".$pageTypeAdvice.".php?".$tagUrlComponent.$yearUrlComponent.$languageUrlComponent.$drilldownUrlComponent.$advancedOptionUrlComponent;
+      $cleanPermalinkUrl = str_replace("?&", "?", $permalinkUrl);
+      print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';
       printpageviewsformonthOrYearListashtmltable($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year',$sort);
       if (count($yearList) > 1 or count($tagList) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year');
@@ -37,6 +45,9 @@ if ($pageSpecificationError == true) {
       break;
     case 'htmltabletransposed' :
       include("style/head.inc");
+      $permalinkUrl = "http://wikipediaviews.org/displayviewsfor".$pageTypeAdvice.".php?".$tagUrlComponent.$yearUrlComponent.$languageUrlComponent.$drilldownUrlComponent.$advancedOptionUrlComponent;
+      $cleanPermalinkUrl = str_replace("?&", "?", $permalinkUrl);
+      print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';
       printpageviewsformonthOrYearListashtmltabletransposed($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year',$sort);
       if (count($yearList) > 1 or count($tagList) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year');

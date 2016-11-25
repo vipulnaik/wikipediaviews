@@ -12,14 +12,9 @@ $originalMonthList = array($mostRecentMonth);
 
 if (!empty($_REQUEST['months'])) {
   $originalMonthList = $_REQUEST['months'];
-}
-
-if (!empty($_REQUEST['month'])) {
-  $requestedMonth = $_REQUEST['month'];
-  $originalMonthList = array($requestedMonth);
-}
-
-if (!empty($_REQUEST['monthList'])) {
+} elseif (!empty($_REQUEST['month'])) {
+  $originalMonthList = array($_REQUEST['month']);
+} elseif (!empty($_REQUEST['monthList'])) {
   $originalMonthList = $_REQUEST['monthList'];
 }
 

@@ -26,6 +26,6 @@ $pageSpecificationError = false;
 global $monthspecificationerror;
 $monthspecificationerror = false;
 
-global $yearspecificationerror;
-$yearspecificationerror = false;
+global $yearSpecificationError;
+$yearSpecificationError = false;
 ?>

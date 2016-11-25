@@ -11,23 +11,23 @@
 ##Relevant execution code in backend/displayFunctions.inc
 
 print '<tr><td>Enter the format in which you want statistics to be displayed: </td><td>';
-print '<select name="displayformat">';
+print '<select name="displayFormat">';
 print '<option value="htmltable"';
-if ($formdata == true and $displayformat=="htmltable") 
+if ($formdata == true and $displayFormat=="htmltable") 
   {
     print 'selected="selected"';
   }
 print '>';
 print 'HTML table (best for online viewing)</option>';
 # print '<option value="csv"';
-# if ($formdata == true and $displayformat=="csv") 
+# if ($formdata == true and $displayFormat=="csv") 
 #   {
 #     print 'selected="selected"';
 #   }
 # print '>';
 # print 'CSV: Page name and number of views separated by comma; different pages in different lines (easiest to export to Excel)</option>';
 # print '<option value="csvtransposed"';
-# if ($formdata == true and $displayformat=="csvtransposed") 
+# if ($formdata == true and $displayFormat=="csvtransposed") 
 #   {
 #     print ' selected="selected"';
 #   }

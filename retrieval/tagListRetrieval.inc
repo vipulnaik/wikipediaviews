@@ -7,45 +7,27 @@
 
 ## Only included in displayviewsformultipletagsandmonths.php
 
-## Retrieval of language
-$languageList = array("en");
-if (!empty($_REQUEST['languages'])) {
-  $languageList = $_REQUEST['languages'];
-}
-if (!empty($_REQUEST['languageList'])) {
-  $languageList = $_REQUEST['languageList'];
-}
-if (!empty($_REQUEST['language'])) {
-  $sentLanguage = $_REQUEST['language'];
-  $languageList = array($sentLanguage);
-}
-
-## Retrieval of drilldown
-$drilldownList = array("desktop");
-if (!empty($_REQUEST['drilldownList'])) {
-  $drilldownList = $_REQUEST['drilldownList'];
-}
-if (!empty($_REQUEST['drilldown'])) {
-  $sentDrilldown = $_REQUEST['drilldown'];
-  if ($sentDrilldown == "all") {
-    $drilldownList = array("desktop", "mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider");
-  } else {
-    $drilldownList = array($sentDrilldown);
-  }
-}
-
 $tagList = array();
 if (!empty($_REQUEST['tagList'])) {
   $tagList = $_REQUEST['tagList'];
-}
-if (!empty($_REQUEST['tag'])) {
+} elseif (!empty($_REQUEST['tag'])) {
   $tagList = array($_REQUEST['tag']);
+} elseif (!empty($_REQUEST['tags'])) {
+  $tagList = $_REQUEST['tags'];
 }
 
-if (count($tagList) == 0)
-  {
-    include(__DIR__."/../style/head.inc");
-    print "You didn't select any tags. Please do so below.";
-    $pageSpecificationError = true;
+if (count($tagList) == 1) {
+  $tagUrlComponent = "&tag=".urlencode($tagList[0]);
+} else {
+  $tagUrlComponent = "";
+  for ($i = 0; $i < count($tagList); $i++) {
+    $tagUrlComponent .= "&tags[$i]=".$tagList[$i];
   }
+}
+
+if (count($tagList) == 0) {
+  include(__DIR__."/../style/head.inc");
+  print "You didn't select any tags. Please do so below.";
+  $pageSpecificationError = true;
+}
 ?>

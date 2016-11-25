@@ -7,44 +7,42 @@
 
 ## Only included in displayviewsformultipleyears.php
 
-$originalyearList=array($mostrecentyear);
+$originalYearList=array($mostRecentYear);
+
 if (!empty($_REQUEST['years'])) {
-  $monthList = $_REQUEST['years'];
+  $originalYearList = $_REQUEST['years'];
+} elseif (!empty($_REQUEST['year'])) {  
+  $originalYearList = array($_REQUEST['year']);
+} elseif (!empty($_REQUEST['yearList'])) {
+  $originalYearList = $_REQUEST['yearList'];
 }
 
-
-if (!empty($_REQUEST['year']))
-  {  
-    $originalyearList = array($_REQUEST['year']);
-  }
-elseif (!empty($_REQUEST['yearList']))
-  {
-    $originalyearList = $_REQUEST['yearList'];
-  }
-
 $allyears='allyears';
-if (!empty($_REQUEST['allyears']))
-  {
-    $allyears = $_REQUEST['allyears'];
-  }
-elseif (!empty($_REQUEST['yearList']) or !empty($_REQUEST['year']))
-  {
-    $allyears = '';
-  }
+if (!empty($_REQUEST['allyears'])) {
+  $allyears = $_REQUEST['allyears'];
+} elseif (!empty($_REQUEST['yearList']) or !empty($_REQUEST['year'] or !empty($_REQUEST['years']))) {
+  $allyears = '';
+}
 
-if ($allyears == "allyears")
-  {
-    $yearList = presentandpastyears_yearList();
+if ($allyears == "allyears") {
+  $yearList = presentandpastyears_yearList();
+  $yearUrlComponent = '&allyears=allyears';
+} else {
+  $yearList = $originalYearList;
+  if (count($yearList) == 1) {
+    $yearUrlComponent = "&year=".$yearList[0];
+  } else {
+    $yearUrlComponent = "";
+    for ($i = 0; $i < count($yearList); $i++) {
+      $yearUrlComponent .= "&years[$i]=".$yearList[$i];
+    }
   }
- else
-   {
-     $yearList = $originalyearList;
-   }
-if (sizeof($yearList) == 0)
-  {
-    include("style/head.inc");
-    print "You didn't select any years. Please do so below.";
-    $yearspecificationerror = true;
-  }
+}
+
+if (sizeof($yearList) == 0) {
+  include("style/head.inc");
+  print "You didn't select any years. Please do so below.";
+  $yearSpecificationError = true;
+}
  
 ?>

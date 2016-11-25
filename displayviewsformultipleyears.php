@@ -23,13 +23,13 @@ if ($pageSpecificationError == true or $yearSpecificationError == true) {
       $permalinkUrl = "http://wikipediaviews.org/displayviewsfor".$pageTypeAdvice.".php?".$pageUrlComponent.$yearUrlComponent.$languageUrlComponent.$drilldownUrlComponent.$advancedOptionUrlComponent;
       $cleanPermalinkUrl = str_replace("?&", "?", $permalinkUrl);
       print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';   
-      if (count($pageListAsArray) * count($languageList) * count($drilldownList) >= count($yearList)) {
-	printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year',$sort);
+      if (count($pageList) * count($languageList) * count($drilldownList) >= count($yearList)) {
+	printPageviewsForMonthOrYearListAsHtmlTable($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year',$sort);
       } else {
-	printPageviewsFormonthOrYearListAsHtmlTableTransposed($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year',$sort);
+	printPageviewsFormonthOrYearListAsHtmlTableTransposed($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year',$sort);
       }
-      if (count($yearList) > 1 or count($pageListAsArray) * count($languageList) * count($drilldownList) > 1) {
-        generateGraphs($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
+      if (count($yearList) > 1 or count($pageList) * count($languageList) * count($drilldownList) > 1) {
+        generateGraphs($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
       }
       include("inputdisplay/multipleyearsdataentry.inc");
       break;
@@ -38,9 +38,9 @@ if ($pageSpecificationError == true or $yearSpecificationError == true) {
       $permalinkUrl = "http://wikipediaviews.org/displayviewsfor".$pageTypeAdvice.".php?".$pageUrlComponent.$yearUrlComponent.$languageUrlComponent.$drilldownUrlComponent.$advancedOptionUrlComponent;
       $cleanPermalinkUrl = str_replace("?&", "?", $permalinkUrl);
       print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';   
-      printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year',$sort);
-      if (count($yearList) > 1 or count($pageListAsArray) * count($languageList) * count($drilldownList) > 1) {
-        generateGraphs($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
+      printPageviewsForMonthOrYearListAsHtmlTable($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year',$sort);
+      if (count($yearList) > 1 or count($pageList) * count($languageList) * count($drilldownList) > 1) {
+        generateGraphs($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
       }
       include("inputdisplay/multipleyearsdataentry.inc");
       break;
@@ -49,20 +49,20 @@ if ($pageSpecificationError == true or $yearSpecificationError == true) {
       $permalinkUrl = "http://wikipediaviews.org/displayviewsfor".$pageTypeAdvice.".php?".$pageUrlComponent.$yearUrlComponent.$languageUrlComponent.$drilldownUrlComponent.$advancedOptionUrlComponent;
       $cleanPermalinkUrl = str_replace("?&", "?", $permalinkUrl);
       print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';   
-      printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year',$sort);
-      if (count($yearList) > 1 or count($pageListAsArray) * count($languageList) * count($drilldownList) > 1) {
-        generateGraphs($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
+      printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year',$sort);
+      if (count($yearList) > 1 or count($pageList) * count($languageList) * count($drilldownList) > 1) {
+        generateGraphs($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
       }
       include("inputdisplay/multipleyearsdataentry.inc");
       break;
     case 'csv':
-      printPageviewsForMonthOrYearListAsCsv($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,'','page','year');
+      printPageviewsForMonthOrYearListAsCsv($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,'','page','year');
       break;
     case 'csvtransposed':
-      printPageviewsForMonthoryearListAsCsvTransposed($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,'','page','year');
+      printPageviewsForMonthoryearListAsCsvTransposed($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,'','page','year');
       break;
     case 'cpi':
-      printPageviewsForMonthOrYearListAsCpi($pageListAsArray,$languageList,$drilldownList,$yearList,$numericDisplayFormat,'','page','year');
+      printPageviewsForMonthOrYearListAsCpi($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,'','page','year');
       break;
   }
 }

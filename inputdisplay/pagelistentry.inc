@@ -11,7 +11,7 @@
 
 ## Associated retrieval file: retrieval/pageListRetrieval.inc
 
-if ($formdata == true and strlen(trim($pageListAsString," \t\n\r\0\x0B"))==0 and count($pageListAsArray) > 0)
+if ($formdata == true and strlen(trim($pageListAsString," \t\n\r\0\x0B"))==0 and count($pageList) > 0)
   {
     print '<br><a id="displayText5" href="javascript:toggle5();">Show text area for manual page entry</a><br><br>';
     print '<div id="toggleText5" style="display: none">';
@@ -41,7 +41,7 @@ if ($formdata == true)
 
 print '</textarea>';
 
-if ($formdata == true and strlen(trim($pageListAsString," \t\n\r\0\x0B"))==0 and count($pageListAsArray) > 0)
+if ($formdata == true and strlen(trim($pageListAsString," \t\n\r\0\x0B"))==0 and count($pageList) > 0)
   {
     print '</div>';
   }

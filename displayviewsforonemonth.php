@@ -22,16 +22,16 @@ if ($pageSpecificationError == true or $monthspecificationerror == true) {
 } else {
   switch ($displayFormat) {
     case 'csv' :
-      printPageviewsForMonthOrYearListAsCsv($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat);
+      printPageviewsForMonthOrYearListAsCsv($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat);
       break;
     case 'htmltable' : 
       include("style/head.inc");
       $permalinkUrl = "http://wikipediaviews.org/displayviewsfor".$pageTypeAdvice.".php?".$pageUrlComponent."&month=".$monthList[0].$languageUrlComponent.$drilldownUrlComponent.$advancedOptionUrlComponent;
       $cleanPermalinkUrl = str_replace("?&", "?", $permalinkUrl);
       print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';
-      $printStatus = printPageviewsForMonthOrYearListAsHtmlTable($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort);
-      if (count($monthList) > 1 or count($pageListAsArray) * count($languageList) * count($drilldownList) > 1) {
-        generateGraphs($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month');
+      $printStatus = printPageviewsForMonthOrYearListAsHtmlTable($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort);
+      if (count($monthList) > 1 or count($pageList) * count($languageList) * count($drilldownList) > 1) {
+        generateGraphs($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month');
       }   
       $originalMonthList = $monthList;
       $displayFormat='htmltableautomatic';
@@ -39,7 +39,7 @@ if ($pageSpecificationError == true or $monthspecificationerror == true) {
       include("inputdisplay/multiplemonthsdataentry.inc");
       break;
     case 'csvtransposed' :
-      printPageviewsForMonthOrYearListAsCsvTransposed($pageListAsArray,$languageList,$drilldownList,$monthList,$numericDisplayFormat);
+      printPageviewsForMonthOrYearListAsCsvTransposed($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat);
       break;
   }
 }

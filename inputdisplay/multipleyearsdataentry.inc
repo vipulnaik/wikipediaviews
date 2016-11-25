@@ -11,7 +11,7 @@
 ## yearcheckboxlist.inc
 
 if ($formdata == true and ($pageSpecificationError == false and $monthspecificationerror == false)) {
-  pageYearAdvice($pageListAsArray,$yearList,$drilldownList,($tag !== ''));
+  pageYearAdvice($pageList,$yearList,$drilldownList,($tag !== ''));
 }
 
 $pageTypeAdvice = "multipleyears";

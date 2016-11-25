@@ -2,16 +2,16 @@
 
 function convertPageListToArray($pageListAsString) {
   $pageListasinput = isset($pageListAsString)?$pageListAsString:"";
-  $pageListAsArray = array_unique(explode("\n", str_replace("\r", "", $pageListasinput)));
-  foreach (array_keys($pageListAsArray, "") as $key) 
+  $pageList = array_unique(explode("\n", str_replace("\r", "", $pageListasinput)));
+  foreach (array_keys($pageList, "") as $key) 
     {
-      unset($pageListAsArray[$key]);
+      unset($pageList[$key]);
     }
-  foreach($pageListAsArray as &$page)
+  foreach($pageList as &$page)
     {
       $page = trim($page," \t\n\r\0\x0B");
     }     
-  return $pageListAsArray;
+  return $pageList;
 }
 
 function getDescriptor($drilldown) {

@@ -20,7 +20,7 @@ if (!empty($_REQUEST['language'])) {
 ##Retrieval of page list as entered directly
 
 $pageListAsString='';
-$pageListAsArray = array();
+$pageList = array();
 if (!empty($_REQUEST['pageListAsString'])) {
   $pageListAsString = $_REQUEST['pageListAsString'];
 }
@@ -85,7 +85,7 @@ elseif (($category != '' and ($user != '' or $linkingPage != '' or $archivalStat
 }
 
 ##Now that we're sure that the page list is specified uniquely, we convert it to an array
-##named $pageListAsArray
+##named $pageList
 
 if ($pageSpecificationError == false) {
   if (strlen(trim($pageListAsString," \t\n\r\0\x0B"))>0) {
@@ -93,52 +93,52 @@ if ($pageSpecificationError == false) {
     $pageListAsString_mod = str_replace("https://","",$pageListAsString_mod);
     $pageListAsString_mod = str_replace("en.wikipedia.org/wiki/","",$pageListAsString_mod);
     $pageListAsString_mod = str_replace("_"," ",$pageListAsString_mod);
-    $pageListAsArray = convertPageListToArray($pageListAsString_mod);
+    $pageList = convertPageListToArray($pageListAsString_mod);
   }
   elseif ($category!='') {
-    $pageListAsArray = getPageListByWikipediaCategory($category,$language);
-    if (sizeof($pageListAsArray) == 0) {
+    $pageList = getPageListByWikipediaCategory($category,$language);
+    if (sizeof($pageList) == 0) {
       include(__DIR__."/../style/head.inc");
       print "There are no pages for the category-language <em>combination</em>.<br>";
       $pageSpecificationError = true;
     }
-    sort($pageListAsArray);
+    sort($pageList);
   } elseif ($user!='') {
-    $pageListAsArray = getPageListbyCreatingUser($user,$language);
-    if (sizeof($pageListAsArray) == 0) {
+    $pageList = getPageListbyCreatingUser($user,$language);
+    if (sizeof($pageList) == 0) {
       include(__DIR__."/../style/head.inc");
       print "There are no pages for the user-language <em>combination</em>.<br>";
       $pageSpecificationError = true;
     }
-    sort($pageListAsArray);
+    sort($pageList);
   } elseif ($linkingPage!='') {
-    $pageListAsArray = getPageListByLinkingPage($linkingPage,$language);
-    if (sizeof($pageListAsArray) == 0) {
+    $pageList = getPageListByLinkingPage($linkingPage,$language);
+    if (sizeof($pageList) == 0) {
       include(__DIR__."/../style/head.inc");
       print "There are no pages for the linking page-language <em>combination</em>.<br>";
       $pageSpecificationError = true;
     }
-    sort($pageListAsArray);
+    sort($pageList);
   } elseif ($archivalStatus!='') {
-    $pageListAsArray = getPageListByArchivalStatus($archivalStatus,$language);
-    if (sizeof($pageListAsArray) == 0) {
+    $pageList = getPageListByArchivalStatus($archivalStatus,$language);
+    if (sizeof($pageList) == 0) {
       include(__DIR__."/../style/head.inc");
       print "There are no pages for the archival status-language <em>combination</em>.<br>";
       $pageSpecificationError = true;
     }
-    sort($pageListAsArray);
+    sort($pageList);
   } elseif ($viewbound > 0) {
     if (strlen($yearfilter) == 0) {
-      $pageListAsArray = getpageListbyViewBound($viewbound,$monthfilter,$language,'month');
+      $pageList = getpageListbyViewBound($viewbound,$monthfilter,$language,'month');
     } else {
-      $pageListAsArray = getPageListByViewBound($viewbound,$yearfilter,$language,'year');
-      if (sizeof($pageListAsArray) == 0) {
+      $pageList = getPageListByViewBound($viewbound,$yearfilter,$language,'year');
+      if (sizeof($pageList) == 0) {
         include(__DIR__."/../style/head.inc");
 	print "There are no pages for the view bound-filter-language <em>combination</em>.<br>";
 	$pageSpecificationError = true;
       }
     }
-    sort($pageListAsArray);
+    sort($pageList);
   }
 }
 ?>

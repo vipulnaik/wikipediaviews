@@ -21,7 +21,7 @@ if ($pageTypeAdvice == 'onemonth') {
 
 if (!empty($_REQUEST['displayFormat'])) {
   $displayFormat = $_REQUEST['displayFormat'];
-  if (($pageTypeAdvice == 'onemonth' and $displyformat != 'htmltable') or ($pageTypeAdvice != 'onemonth' and $displayFormat != 'htmltableautomatic')) {
+  if (($pageTypeAdvice == 'onemonth' and $displayFormat != 'htmltable') or ($pageTypeAdvice != 'onemonth' and $displayFormat != 'htmltableautomatic')) {
     $advancedOptionUrlComponent .= '&displayFormat='.$displayFormat;
   }
 }

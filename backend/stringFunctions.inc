@@ -57,6 +57,9 @@ function getShortDescriptor($drilldown) {
     case "cumulative-facebook-shares" :
       return "Cumulative shares";
       break;
+    default :
+      return "Views";
+      break;
   }
 }
 

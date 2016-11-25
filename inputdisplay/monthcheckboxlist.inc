@@ -33,7 +33,7 @@ for($i=0;$i<$result->num_rows;$i++)
       }
     if ($formdata == true)
       {
-	if (in_array($row['monthfull'],$originalmonthList) or (sizeof($monthList) == 0 and $row['status']=='mostrecent'))
+	if (in_array($row['monthfull'],$originalMonthList) or (sizeof($monthList) == 0 and $row['status']=='mostrecent'))
 	  {
 	    print ' checked';
 	  }

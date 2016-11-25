@@ -5,4 +5,17 @@
   <option value="desktop-spider" <?php if ($formdata==true and in_array("desktop-spider", $drilldownList)) {print 'selected="selected"';} ?>>Desktop spider (data from July 2015)</option>
   <option value="mobile-web-spider" <?php if ($formdata==true and in_array("mobile-web-spider", $drilldownList)) {print 'selected="selected"';} ?>>Mobile web spider (data from July 2015)</option>
   <option value="cumulative-facebook-shares" <?php if ($formdata==true and in_array("cumulative-facebook-shares", $drilldownList)) {print 'selected="selected"';} ?>>Cumulative Facebook like+comment+share count (supported for month and not for year displays) (data from October 2016)</option>
+  <option value="referrer:other-search" <?php if ($formdata==true and in_array("referrer:other-search", $drilldownList)) {print 'selected="selected"';} ?>>referrer:other-search (clickstream, a few months)</option>
+  <option value="referrer:other-external" <?php if ($formdata==true and in_array("referrer:other-external", $drilldownList)) {print 'selected="selected"';} ?>>referrer:other-external (clickstream, a few months)</option>
+  <option value="referrer:other-other" <?php if ($formdata==true and in_array("referrer:other-other", $drilldownList)) {print 'selected="selected"';} ?>>referrer:other-other (clickstream, a few months)</option>
+  <option value="referrer:other-empty" <?php if ($formdata==true and in_array("referrer:other-empty", $drilldownList)) {print 'selected="selected"';} ?>>referrer:other-empty (clickstream, a few months)</option>
+  <option value="referrer:other-internal" <?php if ($formdata==true and in_array("referrer:other-internal", $drilldownList)) {print 'selected="selected"';} ?>>referrer:other-internal (clickstream, a few months)</option>
+  <option value="referrer:Wikipedia" <?php if ($formdata==true and in_array("referrer:Wikipedia", $drilldownList)) {print 'selected="selected"';} ?>>referrer:Wikipedia (clickstream, a few months)</option>
+  <option value="referrer:other-bing" <?php if ($formdata==true and in_array("referrer:other-bing", $drilldownList)) {print 'selected="selected"';} ?>>referrer:other-bing (clickstream, a few months)</option>
+  <option value="referrer:other-facebook" <?php if ($formdata==true and in_array("referrer:other-facebook", $drilldownList)) {print 'selected="selected"';} ?>>referrer:other-facebook (clickstream, a few months)</option>
+  <option value="referrer:other-google" <?php if ($formdata==true and in_array("referrer:other-google", $drilldownList)) {print 'selected="selected"';} ?>>referrer:other-google (clickstream, a few months)</option>
+  <option value="referrer:other-twitter" <?php if ($formdata==true and in_array("referrer:other-twitter", $drilldownList)) {print 'selected="selected"';} ?>>referrer:other-twitter (clickstream, a few months)</option>
+  <option value="referrer:other-wikipedia" <?php if ($formdata==true and in_array("referrer:other-wikipedia", $drilldownList)) {print 'selected="selected"';} ?>>referrer:other-wikipedia (clickstream, a few months)</option>
+  <option value="referrer:other-yahoo" <?php if ($formdata==true and in_array("referrer:other-yahoo", $drilldownList)) {print 'selected="selected"';} ?>>referrer:other-yahoo (clickstream, a few months)</option>
+  <option value="referrer:other" <?php if ($formdata==true and in_array("referrer:other", $drilldownList)) {print 'selected="selected"';} ?>>referrer:other (clickstream, a few months)</option>
 </select></td></tr>

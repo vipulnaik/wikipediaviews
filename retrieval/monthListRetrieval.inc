@@ -8,10 +8,20 @@
 
 ## Only included in displayviewsformultiplemonths.php
 
+$originalMonthList = array($mostRecentMonth);
+
 if (!empty($_REQUEST['months'])) {
-  $monthList = $_REQUEST['months'];
+  $originalMonthList = $_REQUEST['months'];
 }
 
+if (!empty($_REQUEST['month'])) {
+  $requestedMonth = $_REQUEST['month'];
+  $originalMonthList = array($requestedMonth);
+}
+
+if (!empty($_REQUEST['monthList'])) {
+  $originalMonthList = $_REQUEST['monthList'];
+}
 
 $monthacrossyears = '';
 if (!empty($_REQUEST['monthacrossyears'])) {
@@ -28,20 +38,17 @@ if (!empty($_REQUEST['allmonths'])) {
   $allmonths = $_REQUEST['allmonths'];
 }
 
-$originalmonthList = array($mostRecentMonth);
-if (!empty($_REQUEST['monthList'])) {
-  $originalmonthList = $_REQUEST['monthList'];
-}
 
-if ($allmonths == "allmonths" and (in_array($thisMonth,$originalmonthList) or (!empty($_REQUEST['months']) and in_array($thisMonth, $monthList)))) {
+if ($allmonths == "allmonths" and (in_array($thisMonth,$originalMonthList))) {
   $monthList = presentandpastmonths_monthList();
 } elseif ($allmonths == "allmonths-present") {
   $monthList = presentandpastmonths_monthList();
 } elseif ($allmonths == "allmonths") {
     $monthList = pastmonths_monthList();
-} elseif (empty($_REQUEST['months'])) {
-    $monthList = $originalmonthList;
+} else {
+    $monthList = $originalMonthList;
 }
+
 
 if ($year != "" and $monthacrossyears != "") {
     include(__DIR__."/../style/head.inc");

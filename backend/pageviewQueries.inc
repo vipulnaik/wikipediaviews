@@ -45,6 +45,26 @@ function queriedPageLog($page,$language,$archivalStatus) {
   return $result;
 }
 
+function getClickstreamData($page, $month, $language, $drilldown) {
+  global $clickstreamFolder;
+  global $cannotRetrieveMessage;
+  $actualReferrer = substr($drilldown, 9, strlen($drilldown));
+  if (in_array($month, array("201501", "201502", "201602", "201603", "201604", "201608", "201609"))) {
+    $page = str_replace(" ", "_", $page);
+    $grepString = "^$page\t$actualReferrer\t\K.+";
+    $grepExpression = 'grep -oP "'.$grepString.'" '.$clickstreamFolder.$month.'.csv';
+    # print "grep expression used = ".$grepExpression;
+    $response = shell_exec($grepExpression);
+    if ($response == '') {
+      return $cannotRetrieveMessage;
+    } else {
+      return $response;
+    }
+  } else {
+    return $cannotRetrieveMessage;
+  }
+}
+
 function getPageviewsOnline($page, $month, $language, $drilldown) {
   global $attemptedExternalQueryCount;
   global $successfulExternalQueryCount;
@@ -61,7 +81,9 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   if (count($dataStartMap) == 0) {
     $dataStartMap = dataStartMap();
   }
-  if ($month < '201507' and in_array($drilldown, array("mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider"))) {
+  if (substr($drilldown, 0, 9) == "referrer:") {
+    return getClickstreamData($page, $month, $language, $drilldown);
+  } elseif ($month < '201507' and in_array($drilldown, array("mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider"))) {
     $irretrievableCount++;
     return $cannotRetrieveMessage;
   } elseif ($month.'31' < $dataStartMap[$language]) {

@@ -37,6 +37,12 @@ if (!empty($_REQUEST['drilldown'])) {
   $sentDrilldown = $_REQUEST['drilldown'];
   if ($sentDrilldown == "all") {
     $drilldownList = array("desktop", "mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider");
+  } elseif ($sentDrilldown == "referrers") {
+    $drilldownList = array("referrer:other-search", "referrer:other-external", "referrer:other-other", "referrer:other-empty", "referrer:other-internal", "referrer:Wikipedia", "referrer:other-bing", "referrer:other-facebook", "referrer:other-google", "referrer:other-twitter", "referrer:other-wikipedia", "referrer:other-yahoo", "referrer:other");
+  } elseif ($sentDrilldown == "referrers-new") {
+    $drilldownList = array("referrer:other-search", "referrer:other-external", "referrer:other-other", "referrer:other-empty", "referrer:other-internal", "referrer:Wikipedia");
+  } elseif ($sentDrilldown == "referrers-old") {
+    $drilldownList = array("referrer:other-other", "referrer:other-empty", "referrer:other-internal", "referrer:Wikipedia", "referrer:other-bing", "referrer:other-facebook", "referrer:other-google", "referrer:other-twitter", "referrer:other-wikipedia", "referrer:other-yahoo");
   } else {
     $drilldownList = array($sentDrilldown);
   }

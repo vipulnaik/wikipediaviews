@@ -54,15 +54,6 @@ if ($pageSpecificationError == true) {
       }
       include("inputdisplay/multipletagsandyearsdataentry.inc");
       break;
-    case 'csv' :
-      printpageviewsformonthOrYearListascsv($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,'','tag','year');
-      break;
-    case 'csvtransposed' :
-      printpageviewsformonthOrYearListascsvtransposed($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,'','tag','year');
-      break;
-    case 'cpi' :
-      printpageviewsformonthOrYearListascpi($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,'','tag','year');
-      break;
   }
 }
 ?>

@@ -35,6 +35,27 @@ not include it. However, data starting September 2014 can in principle
 be reconstructed from the pagecounts-all-sites dump and pageviews dump
 released by the Wikimedia Foundation.</p>
 
+<p>Cumulative Facebook like+comment+share counts are available
+starting October 2016, but not comprehensively. Only those view counts
+are available that were captured in real time from the Facebook API at
+the time. For those counts that we did not capture in time, a "cannot
+retrieve this data" message will be shown.</p>
+
+<p>Referrer-based drilldowns are based on the <a
+href="https://datahub.io/dataset/wikipedia-clickstream">Wikipedia
+Clickstream</a> dataset (<a
+href="https://meta.wikimedia.org/wiki/Research:Wikipedia_clickstream">Wikimedia
+Research page</a>), which is available for the months of January and
+February 2015, and February, March, April, August, and September
+2016. The names of the drilldowns are not the same across months, due
+to changes in the way the clickstream dataset was generated. Also,
+values of 10 or less are missing and are thus treated as zero. If you
+request a referrer drilldown for a month where it does not apply, you
+will get "cannot retrieve this data". If you request it for a month
+where it does apply but it does not appear in the dataset, we will
+return a value of 0; however, the actual value could be any number 10
+or less.</p>
+
 <p>The development of the first iteration was concentrated between
 April 30, 2014 and July 31, 2014. Subsequent changes were concentrated
 in late 2016.</p>

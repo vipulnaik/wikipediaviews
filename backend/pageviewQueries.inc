@@ -46,23 +46,41 @@ function queriedPageLog($page,$language,$archivalStatus) {
 }
 
 function getClickstreamData($page, $month, $language, $drilldown) {
+  global $successfulExternalQueryCount;
+  global $attemptedExternalQueryCount;
+  global $attemptedExternalQueryLimit;
   global $clickstreamFolder;
   global $cannotRetrieveMessage;
+  global $irretrievableCount;
+  global $exceededQueryLimitMessage;
   $actualReferrer = substr($drilldown, 9, strlen($drilldown));
-  if (in_array($month, array("201501", "201502", "201602", "201603", "201604", "201608", "201609"))) {
-    $page = str_replace(" ", "_", $page);
-    $page = str_replace("(", "\(", $page);
-    $page = str_replace(")","\)",$page);
-    $grepString = "^$page\t$actualReferrer\t\K.+";
-    $grepExpression = 'grep -oP "'.$grepString.'" '.$clickstreamFolder.$month.'.csv';
-    # print "grep expression used = ".$grepExpression;
-    $response = shell_exec($grepExpression);
-    if ($response == '') {
-      return $cannotRetrieveMessage;
+  # if (in_array($month, array("201501", "201502", "201602", "201603", "201604", "201608", "201609"))) {
+  if ($language == "en" and (
+    (in_array($month, array("201604", "201608", "201609")) and in_array($actualReferrer, array("other-search", "other-external", "other-other","other-empty","other-internal","Wikipedia"))) or
+    ($month == "201501" and $actualReferrer == "other") or
+    (in_array($month, array("201501", "201502", "201602", "201603")) and in_array($actualReferrer, array("other-empty","other-internal","Wikipedia","other-bing","other-facebook","other-google","other-twitter","other-wikipedia","other-yahoo"))) or
+    (in_array($month, array("201502", "201602", "201603")) and $actualReferrer == "other-other")
+  )) {
+    if ($attemptedExternalQueryCount < $attemptedExternalQueryLimit) {
+      $page = str_replace(" ", "_", $page);
+      $page = str_replace("(", "\(", $page);
+      $page = str_replace(")","\)",$page);
+      $grepString = "^$page\t$actualReferrer\t\K.+";
+      $grepExpression = 'grep -oP "'.$grepString.'" '.$clickstreamFolder.$month.'.csv';
+      # print "grep expression used = ".$grepExpression;
+      $attemptedExternalQueryCount++;
+      $successfulExternalQueryCount++;
+      $response = shell_exec($grepExpression);
+      if ($response == '') {
+        return 0;
+      } else {
+        return $response;
+      }
     } else {
-      return $response;
+      return $exceededQueryLimitMessage;
     }
   } else {
+    $irretrievableCount++; 
     return $cannotRetrieveMessage;
   }
 }

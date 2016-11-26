@@ -55,15 +55,6 @@ if ($pageSpecificationError == true or $monthspecificationerror == true) {
       }
       include("inputdisplay/multiplemonthsdataentry.inc");
       break;
-    case 'csv' :
-      printPageviewsForMonthOrYearListAsCsv($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,'','page','month');
-      break;
-    case 'csvtransposed' :
-      printPageviewsForMonthOrYearListAsCsvTransposed($pageList,$monthList,$language,$drilldownList,$numericDisplayFormat,'','page','month');
-      break;
-    case 'cpi' :
-      printPageviewsForMonthOrYearListAsCpi($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,'','page','month');
-      break;
   }
 }
 ?>

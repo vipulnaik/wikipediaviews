@@ -21,9 +21,6 @@ if ($pageSpecificationError == true or $monthspecificationerror == true) {
   include("inputdisplay/".$pageTypeAdvice."dataentry.inc");
 } else {
   switch ($displayFormat) {
-    case 'csv' :
-      printPageviewsForMonthOrYearListAsCsv($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat);
-      break;
     case 'htmltable' : 
       include("style/head.inc");
       $permalinkUrl = "http://wikipediaviews.org/displayviewsfor".$pageTypeAdvice.".php?".$pageUrlComponent."&month=".$monthList[0].$languageUrlComponent.$drilldownUrlComponent.$advancedOptionUrlComponent;
@@ -37,9 +34,6 @@ if ($pageSpecificationError == true or $monthspecificationerror == true) {
       $displayFormat='htmltableautomatic';
       $carryoverfromonemonth=true;
       include("inputdisplay/multiplemonthsdataentry.inc");
-      break;
-    case 'csvtransposed' :
-      printPageviewsForMonthOrYearListAsCsvTransposed($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat);
       break;
   }
 }

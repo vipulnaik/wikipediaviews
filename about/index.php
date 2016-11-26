@@ -42,7 +42,7 @@ the time. For those counts that we did not capture in time, a "cannot
 retrieve this data" message will be shown.</p>
 
 <p>Referrer-based drilldowns are based on the <a
-href="https://datahub.io/dataset/wikipedia-clickstream">Wikipedia
+href="https://figshare.com/articles/Wikipedia_Clickstream/1305770">Wikipedia
 Clickstream</a> dataset (<a
 href="https://meta.wikimedia.org/wiki/Research:Wikipedia_clickstream">Wikimedia
 Research page</a>), which is available for the months of January and

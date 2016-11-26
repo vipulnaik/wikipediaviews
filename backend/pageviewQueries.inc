@@ -66,7 +66,12 @@ function getClickstreamData($page, $month, $language, $drilldown) {
       $page = str_replace("(", "\(", $page);
       $page = str_replace(")","\)",$page);
       $grepString = "^$page\t$actualReferrer\t\K.+";
-      $grepExpression = 'grep -oP "'.$grepString.'" '.$clickstreamFolder.$month.'.csv';
+      $sourceFile = $clickstreamFolder.$month.'.csv';
+      $startingLetter = substr($page, 0, 1);
+      if (ctype_alpha($startingLetter) and ctype_upper($startingLetter)) {
+        $sourceFile = $clickstreamFolder.$month.$startingLetter.'.csv';
+      }
+      $grepExpression = 'grep -oP "'.$grepString.'" '.$sourceFile;
       # print "grep expression used = ".$grepExpression;
       $attemptedExternalQueryCount++;
       $successfulExternalQueryCount++;

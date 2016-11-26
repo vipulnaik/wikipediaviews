@@ -115,6 +115,8 @@ function totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$month
 function printMonthViewCount($page,$month,$language,$drilldown,$viewcount,$numericDisplayFormat) {
   if ($drilldown == "all") {
     return '<td align="right"><strong><a title="'.monthviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></strong></td>';
+  } elseif (substr($drilldown, 0, 9) == "referrer:") {
+    return '<td align="right"><a title="'.monthviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';
   } else {
     return '<td align="right"><a href="'.getpageviewsurl($page,$month,$language,$drilldown).'" title="'.monthviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';
   }
@@ -1191,7 +1193,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     }
     exec($cmdToExecute);
     print "<br/><br/>";
-    print "<strong>Distribution of pageviews; each ".$entityDescriptor." represents a combination of page, language, and drilldown$addendum</strong><br/>";
+    print '<strong>Distribution of pageviews; each '.$entityDescriptor.' represents a combination of page, language, and drilldown'.$addendum.'</strong> (<a href="/images/'.$fileName.'.csv">underlying CSV using pipe (|) as separator</a>)<br/>';
     print '<img src="/images/'.$fileName.'-distrib.png" alt="Image of pageviews distribution should have loaded here"></img>';
   }
   if (count($monthOrYearList) > 1) {
@@ -1207,14 +1209,15 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       $addendum = "";
     }
     if (count($pageOrTagList) * count($languageList) > 1 and count($drilldownList) > 1) {
-      print "<strong>Time series of data; includes overall total and a separate curve for each combination of ".$pageOrTagAdvice.", language, and drilldown".$addendum." below:</strong><br/>"; 
+      print "<strong>Time series of data; includes overall total and a separate curve for each combination of ".$pageOrTagAdvice.", language, and drilldown".$addendum." below:</strong>"; 
     } else if (count($drilldownList) > 1) {
-      print "<strong>Time series of data; includes overall total and a separate curve for each drilldown".$addendum." below:</strong><br/>";
+      print "<strong>Time series of data; includes overall total and a separate curve for each drilldown".$addendum." below:</strong>";
     } else if (count($pageOrTagList) * count($languageList) > 1) {
-      print "<strong>Time series of data; includes overall total and a separate curve for each combination of ".$pageOrTagAdvice."and language ".$addendum." below:</strong><br/>";
+      print "<strong>Time series of data; includes overall total and a separate curve for each combination of ".$pageOrTagAdvice."and language ".$addendum." below:</strong>";
     } else {
-      print "<strong>Time series of data below:</strong><br/>";
+      print "<strong>Time series of data below:</strong>";
     }
+    print '(<a href="/images/'.$fileName.'.csv">underlying CSV using pipe (|) as separator</a>)';
     print '<img src="/images/'.$fileName.'-timeseries.png" alt="Graph of pageviews should have loaded here"></img>';
   }
 
@@ -1248,7 +1251,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     # print("Going to try executing ".$cmdToExecute."<br>");
     exec($cmdToExecute);
     print "<br/><br/>";
-    print "<strong>Distribution of pageviews; each ".$entityDescriptor." represents a drilldown, summed over the other dimensions$addendum</strong><br/>";
+    print '<strong>Distribution of pageviews; each '.$entityDescriptor.' represents a drilldown, summed over the other dimensions'.$addendum.'</strong> (<a href="/images/'.$drilldownFileName.'.csv">underlying CSV using pipe (|) as separator</a>)<br/>';
     print '<img src="/images/'.$drilldownFileName.'-distrib.png" alt="Image of pageviews distribution should have loaded here"></img>';
 
     if (count($monthOrYearList) > 1) {
@@ -1258,7 +1261,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       }
       exec($cmdToExecute);
       print "<br><br>";
-      print "<strong>Time series of data; one curve for total by each drilldown, one curve for total, below:</strong><br/>";
+      print '<strong>Time series of data; one curve for total by each drilldown, one curve for total, below:</strong> (<a href="/images/'.$drilldownFileName.'.csv">underlying CSV using pipe (|) as separator</a>)<br/>';
       print '<img src="/images/'.$drilldownFileName.'-timeseries.png" alt="Graph of pageviews should have loaded here"></img>';
     }
   }
@@ -1290,7 +1293,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     # print("Going to try executing ".$cmdToExecute."<br>");
     exec($cmdToExecute);
     print "<br/><br/>";
-    print "<strong>Distribution of pageviews; each ".$entityDescriptor." represents a combination of ".$pageOrTagAdvice." and language, summed up over drilldowns$addendum</strong><br/>";
+    print '<strong>Distribution of pageviews; each '.$entityDescriptor.' represents a combination of '.$pageOrTagAdvice.' and language, summed up over drilldowns'.$addendum.'</strong> (<a href="/images/'.$pageOrTagCumLanguageFileName.'.csv">underlying CSV using pipe (|) as separator</a>)<br/>';
     print '<img src="/images/'.$pageOrTagCumLanguageFileName.'-distrib.png" alt="Image of pageviews distribution should have loaded here"></img>';
 
     if (count($monthOrYearList) > 1) {
@@ -1305,7 +1308,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
         $addendum = "";
       }
       print "<br><br>";
-      print "<strong>Time series of data; one curve for total by each ".$pageOrTagAdvice.", one curve for total".$addendum.", below:</strong><br/>";
+      print '<strong>Time series of data; one curve for total by each '.$pageOrTagAdvice.', one curve for total'.$addendum.', below:</strong> (<a href="/images/'.$pageOrTagCumLanguageFileName.'.csv">underlying CSV using pipe (|) as separator</a>)<br/>';
       print '<img src="/images/' . $pageOrTagCumLanguageFileName . '-timeseries.png" alt="Graph of pageviews should have loaded here"></img>';
     }
   }
@@ -1338,7 +1341,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     # print("Going to try executing ".$cmdToExecute."<br>");
     exec($cmdToExecute);
     print "<br/><br/>";
-    print "<strong>Distribution of pageviews; each ".$entityDescriptor." represents a ".$pageOrTagAdvice." summed up over the selected languages and drilldowns$addendum</strong><br/>";
+    print '<strong>Distribution of pageviews; each '.$entityDescriptor.' represents a '.$pageOrTagAdvice.' summed up over the selected languages and drilldowns'.$addendum.'</strong> (<a href="/images/'.$pageOrTagFileName.'.csv">underlying CSV using pipe (|) as separator</a>)<br/>';
     print '<img src="/images/'.$pageOrTagFileName.'-distrib.png" alt="Image of pageviews distribution should have loaded here"></img>';
 
     if (count($monthOrYearList) > 1) {
@@ -1353,7 +1356,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
         $addendum = "";
       }
       print "<br><br>";
-      print "<strong>Time series of data; one curve for total by each ".$pageOrTagAdvice.", one curve for total".$addendum.", below:</strong><br/>";
+      print '<strong>Time series of data; one curve for total by each '.$pageOrTagAdvice.', one curve for total'.$addendum.', below:</strong> (<a href="/images/'.$pageOrTagFileName.'.csv">underlying CSV using pipe (|) as separator</a>)<br/>';
       print '<img src="/images/' . $pageOrTagFileName . '-timeseries.png" alt="Graph of pageviews should have loaded here"></img>';
     }
   }

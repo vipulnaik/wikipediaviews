@@ -51,6 +51,8 @@ function getClickstreamData($page, $month, $language, $drilldown) {
   $actualReferrer = substr($drilldown, 9, strlen($drilldown));
   if (in_array($month, array("201501", "201502", "201602", "201603", "201604", "201608", "201609"))) {
     $page = str_replace(" ", "_", $page);
+    $page = str_replace("(", "\(", $page);
+    $page = str_replace(")","\)",$page);
     $grepString = "^$page\t$actualReferrer\t\K.+";
     $grepExpression = 'grep -oP "'.$grepString.'" '.$clickstreamFolder.$month.'.csv';
     # print "grep expression used = ".$grepExpression;

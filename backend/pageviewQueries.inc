@@ -79,7 +79,7 @@ function getClickstreamData($page, $month, $language, $drilldown) {
       if ($response == '') {
         return 0;
       } else {
-        return $response;
+        return trim($response," \t\n\r\0\x0B");
       }
     } else {
       return $exceededQueryLimitMessage;

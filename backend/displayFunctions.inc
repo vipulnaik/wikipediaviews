@@ -117,6 +117,8 @@ function printMonthViewCount($page,$month,$language,$drilldown,$viewcount,$numer
     return '<td align="right"><strong><a title="'.monthviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></strong></td>';
   } elseif (substr($drilldown, 0, 9) == "referrer:") {
     return '<td align="right"><a title="'.monthviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';
+  } elseif ($drilldown == "cumulative-facebook-shares") {
+    return '<td align="right"><a href="'.str_replace("/v2.8","", getpageviewsurl($page,$month,$language,$drilldown)).'" title="'.monthviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';
   } else {
     return '<td align="right"><a href="'.getpageviewsurl($page,$month,$language,$drilldown).'" title="'.monthviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';
   }

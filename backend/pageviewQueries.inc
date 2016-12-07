@@ -510,7 +510,7 @@ function fillinWantedViewCounts($queryLimit, $online) {
   $result = $mysqli->query($selectQuery);
   if ($result ->num_rows == 0) {
     print date("Y-m-d h:i:sa").": Select query response had no rows";
-    $fixWorkingStatusQuery = "update wantedviewcountsbymonth set status='working' where status='wanted'";
+    $fixWorkingStatusQuery = "update wantedviewcountsbymonth set status='wanted' where status='working'";
     $mysqli->query($fixWorkingStatusQuery);
     $result = $mysqli->query($selectQuery);
   }

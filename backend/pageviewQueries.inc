@@ -506,10 +506,13 @@ function fillinWantedViewCounts($queryLimit, $online) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
   $selectQuery = "select * from wantedviewcountsbymonth where status='wanted' limit ".$queryLimit.";";
-  # print $selectQuery;
+  print date("Y-m-d h:i:sa").": ".$selectQuery;
   $result = $mysqli->query($selectQuery);
   if ($result ->num_rows == 0) {
-    return true;
+    print date("Y-m-d h:i:sa").": Select query response had no rows";
+    $fixWorkingStatusQuery = "update wantedviewcountsbymonth set status='working' where status='wanted'";
+    $mysqli->query($fixWorkingStatusQuery);
+    $result = $mysqli->query($selectQuery);
   }
   $workingQuery = "update wantedviewcountsbymonth set status='working' where row_id in (";
   $deletionQuery = "delete from wantedviewcountsbymonth where row_id in (0";

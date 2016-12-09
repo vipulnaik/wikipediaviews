@@ -13,7 +13,7 @@
 ## recent month has not been filled in for them.
 
 print '<tr><td>Enter the language Wikipedia(s) that you are interested in: </td><td><select multiple name="languageList[]" size="6">';
-include_once(__DIR__."/../backend/corecode.inc");
+include_once(__DIR__."/../backend/coreCode.inc");
 $result = languages_sql();
 $numrows = $result->num_rows;
 for ($i=0;$i < $numrows; $i++) {

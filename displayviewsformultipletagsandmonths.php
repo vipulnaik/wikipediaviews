@@ -4,7 +4,7 @@
 
 include("style/toggler.inc");
 print '</head>';
-include_once("backend/corecode.inc");
+include_once("backend/coreCode.inc");
 $formdata = true;
 $pageTypeAdvice = "multipletagsandmonths";
 include("retrieval/languageListRetrieval.inc");

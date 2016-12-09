@@ -4,7 +4,7 @@ print '<title>Wikipedia Views</title>';
 include("style/toggler.inc"); ##included in all public-facing files
 print '</head>';
 # print '<p>The website is down for maintenance right now</p>';
-include_once("backend/corecode.inc");
+include_once("backend/coreCode.inc");
 include("style/head.inc"); ##included in all public-facing files
 print '<body>';
 $formdata = false;

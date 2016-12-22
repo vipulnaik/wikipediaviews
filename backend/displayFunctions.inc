@@ -712,7 +712,7 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
         }
       }
     }
-    if (count($pageOrTagList) * count($languageList) > 1 and count($drilldownList) > 1) {
+    if (count($pageOrTagList) * count($languageList) * count($drilldownList) > 1) {
       $tagsRowString .= '<td>--</td>';
     }
     if (count($monthOrYearList) > 1) {

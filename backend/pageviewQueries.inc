@@ -421,7 +421,7 @@ function viewcountarraybymonth($pageList,$languageList,$drilldownList,$monthList
         foreach ($drilldownList as $drilldown) {
           foreach ($monthList as $month) {
             if ($viewcountarray[$page][$language][$drilldown][$month] != $exceededQueryLimitMessage) {
-	      $viewcountarray[$page][$language][$drilldown][$month] = round($viewcountarray[$page][$language][$month][$drilldown]/intval($numberofdays_allmonths[$month]),1);
+	      $viewcountarray[$page][$language][$drilldown][$month] = round($viewcountarray[$page][$language][$drilldown][$month]/intval($numberofdays_allmonths[$month]),1);
             }
           }
         }

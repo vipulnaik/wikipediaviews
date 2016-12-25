@@ -35,7 +35,7 @@ if ($pageSpecificationError == true or $monthspecificationerror == true) {
       break;
     case 'htmltable' :
       include("style/head.inc");
-      $permalinkUrl = "http://wikipediaviews.org/displayviewsfor".$pageTypeAdvice.".php?".$pageUrlComponent.$monthUrlComponent.$languageUrlComponent.$drilldownUrlComponent.$advancedOptionUrlComponent;
+      $permalinkUrl = "https://wikipediaviews.org/displayviewsfor".$pageTypeAdvice.".php?".$pageUrlComponent.$monthUrlComponent.$languageUrlComponent.$drilldownUrlComponent.$advancedOptionUrlComponent;
       $cleanPermalinkUrl = str_replace("?&", "?", $permalinkUrl);
       print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';
       $printStatus = printPageviewsForMonthOrYearListAsHtmlTable($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort);
@@ -46,7 +46,7 @@ if ($pageSpecificationError == true or $monthspecificationerror == true) {
       break;
     case 'htmltabletransposed' :
       include("style/head.inc");
-      $permalinkUrl = "http://wikipediaviews.org/displayviewsfor".$pageTypeAdvice.".php?".$pageUrlComponent.$monthUrlComponent.$languageUrlComponent.$drilldownUrlComponent.$advancedOptionUrlComponent;
+      $permalinkUrl = "https://wikipediaviews.org/displayviewsfor".$pageTypeAdvice.".php?".$pageUrlComponent.$monthUrlComponent.$languageUrlComponent.$drilldownUrlComponent.$advancedOptionUrlComponent;
       $cleanPermalinkUrl = str_replace("?&", "?", $permalinkUrl);
       print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';
       $printStatus = printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort);

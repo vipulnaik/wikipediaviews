@@ -169,7 +169,7 @@ if ($tag == '' and $category == '' and $user == '' and $linkingpage == '' and $a
   } else {
     $pageUrlComponent = "";
     for ($i = 0; $i < count($pageList); $i++) {
-      $pageUrlComponent .= "&pages[$i]=".$pageList[$i];
+      $pageUrlComponent .= "&pages[$i]=".urlencode($pageList[$i]);
     }
   }
 }

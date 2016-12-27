@@ -1,17 +1,26 @@
 <?php
 
+function nonempty($string) {
+  if (strlen($string) > 0) {
+    print "String \"$string\" has length ".strlen($string)." which is positive<br>";
+    return true;
+  } else {
+    print "String \"$string\" is empty<br>";
+    return false;
+  }
+}
+
 function convertPageListToArray($pageListAsString) {
-  $pageListasinput = isset($pageListAsString)?$pageListAsString:"";
-  $pageList = array_unique(explode("\n", str_replace("\r", "", $pageListasinput)));
-  foreach (array_keys($pageList, "") as $key) 
-    {
-      unset($pageList[$key]);
+  $pageListAsInput = isset($pageListAsString)?$pageListAsString:"";
+  $pageList = array_unique(explode("\n", str_replace("\r", "", $pageListAsInput)));
+  $newPageList = array();
+  foreach($pageList as $page) {
+    $newPage = trim($page," \t\n\r\0\x0B");
+    if (strlen($newPage) > 0) {
+      array_push($newPageList, $newPage);
     }
-  foreach($pageList as &$page)
-    {
-      $page = trim($page," \t\n\r\0\x0B");
-    }     
-  return $pageList;
+  }
+  return $newPageList;
 }
 
 function getDescriptor($drilldown) {

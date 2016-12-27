@@ -4,5 +4,5 @@ Vipul Naik with some contributions by Issa Rice, is released to the
 public domain via the CC0 license. Read
 https://creativecommons.org/publicdomain/zero/1.0/ for more details.
 
-All referenced and linked material as well as libraries or tools used,
+All referenced and linked material, as well as libraries or tools used,
 may be subject to its own copyright and licensing restrictions.

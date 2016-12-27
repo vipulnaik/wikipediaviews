@@ -22,7 +22,7 @@ print '<tr><td><strong>Alternative page specification methods: Use only one meth
 include(__DIR__."/tagdropdown.inc");
 include(__DIR__."/categoryNameEntry.inc");
 include(__DIR__."/creatingUserEntry.inc");
-include(__DIR__."/linkingpageentry.inc");
+include(__DIR__."/linkingPageEntry.inc");
 if (($formdata == false) or ($archivalStatus==='' and $viewbound==0))
   {
     print '</table>';

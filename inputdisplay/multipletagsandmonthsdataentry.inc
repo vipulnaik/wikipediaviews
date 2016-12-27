@@ -8,7 +8,7 @@
 
 ## Includes: tagdropdownselectmultiple.inc, languageDropdown.inc,
 ## alternateMonthSpecificationMethods.inc, advancedOptions.inc
-## monthcheckboxlist.inc
+## monthCheckboxList.inc
 
 $pageTypeAdvice = "multipletagsandmonths";
 print "<br>";
@@ -28,7 +28,7 @@ print '</table>';
 include("alternateMonthSpecificationMethods.inc");
 include("advancedOptions.inc");
 
-include("monthcheckboxlist.inc");
+include("monthCheckboxList.inc");
 print '</form>';
 ?>
 

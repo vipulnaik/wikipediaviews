@@ -8,7 +8,7 @@
 
 ##Includes: pagelistentry.inc, languageDropdown.inc, 
 ##alternatePageSpecificationMethods.inc, alternateMonthSpecificationMethods.inc,
-##advancedOptions.inc, monthcheckboxlist.inc
+##advancedOptions.inc, monthCheckboxList.inc
 
 if ($formdata == true and ($pageSpecificationError == false and $monthspecificationerror == false)) {
   pageMonthAdvice($pageList,$languageList,$drilldownList,$monthList,($tag !== ''),$printStatus);
@@ -28,7 +28,7 @@ include("alternatePageSpecificationMethods.inc");
 include("alternateMonthSpecificationMethods.inc");
 include("advancedOptions.inc");
 
-include("monthcheckboxlist.inc");
+include("monthCheckboxList.inc");
 print '</form>';
 ?>
 

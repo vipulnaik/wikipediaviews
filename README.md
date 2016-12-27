@@ -6,9 +6,13 @@ Underlying code of https://wikipediaviews.org with sensitive parts redacted
 GitHub URL: https://github.com/vipulnaik/wikipediaviews
 
 WARNING: If you just get the code from GitHub and try running it, it
-will fail. You also need to set up the database and add a file called
-passwordfile.inc to your backend subdirectory with the credentials for
-accessing the database. Instructions for database setup are at
+will fail. You also need to set up the database and add a file at
+backend/globalvariables/passwordfile.inc to your backend subdirectory
+with the credentials for accessing the database. Configure
+passwordfile.inc according to what you currently see in
+[backend/globalvariables/dummypasswordfile.inc](https://github.com/vipulnaik/wikipediaviews/backend/globalvariables/dummypasswordfile.inc).
+
+Instructions for database setup are at
 [sql/table-creations.sql](https://github.com/vipulnaik/wikipediaviews/sql/table-creations.sql).
 
 ## License

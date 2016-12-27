@@ -96,6 +96,7 @@ if ($pageSpecificationError == false) {
     $pageListAsString_mod = str_replace("http://","",$pageListAsString);
     $pageListAsString_mod = str_replace("https://","",$pageListAsString_mod);
     $pageListAsString_mod = str_replace("en.wikipedia.org/wiki/","",$pageListAsString_mod);
+    $pageListAsString_mod = str_replace("en.m.wikipedia.org/wiki/","",$pageListAsString_mod);
     $pageListAsString_mod = str_replace("_"," ",$pageListAsString_mod);
     $pageList = convertPageListToArray($pageListAsString_mod);
   } elseif ($tag!='' and count($languageList) == 1) {

@@ -88,7 +88,7 @@ two-level hierarchy of these files.
 
   Associated retrieval file: retrieval/pagelistretrieval.inc
 
-* alternatepagespecificationmethods.inc: This file has the HTML for
+* alternatePageSpecificationMethods.inc: This file has the HTML for
   ways of providing lists of pages without explicitly typing them
   in. There are many methods, each with its own inc file. The decision
   of whether to show or collapse this is based on the form history and
@@ -98,14 +98,14 @@ two-level hierarchy of these files.
 
   Associated retrieval file: retrieval/pagelistretrieval.inc
 
-* alternatemonthspecificationmethods.inc: This file has the HTML for
+* alternateMonthSpecificationMethods.inc: This file has the HTML for
   ways of providing lists of months without having to check boxes.
 
   Included in: multiplemonthsdataentry.inc
 
   Associated retrieval file: retrieval/monthlistretrieval.inc
 
-* advancedoptions.inc: This file has the HTML for advanced options,
+* advancedOptions.inc: This file has the HTML for advanced options,
   mostly relating to how much querying to do and how to display the
   results.
 

@@ -3,7 +3,7 @@
 ## Retrieval file for advanced options
 
 ## Corresponding data entry file (in inputdisplay directory):
-## advancedoptions.inc
+## advancedOptions.inc
 
 ## Included in all the display views files:
 ## displayviewsforonemonth.php, displayviewsformultiplemonths.php,

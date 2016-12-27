@@ -3,7 +3,7 @@
 ##Input form for user to modify the number of days after which a new 
 ##value for the current month will be forcibly retrieved
 
-##Included in advancedoptions.inc
+##Included in advancedOptions.inc
 
 ##Default value in backend/globalvariables/advancedoptionvariables.inc
 

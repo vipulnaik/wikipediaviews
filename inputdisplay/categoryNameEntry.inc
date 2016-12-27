@@ -3,7 +3,7 @@
 ## Creates the input form for entering a category. No drop down or
 ## automatic option list. It's a simple text field.
 
-## Included in: alternatepagespecificationmethods.inc
+## Included in: alternatePageSpecificationMethods.inc
 
 ## Associated retrieval file: retrieval/pageListRetrieval.inc
 

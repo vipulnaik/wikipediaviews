@@ -2,7 +2,7 @@
 
 ##Dropdown box to select the appropriate display format for a multiple year display
 
-##Included in advancedoptions.inc
+##Included in advancedOptions.inc
 
 ##Default value handcoded in HTML printing, not stored as a separate variable ##BAD PROGRAMMING
 

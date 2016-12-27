@@ -2,7 +2,7 @@
 
 ##Dropdown box to select the numeric display format
 
-##Included in advancedoptions.inc
+##Included in advancedOptions.inc
 
 ##Default value handcoded in HTML printing, not stored as a separate variable ##BAD PROGRAMMING
 

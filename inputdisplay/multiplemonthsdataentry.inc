@@ -6,9 +6,9 @@
 
 ##Sends form to: displayviewsformultiplemonths.php
 
-##Includes: pagelistentry.inc, languagedropdown.inc, 
-##alternatepagespecificationmethods.inc, alternatemonthspecificationmethods.inc,
-##advancedoptions.inc, monthcheckboxlist.inc
+##Includes: pagelistentry.inc, languageDropdown.inc, 
+##alternatePageSpecificationMethods.inc, alternateMonthSpecificationMethods.inc,
+##advancedOptions.inc, monthcheckboxlist.inc
 
 if ($formdata == true and ($pageSpecificationError == false and $monthspecificationerror == false)) {
   pageMonthAdvice($pageList,$languageList,$drilldownList,$monthList,($tag !== ''),$printStatus);
@@ -19,14 +19,14 @@ print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pageTy
 include("pagelistentry.inc");
 
 print '<table><col width=600/><col width=500/>';
-include("languagedropdownselectmultiple.inc");
-include("drilldowndropdown.inc");
+include("languageDropdownSelectMultiple.inc");
+include("drilldownDropdown.inc");
 print '<tr><td><input type="submit" value="Submit"></td></tr>';
 print '</table>';
 
-include("alternatepagespecificationmethods.inc");
-include("alternatemonthspecificationmethods.inc");
-include("advancedoptions.inc");
+include("alternatePageSpecificationMethods.inc");
+include("alternateMonthSpecificationMethods.inc");
+include("advancedOptions.inc");
 
 include("monthcheckboxlist.inc");
 print '</form>';

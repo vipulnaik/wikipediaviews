@@ -2,11 +2,11 @@
 
 ##Dropdown box to select all pages with complete archival status
 
-## Included in: alternatepagespecificationmethods.inc
+## Included in: alternatePageSpecificationMethods.inc
 
 ## Associated retrieval file: retrieval/pageListRetrieval.inc
 
-##Included in advancedoptions.inc
+##Included in advancedOptions.inc
 
 ##Default value handcoded in HTML printing, not stored as a separate variable ##BAD PROGRAMMING
 

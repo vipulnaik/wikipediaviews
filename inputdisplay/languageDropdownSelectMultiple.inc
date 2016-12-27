@@ -2,7 +2,7 @@
 
 ## Creates the tag drop down. Scans the database for the list of all tags, then displays them.
 
-## Included in: alternatepagespecificationmethods.inc
+## Included in: alternatePageSpecificationMethods.inc
 
 ## Associated retrieval file: retrieval/pageListRetrieval.inc
 

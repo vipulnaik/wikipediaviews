@@ -8,8 +8,8 @@
 ##Sends form to: displayviewsforonemonth.php
 
 ##Includes: pagelistentry.inc, monthdropdown.inc,
-##languagedropdown.inc, alternatepagespecificationmethods.inc,
-##advancedoptions.inc
+##languageDropdown.inc, alternatePageSpecificationMethods.inc,
+##advancedOptions.inc
 
 $pageTypeAdvice = "onemonth";
 print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pageTypeAdvice.'.php">';
@@ -18,14 +18,14 @@ include("pagelistentry.inc");
 
 print '<table><col width=600/><col width=500/>';
 include("monthdropdown.inc");
-include("languagedropdownselectmultiple.inc");
-include("drilldowndropdown.inc");
+include("languageDropdownSelectMultiple.inc");
+include("drilldownDropdown.inc");
 print '<tr><td><input type="submit" value="Submit"></td></tr>';
 print '</table>';
 
-include("alternatepagespecificationmethods.inc");
+include("alternatePageSpecificationMethods.inc");
 
-include("advancedoptions.inc");
+include("advancedOptions.inc");
 
 print '</form>';
 ?>

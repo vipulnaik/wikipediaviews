@@ -6,8 +6,8 @@
 
 ##Sends form to: displayviewsformultipleyears.php
 
-##Includes: pagelistentry.inc, languagedropdown.inc, 
-##alternatepagespecificationmethods.inc, advancedoptions.inc, 
+##Includes: pagelistentry.inc, languageDropdown.inc, 
+##alternatePageSpecificationMethods.inc, advancedOptions.inc, 
 ## yearcheckboxlist.inc
 
 if ($formdata == true and ($pageSpecificationError == false and $monthspecificationerror == false)) {
@@ -19,14 +19,14 @@ print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pageTy
 include("pagelistentry.inc");
 
 print '<table><col width=600/><col width=500/>';
-include("languagedropdownselectmultiple.inc");
-include("drilldowndropdown.inc");
+include("languageDropdownSelectMultiple.inc");
+include("drilldownDropdown.inc");
 print '<tr><td><input type="submit" value="Submit"></td></tr>';
 print '</table>';
 
-include("alternatepagespecificationmethods.inc");
+include("alternatePageSpecificationMethods.inc");
 
-include("advancedoptions.inc");
+include("advancedOptions.inc");
 
 include("yearcheckboxlist.inc");
 print '</form>';

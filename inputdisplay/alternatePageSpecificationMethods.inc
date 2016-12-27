@@ -20,8 +20,8 @@ if ((($formdata == false) or ($tag==='' and $category==='' and $user==='' and $l
 print '<table><col width=600/><col width=500/>';
 print '<tr><td><strong>Alternative page specification methods: Use only one method at a time!</strong></td></tr>';
 include(__DIR__."/tagdropdown.inc");
-include(__DIR__."/categorynameentry.inc");
-include(__DIR__."/creatinguserentry.inc");
+include(__DIR__."/categoryNameEntry.inc");
+include(__DIR__."/creatingUserEntry.inc");
 include(__DIR__."/linkingpageentry.inc");
 if (($formdata == false) or ($archivalStatus==='' and $viewbound==0))
   {

@@ -6,8 +6,8 @@
 
 ##Sends form to: displayviewsformultipletagsandmonths.php
 
-## Includes: tagdropdownselectmultiple.inc, languagedropdown.inc,
-## alternatemonthspecificationmethods.inc, advancedoptions.inc
+## Includes: tagdropdownselectmultiple.inc, languageDropdown.inc,
+## alternateMonthSpecificationMethods.inc, advancedOptions.inc
 ## monthcheckboxlist.inc
 
 $pageTypeAdvice = "multipletagsandmonths";
@@ -21,12 +21,12 @@ print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pageTy
 include("tagdropdownselectmultiple.inc");
 
 print '<table><col width=600/><col width=500/>';
-include("languagedropdownselectmultiple.inc");
-include("drilldowndropdown.inc");
+include("languageDropdownSelectMultiple.inc");
+include("drilldownDropdown.inc");
 print '<tr><td><input type="submit" value="Submit"></td></tr>';
 print '</table>';
-include("alternatemonthspecificationmethods.inc");
-include("advancedoptions.inc");
+include("alternateMonthSpecificationMethods.inc");
+include("advancedOptions.inc");
 
 include("monthcheckboxlist.inc");
 print '</form>';

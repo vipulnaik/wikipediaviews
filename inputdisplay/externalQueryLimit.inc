@@ -2,7 +2,7 @@
 
 ##Input form for user to modify limit on number of external queries
 
-##Included in advancedoptions.inc
+##Included in advancedOptions.inc
 
 ##Default value in backend/globalvariables/advancedoptionvariables.inc
 

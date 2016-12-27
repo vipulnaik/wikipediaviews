@@ -2,7 +2,7 @@
 
 ##Dropdown box to select the numeric display format
 
-##Included in advancedoptions.inc
+##Included in advancedOptions.inc
 
 ##Associated retrieval file: retrieval/advancedOptionRetrieval.inc
 

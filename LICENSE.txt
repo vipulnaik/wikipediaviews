@@ -1,3 +1,4 @@
-The code is released to the public domain. All references and linked
-material may be subject to its own copyright and licensing
-restrictions.
+The code is released to the [public domain](https://creativecommons.org/publicdomain/zero/1.0/).
+
+All referenced and linked material as well as libraries or tools used,
+may be subject to its own copyright and licensing restrictions.

@@ -1,4 +1,9 @@
-The code is released to the [public domain](https://creativecommons.org/publicdomain/zero/1.0/).
+All code in [this
+repository](https://github.com/vipulnaik/wikipediaviews), written
+primarily by Vipul Naik with some contributions by Issa Rice, is
+released to the [public
+domain](https://creativecommons.org/publicdomain/zero/1.0/) (click
+through for the full legal description).
 
 All referenced and linked material as well as libraries or tools used,
 may be subject to its own copyright and licensing restrictions.

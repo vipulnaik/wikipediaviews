@@ -21,7 +21,7 @@ if (count($tagList) == 1) {
 } else {
   $tagUrlComponent = "";
   for ($i = 0; $i < count($tagList); $i++) {
-    $tagUrlComponent .= "&tags[$i]=".$tagList[$i];
+    $tagUrlComponent .= "&tags[$i]=".urlencode($tagList[$i]);
   }
 }
 

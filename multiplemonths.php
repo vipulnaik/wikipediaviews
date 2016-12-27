@@ -4,7 +4,7 @@ print '<!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN"><html><hea
 print '<title>Wikipedia Views: simultaneously do multiple months</title>';
 include("style/toggler.inc"); ##Included in all public-facing files
 print '</head>';
-include_once("backend/corecode.inc"); ##Backend code needed for all public-facing files
+include_once("backend/coreCode.inc"); ##Backend code needed for all public-facing files
 include("style/head.inc"); ##Included in all public-facing files
 print '<body>';
 $formdata = false;

@@ -96,6 +96,7 @@ if ($pageSpecificationError == false) {
     $pageListAsString_mod = str_replace("http://","",$pageListAsString);
     $pageListAsString_mod = str_replace("https://","",$pageListAsString_mod);
     $pageListAsString_mod = str_replace("en.wikipedia.org/wiki/","",$pageListAsString_mod);
+    $pageListAsString_mod = str_replace("en.m.wikipedia.org/wiki/","",$pageListAsString_mod);
     $pageListAsString_mod = str_replace("_"," ",$pageListAsString_mod);
     $pageList = convertPageListToArray($pageListAsString_mod);
   } elseif ($tag!='' and count($languageList) == 1) {
@@ -169,7 +170,7 @@ if ($tag == '' and $category == '' and $user == '' and $linkingpage == '' and $a
   } else {
     $pageUrlComponent = "";
     for ($i = 0; $i < count($pageList); $i++) {
-      $pageUrlComponent .= "&pages[$i]=".$pageList[$i];
+      $pageUrlComponent .= "&pages[$i]=".urlencode($pageList[$i]);
     }
   }
 }

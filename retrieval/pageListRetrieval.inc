@@ -5,7 +5,7 @@
 ## through one of the alternate methods.
 
 ## Corresponding data entry files (in inputdisplay directory):
-## pagelistentry.inc, alternatepagespecificationoptions.inc
+## pageListEntry.inc, alternatepagespecificationoptions.inc
 
 ## Included in all the display views files:
 ## displayviewsforonemonth.php, displayviewsformultiplemonths.php,

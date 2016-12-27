@@ -6,8 +6,8 @@
 
 ##Sends form to: displayviewsformultipetagsandmonths.php
 
-##Includes: tagdropdownselectmultiple.inc, languageDropdown.inc,
-##yearcheckboxlist.inc
+##Includes: tagDropdownSelectMultiple.inc, languageDropdown.inc,
+##yearCheckboxList.inc
 
 $pageTypeAdvice = "multipletagsandyears";
 print "<br>";
@@ -21,7 +21,7 @@ else
   }
 print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pageTypeAdvice.'.php">';
 
-include("tagdropdownselectmultiple.inc");
+include("tagDropdownSelectMultiple.inc");
 print '<table><col width=600/><col width=500/>';
 include("languageDropdownSelectMultiple.inc");
 include("drilldownDropdown.inc");
@@ -29,7 +29,7 @@ print '<tr><td><input type="submit" value="Submit"></td></tr>';
 print '</table>';
 include("advancedOptions.inc");
 
-include("yearcheckboxlist.inc");
+include("yearCheckboxList.inc");
 print '</form>';
 ?>
 

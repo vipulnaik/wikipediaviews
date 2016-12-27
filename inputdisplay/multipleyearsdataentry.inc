@@ -6,9 +6,9 @@
 
 ##Sends form to: displayviewsformultipleyears.php
 
-##Includes: pagelistentry.inc, languageDropdown.inc, 
+##Includes: pageListEntry.inc, languageDropdown.inc, 
 ##alternatePageSpecificationMethods.inc, advancedOptions.inc, 
-## yearcheckboxlist.inc
+## yearCheckboxList.inc
 
 if ($formdata == true and ($pageSpecificationError == false and $monthspecificationerror == false)) {
   pageYearAdvice($pageList,$yearList,$drilldownList,($tag !== ''));
@@ -16,7 +16,7 @@ if ($formdata == true and ($pageSpecificationError == false and $monthspecificat
 
 $pageTypeAdvice = "multipleyears";
 print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pageTypeAdvice.'.php">';
-include("pagelistentry.inc");
+include("pageListEntry.inc");
 
 print '<table><col width=600/><col width=500/>';
 include("languageDropdownSelectMultiple.inc");
@@ -28,7 +28,7 @@ include("alternatePageSpecificationMethods.inc");
 
 include("advancedOptions.inc");
 
-include("yearcheckboxlist.inc");
+include("yearCheckboxList.inc");
 print '</form>';
 ?>
 

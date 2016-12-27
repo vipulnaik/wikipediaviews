@@ -3,7 +3,7 @@
 ## Retrieval file for the year list specification
 
 ## Corresponding data entry files (in inputdisplay directory):
-## yearcheckboxlist.inc
+## yearCheckboxList.inc
 
 ## Only included in displayviewsformultipleyears.php
 

@@ -77,7 +77,7 @@ structure to them. The included files, however, are in the
 inputdisplay folder (not publicly accessible over the web). There is a
 two-level hierarchy of these files.
 
-* pagelistentry.inc: This file has the code for the text area for
+* pageListEntry.inc: This file has the code for the text area for
   entering the list of pages, plus instructions on top of that text
   area. It pre-populates the text area with the list of pages from a
   previous GET or POST request if any, otherwise leaves it blank. If

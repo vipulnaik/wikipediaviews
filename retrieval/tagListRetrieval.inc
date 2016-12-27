@@ -3,7 +3,7 @@
 ## Retrieval file for the month list specification
 
 ## Corresponding data entry files (in inputdisplay directory):
-## tagdropdownselectmultiple.inc
+## tagDropdownSelectMultiple.inc
 
 ## Only included in displayviewsformultipletagsandmonths.php
 

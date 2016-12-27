@@ -24,7 +24,7 @@ if (($formdata == true and $carryoverfromonemonth == false) and $alternatemonths
 print '<table><col width=600/><col width=500/>';
 print '<tr><td><strong>Alternative month specification methods: Use only one method at a time!</strong></td></tr>';
 include(__DIR__."/monthDropdownAllYears.inc");
-include(__DIR__."/yeardropdown-allmonths.inc");
+include(__DIR__."/yearDropdownAllMonths.inc");
 print '</table>';
 
 if (($formdata == false or $carryoverfromonemonth==true) and $alternatemonthspecs_recommended==false)

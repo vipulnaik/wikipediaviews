@@ -741,6 +741,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     print " Therefore, we are not constructing graphs.<br/>";
     return false;
   }
+  if (count($monthOrYearList) > 1 and max($monthOrYearList) >= '201506' and min($monthOrYearList) <= '201506') {
+    $verticalLineExplainer = ' Since June 2015 is between the beginning and end of your time interval, you will see a vertical red line for that month. This is because June 2015 is the last month for which we use stats.grok.se data as our source for Wikipedia Views, and also because, starting July 2015, we have data for the drilldowns of mobile web, mobile app, desktop spider, and mobile web spider. See the <a href="/about">about page</a> for more information.';
+  }
   #Collect all the numbers that need to be printed first
   if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month')
     $viewcountarray = viewcountarraybymonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
@@ -1051,7 +1054,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     } else {
       print "<strong>Time series of data below:</strong>";
     }
-    print '(<a href="/images/'.$fileName.'.csv">underlying CSV using pipe (|) as separator</a>)';
+    print '(<a href="/images/'.$fileName.'.csv">underlying CSV using pipe (|) as separator</a>)'.$verticalLineExplainer.'<br/>';
     print '<img src="/images/'.$fileName.'-timeseries.png" alt="Graph of pageviews should have loaded here"></img>';
   }
 
@@ -1095,7 +1098,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       }
       exec($cmdToExecute);
       print "<br><br>";
-      print '<strong>Time series of data; one curve for total by each drilldown, one curve for total, below:</strong> (<a href="/images/'.$drilldownFileName.'.csv">underlying CSV using pipe (|) as separator</a>)<br/>';
+      print '<strong>Time series of data; one curve for total by each drilldown, one curve for total, below:</strong> (<a href="/images/'.$drilldownFileName.'.csv">underlying CSV using pipe (|) as separator</a>).'.$verticalLineExplainer.'<br/>';
       print '<img src="/images/'.$drilldownFileName.'-timeseries.png" alt="Graph of pageviews should have loaded here"></img>';
     }
   }
@@ -1142,7 +1145,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
         $addendum = "";
       }
       print "<br><br>";
-      print '<strong>Time series of data; one curve for total by each '.$pageOrTagAdvice.', one curve for total'.$addendum.', below:</strong> (<a href="/images/'.$pageOrTagCumLanguageFileName.'.csv">underlying CSV using pipe (|) as separator</a>)<br/>';
+      print '<strong>Time series of data; one curve for total by each '.$pageOrTagAdvice.', one curve for total'.$addendum.', below:</strong> (<a href="/images/'.$pageOrTagCumLanguageFileName.'.csv">underlying CSV using pipe (|) as separator</a>)'.$verticalLineExplainer.'<br/>';
       print '<img src="/images/' . $pageOrTagCumLanguageFileName . '-timeseries.png" alt="Graph of pageviews should have loaded here"></img>';
     }
   }

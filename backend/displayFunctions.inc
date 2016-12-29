@@ -1,6 +1,6 @@
 <?php
 
-include_once("globalVariables/passwordfile.inc");
+include_once("globalVariables/passwordFile");
 
 function checkSizes($pageOrTagList,$languageList, $drilldownList, $monthOrYearList) {
   global $pageDisplayLimit;

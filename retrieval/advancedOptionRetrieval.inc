@@ -37,13 +37,13 @@ if (!empty($_REQUEST['userSpecifiedQueryLimit'])) {
 }
 
 ##Purge period
-$userspecifiedpurgeperiod = $purgeperiod;
-if (!empty($_REQUEST['userspecifiedpurgeperiod'])) {
-  $userspecifiedpurgeperiod = $_REQUEST['userspecifiedpurgeperiod'];
-  if ($userspecifiedpurgeperiod != $purgeperiod) {
-    $advancedOptionUrlComponent .= '&userspecifiedpurgeperiod='.$userspecifiedpurgeperiod;
+$userspecifiedpurgePeriod = $purgePeriod;
+if (!empty($_REQUEST['userspecifiedpurgePeriod'])) {
+  $userspecifiedpurgePeriod = $_REQUEST['userspecifiedpurgePeriod'];
+  if ($userspecifiedpurgePeriod != $purgePeriod) {
+    $advancedOptionUrlComponent .= '&userspecifiedpurgePeriod='.$userspecifiedpurgePeriod;
   }
-  $purgeperiod = intval($userspecifiedpurgeperiod);
+  $purgePeriod = intval($userspecifiedpurgePeriod);
 }
 
 ##Normalization

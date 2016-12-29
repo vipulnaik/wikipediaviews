@@ -5,7 +5,7 @@ global $attemptedExternalQueryLimit;
 $attemptedExternalQueryLimit = 400;
 
 ## Number of days after which we should fetch new data for pageview counts for the current month
-global $purgeperiod;
-$purgeperiod = 7;
+global $purgePeriod;
+$purgePeriod = 7;
 
 ?>

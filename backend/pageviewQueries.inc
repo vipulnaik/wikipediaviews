@@ -186,7 +186,7 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
   global $cannotRetrieveMessage;
   global $thisMonth;
   global $mostRecentMonth;
-  global $purgeperiod;
+  global $purgePeriod;
   global $recentMonthSlowdownFactor;
   global $tokenExpiredMessage;
   global $irretrievableCount;
@@ -251,7 +251,7 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
       $dateofretrieval = new DateTime($row['querytime']); 
       $dayspassedasdiff = date_diff($dateofretrieval,$currentdate);
       $dayspassed = intval($dayspassedasdiff -> d);
-      if ($dayspassed > $purgeperiod) {
+      if ($dayspassed > $purgePeriod) {
 	$viewcount = getPageviewsOnline($page,$month,$language,$drilldown);
 
         if ($viewcount != $exceededQueryLimitMessage and $viewcount != cannotRetrieveMessage) {
@@ -328,7 +328,7 @@ function viewcountarraybymonth_raw($pageList,$languageList,$drilldownList,$month
   global $attemptedExternalQueryCount;
   global $attemptedExternalQueryLimit;
   global $exceededQueryLimitMessage;
-  global $purgeperiod;
+  global $purgePeriod;
   global $thisMonth;
   global $unavailableCount;
   global $bulkRetrievalTimeTaken;
@@ -363,7 +363,7 @@ function viewcountarraybymonth_raw($pageList,$languageList,$drilldownList,$month
       $dateofretrieval = new DateTime($row['querytime']); 
       $dayspassedasdiff = date_diff($dateofretrieval,$currentdate);
       $dayspassed = intval($dayspassedasdiff->d);
-      if ($dayspassed > $purgeperiod) {
+      if ($dayspassed > $purgePeriod) {
 	$viewcountarray[$row['pagename']][$row['language']][$row['drilldown']][$row['monthfull']] = 'unavailable';
       } else {
 	$viewcountarray[$row['pagename']][$row['language']][$row['drilldown']][$row['monthfull']] = $row['viewcount'];

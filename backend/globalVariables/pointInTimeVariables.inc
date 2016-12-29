@@ -53,7 +53,7 @@ for ($i = 0;$i < $result -> num_rows; $i++)
 ## caught up with the new month, and 'completed' indicating that all
 ## is hunky-dory.
 
-## Used in inputdisplay/head.inc: in case the variable has state 'tobegin' or 'begun',
+## Used in inputDisplay/head.inc: in case the variable has state 'tobegin' or 'begun',
 ## a corresponding message is dispayed below the header menu.
 
 global $transitionstatus;

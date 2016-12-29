@@ -2,7 +2,7 @@
 
 ## Retrieval file for the year list specification
 
-## Corresponding data entry files (in inputdisplay directory):
+## Corresponding data entry files (in inputDisplay directory):
 ## yearCheckboxList.inc
 
 ## Only included in displayviewsformultipleyears.php

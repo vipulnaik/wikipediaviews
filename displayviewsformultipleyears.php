@@ -15,7 +15,7 @@ include("retrieval/advancedOptionRetrieval.inc");
 
 ##Clumsy hack below, needs refactoring
 if ($pageSpecificationError == true or $yearSpecificationError == true) {
-    include("inputdisplay/multipleyearsdataentry.inc");
+    include("inputDisplay/multipleyearsdataentry.inc");
 } else {
   switch ($displayFormat) {
     case 'htmltableautomatic' :
@@ -31,7 +31,7 @@ if ($pageSpecificationError == true or $yearSpecificationError == true) {
       if (count($yearList) > 1 or count($pageList) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
       }
-      include("inputdisplay/multipleyearsdataentry.inc");
+      include("inputDisplay/multipleyearsdataentry.inc");
       break;
     case 'htmltable':
       include("style/head.inc");
@@ -42,7 +42,7 @@ if ($pageSpecificationError == true or $yearSpecificationError == true) {
       if (count($yearList) > 1 or count($pageList) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
       }
-      include("inputdisplay/multipleyearsdataentry.inc");
+      include("inputDisplay/multipleyearsdataentry.inc");
       break;
     case 'htmltabletransposed':
       include("style/head.inc");
@@ -53,7 +53,7 @@ if ($pageSpecificationError == true or $yearSpecificationError == true) {
       if (count($yearList) > 1 or count($pageList) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
       }
-      include("inputdisplay/multipleyearsdataentry.inc");
+      include("inputDisplay/multipleyearsdataentry.inc");
       break;
   }
 }

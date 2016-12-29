@@ -1,5 +1,5 @@
 <?php
-include("globalvariables/globalvariables.inc");
+include("globalVariables/globalVariables.inc");
 include("monthAndYearLists.inc");
 include("languageList.inc");
 include("stringFunctions.inc");

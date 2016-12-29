@@ -18,7 +18,7 @@ if (!empty($_REQUEST['month'])) {
 $monthList = array($month);
 
 if ($pageSpecificationError == true or $monthspecificationerror == true) {
-  include("inputdisplay/".$pageTypeAdvice."dataentry.inc");
+  include("inputDisplay/".$pageTypeAdvice."dataentry.inc");
 } else {
   switch ($displayFormat) {
     case 'htmltable' : 
@@ -33,7 +33,7 @@ if ($pageSpecificationError == true or $monthspecificationerror == true) {
       $originalMonthList = $monthList;
       $displayFormat='htmltableautomatic';
       $carryoverfromonemonth=true;
-      include("inputdisplay/multiplemonthsdataentry.inc");
+      include("inputDisplay/multiplemonthsdataentry.inc");
       break;
   }
 }

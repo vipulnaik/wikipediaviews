@@ -4,7 +4,7 @@
 ## specification (in the text entry area) and indirect specification
 ## through one of the alternate methods.
 
-## Corresponding data entry files (in inputdisplay directory):
+## Corresponding data entry files (in inputDisplay directory):
 ## pageListEntry.inc, alternatepagespecificationoptions.inc
 
 ## Included in all the display views files:

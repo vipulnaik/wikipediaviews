@@ -2,7 +2,7 @@
 
 ## Retrieval file for the month list specification
 
-## Corresponding data entry files (in inputdisplay directory):
+## Corresponding data entry files (in inputDisplay directory):
 ## alternatemonthspecificationoptions.inc, monthCheckboxList.inc,
 ## monthdropdown.inc
 

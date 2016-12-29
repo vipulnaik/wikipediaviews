@@ -1,5 +1,6 @@
 sensitive-xqr179/
 backend/globalvariables/passwordfile.inc
+backend/globalvariables/passwordFile.inc
 logs/
 images/
 python/__pycache__/

@@ -21,14 +21,14 @@ if ($mysqli->connect_errno)
 ## in the file). Variables include $thisMonth, $mostRecentMonth,
 ## $thisyear, $transitionstatus
 
-include_once("pointintimevariables.inc");
+include_once("pointInTimeVariables.inc");
 
-include_once("advicevariables.inc");
+include_once("adviceVariables.inc");
 
-include_once("advancedoptionvariables.inc");
+include_once("advancedOptionVariables.inc");
 
 include_once("nonnegotiables.inc");
 
-include_once("querystatevariables.inc");
+include_once("queryStateVariables.inc");
 
 ?>

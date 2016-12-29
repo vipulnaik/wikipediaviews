@@ -9,7 +9,7 @@
 ## Associated retrieval file: retrieval/advancedOptionRetrieval.inc
 
 ## File with default values for the advanced option variables (if
-## specified separately): backend/globalvariables/advancedoptionvariables.inc
+## specified separately): backend/globalVariables/advancedOptionVariables.inc
 
 print '<a id="displayText2" href="javascript:toggle2();">Show technical settings (for advanced users only)</a><br>';
 

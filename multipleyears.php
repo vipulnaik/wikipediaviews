@@ -8,7 +8,7 @@ include_once("backend/coreCode.inc"); ##Backend code needed for all public-facin
 include("style/head.inc"); ##Included in all public-facing files
 print '<body>';
 $formdata = false;
-include("inputdisplay/multipleyearsdataentry.inc");
+include("inputDisplay/multipleyearsdataentry.inc");
 print '</body>';
 print '</html>';
 

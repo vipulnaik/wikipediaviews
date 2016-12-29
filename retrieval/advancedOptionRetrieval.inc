@@ -2,7 +2,7 @@
 
 ## Retrieval file for advanced options
 
-## Corresponding data entry file (in inputdisplay directory):
+## Corresponding data entry file (in inputDisplay directory):
 ## advancedOptions.inc
 
 ## Included in all the display views files:

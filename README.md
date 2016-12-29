@@ -7,10 +7,10 @@ GitHub URL: https://github.com/vipulnaik/wikipediaviews
 
 WARNING: If you just get the code from GitHub and try running it, it
 will fail. You also need to set up the database and add a file at
-backend/globalvariables/passwordfile.inc to your backend subdirectory
+backend/globalVariables/passwordfile.inc to your backend subdirectory
 with the credentials for accessing the database. Configure
 passwordfile.inc according to what you currently see in
-[backend/globalvariables/dummypasswordfile.inc](https://github.com/vipulnaik/wikipediaviews/blob/master/backend/globalvariables/dummypasswordfile.inc).
+[backend/globalVariables/dummyPasswordFile.inc](https://github.com/vipulnaik/wikipediaviews/blob/master/backend/globalVariables/dummyPasswordFile.inc).
 
 Instructions for database setup are at
 [sql/table-creations.sql](https://github.com/vipulnaik/wikipediaviews/blob/master/sql/table-creations.sql).
@@ -41,7 +41,7 @@ Each file includes these two files from the style subdirectory:
   show/hide features in the HTML display.
 
 In addition, each file includes a corresponding data entry file from
-the inputdisplay subdirectory:
+the inputDisplay subdirectory:
 
 * index.php includes onemonthdataentry.inc
 
@@ -70,11 +70,11 @@ we get sent to a display page. There are three display pages:
 All these PHP files also include head.inc and toggler.inc from the
 style subdirectory.
 
-## A closer look at the data entry files and the inputdisplay subdirectory
+## A closer look at the data entry files and the inputDisplay subdirectory
 
 The data entry files themselves include other files, because of common
 structure to them. The included files, however, are in the
-inputdisplay folder (not publicly accessible over the web). There is a
+inputDisplay folder (not publicly accessible over the web). There is a
 two-level hierarchy of these files.
 
 * pageListEntry.inc: This file has the code for the text area for

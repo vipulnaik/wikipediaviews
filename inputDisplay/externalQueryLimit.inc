@@ -4,7 +4,7 @@
 
 ##Included in advancedOptions.inc
 
-##Default value in backend/globalvariables/advancedoptionvariables.inc
+##Default value in backend/globalVariables/advancedOptionVariables.inc
 
 ##Associated retrieval file: retrieval/advancedOptionRetrieval.inc
 

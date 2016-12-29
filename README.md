@@ -7,9 +7,9 @@ GitHub URL: https://github.com/vipulnaik/wikipediaviews
 
 WARNING: If you just get the code from GitHub and try running it, it
 will fail. You also need to set up the database and add a file at
-backend/globalVariables/passwordFile to your backend subdirectory
+backend/globalVariables/passwordFile.inc to your backend subdirectory
 with the credentials for accessing the database. Configure
-passwordFile according to what you currently see in
+passwordFile.inc according to what you currently see in
 [backend/globalVariables/dummyPasswordFile.inc](https://github.com/vipulnaik/wikipediaviews/blob/master/backend/globalVariables/dummyPasswordFile.inc).
 
 Instructions for database setup are at

@@ -8,7 +8,7 @@
 
 ## Database variable (THIS MUST BE AT THE BEGINNING)
 global $mysqli;
-include_once("passwordFile"); ##This fetches the database,
+include_once("passwordFile.inc"); ##This fetches the database,
 				  ##username, and password for the MySQL connection, storing it
 				  ##in the variable $mysqli
 if ($mysqli->connect_errno) 

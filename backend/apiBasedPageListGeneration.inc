@@ -6,7 +6,7 @@ function getPageListByWikipediaCategory($category,$language) {
   $apiquery_url = 'http://'.$language.'.wikipedia.org/w/api.php?action=query&format=json&list=categorymembers&cmlimit=500&cmtitle=Category:'.$category_encoded;
   $iteration = 0;
   $continue = true;
-  while ($continue == true and $iteration < 100) {
+  while ($continue == true and $iteration < 500) {
     $apiquery_url_iteration = $apiquery_url;
     if ($iteration > 0) {
       $apiquery_url_iteration = $apiquery_url.'&cmcontinue='.$response_json["continue"]["cmcontinue"];

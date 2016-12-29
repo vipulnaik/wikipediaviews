@@ -210,7 +210,7 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
   #First looks for existing entries in the database
 
   $selectionStartTime = microtime(true);
-  $selectQuery = "select viewcount,querytime from viewcountsbymonth_all where pagename=\"".$lookupPage."\" and monthfull='".$month."' and language='".$language."' and drilldown='".$drilldown."' limit 1;";
+  $selectQuery = "select viewcount,querytime from viewcountsbymonth where pagename=\"".$lookupPage."\" and monthfull='".$month."' and language='".$language."' and drilldown='".$drilldown."' limit 1;";
   # print $selectQuery;
 
   $result = $mysqli->query($selectQuery);
@@ -232,7 +232,7 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
     }
     if ($viewcount !== $cannotRetrieveMessage and $viewcount !== $tokenExpiredMessage) {
       $insertQueryStartTime = microtime(true);
-      $insertQuery="insert into viewcountsbymonth_all(pagename,monthfull,language,drilldown,viewcount) values (\"".$lookupPage."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
+      $insertQuery="insert into viewcountsbymonth(pagename,monthfull,language,drilldown,viewcount) values (\"".$lookupPage."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
       $insertQueryEndTime = microtime(true);
       if ($verbose == 'true') {
         $insertQueryTimeTaken = $insertQueryEndTime - $insertQueryStartTime;
@@ -255,8 +255,8 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
 	$viewcount = getPageviewsOnline($page,$month,$language,$drilldown);
 
         if ($viewcount != $exceededQueryLimitMessage and $viewcount != cannotRetrieveMessage) {
-          $deleteQuery = "delete from viewcountsbymonth_all where pagename=\"".$lookupPage."\" and monthfull='".$month."' and language='".$language."' and drilldown='".$drilldown."';";
-          $insertQuery="insert into viewcountsbymonth_all(pagename,monthfull,language,drilldown,viewcount) values (\"".$lookupPage."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
+          $deleteQuery = "delete from viewcountsbymonth where pagename=\"".$lookupPage."\" and monthfull='".$month."' and language='".$language."' and drilldown='".$drilldown."';";
+          $insertQuery="insert into viewcountsbymonth(pagename,monthfull,language,drilldown,viewcount) values (\"".$lookupPage."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
           $success = $mysqli->query($deleteQuery);
           $success = $mysqli->query($insertQuery);
         }
@@ -284,7 +284,7 @@ function getAnnualPageviewsFromDb($page,$year,$language,$drilldown,$online) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
   $page = str_replace('"','\"',$page);
-  $selectQuery = 'select viewcount from viewcountsbyyear_all where pagename="'.$page.'"'." and year='".$year."' and language='".$language."' and drilldown='".$drilldown."'limit 1;";
+  $selectQuery = 'select viewcount from viewcountsbyyear where pagename="'.$page.'"'." and year='".$year."' and language='".$language."' and drilldown='".$drilldown."'limit 1;";
   $result = $mysqli->query($selectQuery);
   if ($result->num_rows == 1) {
     $row = $result->fetch_assoc();
@@ -305,7 +305,7 @@ function getAnnualPageviewsFromDb($page,$year,$language,$drilldown,$online) {
   $result = $mysqli->query($select_query);
   $row = $result->fetch_assoc();
   if ($row['status'] != 'future') {
-    $insertQuery = "insert into viewcountsbyyear_all(pagename,year,language,drilldown,viewcount) values(\"".$page."\",'".$year."','".$language."','".$drilldown."',".$totalviews.");";
+    $insertQuery = "insert into viewcountsbyyear(pagename,year,language,drilldown,viewcount) values(\"".$page."\",'".$year."','".$language."','".$drilldown."',".$totalviews.");";
     $success = $mysqli->query($insertQuery);
   }
   return $totalviews;
@@ -352,7 +352,7 @@ function viewcountarraybymonth_raw($pageList,$languageList,$drilldownList,$month
   $monthListAsQuotedCsvString = convertListToQuotedCsvString($monthList);
   $languageListAsQuotedCsvString = convertListToQuotedCsvString($languageList);
   $drilldownListAsQuotedCsvString = convertListToQuotedCsvString($drilldownList);
-  $selectQuery = "select pagename,monthfull,language,drilldown,viewcount,querytime from viewcountsbymonth_all where pagename in (".$pageListAsQuotedCsvString.") and monthfull in (".$monthListAsQuotedCsvString.") and language in (".$languageListAsQuotedCsvString.") and drilldown in (".$drilldownListAsQuotedCsvString.");";
+  $selectQuery = "select pagename,monthfull,language,drilldown,viewcount,querytime from viewcountsbymonth where pagename in (".$pageListAsQuotedCsvString.") and monthfull in (".$monthListAsQuotedCsvString.") and language in (".$languageListAsQuotedCsvString.") and drilldown in (".$drilldownListAsQuotedCsvString.");";
   $result = $mysqli->query($selectQuery);
   for ($i = 0;$i < $result->num_rows;$i++) {
     $row = $result->fetch_assoc();
@@ -455,7 +455,7 @@ function viewcountarraybyyear($pageList,$languageList,$drilldownList,$yearList,$
   $languageListAsQuotedCsvString = convertListToQuotedCsvString($languageList);
   $drilldownListAsQuotedCsvString = convertListToQuotedCsvString($drilldownList);
   $yearListAsQuotedCsvString = convertListToQuotedCsvString($yearList);
-  $selectQuery = "select pagename,year,language,drilldown,viewcount from viewcountsbyyear_all where pagename in (".$pageListAsQuotedCsvString.") and year in (".$yearListAsQuotedCsvString.") and language in ('".$languageListAsQuotedCsvString."') and drilldown in (".$drilldownListAsQuotedCsvString.");";
+  $selectQuery = "select pagename,year,language,drilldown,viewcount from viewcountsbyyear where pagename in (".$pageListAsQuotedCsvString.") and year in (".$yearListAsQuotedCsvString.") and language in ('".$languageListAsQuotedCsvString."') and drilldown in (".$drilldownListAsQuotedCsvString.");";
   $result = $mysqli->query($selectQuery);
   for ($i = 0;$i < $result->num_rows;$i++) {
     $row = $result->fetch_assoc();

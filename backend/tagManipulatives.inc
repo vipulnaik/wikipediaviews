@@ -79,7 +79,7 @@ function getTagTotal($tag,$language,$drilldown,$monthList,$online=true,$normaliz
     foreach($retrievableMonthList as $month) {
       $monthTotal[$month] = $exceededQueryLimitMessage;
     }
-    $tagTotalQuery = "select monthfull,coalesce(sum(viewcount),0) as total from viewcountsbymonth_all where pagename in (".$pageListAsQuotedCsvString.") and monthfull in (".$monthListAsQuotedCsvString.") and language='$language' and drilldown='$drilldown' group by monthfull;";
+    $tagTotalQuery = "select monthfull,coalesce(sum(viewcount),0) as total from viewcountsbymonth where pagename in (".$pageListAsQuotedCsvString.") and monthfull in (".$monthListAsQuotedCsvString.") and language='$language' and drilldown='$drilldown' group by monthfull;";
     $tagTotalResult = $mysqli->query($tagTotalQuery);
     for($i = 0; $i < $tagTotalResult -> num_rows; $i++) {
       $row = $tagTotalResult -> fetch_assoc();

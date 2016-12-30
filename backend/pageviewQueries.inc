@@ -541,11 +541,11 @@ function fillinWantedViewCounts($queryLimit, $online) {
     if ($currentLoad[0] < 1.75) {
       $queryStartTime = microtime(true);
       $count = getPageviewsFromDb($page[$i],$month[$i],$language[$i],$drilldown[$i],$online);
-      # print "Weighted external query count is ".$attemptedExternalQueryCount." and ";
-      # print "weighted external query limit is ".$attemptedExternalQueryLimit."\n";
+      print "Weighted external query count is ".$attemptedExternalQueryCount." and ";
+      print "weighted external query limit is ".$attemptedExternalQueryLimit."\n";
       $queryEndTime = microtime(true);
       $queryTimeTaken = $queryEndTime - $queryStartTime;
-      # print date("Y-m-d h:i:sa").": For page ".$page[$i].", language ".$language[$i].", drilldown ".$drilldown[$i].", and month ".$month[$i].", page view count is ".$count.", time taken is ".$queryTimeTaken." seconds\n";
+      print date("Y-m-d h:i:sa").": For page ".$page[$i].", language ".$language[$i].", drilldown ".$drilldown[$i].", and month ".$month[$i].", page view count is ".$count.", time taken is ".$queryTimeTaken." seconds\n";
       if ($count != $exceededQueryLimitMessage) {
 	 $deletionQuery .= ",".$row_id[$i];
       }

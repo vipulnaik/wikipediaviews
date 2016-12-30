@@ -17,7 +17,7 @@ if (!empty($_REQUEST['month'])) {
   }
 $monthList = array($month);
 
-if ($pageSpecificationError == true or $monthspecificationerror == true) {
+if ($pageSpecificationError == true or $monthSpecificationError == true) {
   include("inputDisplay/".$pageTypeAdvice."dataentry.inc");
 } else {
   switch ($displayFormat) {

@@ -12,7 +12,7 @@
 
 $pageTypeAdvice = "multipletagsandmonths";
 print "<br>";
-if ($formdata == true and $monthspecificationerror == false) {
+if ($formdata == true and $monthSpecificationError == false) {
   tagMonthAdvice($tagList,$languageList,$drilldownList,$monthList,$printStatus);
 }
 

@@ -13,7 +13,7 @@ include("retrieval/tagListRetrieval.inc");
 include("retrieval/monthListRetrieval.inc");
 include("retrieval/advancedOptionRetrieval.inc");
 
-if ($pageSpecificationError == true or $monthspecificationerror == true) {
+if ($pageSpecificationError == true or $monthSpecificationError == true) {
   include("inputDisplay/".$pageTypeAdvice."dataentry.inc");
 } else {
   switch ($displayFormat) {

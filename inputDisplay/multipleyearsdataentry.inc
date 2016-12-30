@@ -10,7 +10,7 @@
 ##alternatePageSpecificationMethods.inc, advancedOptions.inc, 
 ## yearCheckboxList.inc
 
-if ($formdata == true and ($pageSpecificationError == false and $monthspecificationerror == false)) {
+if ($formdata == true and ($pageSpecificationError == false and $monthSpecificationError == false)) {
   pageYearAdvice($pageList,$yearList,$drilldownList,($tag !== ''));
 }
 

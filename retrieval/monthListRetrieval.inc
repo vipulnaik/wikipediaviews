@@ -4,7 +4,7 @@
 
 ## Corresponding data entry files (in inputDisplay directory):
 ## alternatemonthspecificationoptions.inc, monthCheckboxList.inc,
-## monthdropdown.inc
+## monthDropdown.inc
 
 ## Only included in displayviewsformultiplemonths.php
 
@@ -59,7 +59,7 @@ if ($allmonths == "allmonths" and (in_array($thisMonth,$originalMonthList))) {
 if ($year != "" and $monthacrossyears != "") {
     include(__DIR__."/../style/head.inc");
     print "You provided multiple alternate methods for selecting the set of months. Please choose only one.";
-    $monthspecificationerror = true;
+    $monthSpecificationError = true;
 }
 
 elseif ($year != "") {
@@ -73,6 +73,6 @@ elseif ($monthacrossyears != "") {
 if (count($monthList) == 0) {
     include(__DIR__."/../style/head.inc");
     print "You didn't select any months. Please do so below.";
-    $monthspecificationerror = true;
+    $monthSpecificationError = true;
 }
 ?>

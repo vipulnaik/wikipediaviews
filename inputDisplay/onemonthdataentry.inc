@@ -7,7 +7,7 @@
 
 ##Sends form to: displayviewsforonemonth.php
 
-##Includes: pageListEntry.inc, monthdropdown.inc,
+##Includes: pageListEntry.inc, monthDropdown.inc,
 ##languageDropdown.inc, alternatePageSpecificationMethods.inc,
 ##advancedOptions.inc
 

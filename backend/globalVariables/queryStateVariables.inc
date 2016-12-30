@@ -23,8 +23,8 @@ global $graphTimeTaken;
 global $pageSpecificationError;
 $pageSpecificationError = false;
 
-global $monthspecificationerror;
-$monthspecificationerror = false;
+global $monthSpecificationError;
+$monthSpecificationError = false;
 
 global $yearSpecificationError;
 $yearSpecificationError = false;

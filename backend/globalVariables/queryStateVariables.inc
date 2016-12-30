@@ -28,4 +28,7 @@ $monthSpecificationError = false;
 
 global $yearSpecificationError;
 $yearSpecificationError = false;
+
+global $fbTokenActive;
+$fbTokenActive = true;
 ?>

@@ -99,6 +99,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   global $exceededQueryLimitMessage;
   global $cannotRetrieveMessage;
   global $fbToken;
+  global $fbTokenActive;
   global $curlOutputDirectory;
   global $tokenExpiredMessage;
   global $irretrievableCount;
@@ -119,7 +120,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   } else {
     $url = getPageviewsUrl($page,$month,$language,$drilldown);
     if ($drilldown == "cumulative-facebook-shares") {
-      if ($month == $thisMonth) {
+      if ($month == $thisMonth and $fbTokenActive == true) {
         $attemptedExternalQueryCount++;
         $tmpString = strval(rand());
         $jsonFileFullPath = $curlOutputDirectory.$tmpString.'.json';
@@ -128,17 +129,20 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
         $contents = file_get_contents($jsonFileFullPath);
         $json = json_decode($contents,true);
         if ($json["error"]["type"] === "OAuthException") {
+          $fbTokenActive = false;
           return $tokenExpiredMessage;
         }
         $shareJson = $json["share"];
         $shareCount = intval($shareJson["share_count"]);
         $successfulExternalQueryCount++;
         return $shareCount;
+      } else if ($month == $thisMonth) {
+        return $tokenExpiredMessage;
       } else {
         $irretrievableCount++;
         return $cannotRetrieveMessage;
       }
-    } else if ($month < 201507 and $drilldown == "desktop") {
+    } else if ($month < '201507' and $drilldown == "desktop") {
       $attemptedExternalQueryCount++;
       $html = file_get_contents($url);
       preg_match('/(?<=\bhas been viewed)\s+\K[^\s]+/',$html,$numberofpageviews);

@@ -182,7 +182,11 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
   function cmp($firstPage, $secondPage) {
     global $pageOrTagTotal;
     if (intval($pageOrTagTotal[$firstPage]) == intval($pageOrTagTotal[$secondPage])) {
-      return 0;
+      if ($firstPage == $secondPage) {
+        return 0;
+      } else {
+        return ($firstPage < $secondPage) ? -1 : 1;
+      }
     }
     return (intval($pageOrTagTotal[$firstPage]) > intval($pageOrTagTotal[$secondPage])) ? -1 : 1;
   }

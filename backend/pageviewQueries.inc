@@ -510,13 +510,16 @@ function fillinWantedViewCounts($queryLimit, $online) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
   $selectQuery = "select * from wantedviewcountsbymonth where status='wanted' limit ".$queryLimit.";";
-  print date("Y-m-d h:i:sa").": ".$selectQuery;
   $result = $mysqli->query($selectQuery);
+  print date("Y-m-d h:i:sa").": ".$selectQuery."\n";
   if ($result ->num_rows == 0) {
-    print date("Y-m-d h:i:sa").": Select query response had no rows";
+    print date("Y-m-d h:i:sa").": Select query response had no rows\n";
     $fixWorkingStatusQuery = "update wantedviewcountsbymonth set status='wanted' where status='working'";
     $mysqli->query($fixWorkingStatusQuery);
     $result = $mysqli->query($selectQuery);
+  }
+  if ($result -> num_rows == 0) {
+    return false;
   }
   $workingQuery = "update wantedviewcountsbymonth set status='working' where row_id in (";
   $deletionQuery = "delete from wantedviewcountsbymonth where row_id in (0";
@@ -555,7 +558,7 @@ function fillinWantedViewCounts($queryLimit, $online) {
   print "Running deletion query: ".$deletionQuery."\n";
   $deletionResult = $mysqli->query($deletionQuery);
   print "Succeeded in running deletion query: ".$deletionQuery."\n";
-  return false;
+  return true;
 }	
 
 

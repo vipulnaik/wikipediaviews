@@ -519,6 +519,7 @@ function fillinWantedViewCounts($queryLimit, $online) {
     $result = $mysqli->query($selectQuery);
   }
   if ($result -> num_rows == 0) {
+    print date("Y-m-d h:i:sa").": Even after changing all working rows to wanted, select query response had no row\n";
     return false;
   }
   $workingQuery = "update wantedviewcountsbymonth set status='working' where row_id in (";

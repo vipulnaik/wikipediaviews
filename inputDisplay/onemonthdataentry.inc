@@ -17,7 +17,7 @@ print '<form method="post" name="pagecountinfo" action="displayviewsfor'.$pageTy
 include("pageListEntry.inc");
 
 print '<table><col width=600/><col width=500/>';
-include("monthdropdown.inc");
+include("monthDropdown.inc");
 include("languageDropdownSelectMultiple.inc");
 include("drilldownDropdown.inc");
 print '<tr><td><input type="submit" value="Submit"></td></tr>';

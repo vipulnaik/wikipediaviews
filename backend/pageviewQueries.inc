@@ -327,7 +327,7 @@ function getannualpageviews($page,$year,$language,$drilldown) {
   return getAnnualPageviewsFromDb($page,$year,$language,$drilldown,true);
 }
 
-function viewCountArraybymonth_raw($pageList,$languageList,$drilldownList,$monthList,$online=true,$normalization='') {
+function viewCountArrayByMonth_raw($pageList,$languageList,$drilldownList,$monthList,$online=true,$normalization='') {
   global $mysqli;
   global $attemptedExternalQueryCount;
   global $attemptedExternalQueryLimit;
@@ -413,10 +413,10 @@ function viewCountArraybymonth_raw($pageList,$languageList,$drilldownList,$month
   return $viewCountArray;
 }
 
-function viewCountArraybymonth($pageList,$languageList,$drilldownList,$monthList,$online,$normalization='') {
+function viewCountArrayByMonth($pageList,$languageList,$drilldownList,$monthList,$online,$normalization='') {
   global $exceededQueryLimitMessage;
   global $numberofdays_allmonths;
-  $viewCountArray = viewCountArraybymonth_raw($pageList,$languageList,$drilldownList,$monthList,$online,$normalization);
+  $viewCountArray = viewCountArrayByMonth_raw($pageList,$languageList,$drilldownList,$monthList,$online,$normalization);
   if ($normalization == '') {
     return $viewCountArray;
   } elseif ($normalization == 'dailyaverage') {
@@ -436,7 +436,7 @@ function viewCountArraybymonth($pageList,$languageList,$drilldownList,$monthList
   return $viewCountArray;
 }
 
-function viewCountArraybyyear($pageList,$languageList,$drilldownList,$yearList,$online,$normalization='') {
+function viewCountArrayByYear($pageList,$languageList,$drilldownList,$yearList,$online,$normalization='') {
   global $mysqli;
   global $attemptedExternalQueryCount;
   global $attemptedExternalQueryLimit;

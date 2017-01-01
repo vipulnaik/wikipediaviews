@@ -66,7 +66,7 @@ function getTagTotal($tag,$language,$drilldown,$monthList,$online=true,$normaliz
     }
   }
   if ($online == true and $attemptedExternalQueryCount < $attemptedExternalQueryLimit and count($pageList) * count($monthList) < $tagProperQueryLimit) {
-    $viewCountArray = viewCountArraybymonth($pageList,array($language),array($drilldown),$retrievableMonthList,$online,$normalization);
+    $viewCountArray = viewCountArrayByMonth($pageList,array($language),array($drilldown),$retrievableMonthList,$online,$normalization);
     $tap = totalsAndPercentages($pageList,array($language),array($drilldown),$monthList,$viewCountArray);
     $monthTotal = $tap["monthOrYearTotal"];
     foreach($irretrievableMonthList as $month) {
@@ -95,7 +95,7 @@ function getTagTotalByYear($tag,$language,$drilldown,$yearList,$online=true,$nor
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
   $pageList = getPageListByTag($tag,$language);
-  $viewCountArray = viewCountArraybyyear($pageList,array($language),array($drilldown),$yearList,$online,$normalization);
+  $viewCountArray = viewCountArrayByYear($pageList,array($language),array($drilldown),$yearList,$online,$normalization);
   $tap = totalsAndPercentages($pageList,array($language),array($drilldown),$yearList,$viewCountArray);
   return $tap["monthOrYearTotal"];
 }

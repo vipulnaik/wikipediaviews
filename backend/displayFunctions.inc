@@ -153,9 +153,9 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
   }
   #Collect all the numbers that need to be printed first
   if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
-    $viewCountArray = viewCountArraybymonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
+    $viewCountArray = viewCountArrayByMonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
   } elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year') {
-    $viewCountArray = viewCountArraybyyear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
+    $viewCountArray = viewCountArrayByYear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
   } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
     $viewCountArray = viewCountArraybytagandmonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
   } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
@@ -454,9 +454,9 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
   }
   #Collect all the numbers that need to be printed first
   if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
-    $viewCountArray = viewCountArraybymonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
+    $viewCountArray = viewCountArrayByMonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
   } elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year') {
-    $viewCountArray = viewCountArraybyyear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
+    $viewCountArray = viewCountArrayByYear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
   } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
     $viewCountArray = viewCountArraybytagandmonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
   } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
@@ -750,9 +750,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
   }
   #Collect all the numbers that need to be printed first
   if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month')
-    $viewCountArray = viewCountArraybymonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
+    $viewCountArray = viewCountArrayByMonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
   elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year')
-    $viewCountArray = viewCountArraybyyear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
+    $viewCountArray = viewCountArrayByYear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
   elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month')
     $viewCountArray = viewCountArraybytagandmonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
   elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year')
@@ -1214,9 +1214,9 @@ function printPageviewsForMonthOrYearListAsCpi($pageOrTagList,$monthOrYearList,$
     return false;
   #Collect all the numbers that need to be printed first
   if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month')
-    $viewCountArray = viewCountArraybymonth($pageOrTagList,$monthOrYearList,$language,$drilldown,true,$normalization);
+    $viewCountArray = viewCountArrayByMonth($pageOrTagList,$monthOrYearList,$language,$drilldown,true,$normalization);
   elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year')
-    $viewCountArray = viewCountArraybyyear($pageOrTagList,$monthOrYearList,$language,$drilldown,true,$normalization);
+    $viewCountArray = viewCountArrayByYear($pageOrTagList,$monthOrYearList,$language,$drilldown,true,$normalization);
   elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month')
     $viewCountArray = viewCountArraybytagandmonth($pageOrTagList,$monthOrYearList,$language,$drilldown,true,$normalization);
   elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year')

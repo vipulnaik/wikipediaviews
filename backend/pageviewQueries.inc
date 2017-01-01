@@ -434,13 +434,14 @@ function viewcountArrayByMonth($pageList,$languageList,$drilldownList,$monthList
       }
     }
   } elseif ($normalization == 'aggregate') {
-    $aggregateViewCountArray = viewcountArrayByMonth(array("[aggregate]"),$languageList,$drilldownList,$monthList);
-    $mostRecentAggregateViewCountArray = viewcountArrayByMonth(array("[aggregate]"),$languageList, $drilldownList, array($mostRecentMonth));
+    $aggregateViewCountArray = viewcountArrayByMonth(array("[aggregate]"),$languageList,$drilldownList,$monthList, true, '');
+    $mostRecentAggregateViewCountArray = viewcountArrayByMonth(array("[aggregate]"),$languageList, $drilldownList, array($mostRecentMonth), true, '');
     foreach($pageList as $page) {
       foreach ($languageList as $language) {
         foreach ($drilldownList as $drilldown) {
           foreach ($monthList as $month) {
             if ($month >= '201507' and $viewcountArray[$page][$language][$drilldown][$month] !== $exceededQueryLimitMessage and $viewcountArray[$page][$language][$drilldown][$month] !== $cannotRetrieveMessage) {
+              # print ("Scaling value ".$viewcountArray[$page][$language][$drilldown][$month] .", multiplying by ". $mostRecentAggregateViewCountArray["[aggregate]"][$language][$drilldown][$mostRecentMonth] . ", then dividing by ". $aggregateViewCountArray["[aggregate]"][$language][$drilldown][$month]);
               $viewcountArray[$page][$language][$drilldown][$month] = intval(($viewcountArray[$page][$language][$drilldown][$month] * $mostRecentAggregateViewCountArray["[aggregate]"][$language][$drilldown][$mostRecentMonth]) / $aggregateViewCountArray["[aggregate]"][$language][$drilldown][$month]);
             }
           }

@@ -142,7 +142,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
         $irretrievableCount++;
         return $cannotRetrieveMessage;
       }
-    } else if ($month < '201507' and $drilldown == "desktop") {
+    } else if ($month < '201507' and $drilldown == "desktop" and $page != "[aggregate]") {
       $attemptedExternalQueryCount++;
       $html = file_get_contents($url);
       preg_match('/(?<=\bhas been viewed)\s+\K[^\s]+/',$html,$numberofpageviews);

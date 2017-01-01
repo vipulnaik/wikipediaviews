@@ -137,8 +137,13 @@ function getApiPageviewsUrl($page,$month,$language,$drilldown) {
       $userType = "spider";
       break;
   }
-  return "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/" . $language . ".wikipedia/" . $drilldown . "/" . $userType . "/" . str_replace("%2527", "%27", urlencode(str_replace(" ","_",$page))) . "/daily/" . $month . "01/" . $endOfMonth . "?purge" . strval(rand());
+  if ($page == '[aggregate]') {
+    return "https://wikimedia.org/api/rest_v1/metrics/pageviews/aggregate/" . $language . ".wikipedia/" . $drilldown . "/" . $userType . "/daily/" . $month . "0100/" . $endOfMonth . "23?purge" . strval(rand());
+  } else {
+    return "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/" . $language . ".wikipedia/" . $drilldown . "/" . $userType . "/" . str_replace("%2527", "%27", urlencode(str_replace(" ","_",$page))) . "/daily/" . $month . "01/" . $endOfMonth . "?purge" . strval(rand());
+  }
 }
+
 function getannualpageviewsurl($page,$year,$language,$drilldown="desktop") {
   return "https://wikipediaviews.org/displayviewsformultiplemonths.php?year=".$year."&page=".$page."&language=".$language."&drilldown=".$drilldown;
 }

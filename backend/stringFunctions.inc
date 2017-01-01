@@ -156,7 +156,7 @@ function getannualtagviewsurl($tag,$year,$language,$drilldown="desktop") {
   return "https://wikipediaviews.org/displayviewsformultipleyears.php?year=".$year."&tag=".$tag."&language=".$language."&drilldown=".$drilldown;
 }
 
-function getpageurl($page,$language) {
+function getPageUrl($page,$language) {
   $page = str_replace(" ","_",$page);
   return "http://" . $language . ".wikipedia.org/wiki/" . $page;
 }

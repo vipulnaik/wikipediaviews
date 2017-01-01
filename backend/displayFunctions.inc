@@ -112,32 +112,32 @@ function totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$month
   return $tap;
 }
 
-function printMonthViewCount($page,$month,$language,$drilldown,$viewcount,$numericDisplayFormat) {
+function printMonthViewCount($page,$month,$language,$drilldown,$viewCount,$numericDisplayFormat) {
   if ($drilldown == "all") {
-    return '<td align="right"><strong><a title="'.monthviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></strong></td>';
+    return '<td align="right"><strong><a title="'.monthviewtooltip($viewCount).'">'.numericDisplay($viewCount,$numericDisplayFormat).'</a></strong></td>';
   } elseif (substr($drilldown, 0, 9) == "referrer:") {
-    return '<td align="right"><a title="'.monthviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';
+    return '<td align="right"><a title="'.monthviewtooltip($viewCount).'">'.numericDisplay($viewCount,$numericDisplayFormat).'</a></td>';
   } elseif ($drilldown == "cumulative-facebook-shares") {
-    return '<td align="right"><a href="'.str_replace("/v2.8","", getpageviewsurl($page,$month,$language,$drilldown)).'" title="'.monthviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';
+    return '<td align="right"><a href="'.str_replace("/v2.8","", getpageviewsurl($page,$month,$language,$drilldown)).'" title="'.monthviewtooltip($viewCount).'">'.numericDisplay($viewCount,$numericDisplayFormat).'</a></td>';
   } else {
-    return '<td align="right"><a href="'.getpageviewsurl($page,$month,$language,$drilldown).'" title="'.monthviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';
+    return '<td align="right"><a href="'.getpageviewsurl($page,$month,$language,$drilldown).'" title="'.monthviewtooltip($viewCount).'">'.numericDisplay($viewCount,$numericDisplayFormat).'</a></td>';
   }
 }
 
-function printYearViewCount($page,$year,$language,$drilldown,$viewcount,$numericDisplayFormat) {
+function printYearViewCount($page,$year,$language,$drilldown,$viewCount,$numericDisplayFormat) {
   if ($drilldown == "all") {
-    return '<td align="right"><strong><a title="'.yearviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></strong></td>';
+    return '<td align="right"><strong><a title="'.yearviewtooltip($viewCount).'">'.numericDisplay($viewCount,$numericDisplayFormat).'</a></strong></td>';
   } else {
-    return '<td align="right"><a href="'.getannualpageviewsurl($page,$year,$language,$drilldown).'" title="'.yearviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';
+    return '<td align="right"><a href="'.getannualpageviewsurl($page,$year,$language,$drilldown).'" title="'.yearviewtooltip($viewCount).'">'.numericDisplay($viewCount,$numericDisplayFormat).'</a></td>';
   }
 }
 
-function printtagviewcount($tag,$month,$language,$drilldown,$viewcount,$numericDisplayFormat) {
-  return '<td align="right"><a href="'.gettagviewsurl($tag,$month,$language,$drilldown).'" title="'.$viewcount.' (click for data on individual pages)">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';
+function printtagviewCount($tag,$month,$language,$drilldown,$viewCount,$numericDisplayFormat) {
+  return '<td align="right"><a href="'.gettagviewsurl($tag,$month,$language,$drilldown).'" title="'.$viewCount.' (click for data on individual pages)">'.numericDisplay($viewCount,$numericDisplayFormat).'</a></td>';
 }
 
-function printtagviewcountbyyear($tag,$year,$language,$drilldown,$viewcount,$numericDisplayFormat) {
-  return '<td align="right"><a href="'.getannualtagviewsurl($tag,$year,$language,$drilldown).'" title="'.$viewcount.' (click for data on individual pages)">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';
+function printtagviewCountbyyear($tag,$year,$language,$drilldown,$viewCount,$numericDisplayFormat) {
+  return '<td align="right"><a href="'.getannualtagviewsurl($tag,$year,$language,$drilldown).'" title="'.$viewCount.' (click for data on individual pages)">'.numericDisplay($viewCount,$numericDisplayFormat).'</a></td>';
 }
 
 function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month',$sort='desc') {
@@ -249,7 +249,7 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
       
       foreach($drilldownList as $drilldown) {
         if ($pageOrTagAdvice=='page') {
-          $pageOrTagCumLanguageCumDrilldownRowString = '<tr><td><a href="'.getpageurl($pageOrTag,$language).'" title = "'.$pageOrTag.' (read page on Wikipedia)">'.$pageOrTag.'</a>';
+          $pageOrTagCumLanguageCumDrilldownRowString = '<tr><td><a href="'.getPageUrl($pageOrTag,$language).'" title = "'.$pageOrTag.' (read page on Wikipedia)">'.$pageOrTag.'</a>';
         } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
           $pageOrTagCumLanguageCumDrilldownRowString = '<td><a href="https://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageOrTag.'&language='.$language.'&drilldown='.$drilldown.'&allmonths=allmonths">'.$pageOrTag.'</a>';
         } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
@@ -264,15 +264,15 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
         $pageOrTagCumLanguageCumDrilldownRowString .= '</td>';
         
         foreach($monthOrYearList as $monthOrYear) {
-          $viewcount = $viewCountArray[$pageOrTag][$language][$drilldown][$monthOrYear];
+          $viewCount = $viewCountArray[$pageOrTag][$language][$drilldown][$monthOrYear];
   	  if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
-  	    $pageOrTagCumLanguageCumDrilldownRowString .= printMonthViewCount($pageOrTag,$monthOrYear,$language,$drilldown,$viewcount,$numericDisplayFormat);
+  	    $pageOrTagCumLanguageCumDrilldownRowString .= printMonthViewCount($pageOrTag,$monthOrYear,$language,$drilldown,$viewCount,$numericDisplayFormat);
   	  } elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year') {
-  	    $pageOrTagCumLanguageCumDrilldownRowString .= printYearViewCount($pageOrTag,$monthOrYear,$language,$drilldown,$viewcount,$numericDisplayFormat);
+  	    $pageOrTagCumLanguageCumDrilldownRowString .= printYearViewCount($pageOrTag,$monthOrYear,$language,$drilldown,$viewCount,$numericDisplayFormat);
   	  } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
-  	    $pageOrTagCumLanguageCumDrilldownRowString .= printtagviewcount($pageOrTag,$monthOrYear,$language,$drilldown,$viewcount,$numericDisplayFormat);
+  	    $pageOrTagCumLanguageCumDrilldownRowString .= printtagviewCount($pageOrTag,$monthOrYear,$language,$drilldown,$viewCount,$numericDisplayFormat);
   	  } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
-            $pageOrTagCumLanguageCumDrilldownRowString .= printtagviewcountbyyear($pageOrTag,$monthOrYear,$language,$drilldown,$viewcount,$numericDisplayFormat);
+            $pageOrTagCumLanguageCumDrilldownRowString .= printtagviewCountbyyear($pageOrTag,$monthOrYear,$language,$drilldown,$viewCount,$numericDisplayFormat);
   	  }
         }
         if (count($monthOrYearList) > 1) {
@@ -300,7 +300,7 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
       }
       if (count($drilldownList) > 1 and count($pageOrTagList) * count($languageList) > 1) {
         if ($pageOrTagAdvice=='page') {
-          $pageOrTagCumLanguageSummaryString = '<tr><td><strong><a href="'.getpageurl($pageOrTag,$language).'" title = "'.$pageOrTag.' (read page on Wikipedia)">'.$pageOrTag.'</a>';
+          $pageOrTagCumLanguageSummaryString = '<tr><td><strong><a href="'.getPageUrl($pageOrTag,$language).'" title = "'.$pageOrTag.' (read page on Wikipedia)">'.$pageOrTag.'</a>';
         } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
           $pageOrTagCumLanguageSummaryString = '<tr><td><strong><a href="https://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageOrTag.'&language='.$language.'&drilldown='.$drilldown.'&allmonths=allmonths">'.$pageOrTag.'</a>';
         } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
@@ -311,15 +311,15 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
         }
         $pageOrTagCumLanguageSummaryString .= ', sum over drilldowns</strong></td>';
         foreach($monthOrYearList as $monthOrYear) {
-          $viewcount = $pageOrTagCumLanguageCumMonthOrYearTotal[$pageOrTag][$language][$monthOrYear];
+          $viewCount = $pageOrTagCumLanguageCumMonthOrYearTotal[$pageOrTag][$language][$monthOrYear];
   	  if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
-  	    $pageOrTagCumLanguageSummaryString .= printMonthViewCount($pageOrTag,$monthOrYear,$language,"all",$viewcount,$numericDisplayFormat);
+  	    $pageOrTagCumLanguageSummaryString .= printMonthViewCount($pageOrTag,$monthOrYear,$language,"all",$viewCount,$numericDisplayFormat);
   	  } elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year') {
-  	    $pageOrTagCumLanguageSummaryString .= printYearViewCount($pageOrTag,$monthOrYear,$language,"all",$viewcount,$numericDisplayFormat);
+  	    $pageOrTagCumLanguageSummaryString .= printYearViewCount($pageOrTag,$monthOrYear,$language,"all",$viewCount,$numericDisplayFormat);
   	  } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
-  	    $pageOrTagCumLanguageSummaryString .= printtagviewcount($pageOrTag,$monthOrYear,$language,"all",$viewcount,$numericDisplayFormat);
+  	    $pageOrTagCumLanguageSummaryString .= printtagviewCount($pageOrTag,$monthOrYear,$language,"all",$viewCount,$numericDisplayFormat);
   	  } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
-  	    $pageOrTagCumLanguageSummaryString .= printtagviewcountbyyear($pageOrTag,$monthOrYear,$language,"all",$viewcount,$numericDisplayFormat);
+  	    $pageOrTagCumLanguageSummaryString .= printtagviewCountbyyear($pageOrTag,$monthOrYear,$language,"all",$viewCount,$numericDisplayFormat);
           }
         }
         if (count($monthOrYearList) > 1) {
@@ -352,15 +352,15 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
         $pageOrTagSummaryString .= '</strong></td>';
       }
       foreach($monthOrYearList as $monthOrYear) {
-        $viewcount = $pageOrTagCumMonthOrYearTotal[$pageOrTag][$monthOrYear];
+        $viewCount = $pageOrTagCumMonthOrYearTotal[$pageOrTag][$monthOrYear];
   	if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
-  	  $pageOrTagSummaryString .= printMonthViewCount($pageOrTag,$monthOrYear,"all","all",$viewcount,$numericDisplayFormat);
+  	  $pageOrTagSummaryString .= printMonthViewCount($pageOrTag,$monthOrYear,"all","all",$viewCount,$numericDisplayFormat);
   	} elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year') {
-  	  $pageOrTagSummaryString .= printYearViewCount($pageOrTag,$monthOrYear,"all","all",$viewcount,$numericDisplayFormat);
+  	  $pageOrTagSummaryString .= printYearViewCount($pageOrTag,$monthOrYear,"all","all",$viewCount,$numericDisplayFormat);
   	} elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
-  	  $pageOrTagSummaryString .= printtagviewcount($pageOrTag,$monthOrYear,"all","all",$viewcount,$numericDisplayFormat);
+  	  $pageOrTagSummaryString .= printtagviewCount($pageOrTag,$monthOrYear,"all","all",$viewCount,$numericDisplayFormat);
   	} elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
-  	  $pageOrTagSummaryString .= printtagviewcountbyyear($pageOrTag,$monthOrYear,"all","all",$viewcount,$numericDisplayFormat);
+  	  $pageOrTagSummaryString .= printtagviewCountbyyear($pageOrTag,$monthOrYear,"all","all",$viewCount,$numericDisplayFormat);
         }
       }
       if (count($monthOrYearList) > 1) {
@@ -519,7 +519,7 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
       foreach($drilldownList as $drilldown) {
         $shortDescriptor = getShortDescriptor($drilldown);
         if ($pageOrTagAdvice=='page') {
-          $headerString .= '<th>'.$shortDescriptor.' of page <a href="'. getpageurl($pageOrTag,$language). '" title="'.$pageOrTag.' (read page on Wikipedia)">' . $pageOrTag.'</a>';
+          $headerString .= '<th>'.$shortDescriptor.' of page <a href="'. getPageUrl($pageOrTag,$language). '" title="'.$pageOrTag.' (read page on Wikipedia)">' . $pageOrTag.'</a>';
         } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
           $headerString .= '<th>'.$shortDescriptor.' of pages with tag <a href="https://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageOrTag.'&language='.$language.'&drilldown='.$drilldown.'&allmonths=allmonths">'.$pageOrTag.'</a>';
         } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
@@ -535,13 +535,13 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
       }
       if (count($drilldownList) > 1 and count($pageOrTagList) * count($languageList) > 1) {
         if ($pageOrTagAdvice=='page') {
-          $headerString .= '<th>'.$shortDescriptor.' of page <a href="'. getpageurl($pageOrTag,$language). '" title="'.$pageOrTag.' (read page on Wikipedia)">' . $pageOrTag.'</a>';
+          $headerString .= '<th>'.$shortDescriptor.' of page <a href="'. getPageUrl($pageOrTag,$language). '" title="'.$pageOrTag.' (read page on Wikipedia)">' . $pageOrTag.'</a>';
           if (count($languageList) > 1) {
             $headerString .= ', language '.$language;
           }
           $headerString .= ', sum over drilldowns</th>';
         } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice='month') {
-          $headerString .= '<th>'.$shortDescriptor.' of pages with tag <a href="'. getpageurl($pageOrTag,$language). '" title="'.$pageOrTag.' (read page on Wikipedia)">' . $pageOrTag.'</a>';
+          $headerString .= '<th>'.$shortDescriptor.' of pages with tag <a href="'. getPageUrl($pageOrTag,$language). '" title="'.$pageOrTag.' (read page on Wikipedia)">' . $pageOrTag.'</a>';
           if (count($languageList) > 1) {
             $headerString .= ', language '.$language;
           }
@@ -585,32 +585,32 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
     foreach($pageOrTagList as $pageOrTag) { #Computes one cell entry
       foreach($languageList as $language) {
         foreach($drilldownList as $drilldown) {
-          $viewcount = $viewCountArray[$pageOrTag][$language][$drilldown][$monthOrYear];
+          $viewCount = $viewCountArray[$pageOrTag][$language][$drilldown][$monthOrYear];
           if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
-            $monthOrYearRowString .= printMonthViewCount($pageOrTag,$monthOrYear,$language,$drilldown,$viewcount,$numericDisplayFormat);
+            $monthOrYearRowString .= printMonthViewCount($pageOrTag,$monthOrYear,$language,$drilldown,$viewCount,$numericDisplayFormat);
           } elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year') {
-            $monthOrYearRowString .= printYearViewCount($pageOrTag,$monthOrYear,$language,$drilldown,$viewcount,$numericDisplayFormat);
+            $monthOrYearRowString .= printYearViewCount($pageOrTag,$monthOrYear,$language,$drilldown,$viewCount,$numericDisplayFormat);
           } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
-            $monthOrYearRowString .= printtagviewcount($pageOrTag,$monthOrYear,$language,$drilldown,$viewcount,$numericDisplayFormat);
+            $monthOrYearRowString .= printtagviewCount($pageOrTag,$monthOrYear,$language,$drilldown,$viewCount,$numericDisplayFormat);
           } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
-            $monthOrYearRowString .= printtagviewcountbyyear($pageOrTag,$monthOrYear,$language,$drilldown,$viewcount,$numericDisplayFormat);
+            $monthOrYearRowString .= printtagviewCountbyyear($pageOrTag,$monthOrYear,$language,$drilldown,$viewCount,$numericDisplayFormat);
           }
         }
         if (count($drilldownList) > 1 and count($pageOrTagList) * count($languageList) > 1) {
-          $viewcount = $pageOrTagCumLanguageCumMonthOrYearTotal[$pageOrTag][$language][$monthOrYear];
-          $monthOrYearRowString .= '<td align="right"><strong><element title="'.numericDisplay($viewcount, $numericDisplayFormat).'">'.numericDisplay($viewcount, $numericDisplayFormat).'</element></strong></td>';
+          $viewCount = $pageOrTagCumLanguageCumMonthOrYearTotal[$pageOrTag][$language][$monthOrYear];
+          $monthOrYearRowString .= '<td align="right"><strong><element title="'.numericDisplay($viewCount, $numericDisplayFormat).'">'.numericDisplay($viewCount, $numericDisplayFormat).'</element></strong></td>';
         }
       }
       if (count($pageOrTagList) > 1 and count($languageList) > 1) { ## Summary column across languages and drilldowns, for a given page or tag
-        $viewcount = $pageOrTagCumMonthOrYearTotal[$pageOrTag][$monthOrYear];
+        $viewCount = $pageOrTagCumMonthOrYearTotal[$pageOrTag][$monthOrYear];
   	if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
-  	  $monthOrYearRowString .= printMonthViewCount($pageOrTag,$monthOrYear,"all","all",$viewcount,$numericDisplayFormat);
+  	  $monthOrYearRowString .= printMonthViewCount($pageOrTag,$monthOrYear,"all","all",$viewCount,$numericDisplayFormat);
   	} elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year') {
-  	  $monthOrYearRowtring .= printYearViewCount($pageOrTag,$monthOrYear,"all","all",$viewcount,$numericDisplayFormat);
+  	  $monthOrYearRowtring .= printYearViewCount($pageOrTag,$monthOrYear,"all","all",$viewCount,$numericDisplayFormat);
   	} elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
-  	  $monthOrYearRowString .= printtagviewcount($pageOrTag,$monthOrYear,"all","all",$viewcount,$numericDisplayFormat);
+  	  $monthOrYearRowString .= printtagviewCount($pageOrTag,$monthOrYear,"all","all",$viewCount,$numericDisplayFormat);
   	} elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
-  	  $monthOrYearRowString .= printtagviewcountbyyear($pageOrTag,$monthOrYear,"all","all",$viewcount,$numericDisplayFormat);
+  	  $monthOrYearRowString .= printtagviewCountbyyear($pageOrTag,$monthOrYear,"all","all",$viewCount,$numericDisplayFormat);
         }
       }
     }
@@ -807,9 +807,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     foreach($pageOrTagList as $pageOrTag) {
       foreach($languageList as $language) {
         foreach($drilldownList as $drilldown) { 
-          $viewcount = $viewCountArray[$pageOrTag][$language][$drilldown][$monthOrYear];
+          $viewCount = $viewCountArray[$pageOrTag][$language][$drilldown][$monthOrYear];
           $numericViewCount = 0;
-          $numericViewCount = $numericViewCount + $viewcount;
+          $numericViewCount = $numericViewCount + $viewCount;
           $stringToPrint .= "|".$numericViewCount;
         }
       }
@@ -868,9 +868,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       $stringToPrint = $monthOrYear;
       $total = 0;
       foreach($drilldownList as $drilldown) { 
-        $viewcount = $drilldownCumMonthOrYearTotal[$drilldown][$monthOrYear];
+        $viewCount = $drilldownCumMonthOrYearTotal[$drilldown][$monthOrYear];
         $numericViewCount = 0;
-        $numericViewCount = $numericViewCount + $viewcount;
+        $numericViewCount = $numericViewCount + $viewCount;
         $stringToPrint .= "|".$numericViewCount;
       }
       $stringToPrint .="|".$monthOrYearTotal[$monthOrYear];
@@ -913,8 +913,8 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       $stringToPrint = $monthOrYear;
       $total = 0;
       foreach($pageOrTagList as $pageOrTag) {
-        $viewcount = intval($pageOrTagCumMonthOrYearTotal[$pageOrTag][$monthOrYear]);
-        $stringToPrint .= "|".$viewcount;
+        $viewCount = intval($pageOrTagCumMonthOrYearTotal[$pageOrTag][$monthOrYear]);
+        $stringToPrint .= "|".$viewCount;
       }
       $stringToPrint .="|".$monthOrYearTotal[$monthOrYear];
       if (count($monthOrYearList) > 1) {
@@ -967,9 +967,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       $total = 0;
       foreach($pageOrTagList as $pageOrTag) {
         foreach($languageList as $language) {
-          $viewcount = $pageOrTagCumLanguageCumMonthOrYearTotal[$pageOrTag][$language][$monthOrYear];
+          $viewCount = $pageOrTagCumLanguageCumMonthOrYearTotal[$pageOrTag][$language][$monthOrYear];
           $numericViewCount = 0;
-          $numericViewCount = $numericViewCount + $viewcount;
+          $numericViewCount = $numericViewCount + $viewCount;
           $stringToPrint .= "|".$numericViewCount;
         }
       }
@@ -1232,10 +1232,10 @@ function printPageviewsForMonthOrYearListAsCpi($pageOrTagList,$monthOrYearList,$
     {
       for ($j = 0; $j < count($monthOrYearList); $j++)
 	{
-	  $viewcount = $viewCountArray[$pageOrTagList[$i]][$monthOrYearList[$j]];
-	  if ($viewcount != $exceededQueryLimitMessage)
+	  $viewCount = $viewCountArray[$pageOrTagList[$i]][$monthOrYearList[$j]];
+	  if ($viewCount != $exceededQueryLimitMessage)
 	    {
-	      print $viewcount; 
+	      print $viewCount; 
 	      print " ";
 	      print "1,".$i;
 	      print " ";

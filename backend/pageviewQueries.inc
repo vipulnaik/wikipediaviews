@@ -506,6 +506,8 @@ function fillinWantedViewCounts($queryLimit, $online) {
   global $attemptedExternalQueryCount;
   global $attemptedExternalQueryLimit;
   global $exceededQueryLimitMessage;
+  global $tokenExpiredMessage;
+  global $cannotRetrieveMessage;
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
@@ -547,7 +549,7 @@ function fillinWantedViewCounts($queryLimit, $online) {
       $queryEndTime = microtime(true);
       $queryTimeTaken = $queryEndTime - $queryStartTime;
       print date("Y-m-d h:i:sa").": For page ".$page[$i].", language ".$language[$i].", drilldown ".$drilldown[$i].", and month ".$month[$i].", page view count is ".$count.", time taken is ".$queryTimeTaken." seconds\n";
-      if ($count != $exceededQueryLimitMessage) {
+      if ($count !== $exceededQueryLimitMessage and $count !== $tokenExpiredMessage) {
 	 $deletionQuery .= ",".$row_id[$i];
       }
     } else {

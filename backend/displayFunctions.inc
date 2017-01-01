@@ -19,12 +19,12 @@ function checkSizes($pageOrTagList,$languageList, $drilldownList, $monthOrYearLi
   return 0;
 }
 
-function totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$viewcountarray) {
+function totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$viewCountArray) {
   foreach ($pageOrTagList as $pageOrTag) {
     foreach ($languageList as $language) {
       foreach ($drilldownList as $drilldown) {
         foreach ($monthOrYearList as $monthOrYear) {
-          $increment = intval($viewcountarray[$pageOrTag][$language][$drilldown][$monthOrYear]);
+          $increment = intval($viewCountArray[$pageOrTag][$language][$drilldown][$monthOrYear]);
           $pageOrTagCumLanguageCumDrilldownTotal[$pageOrTag][$language][$drilldown] += $increment;
           $pageOrTagCumLanguageCumMonthOrYearTotal[$pageOrTag][$language][$monthOrYear] += $increment;
           $drilldownCumMonthOrYearTotal[$drilldown][$monthOrYear] += $increment;
@@ -153,15 +153,15 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
   }
   #Collect all the numbers that need to be printed first
   if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
-    $viewcountarray = viewcountarraybymonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
+    $viewCountArray = viewCountArraybymonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
   } elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year') {
-    $viewcountarray = viewcountarraybyyear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
+    $viewCountArray = viewCountArraybyyear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
   } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
-    $viewcountarray = viewcountarraybytagandmonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
+    $viewCountArray = viewCountArraybytagandmonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
   } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
-    $viewcountarray = viewcountarraybytagandyear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
+    $viewCountArray = viewCountArraybytagandyear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
   }
-  $tap = totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$viewcountarray);
+  $tap = totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$viewCountArray);
   $grandTotal = $tap["grandTotal"];
   $pageOrTagCumMonthOrYearTotal = $tap["pageOrTagCumMonthOrYearTotal"];
   $pageOrTagCumLanguageCumDrilldownTotal = $tap["pageOrTagCumLanguageCumDrilldownTotal"];
@@ -264,7 +264,7 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
         $pageOrTagCumLanguageCumDrilldownRowString .= '</td>';
         
         foreach($monthOrYearList as $monthOrYear) {
-          $viewcount = $viewcountarray[$pageOrTag][$language][$drilldown][$monthOrYear];
+          $viewcount = $viewCountArray[$pageOrTag][$language][$drilldown][$monthOrYear];
   	  if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
   	    $pageOrTagCumLanguageCumDrilldownRowString .= printMonthViewCount($pageOrTag,$monthOrYear,$language,$drilldown,$viewcount,$numericDisplayFormat);
   	  } elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year') {
@@ -454,15 +454,15 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
   }
   #Collect all the numbers that need to be printed first
   if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
-    $viewcountarray = viewcountarraybymonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
+    $viewCountArray = viewCountArraybymonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
   } elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year') {
-    $viewcountarray = viewcountarraybyyear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
+    $viewCountArray = viewCountArraybyyear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
   } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
-    $viewcountarray = viewcountarraybytagandmonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
+    $viewCountArray = viewCountArraybytagandmonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
   } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
-    $viewcountarray = viewcountarraybytagandyear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
+    $viewCountArray = viewCountArraybytagandyear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
   }
-  $tap = totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$viewcountarray);
+  $tap = totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$viewCountArray);
   $grandTotal = $tap["grandTotal"];
   $pageOrTagCumMonthOrYearTotal = $tap["pageOrTagCumMonthOrYearTotal"];
   $pageOrTagCumLanguageCumDrilldownTotal = $tap["pageOrTagCumLanguageCumDrilldownTotal"];
@@ -585,7 +585,7 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
     foreach($pageOrTagList as $pageOrTag) { #Computes one cell entry
       foreach($languageList as $language) {
         foreach($drilldownList as $drilldown) {
-          $viewcount = $viewcountarray[$pageOrTag][$language][$drilldown][$monthOrYear];
+          $viewcount = $viewCountArray[$pageOrTag][$language][$drilldown][$monthOrYear];
           if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
             $monthOrYearRowString .= printMonthViewCount($pageOrTag,$monthOrYear,$language,$drilldown,$viewcount,$numericDisplayFormat);
           } elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year') {
@@ -750,15 +750,15 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
   }
   #Collect all the numbers that need to be printed first
   if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month')
-    $viewcountarray = viewcountarraybymonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
+    $viewCountArray = viewCountArraybymonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
   elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year')
-    $viewcountarray = viewcountarraybyyear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
+    $viewCountArray = viewCountArraybyyear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
   elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month')
-    $viewcountarray = viewcountarraybytagandmonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
+    $viewCountArray = viewCountArraybytagandmonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
   elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year')
-    $viewcountarray = viewcountarraybytagandyear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
+    $viewCountArray = viewCountArraybytagandyear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
 
-  $tap = totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$viewcountarray);
+  $tap = totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$viewCountArray);
   $grandTotal = $tap["grandTotal"];
   $pageOrTagCumMonthOrYearTotal = $tap["pageOrTagCumMonthOrYearTotal"];
   $pageOrTagCumLanguageCumDrilldownTotal = $tap["pageOrTagCumLanguageCumDrilldownTotal"];
@@ -807,7 +807,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     foreach($pageOrTagList as $pageOrTag) {
       foreach($languageList as $language) {
         foreach($drilldownList as $drilldown) { 
-          $viewcount = $viewcountarray[$pageOrTag][$language][$drilldown][$monthOrYear];
+          $viewcount = $viewCountArray[$pageOrTag][$language][$drilldown][$monthOrYear];
           $numericViewCount = 0;
           $numericViewCount = $numericViewCount + $viewcount;
           $stringToPrint .= "|".$numericViewCount;
@@ -1214,13 +1214,13 @@ function printPageviewsForMonthOrYearListAsCpi($pageOrTagList,$monthOrYearList,$
     return false;
   #Collect all the numbers that need to be printed first
   if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month')
-    $viewcountarray = viewcountarraybymonth($pageOrTagList,$monthOrYearList,$language,$drilldown,true,$normalization);
+    $viewCountArray = viewCountArraybymonth($pageOrTagList,$monthOrYearList,$language,$drilldown,true,$normalization);
   elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year')
-    $viewcountarray = viewcountarraybyyear($pageOrTagList,$monthOrYearList,$language,$drilldown,true,$normalization);
+    $viewCountArray = viewCountArraybyyear($pageOrTagList,$monthOrYearList,$language,$drilldown,true,$normalization);
   elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month')
-    $viewcountarray = viewcountarraybytagandmonth($pageOrTagList,$monthOrYearList,$language,$drilldown,true,$normalization);
+    $viewCountArray = viewCountArraybytagandmonth($pageOrTagList,$monthOrYearList,$language,$drilldown,true,$normalization);
   elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year')
-    $viewcountarray = viewcountarraybytagandyear($pageOrTagList,$monthOrYearList,$language,$drilldown,true,$normalization);
+    $viewCountArray = viewCountArraybytagandyear($pageOrTagList,$monthOrYearList,$language,$drilldown,true,$normalization);
   
   #Collect tag information
   if ($pageOrTagAdvice=='page')
@@ -1232,7 +1232,7 @@ function printPageviewsForMonthOrYearListAsCpi($pageOrTagList,$monthOrYearList,$
     {
       for ($j = 0; $j < count($monthOrYearList); $j++)
 	{
-	  $viewcount = $viewcountarray[$pageOrTagList[$i]][$monthOrYearList[$j]];
+	  $viewcount = $viewCountArray[$pageOrTagList[$i]][$monthOrYearList[$j]];
 	  if ($viewcount != $exceededQueryLimitMessage)
 	    {
 	      print $viewcount; 

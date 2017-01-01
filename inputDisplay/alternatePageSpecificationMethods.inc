@@ -31,7 +31,7 @@ if (($formdata == false) or ($archivalStatus==='' and $viewbound==0))
     print '<table><col width=600/><col width=500/>';
   }
 include(__DIR__."/archivalStatus.inc");
-include(__DIR__."/filterpagesbyviewCounts.inc");
+include(__DIR__."/filterpagesbyviewcounts.inc");
 print '</table>';
 if (($formdata == false) or ($archivalStatus==='' and $viewbound==0))
   {

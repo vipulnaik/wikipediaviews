@@ -66,8 +66,8 @@ function getTagTotal($tag,$language,$drilldown,$monthList,$online=true,$normaliz
     }
   }
   if ($online == true and $attemptedExternalQueryCount < $attemptedExternalQueryLimit and count($pageList) * count($monthList) < $tagProperQueryLimit) {
-    $viewCountArray = viewCountArrayByMonth($pageList,array($language),array($drilldown),$retrievableMonthList,$online,$normalization);
-    $tap = totalsAndPercentages($pageList,array($language),array($drilldown),$monthList,$viewCountArray);
+    $viewcountArray = viewcountArrayByMonth($pageList,array($language),array($drilldown),$retrievableMonthList,$online,$normalization);
+    $tap = totalsAndPercentages($pageList,array($language),array($drilldown),$monthList,$viewcountArray);
     $monthTotal = $tap["monthOrYearTotal"];
     foreach($irretrievableMonthList as $month) {
       $monthTotal[$month] = $cannotRetrieveMessage;
@@ -79,7 +79,7 @@ function getTagTotal($tag,$language,$drilldown,$monthList,$online=true,$normaliz
     foreach($retrievableMonthList as $month) {
       $monthTotal[$month] = $exceededQueryLimitMessage;
     }
-    $tagTotalQuery = "select monthfull,coalesce(sum(viewCount),0) as total from viewCountsbymonth where pagename in (".$pageListAsQuotedCsvString.") and monthfull in (".$monthListAsQuotedCsvString.") and language='$language' and drilldown='$drilldown' group by monthfull;";
+    $tagTotalQuery = "select monthfull,coalesce(sum(viewcount),0) as total from viewcountsbymonth where pagename in (".$pageListAsQuotedCsvString.") and monthfull in (".$monthListAsQuotedCsvString.") and language='$language' and drilldown='$drilldown' group by monthfull;";
     $tagTotalResult = $mysqli->query($tagTotalQuery);
     for($i = 0; $i < $tagTotalResult -> num_rows; $i++) {
       $row = $tagTotalResult -> fetch_assoc();
@@ -95,59 +95,59 @@ function getTagTotalByYear($tag,$language,$drilldown,$yearList,$online=true,$nor
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
   $pageList = getPageListByTag($tag,$language);
-  $viewCountArray = viewCountArrayByYear($pageList,array($language),array($drilldown),$yearList,$online,$normalization);
-  $tap = totalsAndPercentages($pageList,array($language),array($drilldown),$yearList,$viewCountArray);
+  $viewcountArray = viewcountArrayByYear($pageList,array($language),array($drilldown),$yearList,$online,$normalization);
+  $tap = totalsAndPercentages($pageList,array($language),array($drilldown),$yearList,$viewcountArray);
   return $tap["monthOrYearTotal"];
 }
 
-function viewCountArraybytagandmonth_raw($tagList,$languageList,$drilldownList,$monthList,$online=true,$normalization='') {
+function viewcountArraybytagandmonth_raw($tagList,$languageList,$drilldownList,$monthList,$online=true,$normalization='') {
   foreach ($tagList as $tag) {
     foreach ($languageList as $language) {
       foreach ($drilldownList as $drilldown) {
         $tagTotal = getTagTotal($tag,$language,$drilldown,$monthList,$online,$normalization);
         foreach ($monthList as $month) {
-          $viewCountArray[$tag][$language][$drilldown][$month] = $tagTotal[$month];
+          $viewcountArray[$tag][$language][$drilldown][$month] = $tagTotal[$month];
         }
       }
     }
   }
-  return $viewCountArray;
+  return $viewcountArray;
 }
 
-function viewCountArraybytagandmonth($tagList,$monthList,$language='en',$drilldownList,$online=true,$normalization='') {
+function viewcountArraybytagandmonth($tagList,$monthList,$language='en',$drilldownList,$online=true,$normalization='') {
   global $exceededQueryLimitMessage;
   global $numberofdays_allmonths;
-  $viewCountArray = viewCountArraybytagandmonth_raw($tagList,$monthList,$language,$drilldownList,$online,$normalization);
+  $viewcountArray = viewcountArraybytagandmonth_raw($tagList,$monthList,$language,$drilldownList,$online,$normalization);
   if ($normalization == '')
     {
-      return $viewCountArray;
+      return $viewcountArray;
     }
   elseif ($normalization == 'dailyaverage') {
     foreach ($tagList as $tag) {
       foreach ($monthList as $month) {
         foreach ($drilldownList as $drilldown) {
-	  if ($viewCountArray[$tag][$month][$drilldown] != $exceededQueryLimitMessage) {
-            $viewCountArray[$tag][$month][$drilldown] = round($viewCountArray[$tag][$month][$drilldown]/intval($numberofdays_allmonths[$month]),1);
+	  if ($viewcountArray[$tag][$month][$drilldown] != $exceededQueryLimitMessage) {
+            $viewcountArray[$tag][$month][$drilldown] = round($viewcountArray[$tag][$month][$drilldown]/intval($numberofdays_allmonths[$month]),1);
           }
 	}
       }
     }
   }
-  return $viewCountArray;
+  return $viewcountArray;
 }
 
-function viewCountArraybytagandyear($tagList,$languageList,$drilldownList,$yearList,$online=true,$normalization='') {
+function viewcountArraybytagandyear($tagList,$languageList,$drilldownList,$yearList,$online=true,$normalization='') {
   foreach ($tagList as $tag) {
     foreach ($languageList as $language) {
       foreach ($drilldownList as $drilldown) {
         $tagTotal = getTagTotalByYear($tag,$language,$drilldown,$yearList,$online,$normalization);
         foreach ($yearList as $year) {
-	  $viewCountArray[$tag][$language][$drilldown][$year] = $tagTotal[$year];
+	  $viewcountArray[$tag][$language][$drilldown][$year] = $tagTotal[$year];
         }
       }
     }
   }
-  return $viewCountArray;
+  return $viewcountArray;
 }
 
 function getPageListByTagList($tagList,$language,$connective='or') {

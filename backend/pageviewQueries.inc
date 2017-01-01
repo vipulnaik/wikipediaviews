@@ -1,13 +1,13 @@
 <?php
 
-function wantedViewCountsQuery($pageList,$languageList,$drilldownList,$monthList,$viewCountArray) {
+function wantedViewCountsQuery($pageList,$languageList,$drilldownList,$monthList,$viewcountArray) {
   $numberOfWantedViewCounts = 0;
-  $insertQuery = "insert into wantedviewCountsbymonth(pagename,monthfull,language,drilldown,status) values ";
+  $insertQuery = "insert into wantedviewcountsbymonth(pagename,monthfull,language,drilldown,status) values ";
   foreach ($pageList as $page) {
     foreach ($languageList as $language) {
       foreach ($drilldownList as $drilldown) {
         foreach ($monthList as $month) {
-          if ($viewCountArray[$page][$language][$drilldown][$month] == 'unavailable' and ($drilldown == "desktop" or $month >= "201507")) {
+          if ($viewcountArray[$page][$language][$drilldown][$month] == 'unavailable' and ($drilldown == "desktop" or $month >= "201507")) {
 	    if ($numberOfWantedViewCounts > 0) {
               $insertQuery .= ", ";
 	    }
@@ -214,7 +214,7 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
   #First looks for existing entries in the database
 
   $selectionStartTime = microtime(true);
-  $selectQuery = "select viewCount,querytime from viewCountsbymonth where pagename=\"".$lookupPage."\" and monthfull='".$month."' and language='".$language."' and drilldown='".$drilldown."' limit 1;";
+  $selectQuery = "select viewcount,querytime from viewcountsbymonth where pagename=\"".$lookupPage."\" and monthfull='".$month."' and language='".$language."' and drilldown='".$drilldown."' limit 1;";
   # print $selectQuery;
 
   $result = $mysqli->query($selectQuery);
@@ -228,15 +228,15 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
 
   if ($result->num_rows == 0) {
     $onlineQueryStartTime = microtime(true);
-    $viewCount = getPageviewsOnline($page,$month,$language,$drilldown);
+    $viewcount = getPageviewsOnline($page,$month,$language,$drilldown);
     $onlineQueryEndTime = microtime(true);
     if ($verbose == 'true') {
       $onlineQueryTimeTaken = $onlineQueryEndTime - $onlineQueryStartTime;
       print date("Y-m-d h:i:sa").": Time taken for online query for page $page, month $month, language $language, drilldown $drilldown: ".$onlineQueryTimeTaken."\n";
     }
-    if ($viewCount !== $cannotRetrieveMessage and $viewCount !== $tokenExpiredMessage) {
+    if ($viewcount !== $cannotRetrieveMessage and $viewcount !== $tokenExpiredMessage) {
       $insertQueryStartTime = microtime(true);
-      $insertQuery="insert into viewCountsbymonth(pagename,monthfull,language,drilldown,viewCount) values (\"".$lookupPage."\",'".$month."','".$language."','".$drilldown."',".$viewCount.");";
+      $insertQuery="insert into viewcountsbymonth(pagename,monthfull,language,drilldown,viewcount) values (\"".$lookupPage."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
       $insertQueryEndTime = microtime(true);
       if ($verbose == 'true') {
         $insertQueryTimeTaken = $insertQueryEndTime - $insertQueryStartTime;
@@ -246,7 +246,7 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
     }
   } else {
     $row = $result->fetch_assoc();
-    $viewCount = $row['viewCount'];
+    $viewcount = $row['viewcount'];
       
     #But wait, now we must check that the value is not too outdated
 
@@ -256,11 +256,11 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
       $dayspassedasdiff = date_diff($dateofretrieval,$currentdate);
       $dayspassed = intval($dayspassedasdiff -> d);
       if ($dayspassed > $purgePeriod) {
-	$viewCount = getPageviewsOnline($page,$month,$language,$drilldown);
+	$viewcount = getPageviewsOnline($page,$month,$language,$drilldown);
 
-        if ($viewCount != $exceededQueryLimitMessage and $viewCount != cannotRetrieveMessage) {
-          $deleteQuery = "delete from viewCountsbymonth where pagename=\"".$lookupPage."\" and monthfull='".$month."' and language='".$language."' and drilldown='".$drilldown."';";
-          $insertQuery="insert into viewCountsbymonth(pagename,monthfull,language,drilldown,viewCount) values (\"".$lookupPage."\",'".$month."','".$language."','".$drilldown."',".$viewCount.");";
+        if ($viewcount != $exceededQueryLimitMessage and $viewcount != cannotRetrieveMessage) {
+          $deleteQuery = "delete from viewcountsbymonth where pagename=\"".$lookupPage."\" and monthfull='".$month."' and language='".$language."' and drilldown='".$drilldown."';";
+          $insertQuery="insert into viewcountsbymonth(pagename,monthfull,language,drilldown,viewcount) values (\"".$lookupPage."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
           $success = $mysqli->query($deleteQuery);
           $success = $mysqli->query($insertQuery);
         }
@@ -268,9 +268,9 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
     }
   }
   #If a value has been successfully retrieved, removes it from the wanted query list
-  if ($viewCount != $exceededQueryLimitMessage) {
+  if ($viewcount != $exceededQueryLimitMessage) {
     $deletionStartTime = microtime(true);
-    $delete_query = "delete from wantedviewCountsbymonth where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."' and drilldown='$drilldown';";
+    $delete_query = "delete from wantedviewcountsbymonth where pagename=\"".$page."\" and monthfull='".$month."' and language='".$language."' and drilldown='$drilldown';";
     $success = $mysqli->query($delete_query);
     $deletionEndTime = microtime(true);
     if ($verbose == 'true') {
@@ -278,7 +278,7 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
       print date("Y-m-d h:i:sa").": Time taken for deletion query $delete_query for page $page, month $month, language $language, drilldown $drilldown: ".$deletionTimeTaken."\n";
     }
   }
-  return $viewCount;
+  return $viewcount;
 }
 
 function getAnnualPageviewsFromDb($page,$year,$language,$drilldown,$online) {
@@ -288,11 +288,11 @@ function getAnnualPageviewsFromDb($page,$year,$language,$drilldown,$online) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
   $page = str_replace('"','\"',$page);
-  $selectQuery = 'select viewCount from viewCountsbyyear where pagename="'.$page.'"'." and year='".$year."' and language='".$language."' and drilldown='".$drilldown."'limit 1;";
+  $selectQuery = 'select viewcount from viewcountsbyyear where pagename="'.$page.'"'." and year='".$year."' and language='".$language."' and drilldown='".$drilldown."'limit 1;";
   $result = $mysqli->query($selectQuery);
   if ($result->num_rows == 1) {
     $row = $result->fetch_assoc();
-    return $row['viewCount'];
+    return $row['viewcount'];
   }
   $select_query = "select monthfull from months where status!='present' and status!='future' and year='".$year."';";
   $result = $mysqli->query($select_query);
@@ -309,7 +309,7 @@ function getAnnualPageviewsFromDb($page,$year,$language,$drilldown,$online) {
   $result = $mysqli->query($select_query);
   $row = $result->fetch_assoc();
   if ($row['status'] != 'future') {
-    $insertQuery = "insert into viewCountsbyyear(pagename,year,language,drilldown,viewCount) values(\"".$page."\",'".$year."','".$language."','".$drilldown."',".$totalviews.");";
+    $insertQuery = "insert into viewcountsbyyear(pagename,year,language,drilldown,viewcount) values(\"".$page."\",'".$year."','".$language."','".$drilldown."',".$totalviews.");";
     $success = $mysqli->query($insertQuery);
   }
   return $totalviews;
@@ -327,7 +327,7 @@ function getannualpageviews($page,$year,$language,$drilldown) {
   return getAnnualPageviewsFromDb($page,$year,$language,$drilldown,true);
 }
 
-function viewCountArrayByMonth_raw($pageList,$languageList,$drilldownList,$monthList,$online=true,$normalization='') {
+function viewcountArrayByMonth_raw($pageList,$languageList,$drilldownList,$monthList,$online=true,$normalization='') {
   global $mysqli;
   global $attemptedExternalQueryCount;
   global $attemptedExternalQueryLimit;
@@ -347,7 +347,7 @@ function viewCountArrayByMonth_raw($pageList,$languageList,$drilldownList,$month
     foreach($languageList as $language) {
       foreach($drilldownList as $drilldown) {
         foreach($monthList as $month) {
-          $viewCountArray[$page][$language][$drilldown][$month] = 'unavailable';
+          $viewcountArray[$page][$language][$drilldown][$month] = 'unavailable';
         }
       }
     }
@@ -356,21 +356,21 @@ function viewCountArrayByMonth_raw($pageList,$languageList,$drilldownList,$month
   $monthListAsQuotedCsvString = convertListToQuotedCsvString($monthList);
   $languageListAsQuotedCsvString = convertListToQuotedCsvString($languageList);
   $drilldownListAsQuotedCsvString = convertListToQuotedCsvString($drilldownList);
-  $selectQuery = "select pagename,monthfull,language,drilldown,viewCount,querytime from viewCountsbymonth where pagename in (".$pageListAsQuotedCsvString.") and monthfull in (".$monthListAsQuotedCsvString.") and language in (".$languageListAsQuotedCsvString.") and drilldown in (".$drilldownListAsQuotedCsvString.");";
+  $selectQuery = "select pagename,monthfull,language,drilldown,viewcount,querytime from viewcountsbymonth where pagename in (".$pageListAsQuotedCsvString.") and monthfull in (".$monthListAsQuotedCsvString.") and language in (".$languageListAsQuotedCsvString.") and drilldown in (".$drilldownListAsQuotedCsvString.");";
   $result = $mysqli->query($selectQuery);
   for ($i = 0;$i < $result->num_rows;$i++) {
     $row = $result->fetch_assoc();
     if ($row['monthfull'] != $thisMonth) {
-      $viewCountArray[$row['pagename']][$row['language']][$row['drilldown']][$row['monthfull']] = $row['viewCount'];
+      $viewcountArray[$row['pagename']][$row['language']][$row['drilldown']][$row['monthfull']] = $row['viewcount'];
     } else {
       $currentdate = new DateTime("now");
       $dateofretrieval = new DateTime($row['querytime']); 
       $dayspassedasdiff = date_diff($dateofretrieval,$currentdate);
       $dayspassed = intval($dayspassedasdiff->d);
       if ($dayspassed > $purgePeriod) {
-	$viewCountArray[$row['pagename']][$row['language']][$row['drilldown']][$row['monthfull']] = 'unavailable';
+	$viewcountArray[$row['pagename']][$row['language']][$row['drilldown']][$row['monthfull']] = 'unavailable';
       } else {
-	$viewCountArray[$row['pagename']][$row['language']][$row['drilldown']][$row['monthfull']] = $row['viewCount'];
+	$viewcountArray[$row['pagename']][$row['language']][$row['drilldown']][$row['monthfull']] = $row['viewcount'];
       }
     }		
   }
@@ -378,7 +378,7 @@ function viewCountArrayByMonth_raw($pageList,$languageList,$drilldownList,$month
   if ($online == true) {
     $bulkRetrievalTimeTaken = $bulkRetrievalEndTime - $bulkRetrievalStartTime;
   }
-  wantedViewCountsQuery($pageList,$languageList,$drilldownList,$monthList,$viewCountArray);	
+  wantedViewCountsQuery($pageList,$languageList,$drilldownList,$monthList,$viewcountArray);	
   foreach(array_reverse($pageList) as $page) {
     queriedPageLog($page,$language,'partial');
   }
@@ -386,8 +386,8 @@ function viewCountArrayByMonth_raw($pageList,$languageList,$drilldownList,$month
     foreach($languageList as $language) {
       foreach($monthList as $month) {
         foreach($drilldownList as $drilldown) {
-          if ($viewCountArray[$page][$language][$drilldown][$month] == 'unavailable' and $online == true) {
-            $viewCountArray[$page][$language][$drilldown][$month] = getPageviewsFromDb($page,$month,$language,$drilldown,true);
+          if ($viewcountArray[$page][$language][$drilldown][$month] == 'unavailable' and $online == true) {
+            $viewcountArray[$page][$language][$drilldown][$month] = getPageviewsFromDb($page,$month,$language,$drilldown,true);
           }
         }
       }
@@ -395,14 +395,14 @@ function viewCountArrayByMonth_raw($pageList,$languageList,$drilldownList,$month
   }
   if ($attemptedExternalQueryCount < $attemptedExternalQueryLimit) {
     # print "Successfully completed without timing out :)<br>";
-    return $viewCountArray;
+    return $viewcountArray;
   }
 
   foreach($pageList as $page) {
     foreach($languageList as $language) {
       foreach($drilldownList as $drilldown) {
         foreach($monthList as $month) {
-          if ($viewCountArray[$page][$language][$drilldown][$month] == $exceededQueryLimitMessage) {
+          if ($viewcountArray[$page][$language][$drilldown][$month] == $exceededQueryLimitMessage) {
             $unavailableCount++;
           }
         }
@@ -410,33 +410,48 @@ function viewCountArrayByMonth_raw($pageList,$languageList,$drilldownList,$month
     }
   }
   
-  return $viewCountArray;
+  return $viewcountArray;
 }
 
-function viewCountArrayByMonth($pageList,$languageList,$drilldownList,$monthList,$online,$normalization='') {
+function viewcountArrayByMonth($pageList,$languageList,$drilldownList,$monthList,$online,$normalization='') {
   global $exceededQueryLimitMessage;
+  global $cannotRetrieveMessage;
   global $numberofdays_allmonths;
-  $viewCountArray = viewCountArrayByMonth_raw($pageList,$languageList,$drilldownList,$monthList,$online,$normalization);
+  global $mostRecentMonth;
+  $viewcountArray = viewcountArrayByMonth_raw($pageList,$languageList,$drilldownList,$monthList,$online,$normalization);
   if ($normalization == '') {
-    return $viewCountArray;
+    return $viewcountArray;
   } elseif ($normalization == 'dailyaverage') {
     foreach ($pageList as $page) {
       foreach ($languageList as $language) {
         foreach ($drilldownList as $drilldown) {
           foreach ($monthList as $month) {
-            if ($viewCountArray[$page][$language][$drilldown][$month] != $exceededQueryLimitMessage) {
-	      $viewCountArray[$page][$language][$drilldown][$month] = round($viewCountArray[$page][$language][$drilldown][$month]/intval($numberofdays_allmonths[$month]),1);
+            if ($viewcountArray[$page][$language][$drilldown][$month] !== $exceededQueryLimitMessage and $viewcountArray[$page][$language][$drilldown][$month] !== $cannotRetrieveMessage) {
+	      $viewcountArray[$page][$language][$drilldown][$month] = round($viewcountArray[$page][$language][$drilldown][$month]/intval($numberofdays_allmonths[$month]),1);
             }
           }
         }
       }
     }
   } elseif ($normalization == 'aggregate') {
+    $aggregateViewCountArray = viewcountArrayByMonth(array("[aggregate]"),$languageList,$drilldownList,$monthList);
+    $mostRecentAggregateViewCountArray = viewcountArrayByMonth(array("[aggregate]"),$languageList, $drilldownList, array($mostRecentMonth));
+    foreach($pageList as $page) {
+      foreach ($languageList as $language) {
+        foreach ($drilldownList as $drilldown) {
+          foreach ($monthList as $month) {
+            if ($month >= '201507' and $viewcountArray[$page][$language][$drilldown][$month] !== $exceededQueryLimitMessage and $viewcountArray[$page][$language][$drilldown][$month] !== $cannotRetrieveMessage) {
+              $viewcountArray[$page][$language][$drilldown][$month] = intval(($viewcountArray[$page][$language][$drilldown][$month] * $mostRecentAggregateViewCountArray["[aggregate]"][$language][$drilldown][$mostRecentMonth]) / $aggregateViewCountArray["[aggregate]"][$language][$drilldown][$month]);
+            }
+          }
+        }
+      }
+    }
   }
-  return $viewCountArray;
+  return $viewcountArray;
 }
 
-function viewCountArrayByYear($pageList,$languageList,$drilldownList,$yearList,$online,$normalization='') {
+function viewcountArrayByYear($pageList,$languageList,$drilldownList,$yearList,$online,$normalization='') {
   global $mysqli;
   global $attemptedExternalQueryCount;
   global $attemptedExternalQueryLimit;
@@ -451,7 +466,7 @@ function viewCountArrayByYear($pageList,$languageList,$drilldownList,$yearList,$
     foreach($languageList as $language) {
       foreach($drilldownList as $drilldown) { 
         foreach($yearList as $year) { 
-          $viewCountArray[$page][$language][$drilldown][$year] = 'unavailable';
+          $viewcountArray[$page][$language][$drilldown][$year] = 'unavailable';
         }
       }
     }
@@ -460,11 +475,11 @@ function viewCountArrayByYear($pageList,$languageList,$drilldownList,$yearList,$
   $languageListAsQuotedCsvString = convertListToQuotedCsvString($languageList);
   $drilldownListAsQuotedCsvString = convertListToQuotedCsvString($drilldownList);
   $yearListAsQuotedCsvString = convertListToQuotedCsvString($yearList);
-  $selectQuery = "select pagename,year,language,drilldown,viewCount from viewCountsbyyear where pagename in (".$pageListAsQuotedCsvString.") and year in (".$yearListAsQuotedCsvString.") and language in ('".$languageListAsQuotedCsvString."') and drilldown in (".$drilldownListAsQuotedCsvString.");";
+  $selectQuery = "select pagename,year,language,drilldown,viewcount from viewcountsbyyear where pagename in (".$pageListAsQuotedCsvString.") and year in (".$yearListAsQuotedCsvString.") and language in ('".$languageListAsQuotedCsvString."') and drilldown in (".$drilldownListAsQuotedCsvString.");";
   $result = $mysqli->query($selectQuery);
   for ($i = 0;$i < $result->num_rows;$i++) {
     $row = $result->fetch_assoc();
-    $viewCountArray[$row['pagename']][$row['language']][$row['drilldown']][$row['year']] = $row['viewCount'];
+    $viewcountArray[$row['pagename']][$row['language']][$row['drilldown']][$row['year']] = $row['viewcount'];
   }
   $bulkRetrievalEndTime = microtime(true);
   if ($online == true) {
@@ -477,8 +492,8 @@ function viewCountArrayByYear($pageList,$languageList,$drilldownList,$yearList,$
     foreach($languageList as $language) {
       foreach($drilldownList as $drilldown) {
         foreach($yearList as $year) { 
-          if ($viewCountArray[$page][$language][$drilldown][$year] == 'unavailable' and $online = true) {
-	    $viewCountArray[$page][$language][$drilldown][$year] = getAnnualPageviewsFromDb($page,$year,$language,$drilldown,true);
+          if ($viewcountArray[$page][$language][$drilldown][$year] == 'unavailable' and $online = true) {
+	    $viewcountArray[$page][$language][$drilldown][$year] = getAnnualPageviewsFromDb($page,$year,$language,$drilldown,true);
           }
         }
       }
@@ -486,20 +501,20 @@ function viewCountArrayByYear($pageList,$languageList,$drilldownList,$yearList,$
   }
   if ($attemptedExternalQueryCount < $attemptedExternalQueryLimit) {
     #print "Successfully completed without timing out :)<br>";
-    return $viewCountArray;
+    return $viewcountArray;
   }
   foreach($pageList as $page) {
     foreach($languageList as $language) {
       foreach($drilldownList as $drilldown) {
         foreach($yearList as $year){
-          if ($viewCountArray[$page][$language][$drilldown][$year] == $exceededQueryLimitMessage) {
-	    $viewCountArray[$page][$language][$drilldown][$year] = getAnnualPageviewsFromDb($page,$year,$language,$drilldown,true);
+          if ($viewcountArray[$page][$language][$drilldown][$year] == $exceededQueryLimitMessage) {
+	    $viewcountArray[$page][$language][$drilldown][$year] = getAnnualPageviewsFromDb($page,$year,$language,$drilldown,true);
           }
         }
       }
     }
   }
-  return $viewCountArray;	
+  return $viewcountArray;	
 }
 
 function fillinWantedViewCounts($queryLimit, $online) {
@@ -512,12 +527,12 @@ function fillinWantedViewCounts($queryLimit, $online) {
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
-  $selectQuery = "select * from wantedviewCountsbymonth where status='wanted' limit ".$queryLimit.";";
+  $selectQuery = "select * from wantedviewcountsbymonth where status='wanted' limit ".$queryLimit.";";
   $result = $mysqli->query($selectQuery);
   print date("Y-m-d h:i:sa").": ".$selectQuery."\n";
   if ($result ->num_rows == 0) {
     print date("Y-m-d h:i:sa").": Select query response had no rows\n";
-    $fixWorkingStatusQuery = "update wantedviewCountsbymonth set status='wanted' where status='working'";
+    $fixWorkingStatusQuery = "update wantedviewcountsbymonth set status='wanted' where status='working'";
     $mysqli->query($fixWorkingStatusQuery);
     $result = $mysqli->query($selectQuery);
   }
@@ -525,8 +540,8 @@ function fillinWantedViewCounts($queryLimit, $online) {
     print date("Y-m-d h:i:sa").": Even after changing all working rows to wanted, select query response had no row\n";
     return false;
   }
-  $workingQuery = "update wantedviewCountsbymonth set status='working' where row_id in (";
-  $deletionQuery = "delete from wantedviewCountsbymonth where row_id in (0";
+  $workingQuery = "update wantedviewcountsbymonth set status='working' where row_id in (";
+  $deletionQuery = "delete from wantedviewcountsbymonth where row_id in (0";
   for($i=0;$i < $result->num_rows;$i++) {
     if ($i > 0) $workingQuery .= ",";
     $row = $result->fetch_assoc();

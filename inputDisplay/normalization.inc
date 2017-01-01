@@ -26,5 +26,13 @@ if ($formdata == true and $normalization=='dailyaverage')
   }
 print '>';
 print 'Daily average (for days in the month where statistics are available)</option>';
-print '</select></td></tr>';
+print '<option value="aggregate"';
+if ($formdata == true and $normalization=='aggregate') 
+  { 
+    print ' selected="selected"';
+  }
+print '>';
+print 'Aggregate for language, drilldown, and month (scaled to aggreate for language and drilldown for most recent month)</option>';
+print '</select></td>';
+print '</tr>';
 ?>

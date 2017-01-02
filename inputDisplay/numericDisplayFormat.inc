@@ -18,7 +18,7 @@ if (($formdata == false) or ($formdata == true and $numericDisplayFormat=='kmbt'
     print ' selected="selected"';
   }
 print '>';
-print 'Use K, M, B for numbers when they are bigger than a thousand, million, or billion respectively</option>';
+print 'Use K, M, B, T for numbers when they are bigger than a thousand, million, billion, or trillion respectively</option>';
 print '<option value="fullprecision"';
 if ($formdata == true and $numericDisplayFormat=='fullprecision') 
   { 

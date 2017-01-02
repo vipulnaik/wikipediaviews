@@ -440,7 +440,7 @@ function viewcountArrayByMonth($pageList,$languageList,$drilldownList,$monthList
       foreach ($languageList as $language) {
         foreach ($drilldownList as $drilldown) {
           foreach ($monthList as $month) {
-            if (($month >= '201507' or (in_array($language, array('en','de')) and $drilldown == 'desktop')) and $viewcountArray[$page][$language][$drilldown][$month] !== $exceededQueryLimitMessage and $viewcountArray[$page][$language][$drilldown][$month] !== $cannotRetrieveMessage) {
+            if (($month >= '201507' or (in_array($language, array('en','de','es')) and $drilldown == 'desktop')) and $viewcountArray[$page][$language][$drilldown][$month] !== $exceededQueryLimitMessage and $viewcountArray[$page][$language][$drilldown][$month] !== $cannotRetrieveMessage) {
               # print ("Scaling value ".$viewcountArray[$page][$language][$drilldown][$month] .", multiplying by ". $mostRecentAggregateViewCountArray["[aggregate]"][$language][$drilldown][$mostRecentMonth] . ", then dividing by ". $aggregateViewCountArray["[aggregate]"][$language][$drilldown][$month]);
               $viewcountArray[$page][$language][$drilldown][$month] = intval(($viewcountArray[$page][$language][$drilldown][$month] * $mostRecentAggregateViewCountArray["[aggregate]"][$language][$drilldown][$mostRecentMonth]) / $aggregateViewCountArray["[aggregate]"][$language][$drilldown][$month]);
             }

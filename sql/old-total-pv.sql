@@ -1,3 +1,5 @@
+# -- Data is from https://stats.wikimedia.org/EN/TablesPageViewsMonthlyOriginal.htm for desktop and https://stats.wikimedia.org/EN/TablesPageViewsMonthlyOriginalMobile.htm for mobile-web. Only goes till June 2015. Data July 2015 is automatically obtained from API
+
 # -- English desktop
 insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values
   ('[aggregate]','en','desktop','201506',4622000000),

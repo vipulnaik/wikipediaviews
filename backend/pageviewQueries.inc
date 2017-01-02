@@ -199,7 +199,7 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
     $dataStartMap = dataStartMap();
   }
   # Short circuit computation if we know we cannot retrieve anything
-  if (($month < '201507' and in_array($drilldown, array("mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider"))) or ($month < 201610 and $drilldown == 'cumulative-facebook-shares')) {
+  if (($month < '201507' and in_array($drilldown, array("mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider")) and ($drilldown != "mobile-web" or $page != "[aggregate]" or $language != "en")) or ($month < 201610 and $drilldown == 'cumulative-facebook-shares')) {
     $irretrievableCount++;
     return $cannotRetrieveMessage;
   } elseif ($month.'31' < $dataStartMap[$language]) {

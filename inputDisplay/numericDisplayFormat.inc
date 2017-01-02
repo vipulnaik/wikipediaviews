@@ -12,8 +12,8 @@
 
 print '<tr><td>Enter the format in which you want the numbers displayed (<strong>ONLY HTML DISPLAYS</strong>)</td><td>';
 print '<select name="numericDisplayFormat">';
-print '<option value="kmb"';
-if (($formdata == false) or ($formdata == true and $numericDisplayFormat=='kmb')) 
+print '<option value="kmbt"';
+if (($formdata == false) or ($formdata == true and $numericDisplayFormat=='kmbt')) 
   { 
     print ' selected="selected"';
   }

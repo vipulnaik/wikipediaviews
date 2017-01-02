@@ -175,57 +175,47 @@ function numericDisplay($number,$numericDisplayFormat) {
     {
       return $number;
     }
-  if ($numericDisplayFormat=='kmb')
+  if ($numericDisplayFormat=='kmbt')
     {
-      return numericDisplaykmb($number);
+      return numericDisplayKMBT($number);
     }
   if ($numericDisplayFormat=='log')
     {
-      return numericDisplaylog($number);
+      return numericDisplayLog($number);
     }
   return $number;
 }
 
-function numericDisplaykmb($number) {
+function numericDisplayKMBT($number) {
   $number_int = intval($number);
-  if ($number_int < 1000)
-    {
-      return $number;
-    }
-  if ($number_int >= 1000 and $number_int < 9950)
-    {
-      $number_k = round((floatval ($number_int))/1000,1);
-      return (strval($number_k)."K");
-    }
-  if ($number_int >= 9950 and $number_int < 999500)
-    {
-      $number_k = round((floatval ($number_int))/1000,0);
-      return (strval($number_k)."K");
-    }
-  if ($number_int >= 999500 and $number_int < 9950000)
-    {
-      $number_m = round((floatval ($number_int))/1000000,1);
-      return (strval($number_m)."M");
-    }
-  if ($number_int >= 9950000 and $number_int < 999500000)
-    {
-      $number_m = round((floatval ($number_int))/1000000,0);
-      return (strval($number_m)."M");
-    }
-  if ($number_int >= 999500000 and $number_int < 9950000000)
-    {
-      $number_b = round((floatval ($number_int))/1000000000,1);
-      return (strval($number_b)."B");
-    }
-  if ($number_int >= 9950000000)
-    {
-      $number_b = round((floatval ($number_int))/1000000000,0);
-      return (strval($number_b)."B");
-    }
+  if ($number_int < 1000) {
+    return $number;
+  } elseif ($number_int >= 1000 and $number_int < 9950) {
+    $number_k = round((floatval ($number_int))/1000,1);
+    return (strval($number_k)."K");
+  } elseif ($number_int >= 9950 and $number_int < 999500) {
+    $number_k = round((floatval ($number_int))/1000,0);
+    return (strval($number_k)."K");
+  } elseif ($number_int >= 999500 and $number_int < 9950000) {
+    $number_m = round((floatval ($number_int))/1000000,1);
+    return (strval($number_m)."M");
+  } elseif ($number_int >= 9950000 and $number_int < 999500000) {
+    $number_m = round((floatval ($number_int))/1000000,0);
+    return (strval($number_m)."M");
+  } elseif ($number_int >= 999500000 and $number_int < 9950000000) {
+    $number_b = round((floatval ($number_int))/1000000000,1);
+    return (strval($number_b)."B");
+  } elseif ($number_int >= 9950000000 and $number_int < 995000000000) {
+    $number_b = round((floatval ($number_int))/1000000000,0);
+    return (strval($number_b)."B");
+  } elseif ($number_int >= 995000000000 and $number_int < 9950000000000) {
+    $number_t = round((floatval ($number_int))/1000000000000,1);
+    return (strval($number_t)."T");
+  }
   return $number;
 }
 
-function numericDisplaylog($number) {
+function numericDisplayLog($number) {
   if ($number == 0) return "-infinity";
   return round(log($number,10),1);
 }

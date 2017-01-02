@@ -56,10 +56,10 @@ if (!empty($_REQUEST['normalization'])) {
 }
 
 ##Numeric display format
-$numericDisplayFormat = 'kmb';
+$numericDisplayFormat = 'kmbt';
 if (!empty($_REQUEST['numericDisplayFormat'])) {
   $numericDisplayFormat = $_REQUEST['numericDisplayFormat'];
-  if ($numericDisplayFormat != 'kmb') {
+  if ($numericDisplayFormat != 'kmbt') {
     $advancedOptionUrlComponent .= '&numericDisplayFormat='.$numericDisplayFormat;
   }
 }

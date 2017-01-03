@@ -144,16 +144,16 @@ function getApiPageviewsUrl($page,$month,$language,$drilldown) {
   }
 }
 
-function getannualpageviewsurl($page,$year,$language,$drilldown="desktop") {
-  return "https://wikipediaviews.org/displayviewsformultiplemonths.php?year=".$year."&page=".$page."&language=".$language."&drilldown=".$drilldown;
+function getAnnualPageviewsUrl($page,$year,$language,$drilldown="desktop") {
+  return "https://wikipediaviews.org/displayviewsformultiplemonths.php?year=".$year."&page=".urlencode($page)."&language=".$language."&drilldown=".$drilldown;
 }
 
-function gettagviewsurl($tag,$month,$language,$drilldown="desktop") {
-  return "https://wikipediaviews.org/displayviewsforonemonth.php?month=".$month."&tag=".$tag."&language=".$language."&drilldown=".$drilldown;
+function getTagViewsUrl($tag,$month,$language,$drilldown="desktop") {
+  return "https://wikipediaviews.org/displayviewsforonemonth.php?month=".$month."&tag=".urlencode($tag)."&language=".$language."&drilldown=".$drilldown;
 }
 
-function getannualtagviewsurl($tag,$year,$language,$drilldown="desktop") {
-  return "https://wikipediaviews.org/displayviewsformultipleyears.php?year=".$year."&tag=".$tag."&language=".$language."&drilldown=".$drilldown;
+function getAnnualTagViewsUrl($tag,$year,$language,$drilldown="desktop") {
+  return "https://wikipediaviews.org/displayviewsformultipleyears.php?year=".$year."&tag=".urlencode($tag)."&language=".$language."&drilldown=".$drilldown;
 }
 
 function getPageUrl($page,$language) {

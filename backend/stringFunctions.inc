@@ -75,7 +75,19 @@ function getShortDescriptor($drilldown) {
 function getPageviewsUrl($page,$month,$language,$drilldown) {
   if ($drilldown == "cumulative-facebook-shares") {
     return getFacebookShareCountUrl($page,$month,$language);
-  } else if ($month < 201507 and $drilldown == "desktop") {
+  } else if ($month < '201507' and $page == "[aggregate]") {
+    switch ($drilldown) {
+      case "desktop" :
+        return "https://stats.wikimedia.org/EN/TablesPageViewsMonthlyOriginal.htm";
+        break;
+      case "mobile-web" :
+        return "https://stats.wikimedia.org/EN/TablesPageViewsMonthlyOriginalMobile.htm";
+        break;
+      default :
+        return "";
+        break;  
+    }
+  } else if ($month < '201507' and $drilldown == "desktop") {
     return getSgsPageviewsUrl($page,$month,$language);
   } else {
     return getApiPageviewsUrl($page,$month,$language,$drilldown);

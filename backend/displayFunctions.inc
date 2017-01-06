@@ -115,7 +115,7 @@ function totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$month
 function printMonthViewCount($page,$month,$language,$drilldown,$viewcount,$numericDisplayFormat) {
   if ($drilldown == "all") {
     return '<td align="right"><strong><a title="'.monthviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></strong></td>';
-  } elseif (substr($drilldown, 0, 9) == "referrer:") {
+  } elseif (substr($drilldown, 0, 9) == "referrer:" or ($page == "[aggregate]" and $month < '201507' and $drilldown != "desktop" and $drilldown != "mobile-web")) {
     return '<td align="right"><a title="'.monthviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';
   } elseif ($drilldown == "cumulative-facebook-shares") {
     return '<td align="right"><a href="'.str_replace("/v2.8","", getPageviewsUrl($page,$month,$language,$drilldown)).'" title="'.monthviewtooltip($viewcount).'">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';

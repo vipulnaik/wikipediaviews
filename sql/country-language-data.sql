@@ -291,6 +291,109 @@ insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcoun
   ('India','ml','country-total','201512',845000),
   ('India','kn','country-total','201512',544000);
 
+# -- 2016-06 data top countries
+
+insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values
+  ('United States','en','country-total','201606',3014592000),
+  ('United States','es','country-total','201606',41348000),
+  ('United States','pt','country-total','201606',33663000),
+  ('United States','zh','country-total','201606',25789000),
+  ('United States','id','country-total','201606',23032000),
+  ('United States','fr','country-total','201606',20134000),
+  ('United States','de','country-total','201606',16543000),
+  ('United States','ru','country-total','201606',13692000),
+  ('United States','ja','country-total','201606',9064000),
+  ('United States','it','country-total','201606',6069000),
+  ('United States','fa','country-total','201606',4638000),
+  ('United States','ko','country-total','201606',4431000),
+  ('United States','ar','country-total','201606',4222000),
+  ('United States','simple','country-total','201606',3518000);
+
+insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values
+  ('Japan','ja','country-total','201606',1068624000),
+  ('Japan','en','country-total','201606',40792000),
+  ('Japan','zh','country-total','201606',7209000),
+  ('Japan','fr','country-total','201606',2002000),
+  ('Japan','de','country-total','201606',1564000),
+  ('Japan','es','country-total','201606',1098000);
+
+insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values
+  ('Germany','de','country-total','201606',776655000),
+  ('Germany','en','country-total','201606',146789000),
+  ('Germany','ru','country-total','201606',15132000),
+  ('Germany','fr','country-total','201606',12205000),
+  ('Germany','pl','country-total','201606',11156000),
+  ('Germany','it','country-total','201606',6717000),
+  ('Germany','es','country-total','201606',5342000),
+  ('Germany','pt','country-total','201606',3158000),
+  ('Germany','tr','country-total','201606',3147000),
+  ('Germany','zh','country-total','201606',3036000),
+  ('Germany','ar','country-total','201606',1978000),
+  ('Germany','nl','country-total','201606',1836000),
+  ('Germany','ja','country-total','201606',1748000),
+  ('Germany','fa','country-total','201606',1136000),
+  ('Germany','hu','country-total','201606',1003000);
+
+insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values
+  ('United Kingdom','en','country-total','201606',715273000),
+  ('United Kingdom','pl','country-total','201606',5560000),
+  ('United Kingdom','de','country-total','201606',4183000),
+  ('United Kingdom','fr','country-total','201606',4110000),
+  ('United Kingdom','zh','country-total','201606',3709000),
+  ('United Kingdom','it','country-total','201606',3260000),
+  ('United Kingdom','es','country-total','201606',2733000),
+  ('United Kingdom','ru','country-total','201606',2526000),
+  ('United Kingdom','ja','country-total','201606',1154000),
+  ('United Kingdom','nl','country-total','201606',941000),
+  ('United Kingdom','simple','country-total','201606',909000),
+  ('United Kingdom','ar','country-total','201606',908000),
+  ('United Kingdom','fa','country-total','201606',864000),
+  ('United Kingdom','pt','country-total','201606',724000);
+
+insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values
+  ('Russia','ru','country-total','201606',556691000),
+  ('Russia','en','country-total','201606',40303000),
+  ('Russia','de','country-total','201606',2438000),
+  ('Russia','fr','country-total','201606',1047000),
+  ('Russia','uk','country-total','201606',704000),
+  ('Russia','es','country-total','201606',687000);
+
+insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values
+  ('France','fr','country-total','201606',454892000),
+  ('France','en','country-total','201606',83169000),
+  ('France','de','country-total','201606',5397000),
+  ('France','ru','country-total','201606',4763000),
+  ('France','es','country-total','201606',3990000),
+  ('France','it','country-total','201606',2972000),
+  ('France','pt','country-total','201606',2142000),
+  ('France','nl','country-total','201606',1995000),
+  ('France','zh','country-total','201606',1826000),
+  ('France','pl','country-total','201606',1283000),
+  ('France','ja','country-total','201606',993000),
+  ('France','ar','country-total','201606',963000),
+  ('France','tr','country-total','201606',664000),
+  ('France','fa','country-total','201606',661000);
+
+insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values
+  ('Italy','it','country-total','201606',467346000),
+  ('Italy','en','country-total','201606',53924000),
+  ('Italy','de','country-total','201606',5136000),
+  ('Italy','fr','country-total','201606',2786000),
+  ('Italy','es','country-total','201606',2587000),
+  ('Italy','ru','country-total','201606',1431000),
+  ('Italy','zh','country-total','201606',1033000),
+  ('Italy','pl','country-total','201606',516000);
+
+insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values
+  ('India','en','country-total','201606',505299000),
+  ('India','hi','country-total','201606',12354000),
+  ('India','simple','country-total','201606',1936000),
+  ('India','ta','country-total','201606',1935000),
+  ('India','ml','country-total','201606',1152000),
+  ('India','te','country-total','201606',1008000),
+  ('India','mr','country-total','201606',992000),
+  ('India','kn','country-total','201606',661000),
+  ('India','bn','country-total','201606',557000);
 
 
 

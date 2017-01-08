@@ -73,7 +73,9 @@ function getShortDescriptor($drilldown) {
 }
 
 function getPageviewsUrl($page,$month,$language,$drilldown) {
-  if ($drilldown == "cumulative-facebook-shares") {
+  if ($drilldown == "country-total") {
+    return getCountryTotalBreakdown($month);
+  } else if ($drilldown == "cumulative-facebook-shares") {
     return getFacebookShareCountUrl($page,$month,$language);
   } else if ($month < '201507' and $page == "[aggregate]") {
     switch ($drilldown) {
@@ -99,6 +101,10 @@ function getFacebookShareCountUrl($page, $month, $language) {
   $urlEncodedPage = urlencode($preEncodingPage);
   $fbUrl = "https://graph.facebook.com/v2.8/?id=" . $urlEncodedPage;
   return $fbUrl;
+}
+
+function getCountryTotalBreakdown($month) {
+  return "https://stats.wikimedia.org/archive/squid_reports/".substr($month,0,4)."-".substr($month,4,6)."/SquidReportPageViewsPerCountryBreakdownHuge.htm";
 }
 
 function getSgsPageviewsUrl($page,$month,$language) {

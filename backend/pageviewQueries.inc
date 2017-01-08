@@ -107,6 +107,10 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   if (count($dataStartMap) == 0) {
     $dataStartMap = dataStartMap();
   }
+  if ($drilldown == "country-total") {
+    $irretrievableCount++;
+    return $cannotRetrieveMessage;
+  }
   if (substr($drilldown, 0, 9) == "referrer:") {
     return getClickstreamData($page, $month, $language, $drilldown);
   } elseif ($month < '201507' and in_array($drilldown, array("mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider"))) {

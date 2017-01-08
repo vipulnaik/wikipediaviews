@@ -18,4 +18,5 @@
   <option value="referrer:other-wikipedia" <?php if ($formdata==true and in_array("referrer:other-wikipedia", $drilldownList)) {print 'selected="selected"';} ?>>referrer:other-wikipedia (clickstream, en, months 201501, 201502, 201602, 201603)</option>
   <option value="referrer:other-yahoo" <?php if ($formdata==true and in_array("referrer:other-yahoo", $drilldownList)) {print 'selected="selected"';} ?>>referrer:other-yahoo (clickstream, en, months 201501, 201502, 201602, 201603)</option>
   <option value="referrer:other" <?php if ($formdata==true and in_array("referrer:other", $drilldownList)) {print 'selected="selected"';} ?>>referrer:other (clickstream, en, month 201501)</option>
+  <option value="country-total" <?php if ($formdata==true and in_array("country-total", $drilldownList)) {print 'selected="selected"';} ?>>country-total (201412 to 201610, partly filled)</option>
 </select></td></tr>

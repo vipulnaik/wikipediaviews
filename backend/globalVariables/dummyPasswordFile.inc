@@ -1,5 +1,6 @@
 <?php
 $mysqli = new mysqli("localhost", "database name", "password", "username");
+$mysqli->set_charset("utf8");
 $imagesPath = "folder to store images"
 $generateGraphCmdBase = "python3.5 (project folder)/python/graph.py --vertical_lines --top 30 ";
 $generateDistribCmdBase = "python3.5 (project folder)/python/distrib.py ";

@@ -477,6 +477,30 @@ insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcoun
   ('France','fa','country-total','201609',972000),
 ...
 
+insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values
+  ('Russia','ru','country-total','201609',569892000),
+  ('Russia','en','country-total','201609',43009000),
+  ('Russia','de','country-total','201609',1465000),
+  ('Russia','fr','country-total','201609',1009000),
+  ('Russia','uk','country-total','201609',669000),
+  ('Russia','es','country-total','201609',662000);
+
+insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values
+  ('India','en','country-total','201609',507134000),
+  ('India','hi','country-total','201609',13256000),
+  ('India','simple','country-total','201609',2062000),
+  ('India','mr','country-total','201609',2055000),
+  ('India','ta','country-total','201609',1956000),
+  ('India','ru','country-total','201609',1592000),
+  ('India','ml','country-total','201609',1022000),
+  ('India','de','country-total','201609',802000),
+  ('India','bn','country-total','201609',688000),
+  ('India','kn','country-total','201609',677000);
+
+insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values
+  ('Italy','it','country-total','201609',443288000),
+  ('Italy','en','country-total','201609',60537000),
+  ('Italy','de','country-total','201609',5924000),
 # -- 2016-10 data top countries
 
 insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values

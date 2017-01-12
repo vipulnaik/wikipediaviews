@@ -450,6 +450,57 @@ insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcoun
   ('United Kingdom','zh','country-total','201608',3427000),
   ('United Kingdom','ru','country-total','201608',3389000),
   ('United Kingdom','it','country-total','201608',3340000),
+  ('United Kingdom','es','country-total','201608',2661000),
+  ('United Kingdom','ja','country-total','201608',1194000),
+  ('United Kingdom','fa','country-total','201608',1124000),
+  ('United Kingdom','nl','country-total','201608',1016000),
+  ('United Kingdom','ar','country-total','201608',1016000);
+
+insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values
+  ('Russia','ru','country-total','201608',725017000),
+  ('Russia','en','country-total','201608',41514000),
+  ('Russia','de','country-total','201608',1569000),
+  ('Russia','fr','country-total','201608',828000);
+
+insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values
+  ('India','en','country-total','201608',662135000),
+  ('India','hi','country-total','201608',13913000),
+  ('India','ru','country-total','201608',3813000),
+  ('India','ta','country-total','201608',2399000),
+  ('India','simple','country-total','201608',2267000),
+  ('India','te','country-total','201608',1984000),
+  ('India','mr','country-total','201608',1691000),
+  ('India','ml','country-total','201608',1406000),
+  ('India','kn','country-total','201608',920000),
+  ('India','bn','country-total','201608',685000);
+
+insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values
+  ('France','fr','country-total','201608',431974000),
+  ('France','en','country-total','201608',217402000),
+  ('France','de','country-total','201608',6622000),
+  ('France','ru','country-total','201608',5270000),
+  ('France','es','country-total','201608',3699000),
+  ('France','it','country-total','201608',2994000),
+  ('France','pt','country-total','201608',2724000),
+  ('France','nl','country-total','201608',1797000),
+  ('France','zh','country-total','201608',1736000),
+  ('France','pl','country-total','201608',1627000),
+  ('France','hu','country-total','201608',1570000),
+  ('France','ja','country-total','201608',982000),
+  ('France','ar','country-total','201608',935000),
+  ('France','tr','country-total','201608',743000),
+  ('France','fa','country-total','201608',664000);
+
+insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values
+  ('Italy','it','country-total','201608',435168000),
+  ('Italy','en','country-total','201608',93827000),
+  ('Italy','de','country-total','201608',5948000),
+  ('Italy','fr','country-total','201608',3358000),
+  ('Italy','ru','country-total','201608',2899000),
+  ('Italy','es','country-total','201608',2297000),
+  ('Italy','zh','country-total','201608',793000),
+  ('Italy','nl','country-total','201608',713000),
+  ('Italy','pl','country-total','201608',568000);
 
 # -- 2016-09 data top countries
 
@@ -531,6 +582,12 @@ insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcoun
   ('France','uz','country-total','201609',1015000),
   ('France','cs','country-total','201609',1013000),
   ('France','fa','country-total','201609',972000),
+  ('France','br','country-total','201609',931000),
+  ('France','be','country-total','201609',899000),
+  ('France','to','country-total','201609',886000),
+  ('France','ba','country-total','201609',789000),
+  ('France','sw','country-total','201609',784000),
+  ('France','ca','country-total','201609',760000),
 ...
 
 insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values

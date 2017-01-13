@@ -548,6 +548,21 @@ insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcoun
   ('Germany','hu','country-total','201609',958000);
 
 insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values
+  ('United Kingdom','en','country-total','201609',713698000),
+  ('United Kingdom','pl','country-total','201609',4897000),
+  ('United Kingdom','de','country-total','201609',4057000),
+  ('United Kingdom','fr','country-total','201609',3678000),
+  ('United Kingdom','zh','country-total','201609',3604000),
+  ('United Kingdom','it','country-total','201609',2943000),
+  ('United Kingdom','ru','country-total','201609',2625000),
+  ('United Kingdom','es','country-total','201609',2535000),
+  ('United Kingdom','ja','country-total','201609',1081000),
+  ('United Kingdom','fa','country-total','201609',1042000),
+  ('United Kingdom','simple','country-total','201609',1014000),
+  ('United Kingdom','ar','country-total','201609',908000),
+  ('United Kingdom','nl','country-total','201609',820000);
+
+insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values
   ('France','fr','country-total','201609',468028000),
   ('France','en','country-total','201609',137033000),
   ('France','ru','country-total','201609',7551000),

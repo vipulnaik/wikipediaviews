@@ -588,7 +588,9 @@ insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcoun
   ('France','ba','country-total','201609',789000),
   ('France','sw','country-total','201609',784000),
   ('France','ca','country-total','201609',760000),
-...
+  ('France','sl','country-total','201609',758000),
+  ('France','ss','country-total','201609',752000),
+  ('France','as','country-total','201609',680000);
 
 insert into viewcountsbymonth(pagename,`language`,drilldown,`monthfull`,viewcount) values
   ('Russia','ru','country-total','201609',569892000),

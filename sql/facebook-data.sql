@@ -1,0 +1,1 @@
+insert into wantedviewcountsbymonth(pagename, monthfull, `language`, drilldown, status) select pagename, '201701', `language`, 'cumulative-facebook-shares', 'wanted' from (select distinct pagename, `language` from viewcountsbymonth)

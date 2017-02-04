@@ -521,9 +521,9 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
         if ($pageOrTagAdvice=='page') {
           $headerString .= '<th>'.$shortDescriptor.' of page <a href="'. getPageUrl($pageOrTag,$language). '" title="'.$pageOrTag.' (read page on Wikipedia)">' . $pageOrTag.'</a>';
         } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
-          $headerString .= '<th>'.$shortDescriptor.' of pages with tag <a href="https://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$pageOrTag.'&language='.$language.'&drilldown='.$drilldown.'&allmonths=allmonths">'.$pageOrTag.'</a>';
+          $headerString .= '<th>'.$shortDescriptor.' of pages with tag <a href="https://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.urlencode($pageOrTag).'&language='.$language.'&drilldown='.$drilldown.'&allmonths=allmonths">'.$pageOrTag.'</a>';
         } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
-          $headerString .= '<th>'.$shortDescriptor.' of pages with tag <a href="https://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageOrTag.'&language='.$language.'&drilldown='.$drilldown.'&allyears=allyears">'.$pageOrTag.'</a>';
+          $headerString .= '<th>'.$shortDescriptor.' of pages with tag <a href="https://wikipediaviews.org/displayviewsformultipleyears.php?tag='.urlencode($pageOrTag).'&language='.$language.'&drilldown='.$drilldown.'&allyears=allyears">'.$pageOrTag.'</a>';
         }
         if (count($languageList) > 1) {
           $headerString .= ", language ".$language;
@@ -547,7 +547,7 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
           }
           $headerString .= ', sum over drilldowns</th>';
         } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
-          $headerString .= '<th>'.$shortDescriptor.' of pages with tag <a href="https://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$pageOrTag.'&language='.$language.'&drilldown='.$drilldown.'&allyears=allyears">'.$pageOrTag.'</a>';
+          $headerString .= '<th>'.$shortDescriptor.' of pages with tag <a href="https://wikipediaviews.org/displayviewsformultipleyears.php?tag='.urlencode($pageOrTag).'&language='.$language.'&drilldown='.$drilldown.'&allyears=allyears">'.$pageOrTag.'</a>';
           if (count($languageList) > 1) {
             $headerString .= ', language '.$language;
           }

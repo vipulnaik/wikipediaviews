@@ -52,14 +52,15 @@ function getTagTotal($tag,$language,$drilldown,$monthList,$online=true,$normaliz
   global $attemptedExternalQueryCount;
   global $attemptedExternalQueryLimit;
   global $tagProperQueryLimit;
-  global $irretrievableCount;
-  global $unavailableCount;
+  global $irretrievableCount; # Number of tag-language-drilldown-month combinations that are irretrievable
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
-
+  $pageList = getPageListByTag($tag, $language);
+  $pagecount = count($pageList);
   $retrievableMonthList = [];
   $irretrievableMonthList = [];
+  $queryMonthList = [];
   foreach($monthList as $month) {
     if ($drilldown == "desktop" or ($month >= '201507' and $drilldown != "cumulative-facebook-shares") or ($month >= '201610')) {
       array_push($retrievableMonthList, $month);
@@ -71,37 +72,51 @@ function getTagTotal($tag,$language,$drilldown,$monthList,$online=true,$normaliz
     $monthTotal[$month] = 'unavailable';
   }
   foreach($irretrievableMonthList as $month) {
+    $irretrievableCount++;
     $monthTotal[$month] = $cannotRetrieveMessage;
   }
   $retrievableMonthListAsQuotedCsvString = convertListToQuotedCsvString($retrievableMonthList);
-  $selectQuery = "select viewcount,querytime from viewcountsbytagandmonth where tag=\"".$tag."\" and monthfull in'".$retrievableMonthListAsQuotedCsvString."' and language='".$language."' and drilldown='".$drilldown."' limit 1;";
+  $selectQuery = "select viewcount,pagecount,querytime from viewcountsbytagandmonth where tag=\"".$tag."\" and monthfull in'".$retrievableMonthListAsQuotedCsvString."' and language='".$language."' and drilldown='".$drilldown."' limit 1;";
   $result = $mysqli -> query($selectQuery);
   for ($i = 0; $i < $result -> num_rows; $i++) {
     $row = $result -> fetch_assoc();
-    $monthTotal
+    if ($row['pagecount'] == count($pageList)) { # Quick sanity check that this is the right tag and no additions were made to it; not foolproof
+      $monthTotal[$row['monthfull']] = $row['viewcount'];
+    }
+  }
+
+  # Now add all the months that didn't get filled in, to a query month list
+  foreach($retrievableMonthList as $month) {
+    if ($monthTotal[$month] == 'unavailable') {
+      array_push($queryMonthList, $month)
+    }
   }
 
   if ($online == true and $attemptedExternalQueryCount < $attemptedExternalQueryLimit and count($pageList) * count($monthList) < $tagProperQueryLimit) {
-    
-    $viewCountArray = viewCountArrayByMonth($pageList,array($language),array($drilldown),$retrievableMonthList,$online,$normalization);
-    $tap = totalsAndPercentages($pageList,array($language),array($drilldown),$monthList,$viewCountArray);
+    $viewCountArray = viewCountArrayByMonth($pageList,array($language),array($drilldown),$queryMonthList,$online,$normalization);
+    $tap = totalsAndPercentages($pageList,array($language),array($drilldown),$queryMonthList,$viewCountArray);
     $pageviewRetrievedMonthTotal = $tap["monthOrYearTotal"];
-    
-    return $monthTotal;
+    foreach($queryMonthList as $month) {
+      $viewcount = $pageviewRetrievedMonthTotal[$month];
+      $monthTotal[$month] = $viewcount;
+      if ($attemptedExternalQueryCount < $attemptedExternalQueryLimit) {
+        $deleteQuery = "delete from viewcountsbytagandmonth where tag=\"".$tag."\" and language='$language' and drilldown='$drilldown' and month='$month'";
+        $deleteResult = $mysqli -> query($deleteQuery);
+        $insertQuery = "insert into viewcountsbytagandmonth(tag, language, drilldown, monthfull, viewcount, pagecount) values(\"".$tag."\",'$language','$drilldown','$month',$viewcount,$pagecount)";
+        $insertResult = $mysqli -> query($insertQuery);
+      }
+    }
   } else {
     $pageListAsQuotedCsvString = convertListToQuotedCsvString($pageList);
-    $monthListAsQuotedCsvString = convertListToQuotedCsvString($monthList);
-    foreach($retrievableMonthList as $month) {
-      $monthTotal[$month] = $exceededQueryLimitMessage;
-    }
-    $tagTotalQuery = "select monthfull,coalesce(sum(viewcount),0) as total from viewcountsbymonth where pagename in (".$pageListAsQuotedCsvString.") and monthfull in (".$monthListAsQuotedCsvString.") and language='$language' and drilldown='$drilldown' group by monthfull;";
+    $queryMonthListAsQuotedCsvString = convertListToQuotedCsvString($queryMonthList);
+    $tagTotalQuery = "select monthfull,coalesce(sum(viewcount),0) as total from viewcountsbymonth where pagename in (".$pageListAsQuotedCsvString.") and monthfull in (".$queryMonthListAsQuotedCsvString.") and language='$language' and drilldown='$drilldown' group by monthfull;";
     $tagTotalResult = $mysqli->query($tagTotalQuery);
     for($i = 0; $i < $tagTotalResult -> num_rows; $i++) {
       $row = $tagTotalResult -> fetch_assoc();
       $monthTotal[$row['monthfull']] = $row['total'];
     }
-    return $monthTotal;
   }
+  return $monthTotal;
 }
 
 function getTagTotalByYear($tag,$language,$drilldown,$yearList,$online=true,$normalization='') {

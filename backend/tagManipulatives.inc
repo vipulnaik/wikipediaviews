@@ -52,6 +52,8 @@ function getTagTotal($tag,$language,$drilldown,$monthList,$online=true,$normaliz
   global $attemptedExternalQueryCount;
   global $attemptedExternalQueryLimit;
   global $tagProperQueryLimit;
+  global $irretrievableCount;
+  global $unavailableCount;
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
@@ -65,21 +67,26 @@ function getTagTotal($tag,$language,$drilldown,$monthList,$online=true,$normaliz
       array_push($irretrievableMonthList, $month);
     }
   }
+  foreach($retrievableMonthList as $month) {
+    $monthTotal[$month] = 'unavailable';
+  }
+  foreach($irretrievableMonthList as $month) {
+    $monthTotal[$month] = $cannotRetrieveMessage;
+  }
   $retrievableMonthListAsQuotedCsvString = convertListToQuotedCsvString($retrievableMonthList);
   $selectQuery = "select viewcount,querytime from viewcountsbytagandmonth where tag=\"".$tag."\" and monthfull in'".$retrievableMonthListAsQuotedCsvString."' and language='".$language."' and drilldown='".$drilldown."' limit 1;";
   $result = $mysqli -> query($selectQuery);
   for ($i = 0; $i < $result -> num_rows; $i++) {
     $row = $result -> fetch_assoc();
+    $monthTotal
   }
 
   if ($online == true and $attemptedExternalQueryCount < $attemptedExternalQueryLimit and count($pageList) * count($monthList) < $tagProperQueryLimit) {
+    
     $viewCountArray = viewCountArrayByMonth($pageList,array($language),array($drilldown),$retrievableMonthList,$online,$normalization);
     $tap = totalsAndPercentages($pageList,array($language),array($drilldown),$monthList,$viewCountArray);
-    $monthTotal = $tap["monthOrYearTotal"];
-    foreach($irretrievableMonthList as $month) {
-      $monthTotal[$month] = $cannotRetrieveMessage;
-    }
-
+    $pageviewRetrievedMonthTotal = $tap["monthOrYearTotal"];
+    
     return $monthTotal;
   } else {
     $pageListAsQuotedCsvString = convertListToQuotedCsvString($pageList);

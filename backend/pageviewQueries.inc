@@ -331,7 +331,7 @@ function getannualpageviews($page,$year,$language,$drilldown) {
   return getAnnualPageviewsFromDb($page,$year,$language,$drilldown,true);
 }
 
-function viewCountArrayByMonth_raw($pageList,$languageList,$drilldownList,$monthList,$online=true,$normalization='') {
+function viewCountArrayByMonth_raw($pageList,$languageList,$drilldownList,$monthList,$online=true,$normalization='',$shortcutTag='') {
   global $mysqli;
   global $attemptedExternalQueryCount;
   global $attemptedExternalQueryLimit;
@@ -360,7 +360,12 @@ function viewCountArrayByMonth_raw($pageList,$languageList,$drilldownList,$month
   $monthListAsQuotedCsvString = convertListToQuotedCsvString($monthList);
   $languageListAsQuotedCsvString = convertListToQuotedCsvString($languageList);
   $drilldownListAsQuotedCsvString = convertListToQuotedCsvString($drilldownList);
-  $selectQuery = "select pagename,monthfull,language,drilldown,viewcount,querytime from viewcountsbymonth where pagename in (".$pageListAsQuotedCsvString.") and monthfull in (".$monthListAsQuotedCsvString.") and language in (".$languageListAsQuotedCsvString.") and drilldown in (".$drilldownListAsQuotedCsvString.");";
+  if ($shortcutTag != '') {
+    $pageListReferenceQuery = "select distinct pagename from pagetags where tag=\"".$shortcutTag."\" and language='$language'";
+  } else {
+    $pageListReferenceQuery = $pageListAsQuotedCsvString;
+  }
+  $selectQuery = "select pagename,monthfull,language,drilldown,viewcount,querytime from viewcountsbymonth where pagename in (".$pageListReferenceQuery.") and monthfull in (".$monthListAsQuotedCsvString.") and language in (".$languageListAsQuotedCsvString.") and drilldown in (".$drilldownListAsQuotedCsvString.");";
   $result = $mysqli->query($selectQuery);
   for ($i = 0;$i < $result->num_rows;$i++) {
     $row = $result->fetch_assoc();
@@ -417,12 +422,12 @@ function viewCountArrayByMonth_raw($pageList,$languageList,$drilldownList,$month
   return $viewCountArray;
 }
 
-function viewCountArrayByMonth($pageList,$languageList,$drilldownList,$monthList,$online,$normalization='') {
+function viewCountArrayByMonth($pageList,$languageList,$drilldownList,$monthList,$online,$normalization='',$shortcutTag='') {
   global $exceededQueryLimitMessage;
   global $cannotRetrieveMessage;
   global $numberofdays_allmonths;
   global $mostRecentMonth;
-  $viewCountArray = viewCountArrayByMonth_raw($pageList,$languageList,$drilldownList,$monthList,$online,$normalization);
+  $viewCountArray = viewCountArrayByMonth_raw($pageList,$languageList,$drilldownList,$monthList,$online,$normalization,$shortcutTag);
   if ($normalization == '') {
     return $viewCountArray;
   } elseif ($normalization == 'dailyaverage') {
@@ -438,8 +443,8 @@ function viewCountArrayByMonth($pageList,$languageList,$drilldownList,$monthList
       }
     }
   } elseif ($normalization == 'aggregate') {
-    $aggregateViewCountArray = viewCountArrayByMonth(array("[aggregate]"),$languageList,$drilldownList,$monthList, true, '');
-    $mostRecentAggregateViewCountArray = viewCountArrayByMonth(array("[aggregate]"),$languageList, $drilldownList, array($mostRecentMonth), true, '');
+    $aggregateViewCountArray = viewCountArrayByMonth(array("[aggregate]"),$languageList,$drilldownList,$monthList, true, '', $shortcutTag);
+    $mostRecentAggregateViewCountArray = viewCountArrayByMonth(array("[aggregate]"),$languageList, $drilldownList, array($mostRecentMonth), true, '', $shortcutTag);
     foreach($pageList as $page) {
       foreach ($languageList as $language) {
         foreach ($drilldownList as $drilldown) {

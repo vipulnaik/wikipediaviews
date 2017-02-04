@@ -140,7 +140,7 @@ function printTagViewCountByYear($tag,$year,$language,$drilldown,$viewcount,$num
   return '<td align="right"><a href="'.getAnnualTagViewsUrl($tag,$year,$language,$drilldown).'" title="'.$viewcount.' (click for data on individual pages)">'.numericDisplay($viewcount,$numericDisplayFormat).'</a></td>';
 }
 
-function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month',$sort='desc') {
+function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month',$sort='desc',$shortcutTag='') {
   global $pageOrTagTotal;
   global $timeTaken;
   $startTime = microtime(true);
@@ -153,7 +153,7 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
   }
   #Collect all the numbers that need to be printed first
   if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
-    $viewCountArray = viewCountArrayByMonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
+    $viewCountArray = viewCountArrayByMonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization,$shortcutTag);
   } elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year') {
     $viewCountArray = viewCountArrayByYear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
   } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
@@ -441,7 +441,7 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
   return true;
 }
 
-function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month',$sort='desc') {
+function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month',$sort='desc',$shortcutTag='') {
   global $timeTaken;
   global $pageOrTagTotal;
   $startTime = microtime(true);
@@ -454,7 +454,7 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
   }
   #Collect all the numbers that need to be printed first
   if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
-    $viewCountArray = viewCountArrayByMonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
+    $viewCountArray = viewCountArrayByMonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization,$shortcutTag);
   } elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year') {
     $viewCountArray = viewCountArrayByYear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
   } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
@@ -732,7 +732,7 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
   return true;
 }
 
-function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month') {
+function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month',$shortcutTag='') {
   global $graphTimeTaken;
   global $imagesPath;
   global $generateGraphCmdBase;
@@ -749,15 +749,16 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     $verticalLineExplainer = ' Since June 2015 is between the beginning and end of your time interval, you will see a vertical red line for that month. This is because June 2015 is the last month for which we use stats.grok.se data as our source for Wikipedia Views, and also because, starting July 2015, we have data for the drilldowns of mobile web, mobile app, desktop spider, and mobile web spider. See the <a href="/about">about page</a> for more information.';
   }
   #Collect all the numbers that need to be printed first
-  if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month')
-    $viewCountArray = viewCountArrayByMonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
-  elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year')
+  if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
+    $viewCountArray = viewCountArrayByMonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization,$shortcutTag);
+  } elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year') {
     $viewCountArray = viewCountArrayByYear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
-  elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month')
+  } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
     $viewCountArray = viewCountArrayByTagAndMonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
-  elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year')
+  } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
     $viewCountArray = viewCountArraybytagandyear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
-
+  }
+  
   $tap = totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$viewCountArray);
   $grandTotal = $tap["grandTotal"];
   $pageOrTagCumMonthOrYearTotal = $tap["pageOrTagCumMonthOrYearTotal"];
@@ -1204,51 +1205,6 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
 
   $graphEndTime = microtime(true);
   $graphTimeTaken = $graphEndTime - $graphStartTime;
-}
-
-function printPageviewsForMonthOrYearListAsCpi($pageOrTagList,$monthOrYearList,$language,$drilldown,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month') {
-  global $exceededQueryLimitMessage;
-  #Check that sizes are workable
-  $sizeoverflow = checksizes($pageOrTagList,$monthOrYearList);
-  if ($sizeoverflow > 0)
-    return false;
-  #Collect all the numbers that need to be printed first
-  if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month')
-    $viewCountArray = viewCountArrayByMonth($pageOrTagList,$monthOrYearList,$language,$drilldown,true,$normalization);
-  elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year')
-    $viewCountArray = viewCountArrayByYear($pageOrTagList,$monthOrYearList,$language,$drilldown,true,$normalization);
-  elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month')
-    $viewCountArray = viewCountArrayByTagAndMonth($pageOrTagList,$monthOrYearList,$language,$drilldown,true,$normalization);
-  elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year')
-    $viewCountArray = viewCountArraybytagandyear($pageOrTagList,$monthOrYearList,$language,$drilldown,true,$normalization);
-  
-  #Collect tag information
-  if ($pageOrTagAdvice=='page')
-    {
-      $tagListByPages = getTagListByPageList($pageOrTagList,$language);
-      $tagindices = gettagindices($pageOrTagList,$language);
-    }
-  for ($i = 0; $i < count($pageOrTagList); $i++)
-    {
-      for ($j = 0; $j < count($monthOrYearList); $j++)
-	{
-	  $viewcount = $viewCountArray[$pageOrTagList[$i]][$monthOrYearList[$j]];
-	  if ($viewcount != $exceededQueryLimitMessage)
-	    {
-	      print $viewcount; 
-	      print " ";
-	      print "1,".$i;
-	      print " ";
-	      print "2,".$j;
-	      foreach ($tagListByPages[$pageOrTagList[$i]] as $tag)
-		{
-		  print " 3,".$tagindices[$tag];
-		  print " 4,".($tagindices[$tag] * count($monthOrYearList) + $j);
-		}
-	      print "<br>";
-	    }
-	}
-    }
 }
 
 ?>

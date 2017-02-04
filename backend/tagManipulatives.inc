@@ -88,7 +88,7 @@ function getTagTotal($tag,$language,$drilldown,$monthList,$online=true,$normaliz
   # Now add all the months that didn't get filled in, to a query month list
   foreach($retrievableMonthList as $month) {
     if ($monthTotal[$month] == 'unavailable') {
-      array_push($queryMonthList, $month)
+      array_push($queryMonthList, $month);
     }
   }
 

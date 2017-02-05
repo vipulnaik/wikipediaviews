@@ -198,7 +198,7 @@ function tagMonthAdvice($tagList,$languageList,$drilldownList,$monthList,$printS
     } else {
       print "You asked us to print ";
     }
-    print " data for ".count($tagList)." page";
+    print " data for ".count($tagList)." tag";
     if (count($tagList) > 1) print "s";
     if (count($languageList) > 1) {
       print ", ".count($languageList)." languages,";

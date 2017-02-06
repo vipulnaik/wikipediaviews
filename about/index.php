@@ -9,7 +9,19 @@
 for people who're looking for information on how frequently particular
 Wikipedia pages or collections of pages get viewed.</p>
 
-<h3>Behind the curtain</h3>
+<h3>Table of contents</h3>
+
+<ul>
+  <li><p><a href="#behind-the-curtain">Behind the curtain</a></p></li>
+  <li><p><a href="#pageview-data-fetching-and-caching">Pageview data fetching and caching</a></p></li>
+  <li><p><a href="#user-interface-features">User interface features</a></p><ul>
+      <li><p><a href="#multiple-months-display">Multiple months display</a></p></li>
+      <li><p><a href="#multiple-years-display">Multiple years display</a></p></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="behind-the-curtain">Behind the curtain</h3>
 
 <p><strong>Wikipedia Views</strong> has been developed
 by <a href="http://vipulnaik.com">Vipul Naik</a> using PHP and
@@ -65,7 +77,7 @@ at <a href="http://github.com/vipulnaik/wikipediaviews">GitHub</a>.</p>
 
 <p>For more on how to interpret the pageview data, see <a href="pageviewstatsinterpretation.php">here</a>.
 
-<h3>Pageview data fetching and caching</h3>
+<h3 id="pageview-data-fetching-and-caching">Pageview data fetching and caching</h3>
 
 <ul>
 
@@ -81,21 +93,24 @@ pageviews, and then cache it.</p></li>
 
 <li><p><strong>Current month</strong>: Values for the current month
 may be cached from earlier queries, but cached values may not be
-accurate. In your form, you can specify the number of days after which
-you'd like to force a pruge of cached values for the current month
-data.</p>
+accurate. In your form, under "Show technical settings (for advanced
+users only)" at "Enter the number of days after which ..." you can
+specify the number of days after which you'd like to force a purge of
+cached values for the current month data.</p>
 
 <li><p><strong>Timeout restrictions</strong>: For any individual page
-load, our timeout restrictions limit us to about 330 page requests to
+load, our timeout restrictions limit us to 400 page requests to
 stats.grok.se (fetching the pageviews for a given page, month,
-language, and drilldown requires 1 page request). However, it is
-possible to display more than 330 pieces of data if some of them have
-already been cached. You can specify your own bound on the number of
-external queries in your form.</p></li>
+language, and drilldown requires 1 page request) and the Wikimedia
+API. However, it is possible to display more than 400 pieces of data
+if some of them have already been cached. You can specify your own
+bound on the number of external queries in your form, under "Show
+technical settings (for advanced users only)" at "Enter an upper bound
+on the number of external queries ...".</p></li>
 
 </ul>
 
-<h3>User interface features</h3>
+<h3 id="user-interface-features">User interface features</h3>
 
 <h4><a href="/">Home page (default display)</a></h4>
 
@@ -112,7 +127,7 @@ display-related options. You will then be presented a table (in your
 desired format) giving the total numer of pageviews in the selected
 month for each of your pages.</p>
 
-<h4><a href="/multiplemonths.php">Multiple months display</a></h4>
+<h4 id="multiple-months-display"><a href="/multiplemonths.php">Multiple months display</a></h4>
 
 <p>This is a more sophisticated display intended for cases where you
 want to compare data for one or more pages <em>across multiple
@@ -134,7 +149,7 @@ is the product of the number of pages and the number of months. If
 this product exceeds 50, then the operation may time out unless some
 of the data for the pages has already been cached.</p>
 
-<h4><a href="/multipleyears.php">Multiple years display</a></h4>
+<h4 id="multiple-years-display"><a href="/multipleyears.php">Multiple years display</a></h4>
 
 <p>Sometimes, you're interested in getting a more big-picture view
 than individual monthly data. In these situations, getting pageviews

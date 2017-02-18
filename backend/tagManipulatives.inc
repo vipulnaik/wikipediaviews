@@ -86,11 +86,11 @@ function getTagTotal($tag,$language,$drilldown,$monthList,$online=true,$normaliz
       if ($row['monthfull'] != $thisMonth) {
         $monthTotal[$row['monthfull']] = $row['viewcount'];
       } else {
-        $currentdate = new DateTime("now");
-        $dateofretrieval = new DateTime($row['querytime']); 
-        $dayspassedasdiff = date_diff($dateofretrieval,$currentdate);
-        $dayspassed = intval($dayspassedasdiff->d);
-        if ($dayspassed <= $purgePeriod) {
+        $currentDate = new DateTime("now");
+        $dateOfRetrieval = new DateTime($row['querytime']); 
+        $daysPassedAsDiff = date_diff($dateOfRetrieval,$currentDate);
+        $daysPassed = intval($daysPassedAsDiff->d);
+        if ($daysPassed <= $purgePeriod) {
           $monthTotal[$row['monthfull']] = $row['viewcount'];
         }
       }

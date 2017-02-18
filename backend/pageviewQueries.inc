@@ -255,13 +255,12 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
     #But wait, now we must check that the value is not too outdated
 
     if ($month == $thisMonth) {
-      $currentdate = new DateTime("now");
-      $dateofretrieval = new DateTime($row['querytime']); 
-      $dayspassedasdiff = date_diff($dateofretrieval,$currentdate);
-      $dayspassed = intval($dayspassedasdiff -> d);
-      if ($dayspassed > $purgePeriod) {
+      $currentDate = new DateTime("now");
+      $dateOfRetrieval = new DateTime($row['querytime']); 
+      $daysPassedAsDiff = date_diff($dateOfRetrieval,$currentDate);
+      $daysPassed = intval($daysPassedAsDiff -> d);
+      if ($daysPassed > $purgePeriod and ($purgePeriod >=0 or $online == 'true')) {
 	$viewcount = getPageviewsOnline($page,$month,$language,$drilldown);
-
         if ($viewcount != $exceededQueryLimitMessage and $viewcount != cannotRetrieveMessage) {
           $deleteQuery = "delete from viewcountsbymonth where pagename=\"".$lookupPage."\" and monthfull='".$month."' and language='".$language."' and drilldown='".$drilldown."';";
           $insertQuery="insert into viewcountsbymonth(pagename,monthfull,language,drilldown,viewcount) values (\"".$lookupPage."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";

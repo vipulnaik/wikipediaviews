@@ -15,6 +15,9 @@ function pageMonthAdvice($pageList,$languageList,$drilldownList,$monthList,$came
   global $timeTaken;
   global $graphTimeTaken;
   global $bulkRetrievalTimeTaken;
+  global $purgePeriod;
+  global $userSpecifiedPurgePeriod;
+  global $thisMonth;
   print "<br>";
   if ($printStatus == true) {
     print "Time taken for generating the data: ".round($timeTaken,3)." seconds, of which ".round($bulkRetrievalTimeTaken,3)." seconds was for bulk retrieval from the database<br>";
@@ -45,12 +48,15 @@ function pageMonthAdvice($pageList,$languageList,$drilldownList,$monthList,$came
       $verb = "would have had";
     }
     print "The table ".$verb." a total of ".$numCells." entries<br>";
+    if (in_array($thisMonth, $monthList)) {
+      print " We used a purge period of $purgePeriod days, compared to a user-specified purge period of $userSpecifiedPurgePeriod days<br>";
+    }
   }
   if ($printStatus == false) {
     return;
   }
   if ($attemptedExternalQueryCount > 0) {
-    print "We attempted ".$attemptedExternalQueryCount." queries to external sources (stats.grok.se, Wikimedia API, Facebook API) out of a limit of ".$attemptedExternalQueryLimit.". Of these, ".$successfulExternalQueryCount." queries were successful<br>";
+    print "We attempted ".$attemptedExternalQueryCount." queries to external sources (stats.grok.se, Wikimedia API, Facebook API) out of a limit of ".$attemptedExternalQueryLimit.". Of these, ".$successfulExternalQueryCount." queries were successful.<br>";
   }
   $dbEntryCount = $numCells - $successfulExternalQueryCount - $unavailableCount - $irretrievableCount;
   if ($dbEntryCount > 0) {

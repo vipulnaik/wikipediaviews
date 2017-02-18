@@ -52,6 +52,8 @@ function getTagTotal($tag,$language,$drilldown,$monthList,$online=true,$normaliz
   global $attemptedExternalQueryCount;
   global $attemptedExternalQueryLimit;
   global $tagProperQueryLimit;
+  global $thisMonth;
+  global $purgePeriod;
   global $irretrievableCount; # Number of tag-language-drilldown-month combinations that are irretrievable
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
@@ -81,13 +83,23 @@ function getTagTotal($tag,$language,$drilldown,$monthList,$online=true,$normaliz
   for ($i = 0; $i < $result -> num_rows; $i++) {
     $row = $result -> fetch_assoc();
     if ($row['pagecount'] == $pagecount) { # Quick sanity check that this is the right tag and no additions were made to it; not foolproof
-      $monthTotal[$row['monthfull']] = $row['viewcount'];
+      if ($row['monthfull'] != $thisMonth) {
+        $monthTotal[$row['monthfull']] = $row['viewcount'];
+      } else {
+        $currentdate = new DateTime("now");
+        $dateofretrieval = new DateTime($row['querytime']); 
+        $dayspassedasdiff = date_diff($dateofretrieval,$currentdate);
+        $dayspassed = intval($dayspassedasdiff->d);
+        if ($dayspassed <= $purgePeriod) {
+          $monthTotal[$row['monthfull']] = $row['viewcount'];
+        }
+      }
     }
   }
 
   # Now add all the months that didn't get filled in, to a query month list
   foreach($retrievableMonthList as $month) {
-    if ($monthTotal[$month] == 'unavailable') {
+    if ($monthTotal[$month] == 'unavailable') {    
       array_push($queryMonthList, $month);
     }
   }

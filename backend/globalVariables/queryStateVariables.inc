@@ -33,7 +33,7 @@ global $fbTokenActive;
 $fbTokenActive = true;
 
 global $statsGrokSeActive;
-$statsGrokSeActive = true;
+$statsGrokSeActive = "unknown";
 
 global $wikimediaApiActive;
 $wikimediaApiActive = true;

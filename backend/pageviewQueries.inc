@@ -104,6 +104,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   global $tokenExpiredMessage;
   global $irretrievableCount;
   global $dataStartMap;
+  global $statsGrokSeActive;
   if (count($dataStartMap) == 0) {
     $dataStartMap = dataStartMap();
   }
@@ -146,19 +147,32 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
         $irretrievableCount++;
         return $cannotRetrieveMessage;
       }
-    } else if ($month < '201507' and $drilldown == "desktop" and $page != "[aggregate]") {
-      $attemptedExternalQueryCount++;
-      $html = file_get_contents($url);
-      preg_match('/(?<=\bhas been viewed)\s+\K[^\s]+/',$html,$numberofpageviews);
-      if (count($numberofpageviews) > 0) {
-        if (strlen($numberofpageviews[0]) > 0) {
-          $successfulExternalQueryCount++;
-          return $numberofpageviews[0];
+    } else if ($month < '201507' and $drilldown == "desktop" and $page != "[aggregate]" and $statsGrokSeActive != "false") {
+      if ($statsGrokSeActive == "unknown") {
+        $curlCmd = "curl http://stats.grok.se --connect-timeout 5 --max-time 6";
+        exec($curlCmd, $output, $curlSuccess);
+        if ($curlSuccess == 0) {
+          $statsGrokSeActive = "true"; 
         } else {
-          return $exceededQueryLimitMessage;
+          $statsGrokSeActive = "false";
+        }
+      }
+      if ($statsGrokSeActive == "true") {
+        $attemptedExternalQueryCount++;
+        $html = file_get_contents($url);
+        preg_match('/(?<=\bhas been viewed)\s+\K[^\s]+/',$html,$numberofpageviews);
+        if (count($numberofpageviews) > 0) {
+          if (strlen($numberofpageviews[0]) > 0) {
+            $successfulExternalQueryCount++;
+            return $numberofpageviews[0];
+          } else {
+            return $cannotRetrieveMessage;
+          }
+        } else {
+          return $cannotRetrieveMessage;
         }
       } else {
-        return $exceededQueryLimitMessage;
+        return $cannotRetrieveMessage;
       }
     } else if ($month >= '201507') {
       $attemptedExternalQueryCount++;

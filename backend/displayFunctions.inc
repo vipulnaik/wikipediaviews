@@ -702,9 +702,9 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
         }
         foreach ($tagListForPage as $tag) {
 	  if ($monthOrYearAdvice == 'month') {
-            $tagCell .= '<a href="https://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.$tag.'&language='.$language.'&allmonths=allmonths">'.$tag.'</a> ';
+            $tagCell .= '<a href="https://wikipediaviews.org/displayviewsformultiplemonths.php?tag='.urlencode($tag).'&language='.$language.'&allmonths=allmonths">'.$tag.'</a> ';
 	  } else {
-            $tagCell .= '<a href="https://wikipediaviews.org/displayviewsformultipleyears.php?tag='.$tag.'&language='.$language.'&allyears=allyears">'.$tag.'</a> ';
+            $tagCell .= '<a href="https://wikipediaviews.org/displayviewsformultipleyears.php?tag='.urlencode($tag).'&language='.$language.'&allyears=allyears">'.$tag.'</a> ';
 	  }
         }
         $tagCell .= '</td>';

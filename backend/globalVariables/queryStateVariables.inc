@@ -31,4 +31,11 @@ $yearSpecificationError = false;
 
 global $fbTokenActive;
 $fbTokenActive = true;
+
+global $statsGrokSeActive;
+$statsGrokSeActive = true;
+
+global $wikimediaApiActive;
+$wikimediaApiActive = true;
+
 ?>

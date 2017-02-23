@@ -19,12 +19,13 @@ function addPageToTag($page,$language,$tag) {
     }
   $select_query = "select tag from pagetags where pagename=\"".$page."\" and language='".$language."' and tag='".$tag."' limit 1;";
   $result = $mysqli->query($select_query);
-  if ($result->num_rows==0)
-    {
-      $insert_query = "insert into pagetags(pagename,language,tag) values (\"".$page."\",'".$language."','".$tag."');";
-      $insert_result = $mysqli->query($insert_query);
-      queriedPageLog($page,$language,'empty');
-    }
+  if ($result->num_rows==0) {
+    $insertQuery = "insert into pagetags(pagename,language,tag) values (\"".$page."\",'".$language."','".$tag."');";
+    $insertResult = $mysqli->query($insertQuery);
+    $clearTagQuery = "delete from viewcountsbytagandmonth where tag=\"".$tag."\" and language='$language';";
+    $clearTagResult = $mysqli->query($clearTagQuery);
+    queriedPageLog($page,$language,'empty');
+  }
 }
 
 function getPageListByTag($tag,$language) {

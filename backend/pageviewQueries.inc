@@ -39,7 +39,7 @@ function queriedPageLog($page,$language,$archivalStatus) {
   $result = $mysqli->query($select_query);
   $page = str_replace('"','\"',$page);
   if ($result->num_rows == 0) {
-    $insertQuery = "insert into queriedpages(pagename,language,archivalStatus) values (\"".$page."\",'".$language."','".$archivalStatus."');";
+    $insertQuery = "insert into queriedpages(pagename,language,archivalstatus) values (\"".$page."\",'".$language."','".$archivalStatus."');";
     $result = $mysqli->query($insertQuery);
   }
   return $result;

@@ -7,7 +7,7 @@ function getPageListByArchivalStatus($archivalStatus,$language)
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
-  $select_query = "select distinct pagename from queriedpages where archivalStatus='".$archivalStatus."' and language='".$language."' limit ".$pageDisplayLimit.";";
+  $select_query = "select distinct pagename from queriedpages where archivalstatus='".$archivalStatus."' and language='".$language."' limit ".$pageDisplayLimit.";";
   #print $select_query;
   $result = $mysqli->query($select_query);
   $pageList = array();

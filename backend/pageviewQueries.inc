@@ -125,7 +125,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   } else {
     $url = getPageviewsUrl($page,$month,$language,$drilldown);
     if ($drilldown == "cumulative-facebook-shares") {
-      if (($month == $thisMonth or $month == $mostRecentMonth) and $fbTokenActive == true) {
+      if (($month == $thisMonth) and $fbTokenActive == true) {
         $attemptedExternalQueryCount++;
         $tmpString = strval(rand());
         $jsonFileFullPath = $curlOutputDirectory.$tmpString.'.json';
@@ -141,7 +141,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
         $shareCount = intval($shareJson["share_count"]);
         $successfulExternalQueryCount++;
         return $shareCount;
-      } else if ($month == $thisMonth) {
+      } else if ($month == $thisMonth or $month == $mostRecentMonth) {
         return $tokenExpiredMessage;
       } else {
         $irretrievableCount++;

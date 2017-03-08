@@ -1035,7 +1035,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     }
     exec($cmdToExecute);
     print "<br/><br/>";
-    print '<strong>Distribution of pageviews; each '.$entityDescriptor.' represents a combination of page, language, and drilldown'.$addendum.'</strong> (<a href="/images/'.$fileName.'.csv">underlying CSV using pipe (|) as separator</a>)<br/>';
+    print '<strong>Distribution of pageviews; each '.$entityDescriptor.' represents a combination of '.$pageOrTagAdvice.', language, and drilldown'.$addendum.'</strong> (<a href="/images/'.$fileName.'.csv">underlying CSV using pipe (|) as separator</a>)<br/>';
     print '<img src="/images/'.$fileName.'-distrib.png" alt="Image of pageviews distribution should have loaded here"></img>';
   }
   if (count($monthOrYearList) > 1) {

@@ -38,4 +38,7 @@ $statsGrokSeActive = "unknown";
 global $wikimediaApiActive;
 $wikimediaApiActive = true;
 
+global $backfillIfPossible;
+$backfillIfPossible = false;
+
 ?>

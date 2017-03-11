@@ -105,8 +105,14 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   global $irretrievableCount;
   global $dataStartMap;
   global $statsGrokSeActive;
+  global $backfillIfPossible;
+  global $mysqli;
   if (count($dataStartMap) == 0) {
     $dataStartMap = dataStartMap();
+  }
+  $localBackfillIfPossible = $backfillIfPossible;
+  if ($month < $mostRecentMonth) {
+    $localBackfillIfPossible = true;
   }
   if ($drilldown == "country-total") {
     $irretrievableCount++;
@@ -175,23 +181,47 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
         return $cannotRetrieveMessage;
       }
     } else if ($month >= '201507') {
+      $longUrl = getLongUrl($page,$month,$language,$drilldown);
       $attemptedExternalQueryCount++;
       # Calculate string of the first date of next month (used as upper limit of
       # query)
       ini_set('user_agent', 'Wikipedia Views (wikipediaviews.org); contact vipulnaik1@gmail.com in case of issues');
       # usleep(20000); ## No need to sleep, the API takes 100 ms to respond so we are anyway safe at 10 req/s
-      $html = file_get_contents($url);
-      if (!$html) {
+      if ($localBackfillIfPossible) {
+        $lookupPage = str_replace('"','\"',$page);
+        $html = file_get_contents($longUrl);
+        if (!$html) {
+          $successfulExternalQueryCount++;
+          return 0; 	  
+        }
+        $json = json_decode($html, true); 
+        $sum = 0;
+        foreach($json["items"] as $item) {
+          if ($item["timestamp"] == $month . "0100") {
+            $sum = intval($item["views"]);
+          } else {
+            $viewcount = intval($item["views"]);
+            $lookupMonth = substr($item["timestamp"],0,6);    
+            $insertionQuery = "insert ignore into viewcountsbymonth(pagename,monthfull,language,drilldown,viewcount) values (\"".$lookupPage."\",'".$lookupMonth."','".$language."','".$drilldown."',".$viewcount.");";
+	    $mysqli -> query($insertionQuery); 
+          }
+        }
         $successfulExternalQueryCount++;
-        return 0;
+        return $sum;	
+      } else {
+        $html = file_get_contents($url);
+        if (!$html) {
+          $successfulExternalQueryCount++;
+          return 0;
+        }
+        $json = json_decode($html,true);
+        $sum = 0;
+        foreach ($json["items"] as $item) {
+          $sum += intval($item["views"]);
+        }
+        $successfulExternalQueryCount++;
+        return $sum;
       }
-      $json = json_decode($html,true);
-      $sum = 0;
-      foreach ($json["items"] as $day) {
-        $sum += intval($day["views"]);
-      }
-      $successfulExternalQueryCount++;
-      return $sum;
     } else {
       $irretrievableCount++;
       return $cannotRetrieveMessage;
@@ -354,6 +384,8 @@ function viewCountArrayByMonth_raw($pageList,$languageList,$drilldownList,$month
   global $unavailableCount;
   global $bulkRetrievalTimeTaken;
   global $dataStartMap;
+  global $backfillIfPossible;
+  $backfillIfPossible = true;
   $dataStartMap = dataStartMap();
   $bulkRetrievalStartTime = microtime(true);
   if ($mysqli->connect_errno) {

@@ -72,6 +72,56 @@ function getShortDescriptor($drilldown) {
   }
 }
 
+function getLongUrl($page,$month,$language,$drilldown) {
+  global $mostRecentMonth;
+  $monthToEndWith = $mostRecentMonth;
+  if ($month > $monthToEndWith) {
+    $monthToEndWith = $month;
+  }
+  $year = intval(substr($monthToEndWith, 0, 4));
+  $justMonth = intval(substr($monthToEndWith, 4));
+  switch (intval($justMonth)) {
+    case 1: $endOfMonth = $year . '0131';
+    	    break;
+    case 2: if ($year % 4 != 0) 
+    	       $endOfMonth = $year.'0228';
+	    else 
+	       $endOfMonth = $year.'0229';
+	    break;
+    case 3: $endOfMonth = $year . '0331';
+    	    break;
+    case 4 : $endOfMonth = $year . '0430';
+    	     break;
+    case 5 : $endOfMonth = $year . '0531';
+    	     break;
+    case 6 : $endOfMonth = $year . '0630';
+    	     break;
+    case 7 : $endOfMonth = $year . '0731';	
+    	     break;
+    case 8 : $endOfMonth = $year . '0831';
+    	     break;
+    case 9 : $endOfMonth = $year . '0930';
+    	     break;
+    case 10: $endOfMonth = $year . '1031';
+    	     break;
+    case 11: $endOfMonth = $year . '1130';
+    	     break;
+    case 12: $endOfMonth = $year . '1231';
+  }
+  $userType = "user";
+  switch ($drilldown) {
+    case "desktop-spider" :
+      $drilldown = "desktop";
+      $userType = "spider";
+      break;
+    case "mobile-web-spider":
+      $drilldown = "mobile-web";
+      $userType = "spider";
+      break;
+  }
+  return "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/" . $language . ".wikipedia/" . $drilldown . "/" . $userType . "/" . str_replace("%2527", "%27", urlencode(str_replace(" ","_",$page))) . "/monthly/" . "20150701/" . $endOfMonth . "?purge" . strval(rand());
+}
+
 function getPageviewsUrl($page,$month,$language,$drilldown) {
   if ($drilldown == "country-total") {
     return getCountryTotalBreakdown($month);

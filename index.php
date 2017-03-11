@@ -3,12 +3,12 @@ print '<!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN"><html><hea
 print '<title>Wikipedia Views</title>';
 include("style/toggler.inc"); ##included in all public-facing files
 print '</head>';
-print '<p>The website is down for maintenance right now</p>';
-# include_once("backend/coreCode.inc");
-# include("style/head.inc"); ##included in all public-facing files
-# print '<body>';
-# $formdata = false;
-# include("inputDisplay/onemonthdataentry.inc");
+# print '<p>The website is down for maintenance right now</p>';
+include_once("backend/coreCode.inc");
+include("style/head.inc"); ##included in all public-facing files
+print '<body>';
+$formdata = false;
+include("inputDisplay/onemonthdataentry.inc");
 print '</body>';
 print '</html>';
 ?>

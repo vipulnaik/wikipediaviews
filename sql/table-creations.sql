@@ -1,3 +1,11 @@
+CREATE TABLE `tagsummary`(
+  `row_id` int(11) not null auto_increment,
+  `tag` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `language` enum('en','es','ru','de','ja','fr','zh','it','pl','pt','nl','id','tr','ar','cs','sv','fa','ko','fi','uk','hu','th','bg','vi','he','av','no','az','ro','da','el','ca','sr','hr','simple','sk','kk','lt','bs','et','hi','sl','sh','af','ms','ka','tl','lv','hy','ta','sq','eu','bi','zh-yue','eo','mk','bn','gl','ml','ur','an','be','nn','te','ak','la','arz','mr','is','mn','war','ceb','cy','oc','kn','bug','br','uz','sco','ast','lb','ky','als','zh-min-nan','si','ga','jv','sw','fy','tt','io','ckb','pa','bar','ne','ba','scn','as','am','pnb','ku','wuu','nds','yi','ia','my','bm','qu','gu','su','yo','tg','lmo','mg','fo','ilo','vo','so','li','bh','cv','pms','ps','or','gd','new','ht','ce','vec','sa','diq','hsb','sah','frr','zh-classical','nah','nds-nl','bat-smg','os','ang','hak','hif','km','wa','gv','pam','mzn','gan','nap','lad','gn','bpy','vls','fiu-vro','tk','dsb','rue','mhr','map-bms','eml','szl','se','ext','stq','cdo','bo','min','sc','co','mt','bcl','sd','ksh','frp','vep','csb','nrm','lo','ug','lij','mai','kw','pap','fur','bxr','ace','dv','ie','kv','mi','crh','cbk-zam','ay','zea','rm','ln','krc','mwl','pdc','mrj','lez','udm','rw','pcd','kab','myv','arc','jbo','xal','nov','roa-tara','sn','bjn','ig','kaa','kl','nv','nso','pag','wo','tpi','roa-rup','chr','haw','na','tet','gom','za','kbd','ab','pi','cu','zu','iu','kg','ts','koi','mdf','pih','ch','om','sm','ki','lbe','ha','pnt','tyv','rmy','srn','tw','xh','chy','ss','ltg','ee','ty','got','ny','glk','dz','ik','tum','st','to','fj','ff','sg','tn','ti','lg','ks','rn','mo','ve','cr','kr','ng','aa','cho','mus','hz','mh','kj','ho','ii') COLLATE utf8_unicode_ci DEFAULT 'en',
+  pagecount int(11) not null,
+  PRIMARY KEY row_id(`row_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE `languages` (
   `code` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(40) COLLATE utf8_unicode_ci NOT NULL,

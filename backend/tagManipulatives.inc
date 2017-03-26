@@ -28,6 +28,14 @@ function addPageToTag($page,$language,$tag) {
   }
 }
 
+function refreshTagCountLists() {
+  global $mysqli;
+  $truncationQuery = "truncate table tagsummary;";
+  $truncationResult = $mysqli -> query($truncationQuery);
+  $insertionQuery = "insert into tagsummary(tag, language, pagecount) select tag, language, count(*) from pagetags group by tag, language;";
+  $insertionResult = $mysqli -> query($insertionQuery);
+}
+
 function getPageListByTag($tag,$language) {
   global $mysqli;
   if ($mysqli->connect_errno) 

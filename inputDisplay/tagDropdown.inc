@@ -14,8 +14,9 @@
 
 print '<tr><td>Select the tag that you want to work with (the page-tag relationships are defined locally on this site and do not correspond to any relationships on Wikipedia):</td><td><select name="tag">';
 include_once(__DIR__."/../backend/coreCode.inc");
-$select_query = "select tag,count(distinct pagename) as numPages,count(distinct language) as numLanguages from pagetags group by tag order by tag;";
-$result = $mysqli->query($select_query);
+$selectQuery = "select tag,sum(pagecount) as numPages,count(*) as numLanguages from tagsummary group by tag order by tag;";
+# $selectQuery = "select tag,count(*) as numPages,count(distinct language) as numLanguages from pagetags group by tag order by tag;";
+$result = $mysqli->query($selectQuery);
 $numrows = $result->num_rows;
 print '<option value="" selected="selected">-- (none selected) --</option>';
 

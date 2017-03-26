@@ -1,22 +1,38 @@
 <?php
 
-function getPageListByWikipediaCategory($category,$language) {
+function getPageListByWikipediaCategory($category,$language,$method='recursive') {
   $category_underscored = str_replace(" ","_",$category);
   $category_encoded = urlencode($category_underscored);
-  $apiquery_url = 'http://'.$language.'.wikipedia.org/w/api.php?action=query&format=json&list=categorymembers&cmlimit=500&cmtitle=Category:'.$category_encoded;
+  $apiQueryUrl = 'http://'.$language.'.wikipedia.org/w/api.php?action=query&format=json&list=categorymembers&cmlimit=500&cmtitle=Category:'.$category_encoded;
   $iteration = 0;
   $continue = true;
+  $overallIndex = 0;
   while ($continue == true and $iteration < 500) {
-    $apiquery_url_iteration = $apiquery_url;
+    $apiQueryUrlIteration = $apiQueryUrl;
     if ($iteration > 0) {
-      $apiquery_url_iteration = $apiquery_url.'&cmcontinue='.$response_json["continue"]["cmcontinue"];
+      $apiQueryUrlIteration = $apiQueryUrl.'&cmcontinue='.$responseJson["continue"]["cmcontinue"];
     }
-    print 'Query URL used to retrieve page list by category, iteration '.$iteration.': <a href="'.$apiquery_url_iteration.'">'.$apiquery_url_iteration.'</a><br/>';
-    $response_json = json_decode(file_get_contents($apiquery_url_iteration), true);
-    for($i = 0;$i < count($response_json["query"]["categorymembers"]);$i++) {
-      $pageList[$iteration * 500 + $i] = $response_json["query"]["categorymembers"][$i]["title"];
+    print 'Query URL used to retrieve page list by category, iteration '.$iteration.': <a href="'.$apiQueryUrlIteration.'">'.$apiQueryUrlIteration.'</a><br/>';
+    $responseJson = json_decode(file_get_contents($apiQueryUrlIteration), true);
+    for($i = 0;$i < count($responseJson["query"]["categorymembers"]);$i++) {
+      $currentTitle = $responseJson["query"]["categorymembers"][$i]["title"]; 
+      if ($method == 'recursive' and strlen($currentTitle) > 9 and substr($currentTitle,0,9) == 'Category:')  {
+        $extractedCategory = substr($currentTitle,9,strlen($currentTitle));
+        $recursedPageList = getPageListByWikipediaCategory($extractedCategory, $language, 'recursive');
+        for ($j = 0; $j < count($recursedPageList); $j++) {
+          if (!in_array($recursedPageList[$j], $pageList)) {
+            $pageList[$overallIndex] = $recursedPageList[$j];
+            $overallIndex++;
+	  }
+        }
+      } else {
+        if (!in_array($currentTitle, $pageList)) {
+          $pageList[$overallIndex] = $currentTitle;
+          $overallIndex++;
+        }
+      }
     }
-    if ($response_json["continue"] == "") {
+    if ($responseJson["continue"] == "") {
       $continue = false;
     } else {
       $iteration++;
@@ -27,9 +43,9 @@ function getPageListByWikipediaCategory($category,$language) {
 
 function getPageListbyCreatingUser($user,$language) {
   $user_underscored = str_replace(" ","_",$user);
-  $apiquery_url = 'http://'.$language.'.wikipedia.org/w/api.php?action=query&format=json&list=usercontribs&ucshow=new&uclimit=500&ucuser='.$user_underscored;
-  #print '<a href="'.$apiquery_url.'">'.$apiquery_url.'</a>';
-  $apiquery_html = file_get_contents($apiquery_url);
+  $apiQueryUrl = 'http://'.$language.'.wikipedia.org/w/api.php?action=query&format=json&list=usercontribs&ucshow=new&uclimit=500&ucuser='.$user_underscored;
+  #print '<a href="'.$apiQueryUrl.'">'.$apiQueryUrl.'</a>';
+  $apiquery_html = file_get_contents($apiQueryUrl);
   #print $apiquery_html;
   $apiquery_txt = html_entity_decode($apiquery_html);
   #preg_match_all('/(?<=\bns=&quot;0&quot; title=&quot;)\K[^&]+/',$apiquery_html,$pageList);
@@ -42,9 +58,9 @@ function getPageListbyCreatingUser($user,$language) {
 function getPageListByLinkingPage($linkingpage,$language)
 {
   $linkingpage_underscored = str_replace(" ","_",$linkingpage);
-  $apiquery_url = 'http://'.$language.'.wikipedia.org/w/api.php?action=query&format=json&prop=links&pllimit=500&titles='.$linkingpage_underscored;
-  #print '<a href="'.$apiquery_url.'">'.$apiquery_url.'</a>';
-  $apiquery_html = file_get_contents($apiquery_url);
+  $apiQueryUrl = 'http://'.$language.'.wikipedia.org/w/api.php?action=query&format=json&prop=links&pllimit=500&titles='.$linkingpage_underscored;
+  #print '<a href="'.$apiQueryUrl.'">'.$apiQueryUrl.'</a>';
+  $apiquery_html = file_get_contents($apiQueryUrl);
   #print $apiquery_html;
   $apiquery_txt = html_entity_decode($apiquery_html);
   $apiquery_txt = str_replace("&#039;","'",$apiquery_txt);

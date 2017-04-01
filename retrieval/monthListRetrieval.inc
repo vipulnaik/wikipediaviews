@@ -43,6 +43,15 @@ if ($allmonths == "allmonths" and (in_array($thisMonth,$originalMonthList))) {
 } elseif ($allmonths == "allmonths") {
   $monthList = pastmonths_monthList();
   $monthUrlComponent = "&allmonths=allmonths";
+} elseif ($allmonths == "allmonths-api" and (in_array($thisMonth, $originalMonthList))) {
+  $monthList = presentandpastapimonths_monthList();
+  $monthUrlComponent = "&allmonths=allmonths-api-present";
+} elseif ($allmonths == "allmonths-api-present") {
+  $monthList = presentandpastapimonths_monthList();
+  $monthUrlComponent = "&allmonths=allmonths-api-present";
+} elseif ($allmonths == "allmonths-api") {
+  $monthList = pastapimonths_monthList();
+  $monthUrlComponent = "&allmonths=allmonths-api";
 } else {
   $monthList = $originalMonthList;
   if (count($monthList) == 1) {

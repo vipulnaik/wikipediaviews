@@ -69,8 +69,33 @@ function pastmonths_monthList()
   return $monthList;
 }
 
-function pastmonthsinyear($year)
-{
+function presentandpastapimonths_monthList() {
+  $sql_result = presentandpastmonths_sql();
+  $monthList = array();
+  for ($i = 0;$i < $sql_result->num_rows;$i++)
+    {
+      $row = $sql_result->fetch_assoc();
+      if ($row['monthfull'] >= '201507') {
+        array_push($monthList,$row['monthfull']);
+      }
+    }
+  return $monthList;
+}
+
+function pastapimonths_monthList() {
+  $sql_result = pastmonths_sql();
+  $monthList = array();
+  for ($i = 0;$i < $sql_result->num_rows;$i++)
+    {
+      $row = $sql_result->fetch_assoc();
+      if ($row['monthfull'] >= '201507') {
+        array_push($monthList,$row['monthfull']);
+      }
+    }
+  return $monthList;
+}
+
+function pastmonthsinyear($year) {
   global $mysqli;
   if ($mysqli->connect_errno) 
     {

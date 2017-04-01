@@ -1010,7 +1010,17 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
 
   $fileName = hash("md5",$cleanPermalinkUrl);
   $filePathBase = $imagesPath . $fileName;
-  file_put_contents($filePathBase . ".csv", $fullOutput);
+  $dataHasChanged = false;
+  if (file_exists($filePathBase . ".csv") == false) {
+    file_put_contents($filePathBase . ".csv", $fullOutput);
+    $dataHasChanged = true;
+  } else {
+    $previousOutput = file_get_contents($filePathBase . ".csv");
+    if ($previousOutput != $fullOutput) {
+      $dataHasChanged = true;
+      file_put_contents($filePathBase . ".csv", $fullOutput);
+    }    
+  }
   if (count($pageOrTagList) * count($languageList) * count($drilldownList) > 1) {
     $addendum = "";
     $cmdToExecute = $generateDistribCmdBase . $fontParam . " " . $filePathBase . ".csv " . $filePathBase . "-distrib.png ";
@@ -1033,7 +1043,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       $cmdToExecute = $cmdToExecute . " --plot_kind line ";
       $addendum .= ", using lines (not bars) as there are more than 50 items";
     }
-    exec($cmdToExecute);
+    if ($dataHasChanged == true or file_exists($filePathBase . "-distrib.png") == false) {
+      exec($cmdToExecute);
+    }
     print "<br/><br/>";
     print '<strong>Distribution of pageviews; each '.$entityDescriptor.' represents a combination of '.$pageOrTagAdvice.', language, and drilldown'.$addendum.'</strong> (<a href="/images/'.$fileName.'.csv">underlying CSV using pipe (|) as separator</a>)<br/>';
     print '<img src="/images/'.$fileName.'-distrib.png" alt="Image of pageviews distribution should have loaded here"></img>';
@@ -1043,7 +1055,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     if ($numericDisplayFormat == "log") {
       $cmdToExecute = $cmdToExecute . " --log10";
     }
-    exec($cmdToExecute);
+    if ($dataHasChanged == true or file_exists($filePathBase . "-timeseries.png") == false) {
+      exec($cmdToExecute);
+    }
     print "<br/><br/>";
     if (count($pageOrTagList) * count($languageList) * count($drilldownList) > 30) {
       $addendum = ", restricted to the top 30 by total across months";
@@ -1091,7 +1105,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       $addendum .= ", using lines (not bars) as there are more than 50 items";
     }
     # print("Going to try executing ".$cmdToExecute."<br>");
-    exec($cmdToExecute);
+    if ($dataHasChanged == true or file_exists($drilldownFilePathBase . "-distrib.png") == false) {
+      exec($cmdToExecute);
+    }
     print "<br/><br/>";
     print '<strong>Distribution of pageviews; each '.$entityDescriptor.' represents a drilldown, summed over the other dimensions'.$addendum.'</strong> (<a href="/images/'.$drilldownFileName.'.csv">underlying CSV using pipe (|) as separator</a>)<br/>';
     print '<img src="/images/'.$drilldownFileName.'-distrib.png" alt="Image of pageviews distribution should have loaded here"></img>';
@@ -1101,7 +1117,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       if ($numericDisplayFormat == "log") {
         $cmdToExecute = $cmdToExecute . " --log10";
       }
-      exec($cmdToExecute);
+      if ($dataHasChanged == true or file_exists($drilldownFilePathBase . "-timeseries.png") == false) {
+        exec($cmdToExecute);
+      }
       print "<br><br>";
       print '<strong>Time series of data; one curve for total by each drilldown, one curve for total, below:</strong> (<a href="/images/'.$drilldownFileName.'.csv">underlying CSV using pipe (|) as separator</a>).'.$verticalLineExplainer.'<br/>';
       print '<img src="/images/'.$drilldownFileName.'-timeseries.png" alt="Graph of pageviews should have loaded here"></img>';
@@ -1133,7 +1151,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       $addendum .= ", using lines (not bars) as there are more than 50 items";
     }
     # print("Going to try executing ".$cmdToExecute."<br>");
-    exec($cmdToExecute);
+    if ($dataHasChanged == true or file_exists($pageOrTagCumLanguageFilePathBase . "-distrib.png") == false) {
+      exec($cmdToExecute);
+    }
     print "<br/><br/>";
     print '<strong>Distribution of pageviews; each '.$entityDescriptor.' represents a combination of '.$pageOrTagAdvice.' and language, summed up over drilldowns'.$addendum.'</strong> (<a href="/images/'.$pageOrTagCumLanguageFileName.'.csv">underlying CSV using pipe (|) as separator</a>)<br/>';
     print '<img src="/images/'.$pageOrTagCumLanguageFileName.'-distrib.png" alt="Image of pageviews distribution should have loaded here"></img>';
@@ -1143,7 +1163,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       if ($numericDisplayFormat == "log") {
         $cmdToExecute = $cmdToExecute . " --log10";
       }
-      exec($cmdToExecute);
+      if ($dataHasChanged == true or file_exists($pageOrTagCumLanguageFilePathBase . "-timeseries.png") == false) {      
+        exec($cmdToExecute);
+      }
       if (count($pageOrTagList) * count($languageList) > 30) {
         $addendum = ", restricted to the top 30 by total across months";
       } else {
@@ -1181,7 +1203,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       $addendum .= ", using lines (not bars) as there are more than 50 items";      
     }
     # print("Going to try executing ".$cmdToExecute."<br>");
-    exec($cmdToExecute);
+    if ($dataHasChanged == true or file_exists($pageOrTagFilePathBase . "-distrib.png") == false) {
+      exec($cmdToExecute);
+    }
     print "<br/><br/>";
     print '<strong>Distribution of pageviews; each '.$entityDescriptor.' represents a '.$pageOrTagAdvice.' summed up over the selected languages and drilldowns'.$addendum.'</strong> (<a href="/images/'.$pageOrTagFileName.'.csv">underlying CSV using pipe (|) as separator</a>)<br/>';
     print '<img src="/images/'.$pageOrTagFileName.'-distrib.png" alt="Image of pageviews distribution should have loaded here"></img>';
@@ -1191,7 +1215,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       if ($numericDisplayFormat == "log") {
         $cmdToExecute = $cmdToExecute . " --log10";
       }
-      exec($cmdToExecute);
+      if ($dataHasChanged == true or file_exists($pageOrTagFilePathBase . "-timeseries.png") == false) {
+        exec($cmdToExecute);
+      }
       if (count($pageOrTagList) > 30) {
         $addendum = ", restricted to the top 30 by total across months";
       } else {

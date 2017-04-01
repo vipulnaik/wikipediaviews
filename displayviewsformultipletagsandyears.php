@@ -39,7 +39,7 @@ if ($pageSpecificationError == true) {
       print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';
       printpageviewsformonthOrYearListashtmltable($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year',$sort);
       if (count($yearList) > 1 or count($tagList) * count($languageList) * count($drilldownList) > 1) {
-        generateGraphs($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year');
+        generateGraphs($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year',$cleanPermalinkUrl);
       }
       include("inputDisplay/multipletagsandyearsdataentry.inc");
       break;
@@ -50,7 +50,7 @@ if ($pageSpecificationError == true) {
       print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';
       printpageviewsformonthOrYearListashtmltabletransposed($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year',$sort);
       if (count($yearList) > 1 or count($tagList) * count($languageList) * count($drilldownList) > 1) {
-        generateGraphs($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year');
+        generateGraphs($tagList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'tag','year',$cleanPermalinkUrl);
       }
       include("inputDisplay/multipletagsandyearsdataentry.inc");
       break;

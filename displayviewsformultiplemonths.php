@@ -29,7 +29,7 @@ if ($pageSpecificationError == true or $monthSpecificationError == true) {
         $printStatus = printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort,$tag);
       }
       if (count($monthList) > 1 or count($pageList) * count($languageList) * count($drilldownList) > 1) {
-        generateGraphs($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$tag);
+        generateGraphs($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$tag,$cleanPermalinkUrl);
       }
       include("inputDisplay/multiplemonthsdataentry.inc");
       break;
@@ -40,7 +40,7 @@ if ($pageSpecificationError == true or $monthSpecificationError == true) {
       print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';
       $printStatus = printPageviewsForMonthOrYearListAsHtmlTable($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort,$tag);
       if (count($monthList) > 1 or count($pageList) * count($languageList) * count($drilldownList) > 1) {
-        generateGraphs($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$tag);
+        generateGraphs($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$tag,$cleanPermalinUrl);
       }
       include("inputDisplay/multiplemonthsdataentry.inc");
       break;
@@ -51,7 +51,7 @@ if ($pageSpecificationError == true or $monthSpecificationError == true) {
       print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';
       $printStatus = printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort,$tag);
       if (count($monthList) > 1 or count($pageList) * count($languageList) * count($drilldownList) > 1) {
-        generateGraphs($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$tag);
+        generateGraphs($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$tag,$cleanPermalinkUrl);
       }
       include("inputDisplay/multiplemonthsdataentry.inc");
       break;

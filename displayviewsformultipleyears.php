@@ -29,7 +29,7 @@ if ($pageSpecificationError == true or $yearSpecificationError == true) {
 	printPageviewsFormonthOrYearListAsHtmlTableTransposed($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year',$sort);
       }
       if (count($yearList) > 1 or count($pageList) * count($languageList) * count($drilldownList) > 1) {
-        generateGraphs($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
+        generateGraphs($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year',$cleanPermalinkUrl);
       }
       include("inputDisplay/multipleyearsdataentry.inc");
       break;
@@ -40,7 +40,7 @@ if ($pageSpecificationError == true or $yearSpecificationError == true) {
       print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';   
       printPageviewsForMonthOrYearListAsHtmlTable($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year',$sort);
       if (count($yearList) > 1 or count($pageList) * count($languageList) * count($drilldownList) > 1) {
-        generateGraphs($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
+        generateGraphs($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year',$cleanPermalinkUrl);
       }
       include("inputDisplay/multipleyearsdataentry.inc");
       break;
@@ -51,7 +51,7 @@ if ($pageSpecificationError == true or $yearSpecificationError == true) {
       print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';   
       printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year',$sort);
       if (count($yearList) > 1 or count($pageList) * count($languageList) * count($drilldownList) > 1) {
-        generateGraphs($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year');
+        generateGraphs($pageList,$languageList,$drilldownList,$yearList,$numericDisplayFormat,$normalization,'page','year',$cleanPermalinkUrl);
       }
       include("inputDisplay/multipleyearsdataentry.inc");
       break;

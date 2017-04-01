@@ -732,7 +732,7 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
   return true;
 }
 
-function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month',$shortcutTag='') {
+function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$numericDisplayFormat,$normalization='',$pageOrTagAdvice='page',$monthOrYearAdvice='month',$shortcutTag='',$cleanPermalinkUrl='') {
   global $graphTimeTaken;
   global $imagesPath;
   global $generateGraphCmdBase;
@@ -1008,7 +1008,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     }
   }
 
-  $fileName = strval(rand());
+  $fileName = hash("md5",$cleanPermalinkUrl);
   $filePathBase = $imagesPath . $fileName;
   file_put_contents($filePathBase . ".csv", $fullOutput);
   if (count($pageOrTagList) * count($languageList) * count($drilldownList) > 1) {

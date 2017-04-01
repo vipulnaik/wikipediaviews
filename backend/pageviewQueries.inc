@@ -107,6 +107,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   global $statsGrokSeActive;
   global $backfillIfPossible;
   global $mysqli;
+  global $currentlyBackfillingFb;
   if (count($dataStartMap) == 0) {
     $dataStartMap = dataStartMap();
   }
@@ -131,7 +132,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   } else {
     $url = getPageviewsUrl($page,$month,$language,$drilldown);
     if ($drilldown == "cumulative-facebook-shares") {
-      if (($month == $thisMonth) and $fbTokenActive == true) {
+      if (($month == $thisMonth or ($month == $monstRecentMonth and $currentlyBackfillingFb == true)) and $fbTokenActive == true) {
         $attemptedExternalQueryCount++;
         $tmpString = strval(rand());
         $jsonFileFullPath = $curlOutputDirectory.$tmpString.'.json';

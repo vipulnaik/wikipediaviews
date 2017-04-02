@@ -473,6 +473,7 @@ function viewCountArrayByMonth($pageList,$languageList,$drilldownList,$monthList
   global $cannotRetrieveMessage;
   global $numberofdays_allmonths;
   global $mostRecentMonth;
+  # print "<br/><br/>Entered viewCountArrayByMonth request with starting page ".$pageList[0].", starting month ".$monthList[0].", and shortcutTag = ".$shortcutTag."<br/><br/>";
   $viewCountArray = viewCountArrayByMonth_raw($pageList,$languageList,$drilldownList,$monthList,$online,$normalization,$shortcutTag);
   if ($normalization == '') {
     return $viewCountArray;

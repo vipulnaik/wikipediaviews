@@ -1,5 +1,6 @@
 <?php
 
+
 function checkTagPresence($tag) {
   global $mysqli;
   if ($mysqli->connect_errno) 
@@ -176,6 +177,7 @@ function viewCountArrayByTagAndMonth_raw($tagList,$languageList,$drilldownList,$
 function viewCountArrayByTagAndMonth($tagList,$languageList,$drilldownList,$monthList,$online=true,$normalization='') {
   global $exceededQueryLimitMessage;
   global $numberofdays_allmonths;
+  global $mostRecentMonth;
   $viewCountArray = viewCountArrayByTagAndMonth_raw($tagList,$languageList,$drilldownList,$monthList,$online,$normalization);
   if ($normalization == '') {
     return $viewCountArray;
@@ -193,8 +195,9 @@ function viewCountArrayByTagAndMonth($tagList,$languageList,$drilldownList,$mont
       }
     }
   } elseif ($normalization == 'aggregate') {
-    $aggregateViewCountArray = viewCountArrayByMonth(array("[aggregate]"),$languageList,$drilldownList,$monthList, true, '', $shortcutTag);
-    $mostRecentAggregateViewCountArray = viewCountArrayByMonth(array("[aggregate]"),$languageList, $drilldownList, array($mostRecentMonth), true, '', $shortcutTag);
+    $aggregateViewCountArray = viewCountArrayByMonth(array("[aggregate]"),$languageList,$drilldownList,$monthList, true, '', '');
+    # print "<br/><br/>Requested aggregateViewCountArray with languageList $languageList head ".$languageList[0].", drilldownList $drilldownList, head ".$drilldownList[0].", monthList $monthList, head ".$monthList[0]."<br/><br/>";
+    $mostRecentAggregateViewCountArray = viewCountArrayByMonth(array("[aggregate]"),$languageList, $drilldownList, array($mostRecentMonth), true, '', '');
     foreach($tagList as $tag) {
       foreach ($languageList as $language) {    
         foreach ($drilldownList as $drilldown) {

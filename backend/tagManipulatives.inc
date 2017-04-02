@@ -173,22 +173,38 @@ function viewCountArrayByTagAndMonth_raw($tagList,$languageList,$drilldownList,$
   return $viewCountArray;
 }
 
-function viewCountArrayByTagAndMonth($tagList,$monthList,$language='en',$drilldownList,$online=true,$normalization='') {
+function viewCountArrayByTagAndMonth($tagList,$languageList,$drilldownList,$monthList,$online=true,$normalization='') {
   global $exceededQueryLimitMessage;
   global $numberofdays_allmonths;
-  $viewCountArray = viewCountArrayByTagAndMonth_raw($tagList,$monthList,$language,$drilldownList,$online,$normalization);
-  if ($normalization == '')
-    {
-      return $viewCountArray;
-    }
+  $viewCountArray = viewCountArrayByTagAndMonth_raw($tagList,$languageList,$drilldownList,$monthList,$online,$normalization);
+  if ($normalization == '') {
+    return $viewCountArray;
+  }
   elseif ($normalization == 'dailyaverage') {
     foreach ($tagList as $tag) {
-      foreach ($monthList as $month) {
+      foreach ($languageList as $language) {
         foreach ($drilldownList as $drilldown) {
-	  if ($viewCountArray[$tag][$month][$drilldown] != $exceededQueryLimitMessage) {
-            $viewCountArray[$tag][$month][$drilldown] = round($viewCountArray[$tag][$month][$drilldown]/intval($numberofdays_allmonths[$month]),1);
-          }
+          foreach ($monthList as $month) {
+	    if ($viewCountArray[$tag][$language][$drilldown][$month] != $exceededQueryLimitMessage) {
+              $viewCountArray[$tag][$language][$drilldown][$month] = round($viewCountArray[$tag][$language][$drilldown][$month]/intval($numberofdays_allmonths[$month]),1);
+            }
+	  }
 	}
+      }
+    }
+  } elseif ($normalization == 'aggregate') {
+    $aggregateViewCountArray = viewCountArrayByMonth(array("[aggregate]"),$languageList,$drilldownList,$monthList, true, '', $shortcutTag);
+    $mostRecentAggregateViewCountArray = viewCountArrayByMonth(array("[aggregate]"),$languageList, $drilldownList, array($mostRecentMonth), true, '', $shortcutTag);
+    foreach($tagList as $tag) {
+      foreach ($languageList as $language) {    
+        foreach ($drilldownList as $drilldown) {
+          foreach ($monthList as $month) {
+            if (($month >= '201507' or ($month >= '200802' and $drilldown == 'desktop')) and $viewCountArray[$tag][$language][$drilldown][$month] !== $exceededQueryLimitMessage and $viewCountArray[$tag][$language][$drilldown][$month] !== $cannotRetrieveMessage) {
+              # print ("Scaling value ".$viewCountArray[$tag][$language][$drilldown][$month] .", multiplying by ". $mostRecentAggregateViewCountArray["[aggregate]"][$language][$drilldown][$mostRecentMonth] . ", then dividing by ". $aggregateViewCountArray["[aggregate]"][$language][$drilldown][$month]);
+              $viewCountArray[$tag][$language][$drilldown][$month] = intval(($viewCountArray[$tag][$language][$drilldown][$month] * $mostRecentAggregateViewCountArray["[aggregate]"][$language][$drilldown][$mostRecentMonth]) / $aggregateViewCountArray["[aggregate]"][$language][$drilldown][$month]);
+            }
+          }
+        }
       }
     }
   }

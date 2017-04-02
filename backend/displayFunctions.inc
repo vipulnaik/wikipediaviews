@@ -1048,6 +1048,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       $addendum .= ", using lines (not bars) as there are more than 50 items";
     }
     if ($dataHasChanged == true or file_exists($filePathBase . "-distrib.png") == false) {
+      if (file_exists($filePathBase . "-distrib.png") == true) {
+        exec("rm ".$filePathBase . "-distrib.png");
+      }
       exec($cmdToExecute);
     }
     print "<br/><br/>";
@@ -1060,6 +1063,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       $cmdToExecute = $cmdToExecute . " --log10";
     }
     if ($dataHasChanged == true or file_exists($filePathBase . "-timeseries.png") == false) {
+      if (file_exists($filePathBase . "-timeseries.png") == true) {
+        exec("rm ".$filePathBase . "-timeseries.png");
+      }
       exec($cmdToExecute);
     }
     print "<br/><br/>";
@@ -1110,6 +1116,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     }
     # print("Going to try executing ".$cmdToExecute."<br>");
     if ($dataHasChanged == true or file_exists($drilldownFilePathBase . "-distrib.png") == false) {
+      if (file_exists($drilldownFilePathBase . "-distrib.png") == true) {
+        exec("rm ".$drilldownFilePathBase . "-distrib.png");
+      }
       exec($cmdToExecute);
     }
     print "<br/><br/>";
@@ -1122,6 +1131,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
         $cmdToExecute = $cmdToExecute . " --log10";
       }
       if ($dataHasChanged == true or file_exists($drilldownFilePathBase . "-timeseries.png") == false) {
+        if (file_exists($drilldownFilePathBase . "-timeseries.png") == true) {
+	  exec("rm ".$drilldownFilePathBase . "-timeseries.png");
+	}
         exec($cmdToExecute);
       }
       print "<br><br>";
@@ -1156,6 +1168,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     }
     # print("Going to try executing ".$cmdToExecute."<br>");
     if ($dataHasChanged == true or file_exists($pageOrTagCumLanguageFilePathBase . "-distrib.png") == false) {
+      if (file_exists($pageOrTagCumLanguageFilePathBase . "-distrib.png") == true) {
+        exec("rm ".$pageOrTagCumLanguageFilePathBase . "-distrib.png");
+      }
       exec($cmdToExecute);
     }
     print "<br/><br/>";
@@ -1167,7 +1182,10 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       if ($numericDisplayFormat == "log") {
         $cmdToExecute = $cmdToExecute . " --log10";
       }
-      if ($dataHasChanged == true or file_exists($pageOrTagCumLanguageFilePathBase . "-timeseries.png") == false) {      
+      if ($dataHasChanged == true or file_exists($pageOrTagCumLanguageFilePathBase . "-timeseries.png") == false) {
+        if (file_exists($pageOrTagCumLanguageFilePathBase . "-timeseries.png") == true) {
+          exec("rm ".$pageOrTagCumLanguageFilePathBase . "-timeseries.png");
+        } 
         exec($cmdToExecute);
       }
       if (count($pageOrTagList) * count($languageList) > 30) {
@@ -1208,6 +1226,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     }
     # print("Going to try executing ".$cmdToExecute."<br>");
     if ($dataHasChanged == true or file_exists($pageOrTagFilePathBase . "-distrib.png") == false) {
+      if (file_exists($pageOrTagFilePathBase . "-distrib.png") == true) {
+        exec("rm ".$pageOrTagFilePathBase . "-distrib.png");
+      }
       exec($cmdToExecute);
     }
     print "<br/><br/>";
@@ -1220,6 +1241,9 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
         $cmdToExecute = $cmdToExecute . " --log10";
       }
       if ($dataHasChanged == true or file_exists($pageOrTagFilePathBase . "-timeseries.png") == false) {
+        if (file_exists($pageOrTagFilePathBase . "-timeseries.png") == true) {
+          exec("rm ".$pageOrTagFilePathBase . "-timeseries.png");
+        }
         exec($cmdToExecute);
       }
       if (count($pageOrTagList) > 30) {

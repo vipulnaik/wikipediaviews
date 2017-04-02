@@ -108,6 +108,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   global $backfillIfPossible;
   global $mysqli;
   global $currentlyBackfillingFb;
+  # print "<br/>fbToken = $fbToken, fbTokenActive = $fbTokenActive<br/><br/>";
   if (count($dataStartMap) == 0) {
     $dataStartMap = dataStartMap();
   }
@@ -132,11 +133,12 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   } else {
     $url = getPageviewsUrl($page,$month,$language,$drilldown);
     if ($drilldown == "cumulative-facebook-shares") {
-      if (($month == $thisMonth or ($month == $monstRecentMonth and $currentlyBackfillingFb == true)) and $fbTokenActive == true) {
+      if (($month == $thisMonth or ($month == $mostRecentMonth and $currentlyBackfillingFb == true)) and $fbTokenActive == true) {
         $attemptedExternalQueryCount++;
         $tmpString = strval(rand());
         $jsonFileFullPath = $curlOutputDirectory.$tmpString.'.json';
         $curlCmd = 'curl -H "Authorization: Bearer '.$fbToken.'" '.$url.' > '.$jsonFileFullPath;
+        # print "<br/>Executing curl command $curlCmd<br/><br/>";
         exec($curlCmd);
         $contents = file_get_contents($jsonFileFullPath);
         $json = json_decode($contents,true);

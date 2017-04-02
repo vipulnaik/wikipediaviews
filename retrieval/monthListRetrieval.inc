@@ -72,11 +72,13 @@ if ($year != "" and $monthacrossyears != "") {
 }
 
 elseif ($year != "") {
-    $monthList = pastmonthsinyear($year);
+  $monthUrlComponent = "&year=$year";
+  $monthList = pastmonthsinyear($year);
 }
 
 elseif ($monthacrossyears != "") {
-    $monthList = monthacrossallyears($monthacrossyears);
+  $monthUrlComponent = "&monthacrossyears=$monthacrossyears";
+  $monthList = monthacrossallyears($monthacrossyears);
 }
 
 if (count($monthList) == 0) {

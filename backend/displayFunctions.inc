@@ -1012,14 +1012,18 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
   $filePathBase = $imagesPath . $fileName;
   $dataHasChanged = false;
   if (file_exists($filePathBase . ".csv") == false) {
+    # print "<br/>There is no file with the CSV $filePathBase . csv, so we are writing it out<br/>";
     file_put_contents($filePathBase . ".csv", $fullOutput);
     $dataHasChanged = true;
   } else {
     $previousOutput = file_get_contents($filePathBase . ".csv");
     if ($previousOutput != $fullOutput) {
+      # print "<br/>We have a cached file but the underlying data has changed<br/><br/>";
       $dataHasChanged = true;
       file_put_contents($filePathBase . ".csv", $fullOutput);
-    }    
+    } else {
+      # print "<br/>The cached file contents match the existing data<br/><br/>";
+    }
   }
   if (count($pageOrTagList) * count($languageList) * count($drilldownList) > 1) {
     $addendum = "";

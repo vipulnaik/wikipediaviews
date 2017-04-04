@@ -114,7 +114,11 @@ function getTagTotal($tag,$language,$drilldown,$monthList,$online=true,$normaliz
     }
   }
 
-  if ($online == true and $attemptedExternalQueryCount < $attemptedExternalQueryLimit and count($pageList) * count($monthList) < $tagProperQueryLimit) {
+  if (count($queryMonthList) > 0) {
+    # print "We need to make queries on queryMonthList, example month ".$queryMonthList[0];
+  }
+  
+  if ($online == true and count($queryMonthList) > 0 and $attemptedExternalQueryCount < $attemptedExternalQueryLimit and count($pageList) * count($monthList) < $tagProperQueryLimit) {
     $viewCountArray = viewCountArrayByMonth($pageList,array($language),array($drilldown),$queryMonthList,$online,$normalization);
     $tap = totalsAndPercentages($pageList,array($language),array($drilldown),$queryMonthList,$viewCountArray);
     $pageviewRetrievedMonthTotal = $tap["monthOrYearTotal"];

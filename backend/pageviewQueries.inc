@@ -190,7 +190,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
       # query)
       ini_set('user_agent', 'Wikipedia Views (wikipediaviews.org); contact vipulnaik1@gmail.com in case of issues');
       # usleep(20000); ## No need to sleep, the API takes 100 ms to respond so we are anyway safe at 10 req/s
-      if ($localBackfillIfPossible) {
+      if (($page != '[aggregate]') and $localBackfillIfPossible) {
         $lookupPage = str_replace('"','\"',$page);
         $html = file_get_contents($longUrl);
         if (!$html) {

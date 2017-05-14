@@ -13,6 +13,11 @@ li
 display:inline;
 }
 </style>
+<style>
+  td {
+  word-break: break-all;
+  }
+  </style>
 </head>
 <body>
 <ul>

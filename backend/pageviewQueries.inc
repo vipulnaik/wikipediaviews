@@ -35,11 +35,11 @@ function queriedPageLog($page,$language,$archivalStatus) {
     {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
-  $select_query = "select row_id from queriedpages where pagename=\"".$page."\" and language='".$language."' limit 1;";
+  $select_query = "select row_id from queriedpages where pagename=\"".str_replace('"','\"',$page)."\" and language='".$language."' limit 1;";
   $result = $mysqli->query($select_query);
   $page = str_replace('"','\"',$page);
   if ($result->num_rows == 0) {
-    $insertQuery = "insert into queriedpages(pagename,language,archivalstatus) values (\"".$page."\",'".$language."','".$archivalStatus."');";
+    $insertQuery = "insert into queriedpages(pagename,language,archivalstatus) values (\"".str_replace('"','\"',$page)."\",'".$language."','".$archivalStatus."');";
     $result = $mysqli->query($insertQuery);
   }
   return $result;

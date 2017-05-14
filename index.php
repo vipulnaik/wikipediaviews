@@ -9,6 +9,8 @@ include("style/head.inc"); ##included in all public-facing files
 print '<body>';
 $formdata = false;
 include("inputDisplay/onemonthdataentry.inc");
+include("backend/recentQueries.inc");
+printRecentQueries(1000, 10000);
 print '</body>';
 print '</html>';
 ?>

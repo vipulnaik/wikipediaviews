@@ -68,9 +68,9 @@ contrast, the Wikimedia REST API is case-sensitive.</p></li>
 are <em>not</em> combined with pageviews of the page redirected to
 (this behavior is consistent between stats.grok.se and the REST
 API). For instance, the
-pages <a href="http://en.wikipedia.org/wiki/Arnold_Foundation">Arnold
+pages <a href="https://en.wikipedia.org/wiki/Arnold_Foundation">Arnold
 Foundation</a>
-and <a href="http://en.wikipedia.org/wiki/Laura_and_John_Arnold_Foundation">Laura
+and <a href="https://en.wikipedia.org/wiki/Laura_and_John_Arnold_Foundation">Laura
 and John Arnold Foundation</a> are counted separately, even though the
 former redirects to the latter. This is the way the Wikimedia raw data
 dumps, stats.grok.se, and this website treat the data.</p></li>
@@ -128,6 +128,6 @@ sparked interest in the topic.</p></li>
 
 <h4>Interested more in Wikipedia pageviews?</h4>
 
-<p>You might like to read this <a href="http://vipulnaik.com/blog/the-great-decline-in-wikipedia-pageviews-full-version/">blog post on the decline in Wikipedia pageviews over time</a>, written based on data collated by Wikipedia Views. A shorter version was <a href="http://lesswrong.com/r/discussion/lw/lxc/the_great_decline_in_wikipedia_pageviews/">published on LessWrong</a>.</p>
+<p>You might like to read this <a href="https://vipulnaik.com/blog/the-great-decline-in-wikipedia-pageviews-full-version/">blog post on the decline in Wikipedia pageviews over time</a>, written based on data collated by Wikipedia Views. A shorter version was <a href="http://lesswrong.com/r/discussion/lw/lxc/the_great_decline_in_wikipedia_pageviews/">published on LessWrong</a>.</p>
 
 </body>

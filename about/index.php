@@ -24,9 +24,9 @@ Wikipedia pages or collections of pages get viewed.</p>
 <h3 id="behind-the-curtain">Behind the curtain</h3>
 
 <p><strong>Wikipedia Views</strong> has been developed
-by <a href="http://vipulnaik.com">Vipul Naik</a> using PHP and
+by <a href="https://vipulnaik.com">Vipul Naik</a> using PHP and
 MySQL. Special thanks go
-to <a href="http://www.stackoverflow.com">Stack Overflow</a> for help
+to <a href="https://www.stackoverflow.com">Stack Overflow</a> for help
 with overcoming some of the coding hurdles that needed to be cleared
 to get to functioning code.</p>
 
@@ -73,7 +73,7 @@ April 30, 2014 and July 31, 2014. Subsequent changes were concentrated
 in late 2016.</p>
 
 <p>Code is available
-at <a href="http://github.com/vipulnaik/wikipediaviews">GitHub</a>.</p>
+at <a href="https://github.com/vipulnaik/wikipediaviews">GitHub</a>.</p>
 
 <p>For more on how to interpret the pageview data, see <a href="pageviewstatsinterpretation.php">here</a>.
 

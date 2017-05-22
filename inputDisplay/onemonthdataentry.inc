@@ -36,15 +36,15 @@ print '</form>';
 <p><strong>More on page names</strong>: The <em>page name</em> is the
 name that appears at the top of the Wikipedia page. For instance,
 <tt>Albert Einstein</tt> is the page name for the English Wikipedia page with
-URL <a href="http://en.wikipedia.org/wiki/Albert_Einstein">http://en.wikipedia.org/wiki/Albert_Einstein</a>.</p>
+URL <a href="https://en.wikipedia.org/wiki/Albert_Einstein">https://en.wikipedia.org/wiki/Albert_Einstein</a>.</p>
 
 <p><strong>Sample usage</strong>: Suppose you want to compare the web
 traffic that the English Wikipedia pages
-on <a href="http://en.wikipedia.org/wiki/Timeline_of_Facebook">Timeline
+on <a href="https://en.wikipedia.org/wiki/Timeline_of_Facebook">Timeline
 of
-Facebook</a>, <a href="http://en.wikipedia.org/wiki/Timeline_of_Twitter">Timeline
+Facebook</a>, <a href="https://en.wikipedia.org/wiki/Timeline_of_Twitter">Timeline
 of Twitter</a>,
-and <a href="http://en.wikipedia.org/wiki/Timeline_of_Google_Search">Timeline
+and <a href="https://en.wikipedia.org/wiki/Timeline_of_Google_Search">Timeline
 of Google Search</a> received in March 2014. Then, you will enter the
 following in the text area:</p>
 

@@ -36,7 +36,7 @@ for($i=0;$i<$result->num_rows;$i++)
   {
     $row = $result->fetch_assoc();
     print '<input type="checkbox" name="monthList[]" value="'.$row['monthfull'].'"';
-    if (($formdata == false and $row['status']=='mostrecent') or ($row['status'] == 'present' and ($allmonths == 'allmonths-present' or $allmonths == 'allmonths-api-present'))) {
+    if (($formdata == false and $row['status']=='mostrecent') or ($row['status'] == 'present' and isset($allmonths) and ($allmonths == 'allmonths-present' or $allmonths == 'allmonths-api-present'))) {
       print ' checked';
     }
     if ($formdata == true) {

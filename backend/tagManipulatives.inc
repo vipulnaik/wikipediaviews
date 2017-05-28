@@ -259,7 +259,9 @@ function getTagListByPageList($pageList,$languageList) {
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
+  $tagList = array();
   foreach ($pageList as $page) {
+    $tagList[$page] = array();
     foreach ($languageList as $language) {
       $tagList[$page][$language] = array();
     }
@@ -271,7 +273,9 @@ function getTagListByPageList($pageList,$languageList) {
   $result = $mysqli->query($tagSelectQuery);
   for ($i = 0;$i < $result -> num_rows; $i++) {
     $row = $result -> fetch_assoc();
-    array_push($tagList[$row['pagename']][$row['language']],$row['tag']);
+    if (array_key_exists($row['pagename'],$tagList) and array_key_exists($row['language'],$tagList[$row['pagename']])) {
+      array_push($tagList[$row['pagename']][$row['language']],$row['tag']);
+    }
   }
   return $tagList;
 }

@@ -220,6 +220,10 @@ function getTagViewsUrl($tag,$month,$language,$drilldown="desktop") {
   return "https://wikipediaviews.org/displayviewsforonemonth.php?month=".$month."&tag=".urlencode($tag)."&language=".$language."&drilldown=".$drilldown;
 }
 
+function getAllTimeTagViewsUrl($tag,$language) {
+  return "https://wikipediaviews.org/displayviewsformultiplemonths.php?allmonths=allmonths&tag=".urlencode($tag)."&language=".$language."&drilldown=all";
+}
+
 function getAnnualTagViewsUrl($tag,$year,$language,$drilldown="desktop") {
   return "https://wikipediaviews.org/displayviewsformultipleyears.php?year=".$year."&tag=".urlencode($tag)."&language=".$language."&drilldown=".$drilldown;
 }

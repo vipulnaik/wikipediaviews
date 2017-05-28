@@ -20,22 +20,89 @@ function checkSizes($pageOrTagList,$languageList, $drilldownList, $monthOrYearLi
 }
 
 function totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$viewCountArray) {
+  $pageOrTagCumLanguageCumDrilldownTotal = array();
+  $pageOrTagCumLanguageCumMonthOrYearTotal = array();
+  $drilldownCumMonthOrYearTotal = array();
+  $pageOrTagCumLanguageTotal = array();
+  $pageOrTagCumDrilldownTotal = array();
+  $pageOrTagCumMonthOrYearTotal = array();
+  $pageOrTagTotal = array();
+  $languageTotal = array();
+  $drilldownTotal = array();
+  $monthOrYearTotal = array();
+  $grandTotal = 0;
   foreach ($pageOrTagList as $pageOrTag) {
+    if (!array_key_exists($pageOrTag, $pageOrTagCumLanguageCumDrilldownTotal)) {
+      $pageOrTagCumLanguageCumDrilldownTotal[$pageOrTag] = array();
+    }
+    if (!array_key_exists($pageOrTag, $pageOrTagCumLanguageCumMonthOrYearTotal)) {
+      $pageOrTagCumLanguageCumMonthOrYearTotal[$pageOrTag] = array();
+    }
+    if (!array_key_exists($pageOrTag, $pageOrTagCumLanguageTotal)) {
+      $pageOrTagCumLanguageTotal[$pageOrTag] = array();
+    }
+    if (!array_key_exists($pageOrTag, $pageOrTagCumDrilldownTotal)) {
+      $pageOrTagCumDrilldownTotal[$pageOrTag] = array();
+    }
+    if (!array_key_exists($pageOrTag, $pageOrTagCumMonthOrYearTotal)) {
+      $pageOrTagCumMonthOrYearTotal[$pageOrTag] = array();
+    }
+    if (!array_key_exists($pageOrTag, $pageOrTagTotal)) {
+      $pageOrTagTotal[$pageOrTag] = 0;
+    }
     foreach ($languageList as $language) {
+      if (!array_key_exists($language, $pageOrTagCumLanguageCumDrilldownTotal[$pageOrTag])) {
+        $pageOrTagCumLanguageCumDrilldownTotal[$pageOrTag][$language] = array();
+      }
+      if (!array_key_exists($language, $pageOrTagCumLanguageCumMonthOrYearTotal[$pageOrTag])) {
+        $pageOrTagCumLanguageCumMonthOrYearTotal[$pageOrTag][$language] = array();
+      }
+      if (!array_key_exists($language, $pageOrTagCumLanguageTotal[$pageOrTag])) {
+        $pageOrTagCumLanguageTotal[$pageOrTag][$language] = 0;
+      }
+      if (!array_key_exists($language, $languageTotal)) {
+        $languageTotal[$language] = 0;
+      }
       foreach ($drilldownList as $drilldown) {
+        if (!array_key_exists($drilldown, $pageOrTagCumDrilldownTotal[$pageOrTag])) {
+          $pageOrTagCumDrilldownTotal[$pageOrTag][$drilldown] = 0;
+        }
+        if (!array_key_exists($drilldown, $pageOrTagCumLanguageCumDrilldownTotal[$pageOrTag][$language])) {
+          $pageOrTagCumLanguageCumDrilldownTotal[$pageOrTag][$language][$drilldown] = 0;
+        }
+        if (!array_key_exists($drilldown, $drilldownCumMonthOrYearTotal)) {
+          $drilldownCumMonthOrYearTotal[$drilldown] = array();
+        }
+        if (!array_key_exists($drilldown, $drilldownTotal)) {
+          $drilldownTotal[$drilldown] = 0;
+         }
         foreach ($monthOrYearList as $monthOrYear) {
-          $increment = intval($viewCountArray[$pageOrTag][$language][$drilldown][$monthOrYear]);
-          $pageOrTagCumLanguageCumDrilldownTotal[$pageOrTag][$language][$drilldown] += $increment;
-          $pageOrTagCumLanguageCumMonthOrYearTotal[$pageOrTag][$language][$monthOrYear] += $increment;
-          $drilldownCumMonthOrYearTotal[$drilldown][$monthOrYear] += $increment;
-          $pageOrTagCumMonthOrYearTotal[$pageOrTag][$monthOrYear] += $increment;
-          $pageOrTagCumLanguageTotal[$pageOrTag][$language] += $increment;
-          $pageOrTagCumDrilldownTotal[$pageOrTag][$drilldown] += $increment;
-          $pageOrTagTotal[$pageOrTag] += $increment;
-          $languageTotal[$language] += $increment;
-          $drilldownTotal[$drilldown] += $increment;
-          $monthOrYearTotal[$monthOrYear] += $increment;
-          $grandTotal += $increment;
+          if (!array_key_exists($monthOrYear, $pageOrTagCumLanguageCumMonthOrYearTotal[$pageOrTag][$language])) {
+            $pageOrTagCumLanguageCumMonthOrYearTotal[$pageOrTag][$language][$monthOrYear] = 0;
+          }
+          if (!array_key_exists($monthOrYear, $drilldownCumMonthOrYearTotal[$drilldown])) {
+            $drilldownCumMonthOrYearTotal[$drilldown][$monthOrYear] = 0;
+          }
+          if (!array_key_exists($monthOrYear, $pageOrTagCumMonthOrYearTotal[$pageOrTag])) {
+            $pageOrTagCumMonthOrYearTotal[$pageOrTag][$monthOrYear] = 0;
+          }
+          if (!array_key_exists($monthOrYear, $monthOrYearTotal)) {
+            $monthOrYearTotal[$monthOrYear] = 0;
+          }
+          if (array_key_exists($pageOrTag, $viewCountArray) and array_key_exists($language, $viewCountArray[$pageOrTag]) and array_key_exists($drilldown, $viewCountArray[$pageOrTag][$language]) and array_key_exists($monthOrYear, $viewCountArray[$pageOrTag][$language][$drilldown])) {
+            $increment = intval($viewCountArray[$pageOrTag][$language][$drilldown][$monthOrYear]);
+            $pageOrTagCumLanguageCumDrilldownTotal[$pageOrTag][$language][$drilldown] += $increment;
+            $pageOrTagCumLanguageCumMonthOrYearTotal[$pageOrTag][$language][$monthOrYear] += $increment;
+            $drilldownCumMonthOrYearTotal[$drilldown][$monthOrYear] += $increment;
+            $pageOrTagCumMonthOrYearTotal[$pageOrTag][$monthOrYear] += $increment;
+            $pageOrTagCumLanguageTotal[$pageOrTag][$language] += $increment;
+            $pageOrTagCumDrilldownTotal[$pageOrTag][$drilldown] += $increment;
+            $pageOrTagTotal[$pageOrTag] += $increment;
+            $languageTotal[$language] += $increment;
+            $drilldownTotal[$drilldown] += $increment;
+            $monthOrYearTotal[$monthOrYear] += $increment;
+            $grandTotal += $increment;
+          }
         }
       }
     }
@@ -503,7 +570,7 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
 
   #Tag list fetching
   if ($pageOrTagAdvice=='page') {
-     $tagListByPages = getTagListByPageList($pageOrTagList,$language);
+     $tagListByPages = getTagListByPageList($pageOrTagList,$languageList);
   }
   #Pre-table warnings
     
@@ -695,7 +762,7 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
     $tagsRowString = "<tr><td><strong>Tags</strong></td>";
     foreach ($pageOrTagList as $pageOrTag) {
       foreach ($languageList as $language) {
-        $tagListForPage = $tagListByPages[$pageOrTag];
+        $tagListForPage = $tagListByPages[$pageOrTag][$language];
         $tagCell = '<td>';
         if (count($tagListForPage) == 0) {
           $tagCell .= "--";
@@ -750,6 +817,8 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     print " Therefore, we are not constructing graphs.<br/>";
     return false;
   }
+  $verticalLineExplainer = "";
+  $fontParam = "";
   if (count($monthOrYearList) > 1 and max($monthOrYearList) >= '201506' and min($monthOrYearList) <= '201506') {
     $verticalLineExplainer = ' Since June 2015 is between the beginning and end of your time interval, you will see a vertical red line for that month. This is because June 2015 is the last month for which we use stats.grok.se data as our source for Wikipedia Views, and also because, starting July 2015, we have data for the drilldowns of mobile web, mobile app, desktop spider, and mobile web spider. See the <a href="/about">about page</a> for more information.';
   }

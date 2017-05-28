@@ -27,7 +27,7 @@ function printRecentQueries($distinctQueryLimit, $totalQueryLimit) {
     if ($viewcount > 100) {
       print "    <tr>\n";
       print '      <td><a href="https://wikipediaviews.org/displayviewsformultiplemonths.php?page='.urlencode($pagename).'&allmonths=allmonths&language='.$language.'&drilldown=all">'.$pagename."</a></td>\n";
-      print "      <td>$language</td>\n";
+      print "      <td><a href=\"".getPageUrl($pagename,$language)."\">$language</a></td>\n";
       print "      <td>$archivalstatus</td>\n";
       print "      <td align=".'"right"'.">$viewcount</td>\n";
       print "    </tr>\n";

@@ -226,7 +226,7 @@ function getAnnualTagViewsUrl($tag,$year,$language,$drilldown="desktop") {
 
 function getPageUrl($page,$language) {
   $page = str_replace(" ","_",$page);
-  return "http://" . $language . ".wikipedia.org/wiki/" . urlencode($page);
+  return "https://" . $language . ".wikipedia.org/wiki/" . urlencode($page);
 }
 
 function convertListToQuotedCsvString($listasarray) {

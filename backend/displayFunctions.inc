@@ -1000,7 +1000,10 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     }
     $totalsRowString = "Total";
     foreach($pageOrTagList as $pageOrTag) {
-      $totalsRowString .= "|".$pageOrTagTotal[$pageOrTag];
+      $totalsRowString .= "|";
+      if (array_key_exists($pageOrTag, $pageOrTagTotal)) {
+        $totalsRowString .= $pageOrTagTotal[$pageOrTag];
+      }
     }
     if (count($pageOrTagList) > 1) {
       $totalsRowString .= "|".$grandTotal;
@@ -1012,7 +1015,10 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     $pageOrTagOutput .= $totalsRowString;
     $percentagesRowString = "Percentage";
     foreach($pageOrTagList as $pageOrTag) {
-      $percentagesRowString .= "|".$pageOrTagPercentage[$pageOrTag];
+      $percentagesRowString .= "|";
+      if (array_key_exists($pageOrTag, $pageOrTagPercentage)) {
+        $percentagesRowString .= $pageOrTagPercentage[$pageOrTag];
+      }
     }
     $percentagesRowString .= "|100";
     $percentagesRowString .= "\n";

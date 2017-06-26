@@ -33,6 +33,12 @@ if (!empty($_REQUEST['category'])) {
     $category = $_REQUEST['category'];
 }
 
+$method = 'recursive';
+if (!empty($_REQUEST['method'])) {
+  $method = $_REQUEST['method'];
+}
+
+
 $user = '';
 if (!empty($_REQUEST['user'])) {
     $user = $_REQUEST['user'];
@@ -96,7 +102,7 @@ if ($pageSpecificationError == false) {
     $pageList = convertPageListToArray($pageListAsString_mod);
   }
   elseif ($category!='') {
-    $pageList = getPageListByWikipediaCategory($category,$language);
+    $pageList = getPageListByWikipediaCategory($category,$language,$method);
     if (sizeof($pageList) == 0) {
       include(__DIR__."/../style/head.inc");
       print "There are no pages for the category-language <em>combination</em>.<br>";

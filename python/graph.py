@@ -24,6 +24,8 @@ def main():
     parser.add_argument("--top", type=int, default=0,
             help="if this is a positive integer, only the top " +
             "TOP columns are plotted")
+    parser.add_argument("--label", action="store_true",
+            help="label the pages at the bottom of the plot")
     parser.add_argument("--similarity_matrix", action="store_true",
             help="print the similarity matrix of the columns in the CSV")
     parser.add_argument("--subtract_avg", action="store_true",
@@ -41,7 +43,7 @@ def main():
         df = np.log10(df)
     do_a_plot(df, args.output, kind=args.plot_kind,
             show_wm_api_switch=args.vertical_lines,
-            show_mobile_onset=args.vertical_lines)
+            show_mobile_onset=args.vertical_lines, legend=args.label)
 
 def get_df(fname, top=0):
     '''
@@ -73,14 +75,15 @@ def get_df(fname, top=0):
     return df
 
 def do_a_plot(df, fname, kind, show_wm_api_switch=False,
-        show_mobile_onset=False):
-    df.plot(kind=kind, legend=None)
+        show_mobile_onset=False, legend=None):
+    df.plot(kind=kind, legend=legend)
     # If we want rolling averages, we would set n to whatever the window length
     # is, but for now we don't, so just hard-code it to 1
     # n = 1
     if show_wm_api_switch or show_mobile_onset:
         plt.axvline(pd.to_datetime('2015-06-01'), color='r', lw=2)
-    plt.savefig(fname)
+    plt.legend(bbox_to_anchor=(0.5, -0.14), loc='upper center', ncol=3)
+    plt.savefig(fname, bbox_inches="tight")
     plt.clf()
     plt.close()
 

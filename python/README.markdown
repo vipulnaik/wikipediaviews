@@ -2,7 +2,7 @@
 
     $ python3 graph.py --help
     usage: graph.py [-h] [--log10] [--vertical_lines] [--plot_kind PLOT_KIND]
-                    [--top TOP] [--similarity_matrix] [--subtract_avg]
+                    [--top TOP] [--label] [--similarity_matrix] [--subtract_avg]
                     csv output
 
     positional arguments:
@@ -18,6 +18,7 @@
                             line.
       --top TOP             if this is a positive integer, only the top TOP
                             columns are plotted
+      --label               label the pages at the bottom of the plot
       --similarity_matrix   print the similarity matrix of the columns in the CSV
       --subtract_avg        subtract the average value of each column before
                             producing a similarity matrix; you must select

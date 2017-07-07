@@ -82,7 +82,7 @@ def do_a_plot(df, fname, kind, show_wm_api_switch=False,
     # n = 1
     if show_wm_api_switch or show_mobile_onset:
         plt.axvline(pd.to_datetime('2015-06-01'), color='r', lw=2)
-    plt.legend(bbox_to_anchor=(0.5, -0.14), loc='upper center', ncol=3)
+    plt.legend(bbox_to_anchor=(0.0, -0.14), loc='upper left', ncol=2)
     plt.savefig(fname, bbox_inches="tight")
     plt.clf()
     plt.close()

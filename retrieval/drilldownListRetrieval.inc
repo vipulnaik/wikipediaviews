@@ -15,6 +15,10 @@ if (!empty($_REQUEST['drilldown'])) {
   $drilldownUrlComponent = "&drilldown=".$sentDrilldown;
   if ($sentDrilldown == "all") {
     $drilldownList = array("desktop", "mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider");
+  } elseif ($sentDrilldown == "human") {
+    $drilldownList = array("desktop", "mobile-web", "mobile-app");
+  } elseif ($sentDrilldown == "spider") {
+    $drilldownList = array("desktop-spider", "mobile-web-spider");
   } elseif ($sentDrilldown == "referrers") {
     $drilldownList = array("referrer:other-search", "referrer:other-external", "referrer:other-other", "referrer:other-empty", "referrer:other-internal", "referrer:Wikipedia", "referrer:other-bing", "referrer:other-facebook", "referrer:other-google", "referrer:other-twitter", "referrer:other-wikipedia", "referrer:other-yahoo", "referrer:other");
   } elseif ($sentDrilldown == "referrers-new") {
@@ -29,6 +33,10 @@ if (!empty($_REQUEST['drilldown'])) {
     $drilldownUrlComponent = "&drilldown=".$drilldownList[0];
   } elseif ($drilldownList == array("desktop", "mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider")) {
     $drilldownUrlComponent = "&drilldown=all";
+  } elseif ($drilldownList == array("desktop", "mobile-web", "mobile-app")) {
+    $drilldownUrlComponent = "&drilldown=human";
+  } elseif ($drilldownList == array("desktop-spider", "mobile-web-spider")) {
+    $drilldownUrlComponent = "&drilldown=spider";
   } else {
     $drilldownUrlComponent = "";
     for ($i = 0; $i < count($drilldownList); $i++) {

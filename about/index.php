@@ -89,7 +89,16 @@ MySQL database. If we do, we serve the cached data. Otherwise, we
 fetch the data by making a HTTP page request
 to <a href="http://stats.grok.se">stats.grok.se</a> or the Wikimedia
 REST API and parsing the HTML or JSON output to extract the number of
-pageviews, and then cache it.</p></li>
+    pageviews, and then cache it using a MySQL database.</p></li>
+
+<li><p><strong>Cache size</strong>: Our database currently has partial
+or complete data for over 400,000 pages, and the main table has over
+70 million rows (where each row provides the view count for a
+combination of page, month, language, and drilldown). The number of
+rows in the table is growing at a rate of between 2 million and 15
+million a month; the minimum of 2 million is for filling in data for a
+new month for all the pages that have already been queried, and the
+higher end arises if we add many new pages to our cache.</p></li>
 
 <li><p><strong>Current month</strong>: Values for the current month
 may be cached from earlier queries, but cached values may not be

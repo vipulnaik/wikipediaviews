@@ -17,6 +17,7 @@ $pageListAsString='';
 $pageList = array();
 if (!empty($_REQUEST['pages'])) {
   $pageList = $_REQUEST['pages'];
+  $pageListAsString = join("\n", $pageList);
 }
 
 if (!empty($_REQUEST['pageListAsString'])) {

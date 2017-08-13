@@ -186,7 +186,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
       } else {
         return $cannotRetrieveMessage;
       }
-    } else if ($month >= '201507' or ($page == "[aggregate]" and in_array($drilldown, array("desktop", "mobile-web")))) {
+    } else if ($month >= '201507' or ($page == "[aggregate]" and in_array($drilldown, array("desktop", "mobile-web")) and ($drilldown == "desktop" or $month >= "201410"))) {
       $longUrl = getLongUrl($page,$month,$language,$drilldown);
       $attemptedExternalQueryCount++;
       # Calculate string of the first date of next month (used as upper limit of
@@ -219,7 +219,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
         $successfulExternalQueryCount++;
         return $sum;	
       } else {
-        print "Fetching contents for url $url";
+        # print "Fetching contents for url $url";
         $html = file_get_contents($url);
         if (!$html) {
           $successfulExternalQueryCount++;
@@ -258,7 +258,7 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
     $dataStartMap = dataStartMap();
   }
   # Short circuit computation if we know we cannot retrieve anything
-  if (($month < '201507' and in_array($drilldown, array("mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider")) and ($drilldown != "mobile-web" or $page != "[aggregate]")) or ($month < '201610' and $drilldown == 'cumulative-facebook-shares')) {
+  if (($month < '201507' and in_array($drilldown, array("mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider")) and ($drilldown != "mobile-web" or $page != "[aggregate]" or $month < "201410")) or ($month < '201610' and $drilldown == 'cumulative-facebook-shares')) {
     $irretrievableCount++;
     return $cannotRetrieveMessage;
   } elseif ($page != "[aggregate]" and $month.'31' < $dataStartMap[$language]) {

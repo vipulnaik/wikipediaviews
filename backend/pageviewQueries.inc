@@ -122,10 +122,13 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   }
   if (substr($drilldown, 0, 9) == "referrer:") {
     return getClickstreamData($page, $month, $language, $drilldown);
-  } elseif ($month < '201507' and in_array($drilldown, array("mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider"))) {
+  } elseif ($month < '201507' and in_array($drilldown, array("mobile-app", "desktop-spider", "mobile-web-spider"))) {
     $irretrievableCount++;
     return $cannotRetrieveMessage;
-  } elseif ($month.'31' < $dataStartMap[$language]) {
+  } elseif($month < '201507' and $page != "[aggregate]" and $drilldown == "mobile-web") {
+    $irretrievableCount++;
+    return $cannotRetrieveMessage;
+  } elseif ($page != "[aggregate]" and $month.'31' < $dataStartMap[$language]) {
     $irretrievableCount++;
     return $cannotRetrieveMessage;
   } elseif ($attemptedExternalQueryCount >= $attemptedExternalQueryLimit) {
@@ -183,13 +186,17 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
       } else {
         return $cannotRetrieveMessage;
       }
-    } else if ($month >= '201507') {
+    } else if ($month >= '201507' or ($page == "[aggregate]" and in_array($drilldown, array("desktop", "mobile-web")))) {
       $longUrl = getLongUrl($page,$month,$language,$drilldown);
       $attemptedExternalQueryCount++;
       # Calculate string of the first date of next month (used as upper limit of
       # query)
       ini_set('user_agent', 'Wikipedia Views (wikipediaviews.org); contact vipulnaik1@gmail.com in case of issues');
       # usleep(20000); ## No need to sleep, the API takes 100 ms to respond so we are anyway safe at 10 req/s
+      $lookupString = "views";
+      if ($month < "201507") {
+        $lookupString = "count";
+      }
       if (($page != '[aggregate]') and $localBackfillIfPossible) {
         $lookupPage = str_replace('"','\"',$page);
         $html = file_get_contents($longUrl);
@@ -201,9 +208,9 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
         $sum = 0;
         foreach($json["items"] as $item) {
           if ($item["timestamp"] == $month . "0100") {
-            $sum = intval($item["views"]);
+            $sum = intval($item[$lookupString]);
           } else {
-            $viewcount = intval($item["views"]);
+            $viewcount = intval($item[$lookupString]);
             $lookupMonth = substr($item["timestamp"],0,6);    
             $insertionQuery = "insert ignore into viewcountsbymonth(pagename,monthfull,language,drilldown,viewcount) values (\"".$lookupPage."\",'".$lookupMonth."','".$language."','".$drilldown."',".$viewcount.");";
 	    $mysqli -> query($insertionQuery); 
@@ -212,6 +219,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
         $successfulExternalQueryCount++;
         return $sum;	
       } else {
+        print "Fetching contents for url $url";
         $html = file_get_contents($url);
         if (!$html) {
           $successfulExternalQueryCount++;
@@ -220,7 +228,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
         $json = json_decode($html,true);
         $sum = 0;
         foreach ($json["items"] as $item) {
-          $sum += intval($item["views"]);
+          $sum += intval($item[$lookupString]);
         }
         $successfulExternalQueryCount++;
         return $sum;
@@ -250,10 +258,10 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
     $dataStartMap = dataStartMap();
   }
   # Short circuit computation if we know we cannot retrieve anything
-  if (($month < '201507' and in_array($drilldown, array("mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider")) and ($drilldown != "mobile-web" or $page != "[aggregate]" or $language != "en")) or ($month < 201610 and $drilldown == 'cumulative-facebook-shares')) {
+  if (($month < '201507' and in_array($drilldown, array("mobile-web", "mobile-app", "desktop-spider", "mobile-web-spider")) and ($drilldown != "mobile-web" or $page != "[aggregate]")) or ($month < '201610' and $drilldown == 'cumulative-facebook-shares')) {
     $irretrievableCount++;
     return $cannotRetrieveMessage;
-  } elseif ($month.'31' < $dataStartMap[$language]) {
+  } elseif ($page != "[aggregate]" and $month.'31' < $dataStartMap[$language]) {
     $irretrievableCount++;
     return $cannotRetrieveMessage;
   } 

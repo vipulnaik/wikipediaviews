@@ -128,17 +128,7 @@ function getPageviewsUrl($page,$month,$language,$drilldown) {
   } else if ($drilldown == "cumulative-facebook-shares") {
     return getFacebookShareCountUrl($page,$month,$language);
   } else if ($month < '201507' and $page == "[aggregate]") {
-    switch ($drilldown) {
-      case "desktop" :
-        return "https://stats.wikimedia.org/EN/TablesPageViewsMonthlyOriginal.htm";
-        break;
-      case "mobile-web" :
-        return "https://stats.wikimedia.org/EN/TablesPageViewsMonthlyOriginalMobile.htm";
-        break;
-      default :
-        return "";
-        break;  
-    }
+    return getApiPageviewsUrl($page,$month,$language,$drilldown);  
   } else if ($month < '201507' and $drilldown == "desktop") {
     return getSgsPageviewsUrl($page,$month,$language);
   } else {
@@ -205,8 +195,17 @@ function getApiPageviewsUrl($page,$month,$language,$drilldown) {
       $userType = "spider";
       break;
   }
-  if ($page == '[aggregate]') {
+  if ($page == '[aggregate]' and $month >= "201507") {
     return "https://wikimedia.org/api/rest_v1/metrics/pageviews/aggregate/" . $language . ".wikipedia/" . $drilldown . "/" . $userType . "/daily/" . $month . "0100/" . $endOfMonth . "23?purge" . strval(rand());
+  } else if ($page == '[aggregate]' and in_array($drilldown, array("desktop", "mobile-web"))) {
+    switch ($drilldown) {
+      case "desktop" :
+        return "https://wikimedia.org/api/rest_v1/metrics/legacy/pagecounts/aggregate/" . $language . ".wikipedia/desktop-site/daily/" . $month . "0100/" . $endOfMonth . "23?purge" . strval(rand());
+	break;
+      case "mobile-web" :
+        return "https://wikimedia.org/api/rest_v1/metrics/legacy/pagecounts/aggregate/" . $language . ".wikipedia/mobile-site/daily/" . $month . "0100/" . $endOfMonth . "23?purge" . strval(rand());
+        break;
+    }
   } else {
     return "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/" . $language . ".wikipedia/" . $drilldown . "/" . $userType . "/" . str_replace("%2527", "%27", urlencode(str_replace(" ","_",$page))) . "/daily/" . $month . "01/" . $endOfMonth . "?purge" . strval(rand());
   }

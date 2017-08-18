@@ -70,7 +70,7 @@ function pageMonthAdvice($pageList,$languageList,$drilldownList,$monthList,$came
     print "The number of entries that are irretrievable (i.e., cannot be computed, even if you retry) is ".$irretrievableCount."<br>";
   }
   if ($statsGrokSeActive == "false") {
-    print "stats.grok.se is down, which is why we were unable to retrieve some of the desktop data from before 2015-07 that you requested.<br>";
+    print "stats.grok.se is down, which is why we were unable to retrieve some of the desktop data from before 201507 that you requested.<br>";
   }
   if ($unavailableCount <= $attemptedExternalQueryLimit and $unavailableCount > 0) {
     print "<strong>TIP</strong>: If you run the query again, the remaining entries can be computed.<br>";

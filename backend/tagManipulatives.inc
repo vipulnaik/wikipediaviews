@@ -218,7 +218,7 @@ function viewCountArrayByTagAndMonth($tagList,$languageList,$drilldownList,$mont
   return $viewCountArray;
 }
 
-function viewCountArraybytagandyear($tagList,$languageList,$drilldownList,$yearList,$online=true,$normalization='') {
+function viewCountArraybyTagAndYear($tagList,$languageList,$drilldownList,$yearList,$online=true,$normalization='') {
   foreach ($tagList as $tag) {
     foreach ($languageList as $language) {
       foreach ($drilldownList as $drilldown) {

@@ -38,6 +38,17 @@ if (!empty($_REQUEST['category'])) {
     $category = $_REQUEST['category'];
 }
 
+$continueString = '';
+if (!empty($_REQUEST['continueString'])) {
+    $continueString = $_REQUEST['continueString'];
+}
+
+$method = 'recursive';
+if (!empty($_REQUEST['method'])) {
+  $method = $_REQUEST['method'];
+}
+
+
 $user = '';
 if (!empty($_REQUEST['user'])) {
     $user = $_REQUEST['user'];
@@ -113,7 +124,7 @@ if ($pageSpecificationError == false) {
     print "We do not support multiple pages view for a single tag and multiple languages";
     $pageSpecificationError = true;
   } elseif ($category!='' and count($languageList) == 1) {
-    $pageList = getPageListByWikipediaCategory($category,$languageList[0]);
+    $pageList = getPageListByWikipediaCategory($category,$languageList[0],$method,$continueString);
     $pageUrlComponent = "&category=".$urlencode(category);
     if (sizeof($pageList) == 0) {
       include(__DIR__."/../style/head.inc");

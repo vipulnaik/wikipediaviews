@@ -29,6 +29,22 @@ function addPageToTag($page,$language,$tag) {
   }
 }
 
+function addPageListToTag($pageList,$language,$tag) {
+  global $mysqli;
+  if ($mysqli->connect_errno) 
+    {
+      echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+    }
+  $insertQuery = "insert ignore into pagetags(pagename,language,tag) values ";
+  $insertList = array();
+  foreach($pageList as $page) {
+    array_push($insertList, "(\"".$page."\",'".$language."','".$tag."')");
+  }
+  $insertQuery .= join(",", $insertList);
+  $insertResult = $mysqli -> query($insertQuery);
+}
+
+
 function refreshTagCountLists() {
   global $mysqli;
   $truncationQuery = "truncate table tagsummary;";

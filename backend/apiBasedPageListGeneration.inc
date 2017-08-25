@@ -1,9 +1,9 @@
 <?php
 
-function getPageListByWikipediaCategory($category,$language,$method='recursive') {
+function getPageListByWikipediaCategory($category,$language,$method='recursive',$continueString='') {
   $category_underscored = str_replace(" ","_",$category);
   $category_encoded = urlencode($category_underscored);
-  $apiQueryUrl = 'http://'.$language.'.wikipedia.org/w/api.php?action=query&format=json&list=categorymembers&cmlimit=500&cmtitle=Category:'.$category_encoded;
+  $apiQueryUrl = 'https://'.$language.'.wikipedia.org/w/api.php?action=query&format=json&list=categorymembers&cmlimit=500&cmtitle=Category:'.$category_encoded;
   $iteration = 0;
   $continue = true;
   $overallIndex = 0;
@@ -12,6 +12,8 @@ function getPageListByWikipediaCategory($category,$language,$method='recursive')
     $apiQueryUrlIteration = $apiQueryUrl;
     if ($iteration > 0) {
       $apiQueryUrlIteration = $apiQueryUrl.'&cmcontinue='.$responseJson["continue"]["cmcontinue"];
+    } else if ($continueString != '') {
+      $apiQueryUrlIteration = $apiQueryUrl.'&cmcontinue='.$continueString;
     }
     print 'Query URL used to retrieve page list by category, iteration '.$iteration.': <a href="'.$apiQueryUrlIteration.'">'.$apiQueryUrlIteration.'</a><br/>';
     flush();

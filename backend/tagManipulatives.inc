@@ -59,7 +59,7 @@ function getPageListByTag($tag,$language) {
     {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
-  $tagSelectQuery = "select distinct pagetags.pagename from pagetags where pagetags.language='".$language."' and pagetags.tag='".$tag."' order by pagetags.pagename asc;";
+  $tagSelectQuery = "select distinct pagetags.pagename from pagetags where pagetags.language='".$language."' and pagetags.tag='".$tag."' limit 200000 order by pagetags.pagename asc;";
   $result = $mysqli->query($tagSelectQuery);
   # print "tagSelectQuery = ".$tagSelectQuery."<br>";
   $pageList = array();

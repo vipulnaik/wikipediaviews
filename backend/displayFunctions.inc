@@ -19,6 +19,24 @@ function checkSizes($pageOrTagList,$languageList, $drilldownList, $monthOrYearLi
   return 0;
 }
 
+function checkGraphSizes($pageOrTagList,$languageList, $drilldownList, $monthOrYearList) {
+  global $pageDisplayLimitForGraphs;
+  global $cellDisplayLimitForGraphs;
+  $numberOfPagesOrTags = count($pageOrTagList);
+  $numberOfMonthsOrYears = count($monthOrYearList);
+  if ($numberOfPagesOrTags > $pageDisplayLimitForGraphs) {
+    print "The number of pages or tags, namely ".$numberOfPagesOrTags.", exceeds ".$pageDisplayLimitForGraphs.", our hard limit on the number of pages that can be displayed.<br/>";
+    return 1;
+  }
+  $numberOfCells = $numberOfPagesOrTags * $numberOfMonthsOrYears * count($languageList) * count($drilldownList);
+  if ($numberOfCells > $cellDisplayLimitForGraphs) {
+    print "The total number of cells to display, namely ".$numberOfCells.", exceeds ".$cellDisplayLimitForGraphs.", our hard limit on the number of cells that can be displayed.";
+    return 2;
+  }
+  return 0;
+}
+
+
 function totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$viewCountArray) {
   $pageOrTagCumLanguageCumDrilldownTotal = array();
   $pageOrTagCumLanguageCumMonthOrYearTotal = array();
@@ -813,7 +831,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
   global $purgePeriod;
   $graphStartTime = microtime(true);
   #Check that sizes are workable
-  $sizeOverflow = checkSizes($pageOrTagList,$languageList,$drilldownList,$monthOrYearList);
+  $sizeOverflow = checkGraphSizes($pageOrTagList,$languageList,$drilldownList,$monthOrYearList);
   if ($sizeOverflow > 0) {
     print " Therefore, we are not constructing graphs.<br/>";
     return false;

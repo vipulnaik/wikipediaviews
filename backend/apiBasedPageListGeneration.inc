@@ -13,6 +13,7 @@ function getPageListByWikipediaCategory($category,$language,$method='recursive')
       $apiQueryUrlIteration = $apiQueryUrl.'&cmcontinue='.$responseJson["continue"]["cmcontinue"];
     }
     print 'Query URL used to retrieve page list by category, iteration '.$iteration.': <a href="'.$apiQueryUrlIteration.'">'.$apiQueryUrlIteration.'</a><br/>';
+    flush();
     $responseJson = json_decode(file_get_contents($apiQueryUrlIteration), true);
     for($i = 0;$i < count($responseJson["query"]["categorymembers"]);$i++) {
       $currentTitle = $responseJson["query"]["categorymembers"][$i]["title"]; 
@@ -32,7 +33,7 @@ function getPageListByWikipediaCategory($category,$language,$method='recursive')
         }
       }
     }
-    if ($responseJson["continue"] == "") {
+    if (!isset($responseJson["continue"]) or $responseJson["continue"] == "") {
       $continue = false;
     } else {
       $iteration++;

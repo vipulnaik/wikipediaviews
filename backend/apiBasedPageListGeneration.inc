@@ -36,10 +36,10 @@ function getPageListByWikipediaCategory($category,$language,$method='recursive',
         }
       }
     }
-    if (!isset($responseJson["continue"]) or $responseJson["continue"] == "") {
+    if (!isset($responseJson["continue"]) or $responseJson["continue"] == "" or !isset($responseJson["continue"]["cmcontinue"]) {
       $continue = false;
     } else {
-      print "Continuation token: " . $responseJson["continue"];
+      print "Continuation token: " . $responseJson["continue"]["cmcontinue"] . "<br/>";
       $iteration++;
     }
   }

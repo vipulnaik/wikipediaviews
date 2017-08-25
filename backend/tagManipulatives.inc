@@ -55,11 +55,12 @@ function refreshTagCountLists() {
 
 function getPageListByTag($tag,$language) {
   global $mysqli;
+  global $pageDisplayLimit;
   if ($mysqli->connect_errno) 
     {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
-  $tagSelectQuery = "select distinct pagetags.pagename from pagetags where pagetags.language='".$language."' and pagetags.tag='".$tag."' limit 200000 order by pagetags.pagename asc;";
+  $tagSelectQuery = "select distinct pagetags.pagename from pagetags where pagetags.language='".$language."' and pagetags.tag='".$tag."' order by pagetags.pagename asc limit $pageDisplayLimit;";
   $result = $mysqli->query($tagSelectQuery);
   # print "tagSelectQuery = ".$tagSelectQuery."<br>";
   $pageList = array();

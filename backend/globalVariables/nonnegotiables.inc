@@ -19,10 +19,10 @@ $tokenExpiredMessage = 'authentication token expired';
 
 ## Maximum number of pages we are allowed to display
 global $pageDisplayLimit;
-$pageDisplayLimit = 100000;
+$pageDisplayLimit = 1000000;
 
 global $cellDisplayLimit;
-$cellDisplayLimit = 2000000;
+$cellDisplayLimit = 5000000;
 
 global $tagProperQueryLimit;
 $tagProperQueryLimit = 5000;

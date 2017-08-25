@@ -7,6 +7,7 @@ function getPageListByWikipediaCategory($category,$language,$method='recursive')
   $iteration = 0;
   $continue = true;
   $overallIndex = 0;
+  $pageList = array();
   while ($continue == true and $iteration < 500) {
     $apiQueryUrlIteration = $apiQueryUrl;
     if ($iteration > 0) {
@@ -26,7 +27,7 @@ function getPageListByWikipediaCategory($category,$language,$method='recursive')
 	  }
         }
       } else {
-        if (!in_array($currentTitle, $pageList)) {
+        if (isset($pageList) && !in_array($currentTitle, $pageList)) {
           $pageList[$overallIndex] = $currentTitle;
           $overallIndex++;
         }

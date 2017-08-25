@@ -8,7 +8,7 @@ function getPageListByWikipediaCategory($category,$language,$method='recursive',
   $continue = true;
   $overallIndex = 0;
   $pageList = array();
-  while ($continue == true and $iteration < 500) {
+  while ($continue == true and $iteration < 50) {
     $apiQueryUrlIteration = $apiQueryUrl;
     if ($iteration > 0) {
       $apiQueryUrlIteration = $apiQueryUrl.'&cmcontinue='.$responseJson["continue"]["cmcontinue"];
@@ -39,6 +39,7 @@ function getPageListByWikipediaCategory($category,$language,$method='recursive',
     if (!isset($responseJson["continue"]) or $responseJson["continue"] == "") {
       $continue = false;
     } else {
+      print "Continuation token: " . $responseJson["continue"];
       $iteration++;
     }
   }

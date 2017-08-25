@@ -17,6 +17,8 @@ if ($formdata == true) {
 }
 print ' size="70"></input></td></tr>';
 
+print '<tr><td>Enter the continuation string if you do not want to start from the beginning of the category</td>';
+
 print '<td><input type="text" name="continueString" placeholder="Continue string for category"';
 if ($formdata == true) {
   print ' value="'.$continueString.'"';

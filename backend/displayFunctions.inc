@@ -226,7 +226,7 @@ function printPageviewsForMonthOrYearListAsHtmlTable($pageOrTagList,$languageLis
   } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
     $viewCountArray = viewCountArrayByTagAndMonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
   } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
-    $viewCountArray = viewCountArraybytagandyear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
+    $viewCountArray = viewCountArraybyTagAndYear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
   }
   $tap = totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$viewCountArray);
   $grandTotal = $tap["grandTotal"];
@@ -527,7 +527,7 @@ function printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageOrTagList,$l
   } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
     $viewCountArray = viewCountArrayByTagAndMonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
   } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
-    $viewCountArray = viewCountArraybytagandyear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
+    $viewCountArray = viewCountArraybyTagAndYear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,true,$normalization);
   }
   $tap = totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$viewCountArray);
   $grandTotal = $tap["grandTotal"];
@@ -810,6 +810,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
   global $generateGraphCmdBase;
   global $generateDistribCmdBase;
   global $unifontLocation;
+  global $purgePeriod;
   $graphStartTime = microtime(true);
   #Check that sizes are workable
   $sizeOverflow = checkSizes($pageOrTagList,$languageList,$drilldownList,$monthOrYearList);
@@ -823,6 +824,10 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     $verticalLineExplainer = ' Since June 2015 is between the beginning and end of your time interval, you will see a vertical red line for that month. This is because June 2015 is the last month for which we use stats.grok.se data as our source for Wikipedia Views, and also because, starting July 2015, we have data for the drilldowns of mobile web, mobile app, desktop spider, and mobile web spider. See the <a href="/about">about page</a> for more information.';
   }
   #Collect all the numbers that need to be printed first
+  $purgePeriodBackup = $purgePeriod;
+  if ($purgePeriod < 0) {
+    $purgePeriod = 0;
+  }
   if ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='month') {
     $viewCountArray = viewCountArrayByMonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization,$shortcutTag);
   } elseif ($pageOrTagAdvice=='page' and $monthOrYearAdvice=='year') {
@@ -830,9 +835,10 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
   } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='month') {
     $viewCountArray = viewCountArrayByTagAndMonth($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
   } elseif ($pageOrTagAdvice=='tag' and $monthOrYearAdvice=='year') {
-    $viewCountArray = viewCountArraybytagandyear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
+    $viewCountArray = viewCountArraybyTagAndYear($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,false,$normalization);
   }
-  
+  $purgePeriod = $purgePeriodBackup;
+
   $tap = totalsAndPercentages($pageOrTagList,$languageList,$drilldownList,$monthOrYearList,$viewCountArray);
   $grandTotal = $tap["grandTotal"];
   $pageOrTagCumMonthOrYearTotal = $tap["pageOrTagCumMonthOrYearTotal"];

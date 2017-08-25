@@ -8,7 +8,7 @@ function getPageListByWikipediaCategory($category,$language,$method='recursive',
   $continue = true;
   $overallIndex = 0;
   $pageList = array();
-  while ($continue == true and $iteration < 50) {
+  while ($continue == true and $iteration < 100) {
     $apiQueryUrlIteration = $apiQueryUrl;
     if ($iteration > 0) {
       $apiQueryUrlIteration = $apiQueryUrl.'&cmcontinue='.$responseJson["continue"]["cmcontinue"];

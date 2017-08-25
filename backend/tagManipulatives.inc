@@ -38,7 +38,7 @@ function addPageListToTag($pageList,$language,$tag) {
   $insertQuery = "insert ignore into pagetags(pagename,language,tag) values ";
   $insertList = array();
   foreach($pageList as $page) {
-    array_push($insertList, "(\"".$page."\",'".$language."','".$tag."')");
+    array_push($insertList, "(\"".str_replace('"','\"',$page)."\",'".$language."',\"".str_replace('"','\"',$tag)."\")");
   }
   $insertQuery .= join(",", $insertList);
   $insertResult = $mysqli -> query($insertQuery);

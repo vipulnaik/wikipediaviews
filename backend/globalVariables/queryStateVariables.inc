@@ -35,6 +35,9 @@ $fbTokenActive = true;
 global $statsGrokSeActive;
 $statsGrokSeActive = "false";
 
+global $statsGrokSeRequested;
+$statsGrokSeRequested = "false";
+
 global $wikimediaApiActive;
 $wikimediaApiActive = true;
 

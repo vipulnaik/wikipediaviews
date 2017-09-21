@@ -105,6 +105,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   global $irretrievableCount;
   global $dataStartMap;
   global $statsGrokSeActive;
+  global $statsGrokSeRequested;
   global $backfillIfPossible;
   global $mysqli;
   global $currentlyBackfillingFb;
@@ -159,7 +160,8 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
         $irretrievableCount++;
         return $cannotRetrieveMessage;
       }
-    } else if ($month < '201507' and $drilldown == "desktop" and $page != "[aggregate]" and $statsGrokSeActive != "false") {
+    } else if ($month < '201507' and $drilldown == "desktop" and $page != "[aggregate]") {
+      $statsGrokSeRequested = "true";
       if ($statsGrokSeActive == "unknown") {
         $curlCmd = "curl http://stats.grok.se --connect-timeout 5 --max-time 6";
         exec($curlCmd, $output, $curlSuccess);

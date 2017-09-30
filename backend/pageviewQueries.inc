@@ -154,7 +154,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
         $shareCount = intval($shareJson["share_count"]);
         $successfulExternalQueryCount++;
         return $shareCount;
-      } else if ($month == $thisMonth or $month == $mostRecentMonth) {
+      } else if ($month == $thisMonth or ($month == $mostRecentMonth and $currentlyBackfillingFb == true)) {
         return $tokenExpiredMessage;
       } else {
         $irretrievableCount++;

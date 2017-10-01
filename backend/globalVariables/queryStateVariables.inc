@@ -31,6 +31,10 @@ $yearSpecificationError = false;
 
 global $fbTokenActive;
 $fbTokenActive = true;
+# Assume token can't stay active for more than 61 minutes
+if (microtime(true) - $fbTokenStartTime > 3660) {
+  $fbTokenActive = false;
+}
 
 global $statsGrokSeActive;
 $statsGrokSeActive = "false";

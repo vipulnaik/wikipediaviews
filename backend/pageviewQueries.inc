@@ -593,14 +593,19 @@ function fillinWantedViewCounts($queryLimit, $online) {
   global $exceededQueryLimitMessage;
   global $tokenExpiredMessage;
   global $cannotRetrieveMessage;
+  global $fbTokenActive;
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
-  $selectQuery = "select * from wantedviewcountsbymonth where status='wanted' and drilldown = 'cumulative-facebook-shares' limit ".$queryLimit.";";
-  $result = $mysqli->query($selectQuery);
-  print date("Y-m-d h:i:sa").": ".$selectQuery."\n";
-  if ($result -> num_rows == 0) {
-    $selectQuery = "select * from wantedviewcountsbymonth where status='wanted' limit ".$queryLimit.";";
+  if ($fbTokenActive == true) {
+    $selectQuery = "select * from wantedviewcountsbymonth where status='wanted' and drilldown = 'cumulative-facebook-shares' limit ".$queryLimit.";";
+    $result = $mysqli->query($selectQuery);
+    print date("Y-m-d h:i:sa").": ".$selectQuery."\n";
+  } else {
+    print date("Y-m-d h:i:sa").": Skipping Facebook shares checking since it is not active\n";
+  }
+  if ($fbTokenActive == false or $result -> num_rows == 0) {
+    $selectQuery = "select * from wantedviewcountsbymonth where drilldown != 'cumulative-facebook-shares' and status='wanted' limit ".$queryLimit.";";
     $result = $mysqli->query($selectQuery);
     print date("Y-m-d h:i:sa").": ".$selectQuery."\n";
   }

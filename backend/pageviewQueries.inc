@@ -180,13 +180,15 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
             $successfulExternalQueryCount++;
             return $numberofpageviews[0];
           } else {
+            $irretrievalbleCount++;
             return $cannotRetrieveMessage;
           }
         } else {
+          $irretrievableCount++;
           return $cannotRetrieveMessage;
         }
       } else {
-        #irretrievableCount++;
+        $irretrievableCount++;
         return $cannotRetrieveMessage;
       }
     } else if ($month >= '201507' or ($page == "[aggregate]" and in_array($drilldown, array("desktop", "mobile-web")) and ($drilldown == "desktop" or $month >= "201410"))) {

@@ -646,7 +646,7 @@ function fillinWantedViewCounts($queryLimit, $online) {
       print "weighted external query limit is ".$attemptedExternalQueryLimit."\n";
       $queryEndTime = microtime(true);
       $queryTimeTaken = $queryEndTime - $queryStartTime;
-      print date("Y-m-d h:i:sa").": For page ".$page[$i].", language ".$language[$i].", drilldown ".$drilldown[$i].", and month ".$month[$i].", page view count is ".$count.", time taken is ".$queryTimeTaken." seconds\n";
+      print date("Y-m-d h:i:sa").": For language ".$language[$i].", drilldown ".$drilldown[$i].", month ".$month[$i].", and page ".$page[$i].", page view count is ".$count.", time taken is ".$queryTimeTaken." seconds\n";
       if ($count !== $exceededQueryLimitMessage and $count !== $tokenExpiredMessage) {
 	 $deletionQuery .= ",".$row_id[$i];
       }

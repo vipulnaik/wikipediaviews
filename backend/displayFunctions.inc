@@ -1184,7 +1184,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     } else if (count($drilldownList) > 1) {
       print "<strong>Time series of data; includes overall total and a separate curve for each drilldown".$addendum." below:</strong>";
     } else if (count($pageOrTagList) * count($languageList) > 1) {
-      print "<strong>Time series of data; includes overall total and a separate curve for each combination of ".$pageOrTagAdvice."and language ".$addendum." below:</strong>";
+      print "<strong>Time series of data; includes overall total and a separate curve for each combination of ".$pageOrTagAdvice." and language ".$addendum." below:</strong>";
     } else {
       print "<strong>Time series of data below:</strong>";
     }

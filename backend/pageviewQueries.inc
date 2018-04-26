@@ -56,7 +56,7 @@ function getClickstreamData($page, $month, $language, $drilldown) {
   $actualReferrer = substr($drilldown, 9, strlen($drilldown));
   # if (in_array($month, array("201501", "201502", "201602", "201603", "201604", "201608", "201609"))) {
   if ($language == "en" and (
-    (in_array($month, array("201604", "201608", "201609")) and in_array($actualReferrer, array("other-search", "other-external", "other-other","other-empty","other-internal","Wikipedia"))) or
+    ((in_array($month, array("201604", "201608", "201609")) or $month >= "201711") and in_array($actualReferrer, array("other-search", "other-external", "other-other","other-empty","other-internal","Wikipedia"))) or
     ($month == "201501" and $actualReferrer == "other") or
     (in_array($month, array("201501", "201502", "201602", "201603")) and in_array($actualReferrer, array("other-empty","other-internal","Wikipedia","other-bing","other-facebook","other-google","other-twitter","other-wikipedia","other-yahoo"))) or
     (in_array($month, array("201502", "201602", "201603")) and $actualReferrer == "other-other")

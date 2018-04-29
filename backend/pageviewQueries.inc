@@ -55,10 +55,10 @@ function getClickstreamData($page, $month, $language, $drilldown) {
   global $exceededQueryLimitMessage;
   $actualReferrer = substr($drilldown, 9, strlen($drilldown));
   # if (in_array($month, array("201501", "201502", "201602", "201603", "201604", "201608", "201609"))) {
-  if ($language == "en" and (
-    ((in_array($month, array("201604", "201608", "201609")) or $month >= "201711") and in_array($actualReferrer, array("other-search", "other-external", "other-other","other-empty","other-internal","Wikipedia"))) or
-    ($month == "201501" and $actualReferrer == "other") or
-    (in_array($month, array("201501", "201502", "201602", "201603")) and in_array($actualReferrer, array("other-empty","other-internal","Wikipedia","other-bing","other-facebook","other-google","other-twitter","other-wikipedia","other-yahoo"))) or
+  if (in_array($language, array("en","ru","de","es","ja")) and (
+    ((in_array($month, array("201604", "201608", "201609") and $language == "en") or $month >= "201711") and in_array($actualReferrer, array("other-search", "other-external", "other-other","other-empty","other-internal","Wikipedia"))) or
+    ($month == "201501" and $language == "en" and $actualReferrer == "other") or
+    (in_array($month, array("201501", "201502", "201602", "201603") and $language == "en") and in_array($actualReferrer, array("other-empty","other-internal","Wikipedia","other-bing","other-facebook","other-google","other-twitter","other-wikipedia","other-yahoo"))) or
     (in_array($month, array("201502", "201602", "201603")) and $actualReferrer == "other-other")
   )) {
     if ($attemptedExternalQueryCount < $attemptedExternalQueryLimit) {
@@ -66,10 +66,10 @@ function getClickstreamData($page, $month, $language, $drilldown) {
       $page = str_replace("(", "\(", $page);
       $page = str_replace(")","\)",$page);
       $grepString = "^$page\t$actualReferrer\t\K.+";
-      $sourceFile = $clickstreamFolder.$month.'.csv';
+      $sourceFile = $clickstreamFolder.$language.'/'.$month.'.tsv';
       $startingLetter = substr($page, 0, 1);
       if (ctype_alpha($startingLetter) and ctype_upper($startingLetter)) {
-        $sourceFile = $clickstreamFolder.$month.$startingLetter.'.csv';
+        $sourceFile = $clickstreamFolder.$language."/".$month.$startingLetter.'.tsv';
       }
       $grepExpression = 'grep -oP "'.$grepString.'" '.$sourceFile;
       # print "grep expression used = ".$grepExpression;

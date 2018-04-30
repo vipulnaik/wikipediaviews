@@ -230,7 +230,7 @@ function getTagViewsUrl($tag,$month,$language,$drilldown="desktop",$project="wik
 function getAllTimeTagViewsUrl($tag,$language,$project="wikipedia") {
   if ($project != "wikipedia") {
     return "https://wikipediaviews.org/displayviewsformultiplemonths.php?allmonths=allmonths&tag=".urlencode($tag)."&language=".$language."&project=".$project."&drilldown=all";
-  else {
+  } else {
     return "https://wikipediaviews.org/displayviewsformultiplemonths.php?allmonths=allmonths&tag=".urlencode($tag)."&language=".$language."&drilldown=all";
   }
 }

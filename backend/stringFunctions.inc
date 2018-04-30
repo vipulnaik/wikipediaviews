@@ -72,7 +72,7 @@ function getShortDescriptor($drilldown) {
   }
 }
 
-function getLongUrl($page,$month,$language,$drilldown) {
+function getLongUrl($page,$month,$language,$drilldown,$project="wikipedia") {
   global $mostRecentMonth;
   $monthToEndWith = $mostRecentMonth;
   if ($month > $monthToEndWith) {
@@ -119,25 +119,25 @@ function getLongUrl($page,$month,$language,$drilldown) {
       $userType = "spider";
       break;
   }
-  return "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/" . $language . ".wikipedia/" . $drilldown . "/" . $userType . "/" . str_replace("%2527", "%27", urlencode(str_replace(" ","_",$page))) . "/monthly/" . "20150701/" . $endOfMonth . "?purge" . strval(rand());
+  return "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/" . $language . "." . $project . "/" . $drilldown . "/" . $userType . "/" . str_replace("%2527", "%27", urlencode(str_replace(" ","_",$page))) . "/monthly/" . "20150701/" . $endOfMonth . "?purge" . strval(rand());
 }
 
-function getPageviewsUrl($page,$month,$language,$drilldown) {
+function getPageviewsUrl($page,$month,$language,$drilldown,$project='wikipedia') {
   if ($drilldown == "country-total") {
     return getCountryTotalBreakdown($month);
   } else if ($drilldown == "cumulative-facebook-shares") {
-    return getFacebookShareCountUrl($page,$month,$language);
+    return getFacebookShareCountUrl($page,$month,$language,$project);
   } else if ($month < '201507' and $page == "[aggregate]") {
-    return getApiPageviewsUrl($page,$month,$language,$drilldown);  
+    return getApiPageviewsUrl($page,$month,$language,$drilldown,$project);  
   } else if ($month < '201507' and $drilldown == "desktop") {
     return getSgsPageviewsUrl($page,$month,$language);
   } else {
-    return getApiPageviewsUrl($page,$month,$language,$drilldown);
+    return getApiPageviewsUrl($page,$month,$language,$drilldown,$project);
   }
 }
 
-function getFacebookShareCountUrl($page, $month, $language) {
-  $preEncodingPage = "https://".$language.".wikipedia.org/wiki/".str_replace(" ","_",$page);
+function getFacebookShareCountUrl($page, $month, $language, $project) {
+  $preEncodingPage = "https://".$language.".".$project.".org/wiki/".str_replace(" ","_",$page);
   $urlEncodedPage = urlencode($preEncodingPage);
   $fbUrl = "https://graph.facebook.com/v2.8/?id=" . $urlEncodedPage;
   return $fbUrl;
@@ -153,7 +153,7 @@ function getSgsPageviewsUrl($page,$month,$language) {
   return "http://stats.grok.se/" . $language . "/" . $month . "/" . $urlEncodedPage;
 }
 
-function getApiPageviewsUrl($page,$month,$language,$drilldown) {
+function getApiPageviewsUrl($page,$month,$language,$drilldown,$project='wikipedia') {
   $year = intval(substr($month, 0, 4));
   $justMonth = intval(substr($month, 4));
   switch (intval($justMonth)) {
@@ -196,40 +196,56 @@ function getApiPageviewsUrl($page,$month,$language,$drilldown) {
       break;
   }
   if ($page == '[aggregate]' and $month >= "201507") {
-    return "https://wikimedia.org/api/rest_v1/metrics/pageviews/aggregate/" . $language . ".wikipedia/" . $drilldown . "/" . $userType . "/daily/" . $month . "0100/" . $endOfMonth . "23?purge" . strval(rand());
+    return "https://wikimedia.org/api/rest_v1/metrics/pageviews/aggregate/" . $language . "." . $project . "/" . $drilldown . "/" . $userType . "/daily/" . $month . "0100/" . $endOfMonth . "23?purge" . strval(rand());
   } else if ($page == '[aggregate]' and in_array($drilldown, array("desktop", "mobile-web"))) {
     switch ($drilldown) {
       case "desktop" :
-        return "https://wikimedia.org/api/rest_v1/metrics/legacy/pagecounts/aggregate/" . $language . ".wikipedia/desktop-site/daily/" . $month . "0100/" . $endOfMonth . "23?purge" . strval(rand());
+        return "https://wikimedia.org/api/rest_v1/metrics/legacy/pagecounts/aggregate/" . $language . "." . $project . "/desktop-site/daily/" . $month . "0100/" . $endOfMonth . "23?purge" . strval(rand());
 	break;
       case "mobile-web" :
-        return "https://wikimedia.org/api/rest_v1/metrics/legacy/pagecounts/aggregate/" . $language . ".wikipedia/mobile-site/daily/" . $month . "0100/" . $endOfMonth . "23?purge" . strval(rand());
+        return "https://wikimedia.org/api/rest_v1/metrics/legacy/pagecounts/aggregate/" . $language . "." . $project . "/mobile-site/daily/" . $month . "0100/" . $endOfMonth . "23?purge" . strval(rand());
         break;
     }
   } else {
-    return "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/" . $language . ".wikipedia/" . $drilldown . "/" . $userType . "/" . str_replace("%2527", "%27", urlencode(str_replace(" ","_",$page))) . "/daily/" . $month . "01/" . $endOfMonth . "?purge" . strval(rand());
+    return "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/" . $language . "." . $project . "/" . $drilldown . "/" . $userType . "/" . str_replace("%2527", "%27", urlencode(str_replace(" ","_",$page))) . "/daily/" . $month . "01/" . $endOfMonth . "?purge" . strval(rand());
   }
 }
 
-function getAnnualPageviewsUrl($page,$year,$language,$drilldown="desktop") {
-  return "https://wikipediaviews.org/displayviewsformultiplemonths.php?year=".$year."&page=".urlencode($page)."&language=".$language."&drilldown=".$drilldown;
+function getAnnualPageviewsUrl($page,$year,$language,$drilldown="desktop",$project="wikipedia") {
+  if ($project != "Wikipedia") {
+    return "https://wikipediaviews.org/displayviewsformultiplemonths.php?year=".$year."&page=".urlencode($page)."&language=".$language."&project=".$project."&drilldown=".$drilldown;
+  } else {
+    return "https://wikipediaviews.org/displayviewsformultiplemonths.php?year=".$year."&page=".urlencode($page)."&language=".$language."&drilldown=".$drilldown;
+  }
 }
 
-function getTagViewsUrl($tag,$month,$language,$drilldown="desktop") {
-  return "https://wikipediaviews.org/displayviewsforonemonth.php?month=".$month."&tag=".urlencode($tag)."&language=".$language."&drilldown=".$drilldown;
+function getTagViewsUrl($tag,$month,$language,$drilldown="desktop",$project="wikipedia") {
+  if ($project != "wikipedia") {
+    return "https://wikipediaviews.org/displayviewsforonemonth.php?month=".$month."&tag=".urlencode($tag)."&language=".$language."&project=".$project."&drilldown=".$drilldown;
+  } else {
+    return "https://wikipediaviews.org/displayviewsforonemonth.php?month=".$month."&tag=".urlencode($tag)."&language=".$language."&drilldown=".$drilldown;
+  }
 }
 
-function getAllTimeTagViewsUrl($tag,$language) {
-  return "https://wikipediaviews.org/displayviewsformultiplemonths.php?allmonths=allmonths&tag=".urlencode($tag)."&language=".$language."&drilldown=all";
+function getAllTimeTagViewsUrl($tag,$language,$project="wikipedia") {
+  if ($project != "wikipedia") {
+    return "https://wikipediaviews.org/displayviewsformultiplemonths.php?allmonths=allmonths&tag=".urlencode($tag)."&language=".$language."&project=".$project."&drilldown=all";
+  else {
+    return "https://wikipediaviews.org/displayviewsformultiplemonths.php?allmonths=allmonths&tag=".urlencode($tag)."&language=".$language."&drilldown=all";
+  }
 }
 
-function getAnnualTagViewsUrl($tag,$year,$language,$drilldown="desktop") {
-  return "https://wikipediaviews.org/displayviewsformultipleyears.php?year=".$year."&tag=".urlencode($tag)."&language=".$language."&drilldown=".$drilldown;
+function getAnnualTagViewsUrl($tag,$year,$language,$drilldown="desktop",$project="wikipedia") {
+  if ($project != "wikipedia") {
+    return "https://wikipediaviews.org/displayviewsformultipleyears.php?year=".$year."&tag=".urlencode($tag)."&language=".$language."&project=".$project."&drilldown=".$drilldown;
+  } else {
+    return "https://wikipediaviews.org/displayviewsformultipleyears.php?year=".$year."&tag=".urlencode($tag)."&language=".$language."&drilldown=".$drilldown;
+  }
 }
 
-function getPageUrl($page,$language) {
+function getPageUrl($page,$language,$project='wikipedia') {
   $page = str_replace(" ","_",$page);
-  return "https://" . $language . ".wikipedia.org/wiki/" . urlencode($page);
+  return "https://" . $language . "." . $project . ".org/wiki/" . urlencode($page);
 }
 
 function convertListToQuotedCsvString($listasarray) {

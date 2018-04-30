@@ -90,7 +90,7 @@ function getClickstreamData($page, $month, $language, $drilldown) {
   }
 }
 
-function getPageviewsOnline($page, $month, $language, $drilldown) {
+function getPageviewsOnline($page, $month, $language, $drilldown, $project = 'wikipedia') {
   global $attemptedExternalQueryCount;
   global $successfulExternalQueryCount;
   global $attemptedExternalQueryLimit;
@@ -123,7 +123,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   }
   if (substr($drilldown, 0, 9) == "referrer:") {
     return getClickstreamData($page, $month, $language, $drilldown);
-  } elseif ($month < '201507' and in_array($drilldown, array("mobile-app", "desktop-spider", "mobile-web-spider"))) {
+  } elseif ($month < '201507' and ($project != 'wikipedia' or in_array($drilldown, array("mobile-app", "desktop-spider", "mobile-web-spider")))) {
     $irretrievableCount++;
     return $cannotRetrieveMessage;
   } elseif($month < '201507' and $page != "[aggregate]" and $drilldown == "mobile-web") {
@@ -135,7 +135,7 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
   } elseif ($attemptedExternalQueryCount >= $attemptedExternalQueryLimit) {
     return $exceededQueryLimitMessage;
   } else {
-    $url = getPageviewsUrl($page,$month,$language,$drilldown);
+    $url = getPageviewsUrl($page,$month,$language,$drilldown,$project);
     if ($drilldown == "cumulative-facebook-shares") {
       if (($month == $thisMonth or ($month == $mostRecentMonth and $currentlyBackfillingFb == true)) and $fbTokenActive == true) {
         $attemptedExternalQueryCount++;
@@ -292,7 +292,7 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
 
   if ($result->num_rows == 0) {
     $onlineQueryStartTime = microtime(true);
-    $viewcount = getPageviewsOnline($page,$month,$language,$drilldown);
+    $viewcount = getPageviewsOnline($page,$month,$language,$drilldown,$project);
     $onlineQueryEndTime = microtime(true);
     if ($verbose == 'true') {
       $onlineQueryTimeTaken = $onlineQueryEndTime - $onlineQueryStartTime;
@@ -390,7 +390,7 @@ function getannualpageviews($page,$year,$language,$drilldown) {
   return getAnnualPageviewsFromDb($page,$year,$language,$drilldown,true);
 }
 
-function viewCountArrayByMonth_raw($pageList,$languageList,$drilldownList,$monthList,$online=true,$normalization='',$shortcutTag='') {
+function viewCountArrayByMonth_raw($pageList,$languageList,$projectList,$drilldownList,$monthList,$online=true,$normalization='',$shortcutTag='') {
   global $mysqli;
   global $attemptedExternalQueryCount;
   global $attemptedExternalQueryLimit;

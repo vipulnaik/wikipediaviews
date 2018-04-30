@@ -23,7 +23,7 @@ if ($pageSpecificationError == true or $monthSpecificationError == true) {
   switch ($displayFormat) {
     case 'htmltable' : 
       include("style/head.inc");
-      $permalinkUrl = "https://wikipediaviews.org/displayviewsfor".$pageTypeAdvice.".php?".$pageUrlComponent."&month=".$monthList[0].$languageUrlComponent.$drilldownUrlComponent.$advancedOptionUrlComponent;
+      $permalinkUrl = "https://wikipediaviews.org/displayviewsfor".$pageTypeAdvice.".php?".$pageUrlComponent."&month=".$monthList[0].$languageUrlComponent.$projectUrlComponent.$drilldownUrlComponent.$advancedOptionUrlComponent;
       $cleanPermalinkUrl = str_replace("?&", "?", $permalinkUrl);
       print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';
       $printStatus = printPageviewsForMonthOrYearListAsHtmlTable($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort,$tag);

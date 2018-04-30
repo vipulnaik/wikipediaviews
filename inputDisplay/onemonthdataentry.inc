@@ -19,6 +19,7 @@ include("pageListEntry.inc");
 print '<table><col width=600/><col width=500/>';
 include("monthDropdown.inc");
 include("languageDropdownSelectMultiple.inc");
+include("projectDropdownSelectMultiple.inc");
 include("drilldownDropdown.inc");
 print '<tr><td><input type="submit" value="Submit"></td></tr>';
 print '</table>';

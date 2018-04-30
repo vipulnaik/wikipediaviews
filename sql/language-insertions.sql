@@ -1,4 +1,4 @@
-INSERT INTO `languages` VALUES
+INSERT INTO `languages`(`code`,`name`,`start`,`datastart`,`rank`) VALUES
   ('aa','Afar','unknown','20150701',279),
   ('ab','Abkhazian','unknown','20150701',216),
   ('ace','Acehnese','unknown','20150701',177),

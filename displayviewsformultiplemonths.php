@@ -8,6 +8,7 @@ include_once("backend/coreCode.inc");
 $formdata = true;
 $pageTypeAdvice = "multiplemonths";
 include("retrieval/languageListRetrieval.inc");
+include("retrieval/projectListRetrieval.inc");
 include("retrieval/drilldownListRetrieval.inc");
 include("retrieval/pageListRetrieval.inc");
 include("retrieval/monthListRetrieval.inc");
@@ -24,7 +25,7 @@ if ($pageSpecificationError == true or $monthSpecificationError == true) {
       $cleanPermalinkUrl = str_replace("?&", "?", $permalinkUrl);
       print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';
       if (count($pageList) * count($languageList) * count($drilldownList) >= count($monthList)) {
-        $printStatus = printPageviewsForMonthOrYearListAsHtmlTable($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort,$tag);
+        $printStatus = printPageviewsForMonthOrYearListAsHtmlTable($pageList,$languageList,$projectList$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort,$tag);
       } else {
         $printStatus = printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort,$tag);
       }
@@ -38,7 +39,7 @@ if ($pageSpecificationError == true or $monthSpecificationError == true) {
       $permalinkUrl = "https://wikipediaviews.org/displayviewsfor".$pageTypeAdvice.".php?".$pageUrlComponent.$monthUrlComponent.$languageUrlComponent.$projectUrlComponent.$drilldownUrlComponent.$advancedOptionUrlComponent;
       $cleanPermalinkUrl = str_replace("?&", "?", $permalinkUrl);
       print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';
-      $printStatus = printPageviewsForMonthOrYearListAsHtmlTable($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort,$tag);
+      $printStatus = printPageviewsForMonthOrYearListAsHtmlTable($pageList,$languageList,$projectList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort,$tag);
       if (count($monthList) > 1 or count($pageList) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$tag,$cleanPermalinUrl);
       }
@@ -49,7 +50,7 @@ if ($pageSpecificationError == true or $monthSpecificationError == true) {
       $permalinkUrl = "https://wikipediaviews.org/displayviewsfor".$pageTypeAdvice.".php?".$pageUrlComponent.$monthUrlComponent.$languageUrlComponent.$projectUrlComponent.$drilldownUrlComponent.$advancedOptionUrlComponent;
       $cleanPermalinkUrl = str_replace("?&", "?", $permalinkUrl);
       print 'Permalink URL: <a href="'.$cleanPermalinkUrl.'">'.$cleanPermalinkUrl.'</a><br/><br/>';
-      $printStatus = printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort,$tag);
+      $printStatus = printPageviewsForMonthOrYearListAsHtmlTableTransposed($pageList,$languageList,$projectList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$sort,$tag);
       if (count($monthList) > 1 or count($pageList) * count($languageList) * count($drilldownList) > 1) {
         generateGraphs($pageList,$languageList,$drilldownList,$monthList,$numericDisplayFormat,$normalization,'page','month',$tag,$cleanPermalinkUrl);
       }

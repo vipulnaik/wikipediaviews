@@ -147,6 +147,8 @@ function getPageviewsOnline($page, $month, $language, $drilldown) {
         $contents = file_get_contents($jsonFileFullPath);
         $json = json_decode($contents,true);
         if ($json["error"]["type"] === "OAuthException") {
+          # print "Encountered error:";
+          # print_r($json);
           $fbTokenActive = false;
           return $tokenExpiredMessage;
         }

@@ -55,12 +55,13 @@ function getClickstreamData($page, $month, $language, $drilldown) {
   global $exceededQueryLimitMessage;
   $actualReferrer = substr($drilldown, 9, strlen($drilldown));
   # if (in_array($month, array("201501", "201502", "201602", "201603", "201604", "201608", "201609"))) {
-  if (in_array($language, array("en","ru","de","es","ja")) and (
-    (((in_array($month, array("201604", "201608", "201609")) and $language == "en") or $month >= "201711") and in_array($actualReferrer, array("other-search", "other-external", "other-other","other-empty","other-internal","Wikipedia"))) or
-    ($month == "201501" and $language == "en" and $actualReferrer == "other") or
+  if (
+    ((in_array($month, array("201604", "201608", "201609")) and $language == "en") or ($month >= "201711" and in_array($language, array("en","ja","de","es","ru"))) and in_array($actualReferrer, array("other-search", "other-external", "other-other","other-empty","other-internal","Wikipedia"))) or
+    (in_array($language, array("pl","pt","fr","it","zh")) and
+    $month >= "201801" and in_array($actualReferrer, array("other-search", "other-external", "other-other","other-empty","other-internal","Wikipedia"))) or
     (in_array($month, array("201501", "201502", "201602", "201603")) and $language == "en" and in_array($actualReferrer, array("other-empty","other-internal","Wikipedia","other-bing","other-facebook","other-google","other-twitter","other-wikipedia","other-yahoo"))) or
     (in_array($month, array("201502", "201602", "201603")) and $language == "en" and $actualReferrer == "other-other")
-  )) {
+  ) {
     if ($attemptedExternalQueryCount < $attemptedExternalQueryLimit) {
       $page = str_replace(" ", "_", $page);
       $page = str_replace("(", "\(", $page);

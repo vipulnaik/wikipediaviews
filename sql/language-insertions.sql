@@ -283,4 +283,29 @@ INSERT INTO `languages` VALUES
   ('zh-classical','Classical Chinese','unknown','20080201',108),
   ('zh-min-nan','Min Nan','unknown','20150701',76),
   ('zh-yue','Cantonese','unknown','20150701',57),
-  ('zu','Zulu','unknown','20150701',228);
+  ('zu','Zulu','unknown','20150701',228),
+
+  # List of languages in https://meta.wikimedia.org/w/index.php?title=List_of_Wikipedias&oldid=19016835
+  # that were not in https://stats.wikimedia.org/EN/TablesPageViewsMonthly.htm
+  # See https://gist.github.com/riceissa/1b633cf2cf0629e0e87f715c828326a3 for the computation.
+  # See https://github.com/vipulnaik/wikipediaviews/issues/22#issuecomment-499298675 for more context.
+  ('sat','Santali','unknown','20080201',NULL),
+  ('pfl','Palatinate German','unknown','20080201',NULL),
+  ('din','Dinka','unknown','20080201',NULL),
+  ('gor','Gorontalo','unknown','20080201',NULL),
+  ('olo','Livvi-Karelian','unknown','20080201',NULL),
+  ('xmf','Mingrelian','unknown','20080201',NULL),
+  ('inh','Ingush','unknown','20080201',NULL),
+  ('atj','Atikamekw','unknown','20080201',NULL),
+  ('lrc','Northern Luri','unknown','20080201',NULL),
+  ('jam','Jamaican Patois','unknown','20080201',NULL),
+  ('shn','Shan','unknown','20080201',NULL),
+  ('gag','Gagauz','unknown','20080201',NULL),
+  ('kbp','Kabiye','unknown','20080201',NULL),
+  ('be-tarask','Belarusian (Taraškievica)','unknown','20080201',NULL),
+  ('azb','South Azerbaijani','unknown','20080201',NULL),
+  ('lfn','Lingua Franca Nova','unknown','20080201',NULL),
+  ('dty','Doteli','unknown','20080201',NULL),
+  ('hyw','Western Armenian','unknown','20080201',NULL),
+  ('ady','Adyghe','unknown','20080201',NULL),
+  ('tcy','Tulu','unknown','20080201',NULL);

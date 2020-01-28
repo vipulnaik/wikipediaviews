@@ -11,7 +11,7 @@
 
 ## For the decision to control and collapse, see backend/advice.inc
 
-if ((($formdata == false) or ($tag==='' and $category==='' and $user==='' and $linkingpage==='' and $archivalStatus==='' and $viewbound==0)) and $tags_recommended == false)
+if ((($formdata == false) or ($tag==='' and $category==='' and $user==='' and $linkingpage==='')) and $tags_recommended == false)
   {
     print '<a id="displayText" href="javascript:toggle();">Show alternative methods for specifying the list of pages</a><br>';
     print '<div id="toggleText" style="display: none">';
@@ -24,7 +24,7 @@ include(__DIR__."/categoryNameEntry.inc");
 include(__DIR__."/creatingUserEntry.inc");
 include(__DIR__."/linkingPageEntry.inc");
 print '</table>';
-if (($formdata == false) or ($archivalStatus==='' and $viewbound==0))
+if ($formdata == false)
   {
     print '</div><br>';
   }

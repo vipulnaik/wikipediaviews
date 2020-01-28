@@ -23,15 +23,6 @@ include(__DIR__."/tagDropdown.inc");
 include(__DIR__."/categoryNameEntry.inc");
 include(__DIR__."/creatingUserEntry.inc");
 include(__DIR__."/linkingPageEntry.inc");
-if (($formdata == false) or ($archivalStatus==='' and $viewbound==0))
-  {
-    print '</table>';
-    print '<a id="displayText6" href="javascript:toggle6();">Show more advanced and experimental methods for selecting pages</a><br>';
-    print '<div id="toggleText6" style="display: none">';
-    print '<table><col width=600/><col width=500/>';
-  }
-include(__DIR__."/archivalStatus.inc");
-include(__DIR__."/filterPagesByViewCounts.inc");
 print '</table>';
 if (($formdata == false) or ($archivalStatus==='' and $viewbound==0))
   {

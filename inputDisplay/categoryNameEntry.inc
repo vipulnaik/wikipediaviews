@@ -9,7 +9,7 @@
 
 ## Important note: the selection here makes a query to the Wikipedia API, see backend/apiBasedPageListGeneration.inc
 
-print '<tr><td>Alternatively, enter the name of the Wikipedia category whose pages you want to see statistics for. For instance, <a href="http://en.wikipedia.org/wiki/Category:Futurology_journals">Futurology journals</a></td>';
+print '<tr><td>Alternatively, enter the name of the Wikipedia category whose pages you want to see statistics for (for instance, <a href="http://en.wikipedia.org/wiki/Category:Futurology_journals">Futurology journals</a>):</td>';
 print '<td><input type="text" name="category" placeholder="Category name, without Category: in front"';
 
 if ($formdata == true) {
@@ -17,7 +17,7 @@ if ($formdata == true) {
 }
 print ' size="70"></input></td></tr>';
 
-print '<tr><td>Enter the continuation string if you do not want to start from the beginning of the category</td>';
+print '<tr><td>Enter the continuation string if you do not want to start from the beginning of the category:</td>';
 
 print '<td><input type="text" name="continueString" placeholder="Continue string for category"';
 if ($formdata == true) {

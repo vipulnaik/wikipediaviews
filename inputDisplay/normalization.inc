@@ -10,7 +10,7 @@
 
 ##Relevant execution code in backend/stringFunctions.inc
 
-print '<tr><td>Enter your normalization choice (<strong>ONLY HTML MONTH DISPLAYS</strong>)</td><td>';
+print '<tr><td>Enter your normalization choice (<strong>ONLY HTML MONTH DISPLAYS</strong>):</td><td>';
 print '<select name="normalization">';
 print '<option value="none"';
 if (($formdata == false) or ($formdata == true and $normalization=='none')) 

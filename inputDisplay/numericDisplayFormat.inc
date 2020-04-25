@@ -10,7 +10,7 @@
 
 ##Relevant execution code in backend/stringFunctions.inc
 
-print '<tr><td>Enter the format in which you want the numbers displayed (<strong>ONLY HTML DISPLAYS</strong>)</td><td>';
+print '<tr><td>Enter the format in which you want the numbers displayed (<strong>ONLY HTML DISPLAYS</strong>):</td><td>';
 print '<select name="numericDisplayFormat">';
 print '<option value="kmbt"';
 if (($formdata == false) or ($formdata == true and $numericDisplayFormat=='kmbt')) 

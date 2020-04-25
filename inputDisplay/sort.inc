@@ -8,7 +8,7 @@
 
 ##Relevant execution code in backend/stringFunctions.inc
 
-print '<tr><td>Enter your sort choice for pages</td><td>';
+print '<tr><td>Enter your sort choice for pages:</td><td>';
 print '<select name="sort">';
 print '<option value="desc"';
 if (($formdata == false) or ($formdata == true and $sort == 'desc')) { 

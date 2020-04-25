@@ -8,7 +8,7 @@
 
 ##Associated retrieval file: retrieval/advancedOptionRetrieval.inc
 
-print '<tr><td>Enter an upper bound on the number of external queries (1 external query ~ 1 second) (<strong>note: if 0, enter the word zero, else enter the numeric value</strong>)</td>';
+print '<tr><td>Enter an upper bound on the number of external queries (1 external query ~ 1 second) (<strong>note: if 0, enter the word zero, else enter the numeric value</strong>):</td>';
 print '<td><input type="text" name="userSpecifiedQueryLimit" value = "';
 if ($formdata == true) {
   print $userSpecifiedQueryLimit;

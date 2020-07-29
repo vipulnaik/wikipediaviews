@@ -7,7 +7,7 @@ function wantedViewCountsQuery($pageList,$languageList,$drilldownList,$monthList
     foreach ($languageList as $language) {
       foreach ($drilldownList as $drilldown) {
         foreach ($monthList as $month) {
-          if ($viewCountArray[$page][$language][$drilldown][$month] == 'unavailable' and ($drilldown == "desktop" or $month >= "201507")) {
+          if ($viewCountArray[$page][$language][$drilldown][$month] == 'unavailable' and $month >= "201507") {
 	    if ($numberOfWantedViewCounts > 0) {
               $insertQuery .= ", ";
 	    }

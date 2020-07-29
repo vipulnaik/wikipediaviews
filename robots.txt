@@ -2,3 +2,6 @@ Crawl-delay: 3600
 
 User-agent: BLEXBot
 Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /

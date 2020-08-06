@@ -642,7 +642,7 @@ function fillinWantedViewCounts($queryLimit, $online) {
   $updateResult = $mysqli->query($workingQuery);
   for($i=0;$i < $result->num_rows;$i++) {
     $currentLoad = sys_getloadavg();
-    if ($currentLoad[0] < 2.5) {
+    if ($currentLoad[0] < 0.9) {
       $queryStartTime = microtime(true);
       $count = getPageviewsFromDb($page[$i],$month[$i],$language[$i],$drilldown[$i],$online);
       print "Weighted external query count is ".$attemptedExternalQueryCount." and ";

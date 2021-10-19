@@ -22,11 +22,11 @@ display:inline;
 <body>
 <ul>
 <li><a href="/">Home</a></li>
-<li><a href="/multiplemonths.php">Multiple months</a></li>
-<li><a href="/multipleyears.php">Multiple years</a></li>
-<li><a href="/multipletagsandmonths.php">Multiple tags and months</a></li>
-<li><a href="/multipletagsandyears.php">Multiple tags and years</a></li>
-<li><a href="/about">About</a></li>
+<li><link href="/multiplemonths.php" rel="prefetch"><a href="/multiplemonths.php">Multiple months</a></li>
+<li><link href="/multipleyears.php" rel="prefetch"><a href="/multipleyears.php">Multiple years</a></li>
+<li><link href="/multipletagsandmonths.php" rel="prefetch"><a href="/multipletagsandmonths.php">Multiple tags and months</a></li>
+<li><link href="/multipletagsandyears.php" rel="prefetch"><a href="/multipletagsandyears.php">Multiple tags and years</a></li>
+<li><link href="/about/" rel="prefetch"><a href="/about/">About</a></li>
 </ul>
 <p>This website is <strong>not affiliated with or endorsed by the <a href="https://wikimediafoundation.org">Wikimedia Foundation</a>, the nonprofit that maintains Wikipedia and manages the Wikipedia trademark</strong>.</p>
 <p><b>Views until June 2015 for desktop come from stats.grok.se and include bot pageviews</b>, while those from July 2015 are from the Wikimedia REST API and exclude identifiable bots and spiders (but may still end up counting many views by bots and spiders as legitimate human views). Views for mobile web, mobile app, desktop spider, and mobile web spider are from the Wikimedia REST API and available starting July 2015. Mobile web and mobile app views from July 2015 onward exclude identifiable bots, and "desktop spider" and "mobile web spider" are basically all the bots/spiders (excluding Wikipedia's own, which get identified as bots).</p>

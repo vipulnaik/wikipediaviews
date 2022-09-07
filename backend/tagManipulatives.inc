@@ -143,7 +143,7 @@ function getTagTotal($tag,$language,$drilldown,$monthList,$online=true,$normaliz
       $viewcount = $pageviewRetrievedMonthTotal[$month];
       $monthTotal[$month] = $viewcount;
       if ($attemptedExternalQueryCount < $attemptedExternalQueryLimit) {
-        $deleteQuery = "delete from viewcountsbytagandmonth where tag=\"".$tag."\" and language='$language' and drilldown='$drilldown' and monthfull='$month'.";
+        $deleteQuery = "delete from viewcountsbytagandmonth where tag=\"".$tag."\" and language='$language' and drilldown='$drilldown' and monthfull='$month'";
         $deleteResult = $mysqli -> query($deleteQuery);
         $insertQuery = "insert into viewcountsbytagandmonth(tag, language, drilldown, monthfull, viewcount, pagecount) values(\"".$tag."\",'$language','$drilldown','$month',$viewcount,$pagecount)";
         $insertResult = $mysqli -> query($insertQuery);

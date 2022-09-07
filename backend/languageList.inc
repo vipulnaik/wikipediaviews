@@ -5,7 +5,7 @@ function languages_sql() {
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
-  $selectQuery = "select code,name,datastart from languages order by (rank is null),rank,code;";
+  $selectQuery = "select code,name,datastart from languages order by (`rank` is null),`rank`,code;";
   return $mysqli->query($selectQuery);
 }
 

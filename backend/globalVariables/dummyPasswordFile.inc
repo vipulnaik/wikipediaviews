@@ -1,7 +1,7 @@
 <?php
 $mysqli = new mysqli("localhost", "username", "password", "database name");
 $mysqli->set_charset("utf8");
-$imagesPath = "folder to store images";
+$imagesPath = "folder to store images (with trailing slash)";
 $generateGraphCmdBase = "python3 (project folder)/python/graph.py --label --vertical_lines --top 30 ";
 $generateDistribCmdBase = "python3 (project folder)/python/distrib.py ";
 $unifontLocation = "/usr/share/fonts/truetype/unifont/unifont.ttf";

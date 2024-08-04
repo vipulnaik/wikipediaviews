@@ -1,7 +1,10 @@
 <?php
 
-##These are variables that set parameters for the query execution process, but they 
-##are non-negotiable, i.e., users can neither see nor change them.
+## These are variables that set parameters for the query execution process, but they
+## are non-negotiable, i.e., users can neither see nor change them.
+
+## System load threshold above which to skip graphing
+$systemLoadThresholdForGraphing = 2.5;
 
 ## Background query limit (applicable to archival queries)
 global $backgroundQueryLimit;

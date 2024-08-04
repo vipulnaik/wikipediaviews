@@ -829,6 +829,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
   global $generateDistribCmdBase;
   global $unifontLocation;
   global $purgePeriod;
+  global $systemLoadThresholdForGraphing;
   $graphStartTime = microtime(true);
   #Check that sizes are workable
   $sizeOverflow = checkGraphSizes($pageOrTagList,$languageList,$drilldownList,$monthOrYearList);
@@ -1152,7 +1153,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       $cmdToExecute = $cmdToExecute . " --plot_kind line ";
       $addendum .= ", using lines (not bars) as there are more than 50 items";
     }
-    if (sys_getloadavg()[0] <= 2.5 and ($dataHasChanged == true or file_exists($filePathBase . "-distrib.png") == false)) {
+    if (sys_getloadavg()[0] <= $systemLoadThresholdForGraphing and ($dataHasChanged == true or file_exists($filePathBase . "-distrib.png") == false)) {
       if (file_exists($filePathBase . "-distrib.png") == true) {
         exec("rm ".$filePathBase . "-distrib.png");
       }
@@ -1167,7 +1168,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
     if ($numericDisplayFormat == "log") {
       $cmdToExecute = $cmdToExecute . " --log10";
     }
-    if (sys_getloadavg()[0] <= 2.5 and ($dataHasChanged == true or file_exists($filePathBase . "-timeseries.png") == false)) {
+    if (sys_getloadavg()[0] <= $systemLoadThresholdForGraphing and ($dataHasChanged == true or file_exists($filePathBase . "-timeseries.png") == false)) {
       if (file_exists($filePathBase . "-timeseries.png") == true) {
         exec("rm ".$filePathBase . "-timeseries.png");
       }
@@ -1220,7 +1221,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       $addendum .= ", using lines (not bars) as there are more than 50 items";
     }
     # print("Going to try executing ".$cmdToExecute."<br>");
-    if (sys_getloadavg()[0] <= 2.5 and ($dataHasChanged == true or file_exists($drilldownFilePathBase . "-distrib.png") == false)) {
+    if (sys_getloadavg()[0] <= $systemLoadThresholdForGraphing and ($dataHasChanged == true or file_exists($drilldownFilePathBase . "-distrib.png") == false)) {
       if (file_exists($drilldownFilePathBase . "-distrib.png") == true) {
         exec("rm ".$drilldownFilePathBase . "-distrib.png");
       }
@@ -1235,7 +1236,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       if ($numericDisplayFormat == "log") {
         $cmdToExecute = $cmdToExecute . " --log10";
       }
-      if (sys_getloadavg()[0] <= 2.5 and ($dataHasChanged == true or file_exists($drilldownFilePathBase . "-timeseries.png") == false)) {
+      if (sys_getloadavg()[0] <= $systemLoadThresholdForGraphing and ($dataHasChanged == true or file_exists($drilldownFilePathBase . "-timeseries.png") == false)) {
         if (file_exists($drilldownFilePathBase . "-timeseries.png") == true) {
 	  exec("rm ".$drilldownFilePathBase . "-timeseries.png");
 	}
@@ -1272,7 +1273,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       $addendum .= ", using lines (not bars) as there are more than 50 items";
     }
     # print("Going to try executing ".$cmdToExecute."<br>");
-    if (sys_getloadavg()[0] <= 2.5 and ($dataHasChanged == true or file_exists($pageOrTagCumLanguageFilePathBase . "-distrib.png") == false)) {
+    if (sys_getloadavg()[0] <= $systemLoadThresholdForGraphing and ($dataHasChanged == true or file_exists($pageOrTagCumLanguageFilePathBase . "-distrib.png") == false)) {
       if (file_exists($pageOrTagCumLanguageFilePathBase . "-distrib.png") == true) {
         exec("rm ".$pageOrTagCumLanguageFilePathBase . "-distrib.png");
       }
@@ -1287,7 +1288,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       if ($numericDisplayFormat == "log") {
         $cmdToExecute = $cmdToExecute . " --log10";
       }
-      if (sys_getloadavg()[0] <= 2.5 and ($dataHasChanged == true or file_exists($pageOrTagCumLanguageFilePathBase . "-timeseries.png") == false)) {
+      if (sys_getloadavg()[0] <= $systemLoadThresholdForGraphing and ($dataHasChanged == true or file_exists($pageOrTagCumLanguageFilePathBase . "-timeseries.png") == false)) {
         if (file_exists($pageOrTagCumLanguageFilePathBase . "-timeseries.png") == true) {
           exec("rm ".$pageOrTagCumLanguageFilePathBase . "-timeseries.png");
         } 
@@ -1330,7 +1331,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       $addendum .= ", using lines (not bars) as there are more than 50 items";      
     }
     # print("Going to try executing ".$cmdToExecute."<br>");
-    if (sys_getloadavg()[0] <= 2.5 and ($dataHasChanged == true or file_exists($pageOrTagFilePathBase . "-distrib.png") == false)) {
+    if (sys_getloadavg()[0] <= $systemLoadThresholdForGraphing and ($dataHasChanged == true or file_exists($pageOrTagFilePathBase . "-distrib.png") == false)) {
       if (file_exists($pageOrTagFilePathBase . "-distrib.png") == true) {
         exec("rm ".$pageOrTagFilePathBase . "-distrib.png");
       }
@@ -1345,7 +1346,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
       if ($numericDisplayFormat == "log") {
         $cmdToExecute = $cmdToExecute . " --log10";
       }
-      if (sys_getloadavg()[0] <= 2.5 and ($dataHasChanged == true or file_exists($pageOrTagFilePathBase . "-timeseries.png") == false)) {
+      if (sys_getloadavg()[0] <= $systemLoadThresholdForGraphing and ($dataHasChanged == true or file_exists($pageOrTagFilePathBase . "-timeseries.png") == false)) {
         if (file_exists($pageOrTagFilePathBase . "-timeseries.png") == true) {
           exec("rm ".$pageOrTagFilePathBase . "-timeseries.png");
         }

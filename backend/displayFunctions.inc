@@ -872,6 +872,7 @@ function generateGraphs($pageOrTagList,$languageList,$drilldownList,$monthOrYear
   $pageOrTagCumLanguageCumMonthOrYearPercentage = $tap["pageOrTagCumLanguageCumMonthOrYearPercentage"];
   $drilldownCumMonthOrYearPercentage = $tap["drilldownCumMonthOrYearPercentage"];
   $pageOrTagCumLanguagePercentage = $tap["pageOrTagCumLanguagePercentage"];
+  $pageOrTagPercentage = $tap["pageOrTagPercentage"];
   $drilldownPercentage = $tap["drilldownPercentage"];
   $monthOrYearPercentage = $tap["monthOrYearPercentage"];
 

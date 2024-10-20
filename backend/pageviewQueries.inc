@@ -301,7 +301,7 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
       $onlineQueryTimeTaken = $onlineQueryEndTime - $onlineQueryStartTime;
       print date("Y-m-d h:i:sa").": Time taken for online query for page $page, month $month, language $language, drilldown $drilldown: ".$onlineQueryTimeTaken."\n";
     }
-    if ($viewcount !== $cannotRetrieveMessage and $viewcount !== $tokenExpiredMessage and $viewcount !== $exceededQueryLimitMessage) {
+    if (is_numeric($viewcount)) {
       $insertQueryStartTime = microtime(true);
       $insertQuery="insert ignore into viewcountsbymonth(pagename,monthfull,language,drilldown,viewcount) values (\"".$lookupPage."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
       $success = $mysqli->query($insertQuery);
@@ -500,7 +500,7 @@ function viewCountArrayByMonth($pageList,$languageList,$drilldownList,$monthList
       foreach ($languageList as $language) {
         foreach ($drilldownList as $drilldown) {
           foreach ($monthList as $month) {
-            if ($viewCountArray[$page][$language][$drilldown][$month] !== $exceededQueryLimitMessage and $viewCountArray[$page][$language][$drilldown][$month] !== $cannotRetrieveMessage) {
+            if (is_numeric($viewCountArray[$page][$language][$drilldown][$month])) {
 	      $viewCountArray[$page][$language][$drilldown][$month] = round($viewCountArray[$page][$language][$drilldown][$month]/intval($numberofdays_allmonths[$month]),1);
             }
           }
@@ -514,7 +514,7 @@ function viewCountArrayByMonth($pageList,$languageList,$drilldownList,$monthList
       foreach ($languageList as $language) {
         foreach ($drilldownList as $drilldown) {
           foreach ($monthList as $month) {
-            if (($month >= '201507' or ($month >= '200802' and $drilldown == 'desktop')) and $viewCountArray[$page][$language][$drilldown][$month] !== $exceededQueryLimitMessage and $viewCountArray[$page][$language][$drilldown][$month] !== $cannotRetrieveMessage) {
+            if (($month >= '201507' or ($month >= '200802' and $drilldown == 'desktop')) and is_numeric($viewCountArray[$page][$language][$drilldown][$month])) {
               # print ("Scaling value ".$viewCountArray[$page][$language][$drilldown][$month] .", multiplying by ". $mostRecentAggregateViewCountArray["[aggregate]"][$language][$drilldown][$mostRecentMonth] . ", then dividing by ". $aggregateViewCountArray["[aggregate]"][$language][$drilldown][$month]);
               $viewCountArray[$page][$language][$drilldown][$month] = intval(($viewCountArray[$page][$language][$drilldown][$month] * $mostRecentAggregateViewCountArray["[aggregate]"][$language][$drilldown][$mostRecentMonth]) / $aggregateViewCountArray["[aggregate]"][$language][$drilldown][$month]);
             }

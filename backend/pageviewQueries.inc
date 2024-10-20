@@ -301,7 +301,7 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
       $onlineQueryTimeTaken = $onlineQueryEndTime - $onlineQueryStartTime;
       print date("Y-m-d h:i:sa").": Time taken for online query for page $page, month $month, language $language, drilldown $drilldown: ".$onlineQueryTimeTaken."\n";
     }
-    if ($viewcount !== $cannotRetrieveMessage and $viewcount !== $tokenExpiredMessage) {
+    if ($viewcount !== $cannotRetrieveMessage and $viewcount !== $tokenExpiredMessage and $viewcount !== $exceededQueryLimitMessage) {
       $insertQueryStartTime = microtime(true);
       $insertQuery="insert ignore into viewcountsbymonth(pagename,monthfull,language,drilldown,viewcount) values (\"".$lookupPage."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
       $success = $mysqli->query($insertQuery);

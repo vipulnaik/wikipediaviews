@@ -262,7 +262,7 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
   global $tokenExpiredMessage;
   global $irretrievableCount;
   global $dataStartMap;
-  if (count($dataStartMap) == 0) {
+  if (!isset($dataStartMap) or count($dataStartMap) == 0) {
     $dataStartMap = dataStartMap();
   }
   # Short circuit computation if we know we cannot retrieve anything

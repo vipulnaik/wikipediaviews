@@ -304,12 +304,12 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
     if ($viewcount !== $cannotRetrieveMessage and $viewcount !== $tokenExpiredMessage) {
       $insertQueryStartTime = microtime(true);
       $insertQuery="insert into viewcountsbymonth(pagename,monthfull,language,drilldown,viewcount) values (\"".$lookupPage."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
+      $success = $mysqli->query($insertQuery);
       $insertQueryEndTime = microtime(true);
       if ($verbose == 'true') {
         $insertQueryTimeTaken = $insertQueryEndTime - $insertQueryStartTime;
         print date("Y-m-d h:i:sa").": Time taken for insert query for page $page, month $month, language $language, drilldown $drilldown: ".$insertQueryTimeTaken."\n";
       }
-      $success = $mysqli->query($insertQuery);
     }
   } else {
     $row = $result->fetch_assoc();

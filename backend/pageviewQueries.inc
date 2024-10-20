@@ -531,6 +531,7 @@ function viewCountArrayByYear($pageList,$languageList,$drilldownList,$yearList,$
   global $attemptedExternalQueryCount;
   global $attemptedExternalQueryLimit;
   global $bulkRetrievalTimeTaken;
+  global $exceededQueryLimitMessage;
   $bulkRetrievalStartTime = microtime(true);
   if ($mysqli->connect_errno) 
     {

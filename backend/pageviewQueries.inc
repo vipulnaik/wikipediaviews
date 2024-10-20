@@ -39,7 +39,7 @@ function queriedPageLog($page,$language,$archivalStatus) {
   $result = $mysqli->query($select_query);
   $page = str_replace('"','\"',$page);
   if ($result->num_rows == 0) {
-    $insertQuery = "insert into queriedpages(pagename,language,archivalstatus) values (\"".str_replace('"','\"',$page)."\",'".$language."','".$archivalStatus."');";
+    $insertQuery = "insert ignore into queriedpages(pagename,language,archivalstatus) values (\"".str_replace('"','\"',$page)."\",'".$language."','".$archivalStatus."');";
     $result = $mysqli->query($insertQuery);
   }
   return $result;
@@ -303,7 +303,7 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
     }
     if ($viewcount !== $cannotRetrieveMessage and $viewcount !== $tokenExpiredMessage) {
       $insertQueryStartTime = microtime(true);
-      $insertQuery="insert into viewcountsbymonth(pagename,monthfull,language,drilldown,viewcount) values (\"".$lookupPage."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
+      $insertQuery="insert ignore into viewcountsbymonth(pagename,monthfull,language,drilldown,viewcount) values (\"".$lookupPage."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
       $success = $mysqli->query($insertQuery);
       $insertQueryEndTime = microtime(true);
       if ($verbose == 'true') {
@@ -326,7 +326,7 @@ function getPageviewsFromDb($page,$month,$language,$drilldown, $online, $verbose
 	$viewcount = getPageviewsOnline($page,$month,$language,$drilldown);
         if ($viewcount != $exceededQueryLimitMessage and $viewcount != cannotRetrieveMessage) {
           $deleteQuery = "delete from viewcountsbymonth where pagename=\"".$lookupPage."\" and monthfull='".$month."' and language='".$language."' and drilldown='".$drilldown."';";
-          $insertQuery="insert into viewcountsbymonth(pagename,monthfull,language,drilldown,viewcount) values (\"".$lookupPage."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
+          $insertQuery="insert ignore into viewcountsbymonth(pagename,monthfull,language,drilldown,viewcount) values (\"".$lookupPage."\",'".$month."','".$language."','".$drilldown."',".$viewcount.");";
           $success = $mysqli->query($deleteQuery);
           $success = $mysqli->query($insertQuery);
         }
@@ -375,7 +375,7 @@ function getAnnualPageviewsFromDb($page,$year,$language,$drilldown,$online) {
   $result = $mysqli->query($select_query);
   $row = $result->fetch_assoc();
   if ($row['status'] != 'future') {
-    $insertQuery = "insert into viewcountsbyyear(pagename,year,language,drilldown,viewcount) values(\"".$page."\",'".$year."','".$language."','".$drilldown."',".$totalviews.");";
+    $insertQuery = "insert ignore into viewcountsbyyear(pagename,year,language,drilldown,viewcount) values(\"".$page."\",'".$year."','".$language."','".$drilldown."',".$totalviews.");";
     $success = $mysqli->query($insertQuery);
   }
   return $totalviews;
@@ -387,7 +387,7 @@ function getannualpageviews($page,$year,$language,$drilldown) {
     {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
-  $log_query = "insert into viewquerylogbyyear(pagename,year,language) values (\"".$page."\",'".$year."','".$language."');";
+  $log_query = "insert ignore into viewquerylogbyyear(pagename,year,language) values (\"".$page."\",'".$year."','".$language."');";
   $result = $mysqli->query($log_query);
   queriedPageLog($page,$language,'partial');
   return getAnnualPageviewsFromDb($page,$year,$language,$drilldown,true);

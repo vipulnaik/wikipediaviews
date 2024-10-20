@@ -2,7 +2,7 @@
 
 function wantedViewCountsQuery($pageList,$languageList,$drilldownList,$monthList,$viewCountArray) {
   $numberOfWantedViewCounts = 0;
-  $insertQuery = "insert into wantedviewcountsbymonth(pagename,monthfull,language,drilldown,status) values ";
+  $insertQuery = "insert ignore into wantedviewcountsbymonth(pagename,monthfull,language,drilldown,status) values ";
   foreach ($pageList as $page) {
     foreach ($languageList as $language) {
       foreach ($drilldownList as $drilldown) {

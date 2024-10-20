@@ -22,5 +22,23 @@ Disallow: /
 User-agent: MegaIndex.ru
 Disallow: /
 
+User-agent: DataForSeoBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: SeekportBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
 User-agent: *
 Crawl-delay: 3600

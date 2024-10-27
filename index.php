@@ -11,6 +11,7 @@ $formdata = false;
 include("inputDisplay/onemonthdataentry.inc");
 include("backend/recentQueries.inc");
 # printRecentQueries(1000, 10000);
+include_once('anchorjs.inc');
 print '</body>';
 print '</html>';
 ?>

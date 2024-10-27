@@ -9,6 +9,7 @@ include("style/head.inc"); ##Included in all public-facing files
 print '<body>';
 $formdata = false;
 include("inputDisplay/multipletagsandmonthsdataentry.inc");
+include_once('anchorjs.inc');
 print '</body>';
 print '</html>';
 

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="change-theme.js"></script>
 <style>
 ul
 {
@@ -17,8 +18,10 @@ display:inline;
   td {
   word-break: break-all;
   }
-  </style>
+</style>
+<?php include_once('style.inc'); ?>
 </head>
+
 <body>
 <ul>
 <li><a href="/">Home</a></li>
@@ -28,6 +31,14 @@ display:inline;
 <li><a href="/multipletagsandyears.php">Multiple tags and years</a></li>
 <li><a href="/about">About</a></li>
 </ul>
+
+<p><span id="changeThemeMenu" style="display: none;">Set color scheme to:
+         <span id="auto-menu-option" style="cursor: pointer;" class="unselectable" onclick="change_theme.set_color('auto')">auto</span>,
+         <span id="light-menu-option" style="cursor: pointer;" class="unselectable" onclick="change_theme.set_color('light')">light</span>,
+         <span id="dark-menu-option" style="cursor: pointer;" class="unselectable" onclick="change_theme.set_color('dark')">dark</span>
+</span>&thinsp;<!-- blank space to prevent cumulative layout shift --></p>
+<script>change_theme.set_theme_from_local_storage();</script>
+
 <p>This website is <strong>not affiliated with or endorsed by the <a href="https://wikimediafoundation.org">Wikimedia Foundation</a>, the nonprofit that maintains Wikipedia and manages the Wikipedia trademark</strong>.</p>
 <p><b>Views until June 2015 for desktop come from stats.grok.se and include bot pageviews</b>, while those from July 2015 are from the Wikimedia REST API and exclude identifiable bots and spiders (but may still end up counting many views by bots and spiders as legitimate human views). Views for mobile web, mobile app, desktop spider, and mobile web spider are from the Wikimedia REST API and available starting July 2015. Mobile web and mobile app views from July 2015 onward exclude identifiable bots, and "desktop spider" and "mobile web spider" are basically all the bots/spiders (excluding Wikipedia's own, which get identified as bots).</p>
 <?php

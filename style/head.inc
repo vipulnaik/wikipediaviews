@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="change-theme.js"></script>
+<script src="./change-theme.js"></script>
 <style>
 ul
 {

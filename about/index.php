@@ -172,7 +172,9 @@ available are included.</li>
 <li>A single language.</li>
 </ul>
 
-<?php include_once('/style/anchorjs.inc'); ?>
+<?php
+  include_once(__DIR__."/../style/anchorjs.inc');
+?>
 
 </body>
 </html>

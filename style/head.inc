@@ -19,6 +19,7 @@ display:inline;
   word-break: break-all;
   }
 </style>
+<link href="/style/style.css" rel="stylesheet" type="text/css" />
 <?php include_once('style.inc'); ?>
 </head>
 

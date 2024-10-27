@@ -58,4 +58,5 @@ if ($pageSpecificationError == true or $yearSpecificationError == true) {
       break;
   }
 }
+include_once('style/anchorjs.inc');
 ?>

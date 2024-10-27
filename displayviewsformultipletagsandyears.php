@@ -56,4 +56,5 @@ if ($pageSpecificationError == true) {
       break;
   }
 }
+include_once('style/anchorjs.inc');
 ?>

@@ -1,4 +1,4 @@
-<script src="/anchor.min.js"></script>
+<script src="/style/anchor.min.js"></script>
 <script>
 // For anchorjs
 anchors.add();

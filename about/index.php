@@ -173,7 +173,7 @@ available are included.</li>
 </ul>
 
 <?php
-  include_once(__DIR__."/../style/anchorjs.inc');
+  include_once(__DIR__."/../style/anchorjs.inc");
 ?>
 
 </body>
